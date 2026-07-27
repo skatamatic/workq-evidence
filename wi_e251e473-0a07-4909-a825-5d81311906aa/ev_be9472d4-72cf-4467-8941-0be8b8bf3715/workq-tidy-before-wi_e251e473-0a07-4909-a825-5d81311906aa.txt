@@ -1,0 +1,106 @@
+=== BEFORE INVENTORY 2026-07-27T20:52:00Z ===
+
+--- git worktree list (workq base) ---
+/Users/kylewesley/.workq-pool/bases/workq/base                                                     2ddbf7c [main]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_spare_0                                  2ddbf7c [workq/spare/0]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_01b6aee4-d9dc-465e-aea5-348f793476bc  d0cfe52 [workq/wi_01b6aee4-d9dc-465e-aea5-348f793476bc]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03  c5aab7c [workq/wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d  9654f89 [workq/wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_58e900ee-2e17-46f8-866d-a8b9ac34109e  4cca1c0 [workq/wi_58e900ee-2e17-46f8-866d-a8b9ac34109e]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_82fd3896-9280-4669-a0ba-188384c209e5  c31e41c [workq/wi_82fd3896-9280-4669-a0ba-188384c209e5]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_871616d6-cd01-46f3-919a-8fe73237fb43  2346379 [workq/wi_871616d6-cd01-46f3-919a-8fe73237fb43]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_cdbf752f-468c-4acf-ae94-05607645abff  f2f6aaf [workq/wi_cdbf752f-468c-4acf-ae94-05607645abff]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_e251e473-0a07-4909-a825-5d81311906aa  2ddbf7c [workq/wi_e251e473-0a07-4909-a825-5d81311906aa]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95  8827eca [workq/wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95]
+/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc  d73ad78 [workq/wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc]
+
+--- pool worktrees/ dirs ---
+workq_spare_0
+workq_wi_01b6aee4-d9dc-465e-aea5-348f793476bc
+workq_wi_10aae39d-6c75-4da5-a0a4-99e5d246d68c
+workq_wi_1591fac1-6ef6-4a3b-8e53-f4634a0a8267
+workq_wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03
+workq_wi_34055c02-683e-458f-9dc1-31a6285f5680
+workq_wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d
+workq_wi_4b3ad528-0ffd-4bac-80bc-9ac17179167f
+workq_wi_58e900ee-2e17-46f8-866d-a8b9ac34109e
+workq_wi_6b4e15c4-5f0d-4396-a0a0-2c17f21b9797
+workq_wi_82fd3896-9280-4669-a0ba-188384c209e5
+workq_wi_83a98fef-e259-4f27-beaa-af014fe8efd5
+workq_wi_871616d6-cd01-46f3-919a-8fe73237fb43
+workq_wi_cdbf752f-468c-4acf-ae94-05607645abff
+workq_wi_e251e473-0a07-4909-a825-5d81311906aa
+workq_wi_e630adec-fd94-4140-832e-fe9d9da7ab91
+workq_wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95
+workq_wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc
+
+--- remote origin/workq/wi_* count ---
+35
+  origin/workq/wi_01b6aee4-d9dc-465e-aea5-348f793476bc
+  origin/workq/wi_133b44d2-critical-eviction
+  origin/workq/wi_14ba66cc-e758-4f9a-9b91-7677f4e3c431
+  origin/workq/wi_20861309-6c27-4dde-91e3-3de52510f87c
+  origin/workq/wi_24649ebf-b6f6-41dc-9c21-3bdf88c0288a
+  origin/workq/wi_2667673e-5fd9-4d3f-9ee5-a2b574547ff0
+  origin/workq/wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d
+  origin/workq/wi_3960567a-e270-40bf-ac82-9871eb18bb91
+  origin/workq/wi_47316232-aba6-4ecb-827c-e3d755e26598
+  origin/workq/wi_480ad3f4-2ce7-4182-8953-ce981db2d6a4
+  origin/workq/wi_4eaa9f26-inline-deps-dag
+  origin/workq/wi_63967d36-d8b8-4a27-86c8-a3f546441019
+  origin/workq/wi_66fe685f-a408-4df3-a4c5-8efeb28c9f71-merge-watcher-nudge
+  origin/workq/wi_6b1cbc8c-c08e-4019-bb90-359275b36362
+  origin/workq/wi_6b4e15c4-5f0d-4396-a0a0-2c17f21b9797
+  origin/workq/wi_6c62d302-4713-4c3e-83af-6bac175dd2fe
+  origin/workq/wi_6cdaa314-dashboard-priority
+  origin/workq/wi_7e1607da-295b-4a65-ba4b-1e2f0aef6dea
+  origin/workq/wi_849b6473-phase-pipelines
+  origin/workq/wi_87b2e645-0865-4f66-b253-df3da987d6e1
+  origin/workq/wi_8edd1cb9-graceful-done-stop
+  origin/workq/wi_91abc08f-5d4f-490a-a3f6-c2ce867f7466
+  origin/workq/wi_95aa1261-b5ab-41f4-bcb2-2d8580745bb5
+  origin/workq/wi_97aa1cfd-cb65-441b-b010-ff7e477755ee
+  origin/workq/wi_9e515527-d6d7-480d-8d09-9569e5db1c90
+  origin/workq/wi_bf089b05-edd1-4c29-92a4-e9a545cd6205
+  origin/workq/wi_c7756dc0-ec0f-4dc8-ba32-e67e201798f4
+  origin/workq/wi_cccffd42-5b25-4725-b4e9-760c9ae51522
+  origin/workq/wi_d40abed1-36f3-4264-b85d-e739075d7f09
+  origin/workq/wi_e75b0614-054c-4150-b0ca-9cab1f45e735
+  origin/workq/wi_f09a9228-20ab-4f05-b196-32a5ad19a718
+  origin/workq/wi_f30aaeb6-59c7-41f5-bb17-909fc2b37428
+  origin/workq/wi_f8f29042-9d33-4320-a919-d8cdcdb3f761
+  origin/workq/wi_fe82e27c-steer-foundation
+  origin/workq/wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc
+
+--- local workq/wi_* branches ---
++ workq/wi_01b6aee4-d9dc-465e-aea5-348f793476bc
+  workq/wi_216344de-land-second-wave-wip
++ workq/wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03
++ workq/wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d
++ workq/wi_58e900ee-2e17-46f8-866d-a8b9ac34109e
++ workq/wi_82fd3896-9280-4669-a0ba-188384c209e5
++ workq/wi_871616d6-cd01-46f3-919a-8fe73237fb43
+  workq/wi_985b137e-90e8-4e11-8c3b-cca5f9c42496
++ workq/wi_cdbf752f-468c-4acf-ae94-05607645abff
++ workq/wi_e251e473-0a07-4909-a825-5d81311906aa
++ workq/wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95
++ workq/wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc
+
+--- item statuses for pool dirs ---
+workq_wi_01b6aee4-d9dc-465e-aea5-348f793476bc status=rejected
+workq_wi_10aae39d-6c75-4da5-a0a4-99e5d246d68c status=done
+workq_wi_1591fac1-6ef6-4a3b-8e53-f4634a0a8267 status=done
+workq_wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03 status=done
+workq_wi_34055c02-683e-458f-9dc1-31a6285f5680 status=done
+workq_wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d status=under_review
+workq_wi_4b3ad528-0ffd-4bac-80bc-9ac17179167f status=done
+workq_wi_58e900ee-2e17-46f8-866d-a8b9ac34109e status=done
+workq_wi_6b4e15c4-5f0d-4396-a0a0-2c17f21b9797 status=done
+workq_wi_82fd3896-9280-4669-a0ba-188384c209e5 status=done
+workq_wi_83a98fef-e259-4f27-beaa-af014fe8efd5 status=done
+workq_wi_871616d6-cd01-46f3-919a-8fe73237fb43 status=rejected
+workq_wi_cdbf752f-468c-4acf-ae94-05607645abff status=in_progress
+workq_wi_e251e473-0a07-4909-a825-5d81311906aa status=in_progress
+workq_wi_e630adec-fd94-4140-832e-fe9d9da7ab91 status=done
+workq_wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95 status=done
+workq_wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc status=done
