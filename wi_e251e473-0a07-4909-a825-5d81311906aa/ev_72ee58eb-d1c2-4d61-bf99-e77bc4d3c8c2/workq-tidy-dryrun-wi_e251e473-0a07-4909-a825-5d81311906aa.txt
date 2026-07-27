@@ -1,0 +1,95 @@
+tidy-closed [DRY-RUN] repo=skatamatic/workq seed=workq base=/Users/kylewesley/.workq-pool/bases/workq/base
+item status via: /Users/kylewesley/.workq-pool/bases/workq/base/packages/worker/dist/cli.js (cli)
+
+=== BEFORE ===
+registered worktrees: 11
+pool worktree dirs:   17
+remote workq/wi_*:    35
+local  workq/wi_*:    11
+
+--- Remote closed/merged heads still present ---
+WOULD  remote workq/wi_01b6aee4-d9dc-465e-aea5-348f793476bc (merged #38)
+WOULD  remote workq/wi_133b44d2-critical-eviction (closed #11)
+WOULD  remote workq/wi_14ba66cc-e758-4f9a-9b91-7677f4e3c431 (merged #50)
+WOULD  remote workq/wi_20861309-6c27-4dde-91e3-3de52510f87c (merged #167)
+WOULD  remote workq/wi_24649ebf-b6f6-41dc-9c21-3bdf88c0288a (merged #90)
+WOULD  remote workq/wi_2667673e-5fd9-4d3f-9ee5-a2b574547ff0 (merged #160)
+WOULD  remote workq/wi_34daa8d4-7276-47d3-93b3-459e51e4fb4d (merged #170)
+WOULD  remote workq/wi_3960567a-e270-40bf-ac82-9871eb18bb91 (merged #49)
+WOULD  remote workq/wi_47316232-aba6-4ecb-827c-e3d755e26598 (merged #56)
+WOULD  remote workq/wi_480ad3f4-2ce7-4182-8953-ce981db2d6a4 (merged #51)
+WOULD  remote workq/wi_4eaa9f26-inline-deps-dag (merged #6)
+WOULD  remote workq/wi_63967d36-d8b8-4a27-86c8-a3f546441019 (merged #53)
+WOULD  remote workq/wi_66fe685f-a408-4df3-a4c5-8efeb28c9f71-merge-watcher-nudge (merged #16)
+WOULD  remote workq/wi_6b1cbc8c-c08e-4019-bb90-359275b36362 (merged #59)
+WOULD  remote workq/wi_6b4e15c4-5f0d-4396-a0a0-2c17f21b9797 (merged #97)
+WOULD  remote workq/wi_6c62d302-4713-4c3e-83af-6bac175dd2fe (merged #115)
+WOULD  remote workq/wi_6cdaa314-dashboard-priority (closed #12)
+WOULD  remote workq/wi_7e1607da-295b-4a65-ba4b-1e2f0aef6dea (merged #52)
+WOULD  remote workq/wi_849b6473-phase-pipelines (merged #13)
+WOULD  remote workq/wi_87b2e645-0865-4f66-b253-df3da987d6e1 (merged #65)
+WOULD  remote workq/wi_8edd1cb9-graceful-done-stop (merged #25)
+WOULD  remote workq/wi_91abc08f-5d4f-490a-a3f6-c2ce867f7466 (merged #70)
+WOULD  remote workq/wi_95aa1261-b5ab-41f4-bcb2-2d8580745bb5 (closed #40)
+WOULD  remote workq/wi_97aa1cfd-cb65-441b-b010-ff7e477755ee (merged #45)
+WOULD  remote workq/wi_9e515527-d6d7-480d-8d09-9569e5db1c90 (merged #48)
+WOULD  remote workq/wi_bf089b05-edd1-4c29-92a4-e9a545cd6205 (merged #74)
+WOULD  remote workq/wi_c7756dc0-ec0f-4dc8-ba32-e67e201798f4 (merged #41)
+WOULD  remote workq/wi_cccffd42-5b25-4725-b4e9-760c9ae51522 (merged #92)
+WOULD  remote workq/wi_d40abed1-36f3-4264-b85d-e739075d7f09 (merged #108)
+WOULD  remote workq/wi_e75b0614-054c-4150-b0ca-9cab1f45e735 (merged #44)
+WOULD  remote workq/wi_f09a9228-20ab-4f05-b196-32a5ad19a718 (merged #116)
+WOULD  remote workq/wi_f30aaeb6-59c7-41f5-bb17-909fc2b37428 (closed #54)
+WOULD  remote workq/wi_f8f29042-9d33-4320-a919-d8cdcdb3f761 (merged #63)
+WOULD  remote workq/wi_fe82e27c-steer-foundation (merged #20)
+WOULD  remote workq/wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc (merged #46)
+
+--- Local workq/wi_* branches ---
+FLAG   local workq/wi_01b6aee4-d9dc-465e-aea5-348f793476bc has un-pushed commits; refusing to delete
+FLAG   local workq/wi_216344de-land-second-wave-wip has un-pushed commits; refusing to delete
+FLAG   local workq/wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03 has un-pushed commits; refusing to delete
+SKIP   local workq/wi_58e900ee-2e17-46f8-866d-a8b9ac34109e (still checked out in a worktree; handled below)
+FLAG   local workq/wi_82fd3896-9280-4669-a0ba-188384c209e5 has un-pushed commits; refusing to delete
+FLAG   local workq/wi_871616d6-cd01-46f3-919a-8fe73237fb43 has un-pushed commits; refusing to delete
+FLAG   local workq/wi_985b137e-90e8-4e11-8c3b-cca5f9c42496 has un-pushed commits; refusing to delete
+KEEP   local workq/wi_cdbf752f-468c-4acf-ae94-05607645abff (item wi_cdbf752f-468c-4acf-ae94-05607645abff status=in_progress)
+KEEP   local workq/wi_e251e473-0a07-4909-a825-5d81311906aa (item wi_e251e473-0a07-4909-a825-5d81311906aa status=in_progress)
+SKIP   local workq/wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95 (still checked out in a worktree; handled below)
+SKIP   local workq/wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc (still checked out in a worktree; handled below)
+
+--- Worktrees / pool dirs ---
+KEEP   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_spare_0 (spare)
+FLAG   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_01b6aee4-d9dc-465e-aea5-348f793476bc un-pushed on workq/wi_01b6aee4-d9dc-465e-aea5-348f793476bc; refusing to remove
+FLAG   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03 un-pushed on workq/wi_300d121c-8d49-4b28-8b9c-c70c0ed00e03; refusing to remove
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_58e900ee-2e17-46f8-866d-a8b9ac34109e (item wi_58e900ee-2e17-46f8-866d-a8b9ac34109e done; source=registered)
+FLAG   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_82fd3896-9280-4669-a0ba-188384c209e5 un-pushed on workq/wi_82fd3896-9280-4669-a0ba-188384c209e5; refusing to remove
+FLAG   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_871616d6-cd01-46f3-919a-8fe73237fb43 un-pushed on workq/wi_871616d6-cd01-46f3-919a-8fe73237fb43; refusing to remove
+KEEP   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_cdbf752f-468c-4acf-ae94-05607645abff (item wi_cdbf752f-468c-4acf-ae94-05607645abff status=in_progress)
+KEEP   /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_e251e473-0a07-4909-a825-5d81311906aa (item wi_e251e473-0a07-4909-a825-5d81311906aa status=in_progress)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95 (item wi_f3b59c23-3c4e-48e0-89be-218a22b3bb95 done; source=registered)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc (item wi_ff66fe1c-fa89-4085-9c4e-8cb0a637b7cc done; source=registered)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_10aae39d-6c75-4da5-a0a4-99e5d246d68c (item wi_10aae39d-6c75-4da5-a0a4-99e5d246d68c done; source=orphan-dir)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_1591fac1-6ef6-4a3b-8e53-f4634a0a8267 (item wi_1591fac1-6ef6-4a3b-8e53-f4634a0a8267 done; source=orphan-dir)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_34055c02-683e-458f-9dc1-31a6285f5680 (item wi_34055c02-683e-458f-9dc1-31a6285f5680 done; source=orphan-dir)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4b3ad528-0ffd-4bac-80bc-9ac17179167f (item wi_4b3ad528-0ffd-4bac-80bc-9ac17179167f done; source=orphan-dir)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_6b4e15c4-5f0d-4396-a0a0-2c17f21b9797 (item wi_6b4e15c4-5f0d-4396-a0a0-2c17f21b9797 done; source=orphan-dir)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_83a98fef-e259-4f27-beaa-af014fe8efd5 (item wi_83a98fef-e259-4f27-beaa-af014fe8efd5 done; source=orphan-dir)
+WOULD  /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_e630adec-fd94-4140-832e-fe9d9da7ab91 (item wi_e630adec-fd94-4140-832e-fe9d9da7ab91 done; source=orphan-dir)
+NOTE   seed=create has 20 worktree dir(s) — list-only (pass --seed create to tidy under same rules)
+
+=== AFTER (projected counts use dry-run lists) ===
+registered worktrees: 11
+pool worktree dirs:   17
+remote workq/wi_*:    35
+local  workq/wi_*:    11
+
+=== SUMMARY ===
+remote branches deleted: 35
+local branches deleted:  0
+worktrees removed:       10
+pool dirs removed:       0
+kept entries:            5
+flagged unpushed:        10
+forced removes:          0
+
+Dry-run only. Re-run with --apply to mutate.
