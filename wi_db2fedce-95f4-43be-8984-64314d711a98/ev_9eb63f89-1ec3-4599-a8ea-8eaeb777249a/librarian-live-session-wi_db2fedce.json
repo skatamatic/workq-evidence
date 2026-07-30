@@ -1,0 +1,11 @@
+{
+  "runId": "live_ms7ov1vn",
+  "changes": [
+    "index: seeded repo map via $MEM write",
+    "index: over_token_budget rejected; compressed and rewrote with durable ambiguous-terms line"
+  ],
+  "quarantined": [],
+  "rejection": "[section_over_line_cap] section 'repo map' is 60 lines over its cap of 20\n[over_token_budget] document is 1072 tokens over its budget of 1200",
+  "history": "2026-07-30T12:00:00.000Z  index  (3 sections) ×2 revisions after seed+compress",
+  "note": "Provisioned librarian workspace; $MEM ready resolved apps/pool/dist/main.js via config workqRoot (no WORKQ_POOL_CLI / no PATH workq-pool)."
+}
