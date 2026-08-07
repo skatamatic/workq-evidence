@@ -1,0 +1,1 @@
+{"specialty":"correctness","summary":"Two medium issues: ambiguous expectTask; historic expectVar scope.","findings":[{"dedupeKey":"ProcessScenario-expectTask-ambiguous-name","severity":"medium"},{"dedupeKey":"ProcessScenario-expectVar-historic-scope","severity":"medium"},{"dedupeKey":"ProcessScenario-actor-label-desync","severity":"low"}]}
