@@ -1,0 +1,1 @@
+{"specialty":"correctness","summary":"Prior high fixed; medium: soft-delete before reclaim INSERT","findings":[{"path":"ScenarioSeedApplier.java","line":276,"severity":"medium","dedupeKey":"correctness-rehomeGroup-soft-delete-not-hard-delete","summary":"rehomeGroupToPinnedId soft-deletes functional groups instead of hard-deleting"}]}
