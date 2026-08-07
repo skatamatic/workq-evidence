@@ -1,0 +1,1 @@
+{"specialty":"tests","summary":"Happy/failure covered; deferred run and complete-without-select unproven.","findings":[{"dedupeKey":"tests-processscenario-deferred-run-unproven","severity":"medium"},{"dedupeKey":"tests-processscenario-complete-without-expecttask","severity":"medium"}]}
