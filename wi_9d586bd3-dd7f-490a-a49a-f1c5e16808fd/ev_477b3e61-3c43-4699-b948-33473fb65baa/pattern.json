@@ -1,0 +1,1 @@
+{"specialty":"pattern-conformance","summary":"Matches harness patterns; actor label diverges from SecurityUtils.","findings":[{"dedupeKey":"ProcessScenario-actor-label-vs-SecurityUtils","severity":"medium"}]}
