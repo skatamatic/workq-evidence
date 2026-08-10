@@ -1,0 +1,1 @@
+distinction-collapse: legacy reviewsRequired:false without gate accepted; production always passes composed gate.
