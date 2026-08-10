@@ -1,0 +1,1 @@
+tests lens high: omit-gate revert-goes-red; app wiring. Will strengthen domain specs.
