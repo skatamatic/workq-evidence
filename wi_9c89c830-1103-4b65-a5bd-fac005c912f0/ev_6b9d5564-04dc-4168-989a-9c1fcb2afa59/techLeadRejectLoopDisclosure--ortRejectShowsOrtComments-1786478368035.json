@@ -1,0 +1,102 @@
+{
+  "schemaVersion" : 1,
+  "testDisplayName" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+  "fixtureId" : "customers/mdcr",
+  "processKey" : "MDCR",
+  "observations" : [ {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor Approved",
+    "kind" : "ASSERTED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "expectLastActionFlow"
+  }, {
+    "key" : "customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentsortreview",
+    "kind" : "ASSERTED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentsmngdirengrreview",
+    "kind" : "ASSERTED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentsrcbreview",
+    "kind" : "ASSERTED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=ORT Rejected",
+    "kind" : "ASSERTED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "expectLastActionFlow"
+  }, {
+    "key" : "customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|commentsortreview",
+    "kind" : "ASSERTED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "expectFieldVisible"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|supervisor-review",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|originate-mdcr",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|techlead-review",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|ort-review",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|process_status=Rejected",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "historic variable"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=ORT Rejected",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "historic variable"
+  }, {
+    "key" : "customers/mdcr|MDCR|MAIL_REACH|reject-notification-to-techlead",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "seam notification"
+  }, {
+    "key" : "customers/mdcr|MDCR|MAIL_CONTENT|reject-notification-to-techlead",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "seam contentCaptured (reach; assert required for coverage)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-2E52DF3D-8E04-4575-B195-0A03D1AEB782",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "source+target finished (sid-FC16CDD3-D4D9-4F6F-A731-733DCAF87EE4→techlead-review)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-49A46628-8406-4C71-9E94-040EAFEE9EAE",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "source+target finished (sid-FC16CDD3-D4D9-4F6F-A731-733DCAF87EE4→ort-review)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-9B2EC85A-0159-45F3-8B87-1B5EB647F670",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "source+target finished (sid-CCEA1E5E-31D3-4EA2-B88A-3CB098D6AD00→reject-notification-to-techlead)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-719A60BC-D06C-4231-825E-FA2B3AE0FDFA",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "source+target finished (sid-B724FE57-0D68-49CA-839D-3AD367A8BA82→techlead-review)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-6E85BAFA-608C-46D5-B343-355E50A532C2",
+    "kind" : "REACHED",
+    "source" : "techLeadRejectLoopDisclosure--ortRejectShowsOrtComments",
+    "detail" : "source+target finished (sid-064F47B4-069D-45FF-8C83-F93F91AA6AAF→supervisor-review)"
+  } ]
+}
