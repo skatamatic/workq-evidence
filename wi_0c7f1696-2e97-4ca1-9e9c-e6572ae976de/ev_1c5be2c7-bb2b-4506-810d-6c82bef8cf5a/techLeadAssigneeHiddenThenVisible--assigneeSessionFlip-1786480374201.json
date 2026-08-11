@@ -1,0 +1,42 @@
+{
+  "schemaVersion" : 1,
+  "testDisplayName" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+  "fixtureId" : "customers/mdcr",
+  "processKey" : "MDCR",
+  "observations" : [ {
+    "key" : "customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|user_techlead_implementation_assignee",
+    "kind" : "ASSERTED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|user_techlead_implementation_assignee",
+    "kind" : "ASSERTED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "expectFieldVisible"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|originate-mdcr",
+    "kind" : "REACHED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|supervisor-review",
+    "kind" : "REACHED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|process_status=TechLead Review",
+    "kind" : "REACHED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "historic variable"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor Approved",
+    "kind" : "REACHED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "historic variable"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-6E85BAFA-608C-46D5-B343-355E50A532C2",
+    "kind" : "REACHED",
+    "source" : "techLeadAssigneeHiddenThenVisible--assigneeSessionFlip",
+    "detail" : "source+target finished (sid-064F47B4-069D-45FF-8C83-F93F91AA6AAF→supervisor-review)"
+  } ]
+}
