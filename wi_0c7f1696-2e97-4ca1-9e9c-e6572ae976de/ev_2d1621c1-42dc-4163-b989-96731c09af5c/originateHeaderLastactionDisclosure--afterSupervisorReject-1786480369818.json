@@ -1,0 +1,77 @@
+{
+  "schemaVersion" : 1,
+  "testDisplayName" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+  "fixtureId" : "customers/mdcr",
+  "processKey" : "MDCR",
+  "observations" : [ {
+    "key" : "customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_HIDDEN|lastaction",
+    "kind" : "ASSERTED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_HIDDEN|header_action_mdcr_originate",
+    "kind" : "ASSERTED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor Rejected",
+    "kind" : "ASSERTED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "expectLastActionFlow"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|process_status=Rejected",
+    "kind" : "ASSERTED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "expectProcessStatus"
+  }, {
+    "key" : "customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_VISIBLE|lastaction",
+    "kind" : "ASSERTED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "expectFieldVisible"
+  }, {
+    "key" : "customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_HIDDEN|header_action_mdcr_originate",
+    "kind" : "ASSERTED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "expectFieldHidden"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|supervisor-review",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|USER_TASK_COMPLETED|originate-mdcr",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "historic task complete"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|process_status=Rejected",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "historic variable"
+  }, {
+    "key" : "customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor Rejected",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "historic variable"
+  }, {
+    "key" : "customers/mdcr|MDCR|MAIL_REACH|reject-notification-to-originator",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "seam notification"
+  }, {
+    "key" : "customers/mdcr|MDCR|MAIL_CONTENT|reject-notification-to-originator",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "seam contentCaptured (reach; assert required for coverage)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-08EB9D5E-47E3-4792-B51A-4213B2EC467D",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "source+target finished (sid-B724FE57-0D68-49CA-839D-3AD367A8BA82→reject-notification-to-originator)"
+  }, {
+    "key" : "customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-6E85BAFA-608C-46D5-B343-355E50A532C2",
+    "kind" : "REACHED",
+    "source" : "originateHeaderLastactionDisclosure--afterSupervisorReject",
+    "detail" : "source+target finished (sid-064F47B4-069D-45FF-8C83-F93F91AA6AAF→supervisor-review)"
+  } ]
+}
