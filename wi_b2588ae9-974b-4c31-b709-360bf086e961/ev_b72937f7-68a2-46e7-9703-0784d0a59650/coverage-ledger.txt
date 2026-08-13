@@ -1,0 +1,1241 @@
+Scenario workflow coverage ledger
+=================================
+
+LIMITATION: Reach is not correctness.
+A covered row means a scenario exercised or asserted the item at runtime.
+It does NOT prove the behavior is right — Revert-goes-red answers that.
+Do not read a 100% ledger as a quality proof.
+
+Gate mode: REPORT
+(Full-suite report-only: drift is printed; the build does not fail. Prefer -Dscenario.coverage.mode=enforce for CI / full-suite gates — CORENSGHT-9094.)
+
+Summary
+-------
+  covered (asserted):  33
+  covered (reach-only):14
+  covered (structural):6
+  waived:              27
+  uncovered (drift):   546
+  stale waivers:       0
+
+CONDITIONAL_FLOW (45 items; asserted=0 reachOnly=4 structural=6 waived=0 uncovered=35)
+MAIL_REACH (15 items; asserted=2 reachOnly=0 structural=0 waived=0 uncovered=13)
+MAIL_CONTENT (15 items; asserted=2 reachOnly=0 structural=0 waived=0 uncovered=13)
+TIMER_FIRED (7 items; asserted=0 reachOnly=0 structural=0 waived=0 uncovered=7)
+TIMER_REPEAT (7 items; asserted=0 reachOnly=0 structural=0 waived=0 uncovered=7)
+USER_TASK_COMPLETED (33 items; asserted=0 reachOnly=10 structural=0 waived=4 uncovered=19)
+USER_TASK_ASSIGNMENT (33 items; asserted=10 reachOnly=0 structural=0 waived=4 uncovered=19)
+STATUS_VALUE (29 items; asserted=0 reachOnly=0 structural=0 waived=0 uncovered=29)
+FORM_VISIBILITY_VISIBLE (196 items; asserted=3 reachOnly=0 structural=0 waived=8 uncovered=185)
+FORM_VISIBILITY_HIDDEN (206 items; asserted=5 reachOnly=0 structural=0 waived=0 uncovered=201)
+REQUIRED_REFUSAL (33 items; asserted=11 reachOnly=0 structural=0 waived=11 uncovered=11)
+GATEWAY_NO_MATCH (7 items; asserted=0 reachOnly=0 structural=0 waived=0 uncovered=7)
+
+Drift (uncovered, not waived)
+-----------------------------
+(Note: reach ≠ correctness — reached=true with asserted=false means the seam/path ran but no DSL assert credited the dimension.)
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-068B1F7C-70B0-46CF-8211-FCE416F95C74
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-0D5AF41E-5766-4BBB-A8B2-A80558EF438C
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-149AE8CE-0924-49E1-8F26-F7ACCA90205B
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-238C0D49-17BB-4A43-A18B-D3C4F31936FB
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-2C51D483-F807-449C-AF30-A5FDD8071F3C
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-4A1F152B-22A6-4A24-B7CE-1CD92EAF47A2
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-DB81001C-6B3E-46E1-A189-F797FB8BF2A5
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-E7AA98AF-BE22-4DB3-BF8C-A88EF7F294F3
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-F83EB182-9139-49F5-9E7F-8C4BEE8CD320
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_ASSIGNMENT|sid-F9A4930B-B73F-4C85-8E26-1B9DE1071FC6
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-068B1F7C-70B0-46CF-8211-FCE416F95C74
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-0D5AF41E-5766-4BBB-A8B2-A80558EF438C
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-149AE8CE-0924-49E1-8F26-F7ACCA90205B
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-238C0D49-17BB-4A43-A18B-D3C4F31936FB
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-2C51D483-F807-449C-AF30-A5FDD8071F3C
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-4A1F152B-22A6-4A24-B7CE-1CD92EAF47A2
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-DB81001C-6B3E-46E1-A189-F797FB8BF2A5
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-E7AA98AF-BE22-4DB3-BF8C-A88EF7F294F3
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-F83EB182-9139-49F5-9E7F-8C4BEE8CD320
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|FormProcess|USER_TASK_COMPLETED|sid-F9A4930B-B73F-4C85-8E26-1B9DE1071FC6
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ComplianceSystemsRecords|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:ETOPSProgramManager|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram1|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaintenanceProgram2|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:MaterialsManagement|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Other|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Reliability|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:Review|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalPublications|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|manufacturer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_HIDDEN|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|chaptsecsubata
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|critical_date
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|modelseries
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|newhazardidentified
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|part
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|sceptrestockforecast
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/form-app|form:TechnicalWriter|FORM_VISIBILITY_VISIBLE|typeofdocumentpub
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|flow-ort-review-techlead-implementation
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-08EB9D5E-47E3-4792-B51A-4213B2EC467D
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-0F298D92-C4DD-48AE-B3F0-BC4DF766DAB7
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-169B45D2-F433-4F6D-84EC-1A12D59CD8FD
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-2E52DF3D-8E04-4575-B195-0A03D1AEB782
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-2E5C66D7-F189-4CDD-9BDA-EBF7889E39EC
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-338947FB-5A75-4877-8269-C4757A8AEA68
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-49A46628-8406-4C71-9E94-040EAFEE9EAE
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-6E85BAFA-608C-46D5-B343-355E50A532C2
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-719A60BC-D06C-4231-825E-FA2B3AE0FDFA
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-7B31BF3C-02A7-47EE-A116-F420238BBB4F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-83B548DD-C238-4124-BE09-6E3358BA833F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-8F19DB8D-5AEA-4D94-A278-189C968F0F2E
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-900C1E52-0983-4ADF-9113-F81A22339D16
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-94A62A37-1F51-4668-B1E6-A3DF23468EF4
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-9B2EC85A-0159-45F3-8B87-1B5EB647F670
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-9C63F969-C95E-4013-9CE9-1D753D5EC631
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-9CD8C729-EE63-4BCD-A7CF-DD7406AAF78A
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-A0BE6036-73A6-4893-B5CD-FB3FFFA22733
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-A8B05089-5F44-44B7-B94A-D769BF70F915
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-BB6E7348-4893-4060-B3F5-C7973B76EE64
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-D3898D99-00A9-4228-BAE7-B6B5CE06B1D2
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-D3DDBF43-59A3-4443-92C1-5E6CCFE9B0A7
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-E77B37D2-ACB8-404A-8834-4C8EF6954606
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-FE5BF0D8-C650-4B6F-9769-F786FA185654
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|CONDITIONAL_FLOW|sid-FEECC59B-BD1E-4808-A518-822D1A5BBFB3
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|GATEWAY_NO_MATCH|sid-064F47B4-069D-45FF-8C83-F93F91AA6AAF
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|GATEWAY_NO_MATCH|sid-A898AB0F-8CDE-48A9-BF83-9FDE35D07D16
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|GATEWAY_NO_MATCH|sid-B724FE57-0D68-49CA-839D-3AD367A8BA82
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|GATEWAY_NO_MATCH|sid-C91A6D96-2659-4BDE-8A78-DBBC7F8F41C3
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|GATEWAY_NO_MATCH|sid-CCEA1E5E-31D3-4EA2-B88A-3CB098D6AD00
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|GATEWAY_NO_MATCH|sid-FC16CDD3-D4D9-4F6F-A731-733DCAF87EE4
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-ort-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-ort-techlead-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-supervisor-consult-sme-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-supervisor-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-techlead-consult-sme-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-techlead-implementation-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|no-techlead-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|notify-mdcr-cancel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|notify-mdcr-close
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|notify-mdcr-close-ha
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|reject-notification-to-originator
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|reject-notification-to-supervisor
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_CONTENT|reject-notification-to-techlead
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-ort-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-ort-techlead-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-supervisor-consult-sme-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-supervisor-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-techlead-consult-sme-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-techlead-implementation-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|no-techlead-review-n-days
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|notify-mdcr-cancel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|notify-mdcr-close
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|notify-mdcr-close-ha
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|reject-notification-to-originator
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|reject-notification-to-supervisor
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|MAIL_REACH|reject-notification-to-techlead
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Mng. Dir Engr.  Approved
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Mng. Dir Engr. Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=ORT Approved
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=ORT Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Originate MDCR Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Originator Submitted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=RCB Approved
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=RCB Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=SME Consulted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor Approved
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Supervisor SME request
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=Tech Lead Approved
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=TechLead Implementation
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=TechLead Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|last_action_flow=TechLead SME request
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Cancelled
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Completed
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=In Implementation
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=ORT Review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Pending
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=RCB Review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Rejected
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Supervisor Review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Supervisor SME
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Tech Lead Implementation Draft
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Tech Lead Review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=Tech Lead SME
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|STATUS_VALUE|process_status=TechLead Review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|no-activity-timer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|sid-1738D2BA-20F8-4DBD-8E3D-4351AE1AD11D
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|sid-24E57780-B1C6-433A-A9EF-638443BD9DCD
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|sid-2E1B5106-95F9-44F0-9855-4564CF690FDC
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|sid-6DE68B2B-ED22-4FCD-BFB5-BBD2310CC03F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|sid-7210CC38-E8BC-4673-A76C-840F5842590F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_FIRED|sid-A5D97D96-2821-4A30-983D-21BAAD697280
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|no-activity-timer
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|sid-1738D2BA-20F8-4DBD-8E3D-4351AE1AD11D
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|sid-24E57780-B1C6-433A-A9EF-638443BD9DCD
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|sid-2E1B5106-95F9-44F0-9855-4564CF690FDC
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|sid-6DE68B2B-ED22-4FCD-BFB5-BBD2310CC03F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|sid-7210CC38-E8BC-4673-A76C-840F5842590F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|TIMER_REPEAT|sid-A5D97D96-2821-4A30-983D-21BAAD697280
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|mng-dir-engr-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|originate-mdcr
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|ort-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|rcb-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|supervisor-consult-sme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|supervisor-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|techlead-consult-sme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|techlead-implementation
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_ASSIGNMENT|techlead-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|mng-dir-engr-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|originate-mdcr
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|ort-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|rcb-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|supervisor-consult-sme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|supervisor-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|techlead-consult-sme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|techlead-implementation
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|MDCR|USER_TASK_COMPLETED|techlead-review
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormActionMngDirEngrReview|FORM_VISIBILITY_HIDDEN|commentsortreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormActionMngDirEngrReview|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormORTReview|FORM_VISIBILITY_HIDDEN|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormORTReview|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_HIDDEN|commentssupervisorreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_HIDDEN|header_action_mdcr_originate
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_HIDDEN|lastaction
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_VISIBLE|commentssupervisorreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_VISIBLE|lastaction
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormOriginateMDCR|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormRCBReview|FORM_VISIBILITY_HIDDEN|commentsmngdirengrreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormRCBReview|FORM_VISIBILITY_VISIBLE|commentsmngdirengrreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormRCBReview|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorConsultSME|FORM_VISIBILITY_HIDDEN|commentssupervisorreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorConsultSME|FORM_VISIBILITY_HIDDEN|header_action_mdcr_originate
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorConsultSME|FORM_VISIBILITY_VISIBLE|commentssupervisorreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorConsultSME|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|FORM_VISIBILITY_HIDDEN|commentsoriginatemdcr
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|FORM_VISIBILITY_HIDDEN|commentssupervisorconsultsme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|FORM_VISIBILITY_HIDDEN|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|FORM_VISIBILITY_VISIBLE|commentsoriginatemdcr
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|FORM_VISIBILITY_VISIBLE|commentssupervisorconsultsme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|FORM_VISIBILITY_VISIBLE|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormSupervisorReview|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadConsultSME|FORM_VISIBILITY_HIDDEN|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadConsultSME|FORM_VISIBILITY_HIDDEN|header_action_mdcr_originate
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadConsultSME|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|commentsortreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|commentsrcbreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|criticalurgentdate
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_HIDDEN|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|aa
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|commentsortreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|commentsrcbreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|criticalurgentdate
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|customercode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|linenumber
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|manualdocumenttype
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|preprintcode
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|primeshop
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|prioritydescription
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|risklevel
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|FORM_VISIBILITY_VISIBLE|sracompleted
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadImplementation|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentsmngdirengrreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentsortreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentsrcbreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentssupervisorreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|commentstechleadconsultsme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_HIDDEN|user_techlead_implementation_assignee
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|commentsmngdirengrreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|commentsortreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|commentsrcbreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|commentssupervisorreview
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|commentstechleadconsultsme
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|FORM_VISIBILITY_VISIBLE|user_techlead_implementation_assignee
+      reached=false structural=false asserted=false behavioral=false
+  - customers/mdcr|form:FormTechLeadReview|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-4356A50C-EB37-4480-BA15-857D4263E0A0
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-4362FFB9-078E-412B-8219-64873AFF9FE2
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-AD00269A-8926-4C8D-8424-6665168A74FA
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-E5794786-47BD-4D58-A47A-A8E332170C66
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|CONDITIONAL_FLOW|sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD
+      reached=false structural=false asserted=false behavioral=false
+  - customers/safran-analysis|safran-analysis-workflow|GATEWAY_NO_MATCH|gate-select-group-reassign-multi
+      reached=false structural=false asserted=false behavioral=false
+
+Waived (with reasons)
+---------------------
+(Note: waived rows may be never-exercised OR reach-only on assert-required dimensions — inspect reached/asserted flags below.)
+  - customers/form-app|form:ComplianceSystemsRecords|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:ETOPSProgramManager|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:MaintenanceProgram1|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:MaintenanceProgram2|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:MaterialsManagement|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:Other|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:TechnicalPublications|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/form-app|form:TechnicalWriter|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: Named required-field refusal never exercised on this form. Customer suites keep specific 9088 omit cases; they do not grow a per-field omit matrix. Gated-required product rule stays in teaching FormVisibilityScenarioTest (these fixtures have zero required∧visibility fields).
+      ticket: CORENSGHT-9088
+  - customers/mdcr|form:FormActionMngDirEngrReview|FORM_VISIBILITY_VISIBLE|commentsortreview
+      reached=false structural=false asserted=false behavioral=false
+      reason: Fixture never reaches this: Kickstart last_action_flow literal is Tech Lead Implementation Plan Draft; ORT-approve listeners write ORT Approved. Do not putVariable the stale Kickstart string.
+      ticket: CORENSGHT-9087
+  - customers/mdcr|form:FormORTReview|FORM_VISIBILITY_VISIBLE|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+      reason: Fixture never reaches this: Kickstart last_action_flow literal is MDCR approved by Tech Lead; TechLead-approve listeners write Tech Lead Approved. Do not putVariable the stale Kickstart string.
+      ticket: CORENSGHT-9087
+  - customers/mdcr|form:FormOriginateMDCR|FORM_VISIBILITY_VISIBLE|header_action_mdcr_originate
+      reached=false structural=false asserted=false behavioral=false
+      reason: Fixture never reaches this: Kickstart last_action_flow literal is Supervisor Reject; BPMN listeners write Supervisor Rejected. Do not putVariable the stale Kickstart string.
+      ticket: CORENSGHT-9087
+  - customers/mdcr|form:FormSupervisorConsultSME|FORM_VISIBILITY_VISIBLE|header_action_mdcr_originate
+      reached=false structural=false asserted=false behavioral=false
+      reason: Fixture never reaches this: Kickstart last_action_flow literal is Supervisor Reject; BPMN listeners write Supervisor Rejected, and consult tasks never carry that flow. Do not putVariable the stale Kickstart string.
+      ticket: CORENSGHT-9087
+  - customers/mdcr|form:FormTechLeadConsultSME|FORM_VISIBILITY_VISIBLE|commentstechleadreview
+      reached=false structural=false asserted=false behavioral=false
+      reason: Fixture never reaches this: Kickstart last_action_flow literal is Tech Lead SME request; BPMN listeners write TechLead SME request. Do not putVariable the stale Kickstart string.
+      ticket: CORENSGHT-9087
+  - customers/mdcr|form:FormTechLeadConsultSME|FORM_VISIBILITY_VISIBLE|header_action_mdcr_originate
+      reached=false structural=false asserted=false behavioral=false
+      reason: Fixture never reaches this: Kickstart last_action_flow literal is Supervisor Reject; BPMN listeners write Supervisor Rejected, and consult tasks never carry that flow. Do not putVariable the stale Kickstart string.
+      ticket: CORENSGHT-9087
+  - customers/safran-analysis|form:AnalyistConflictList|FORM_VISIBILITY_VISIBLE|signoff
+      reached=false structural=false asserted=false behavioral=false
+      reason: Signoff VISIBLE wants merge_report_action id cancel, but the published dropdown only lists accept. Do not putVariable the missing option — same Kickstart precedent as MDCR FORM_VISIBILITY_VISIBLE waivers.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|form:AnalystLaunch|FORM_VISIBILITY_VISIBLE|reason_for_start_analysis_rejection
+      reached=false structural=false asserted=false behavioral=false
+      reason: Rejection-reason VISIBLE wants analyst_start_action id reject, but the published option is Reject to triage. Do not putVariable the mismatched id; product reject path leaves the field hidden.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|form:AnalystMissingGroupCorrection|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: AnalystMissingGroupCorrection form sits only on resolve-missing-groups; hasGroupAssignmentErrors never fires for dump-backed LEAP dispatch on the trimmed highlights.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|form:AnalystMissingGroup|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: AnalystMissingGroup form sits only on review-missing-groups; hasGroupAssignmentErrors never fires for dump-backed LEAP dispatch on the trimmed highlights.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|form:ErrorCreatingDocument|REQUIRED_REFUSAL|required
+      reached=false structural=false asserted=false behavioral=false
+      reason: ErrorCreatingDocument form sits only on the error-create-merge-report task, which the muted/seam-backed suite never opens. Named omit is unreachable without inventing a service failure.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_ASSIGNMENT|email-error-catch-task
+      reached=false structural=false asserted=false behavioral=false
+      reason: Email-error catch is only reachable when an async mail_script fails after send; scenario mute stubs the SMTP boundary so the product never creates this task. Structural limit of the muted-mail harness, not an omit-matrix gap.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_ASSIGNMENT|error-create-merge-report
+      reached=false structural=false asserted=false behavioral=false
+      reason: Error Creating Master List user task is only reachable when createTableFromJsonFile / merge report service throws; dump-backed highlights + RestClient seam keep that path green. No honest product failure inject without disabling seams.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_ASSIGNMENT|resolve-missing-groups
+      reached=false structural=false asserted=false behavioral=false
+      reason: Resolve/Review Missing Groups require hasGroupAssignmentErrors from dispatch; dump-backed LEAP groups resolve cleanly for the trimmed highlights. Sibling structural stubs own inventing that error arm.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_ASSIGNMENT|review-missing-groups
+      reached=false structural=false asserted=false behavioral=false
+      reason: Resolve/Review Missing Groups require hasGroupAssignmentErrors from dispatch; dump-backed LEAP groups resolve cleanly for the trimmed highlights. Sibling structural stubs own inventing that error arm.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_COMPLETED|email-error-catch-task
+      reached=false structural=false asserted=false behavioral=false
+      reason: Email-error catch is only reachable when an async mail_script fails after send; scenario mute stubs the SMTP boundary so the product never creates this task. Structural limit of the muted-mail harness, not an omit-matrix gap.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_COMPLETED|error-create-merge-report
+      reached=false structural=false asserted=false behavioral=false
+      reason: Error Creating Master List user task is only reachable when createTableFromJsonFile / merge report service throws; dump-backed highlights + RestClient seam keep that path green. No honest product failure inject without disabling seams.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_COMPLETED|resolve-missing-groups
+      reached=false structural=false asserted=false behavioral=false
+      reason: Resolve/Review Missing Groups require hasGroupAssignmentErrors from dispatch; dump-backed LEAP groups resolve cleanly for the trimmed highlights. Sibling structural stubs own inventing that error arm.
+      ticket: wi_b2588ae9
+  - customers/safran-analysis|safran-analysis-workflow|USER_TASK_COMPLETED|review-missing-groups
+      reached=false structural=false asserted=false behavioral=false
+      reason: Resolve/Review Missing Groups require hasGroupAssignmentErrors from dispatch; dump-backed LEAP groups resolve cleanly for the trimmed highlights. Sibling structural stubs own inventing that error arm.
+      ticket: wi_b2588ae9
+
