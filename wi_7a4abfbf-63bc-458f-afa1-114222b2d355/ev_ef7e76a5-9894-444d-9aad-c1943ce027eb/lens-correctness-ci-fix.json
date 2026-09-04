@@ -1,0 +1,1 @@
+{"specialty":"correctness","summary":"CI fix delta is sound: !!elicitation.url matches the SDK present-capability object shape (and still accepts legacy true); aborted handling correctly narrows WaitForSelectionResult before reading selection.","findings":[]}
