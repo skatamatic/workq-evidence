@@ -1,0 +1,45 @@
+{
+  "matched_runs": [
+    {
+      "request_id": "892ef801-f7c6-4376-ac18-b8ea0d45cadb",
+      "created_at": "2026-09-16T22:34:43.068Z",
+      "model": "gpt-4o-mini-2024-07-18",
+      "provider": "OPENAI",
+      "response_status": 200,
+      "prompt_tokens": "582",
+      "completion_tokens": "5",
+      "properties": {
+        "app": "ste-poc",
+        "span": "convert",
+        "strategy": "oneshot",
+        "profileid": "default",
+        "role": "converter",
+        "generation": "oneshot.convert",
+        "Helicone-Session-Id": "cnv_ef52b0238d0c4fb091f1",
+        "Helicone-Session-Name": "convert",
+        "Helicone-Session-Path": "/convert/oneshot.convert"
+      }
+    },
+    {
+      "request_id": "082d1157-4992-4f9c-b7af-f9bb87a5f849",
+      "created_at": "2026-09-16T22:34:35.932Z",
+      "model": "gpt-4o-mini-2024-07-18",
+      "provider": "OPENAI",
+      "response_status": 200,
+      "prompt_tokens": "747",
+      "completion_tokens": "20",
+      "properties": {
+        "app": "ste-poc",
+        "span": "convert",
+        "strategy": "oneshot",
+        "profileid": "default",
+        "role": "converter",
+        "generation": "oneshot.convert",
+        "Helicone-Session-Id": "cnv_fd87b23e0ca4403bae0b",
+        "Helicone-Session-Name": "convert",
+        "Helicone-Session-Path": "/convert/oneshot.convert"
+      }
+    }
+  ],
+  "proof": true
+}
