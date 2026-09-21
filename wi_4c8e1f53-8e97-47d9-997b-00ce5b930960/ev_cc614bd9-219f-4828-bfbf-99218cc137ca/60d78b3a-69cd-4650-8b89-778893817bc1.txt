@@ -1,0 +1,2191 @@
+$ npm run test:integration -- apps/dashboard/src/run-all-harness-shots.int.spec.ts
+
+> workq-monorepo@1.2.0 test:integration
+> node scripts/patch-vitest-forks-rpc-timeout.cjs && env -u WORKQ_PG -u WORKQ_E2E -u WORKQ_HOST_IMAGE_E2E WORKQ_INTEGRATION=1 vitest run apps/dashboard/src/run-all-harness-shots.int.spec.ts
+
+ DEPRECATED  The workspace file is deprecated and will be removed in the next major. Please, use the `test.projects` field in /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/vitest.config.ts instead.
+
+ RUN  v3.2.6 /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960
+
+ ✓ |integration| apps/dashboard/src/run-all-harness-shots.int.spec.ts (2 tests) 1107ms
+   ✓ harness bag parent/child Vite ownership > parent-owned Vite serves a child when spawn does not block the event loop  1105ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  11:05:56
+   Duration  1.85s (transform 432ms, setup 596ms, collect 4ms, tests 1.11s, environment 0ms, prepare 45ms)
+
+
+[exit 0]
+Attached evidence ev_13404fbd-c57c-4f68-92a5-7dcac960c356 to wi_4c8e1f53-8e97-47d9-997b-00ce5b930960 (exit 0).
+Updated step "Revert-goes-red" on wi_4c8e1f53-8e97-47d9-997b-00ce5b930960 -> done.
+Updated step "Verify" on wi_4c8e1f53-8e97-47d9-997b-00ce5b930960 -> active.
+$ bash -c 'unset HARNESS_ORIGIN WORKQ_DEV_API; npm run -w apps/dashboard test:harness; ec=$?; echo "--- leftover vite ---"; pgrep -fl "[v]ite" | head -20 || echo "(none)"; exit $ec'
+
+> @workq/dashboard@1.2.0 test:harness
+> node ./scripts/run-all-harness-shots.mjs
+
+HARNESS_ORIGIN → http://127.0.0.1:51904 (auto-picked free port)
+WORKQ_DEV_API → http://127.0.0.1:51905 (harness stub; no live :9876)
+Vite → http://127.0.0.1:51904 (harness auto-start)
+
+=== wait-visibility-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 700x3686 -> 626x3663
+ok   healthy watcher names the next look
+ok   healthy watcher offers Check now
+ok   healthy watcher says it is polling
+ok   check-running shows Checking…
+ok   check-running replaces Check now with Check running
+ok   check-running does not offer Check now
+ok   dead watcher says nothing is scheduled
+ok   dead watcher does not promise a next look
+ok   human wait uses internal transport
+ok   human wait shows the question
+ok   failing probe surfaces error count
+ok   hot park shows a held slot
+ok   hot park mentions webhook
+ok   ended history keeps Waiting on for the live wait
+ok   ended history parks history under Past waits
+ok   ended history Past waits starts collapsed
+ok   ended history Past waits summary is visible
+ok   ended history hides past rows until expanded
+ok   ended history expands to show past rows
+ok   live and ended waits share the list
+ok   answered wait hides Waiting on
+ok   answered wait does not keep live open copy
+ok   answered pipeline keeps question-shaped step name
+ok   answered pipeline shows Answered as status
+ok   answered wait shows Past waits history
+ok   landing with active step omits agent watch row
+ok   landing with active step keeps Check PR state
+ok   landing with active step has one primary active pipeline row
+ok   landing watch-only keeps agent wait
+ok   escalated PR leads with Needs a human
+ok   escalated PR says take over
+ok   escalated PR demotes Waiting on section
+ok   escalated PR uses Also watching
+ok   escalated PR merge row is not CI failing headline
+ok   escalated PR keeps CI only as background
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/wait-visibility (light)
+
+=== item-details-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim best.png 558x1013 -> 558x990
+trim design-after-tab.png 490x1191 -> 490x1189
+trim design-before-details.png 490x918 -> 490x899
+trim long-brief-fold.png 558x520 -> 558x498
+trim top.png 558x1013 -> 558x990
+ok   identity shows the requester
+ok   Brief section shows multi-paragraph rawMessage
+ok   Brief lists thread and files when present
+ok   short Brief has no expand control
+ok   short Brief body is not clamped
+ok   long Brief starts clamped with Show full brief
+ok   timing chip is present
+ok   report pinned first in Details body
+ok   pinned report keeps painted height under tall Chain pressure
+ok   timeline report starts collapsed behind Report submitted expand
+ok   expanding Report submitted reveals timeline ReportCard
+ok   report names the answered outcome
+ok   inline dependency chain is on Details
+ok   no top Dependencies section
+ok   no top-level Evidence section for loose artifacts
+ok   step-tied evidence still renders under its pipeline step
+ok   shows implementation and revision pipelines
+ok   plans interleave with the mid-run review note
+ok   plan heads are plain titles (never disclosures)
+ok   steps with evidence start collapsed
+ok   active pipeline has Current kicker
+ok   Revert-goes-red expected-red proof paints as success
+ok   genuine Typecheck miss still paints as failed
+ok   expected-red failing log stays visible
+ok   orphaned evidence is not shown in Details
+ok   no Waiting on this name list
+ok   Chain card present
+ok   Landing control has accessible name
+ok   Pool meta shows filing poolId
+ok   Open Chat lives in Details meta actions
+ok   Chain renders above Brief in DOM order
+ok   long-brief scene keeps Chain in the first viewport
+ok   long Message to requester starts collapsed with Show more
+ok   Show more reveals full Message to requester Markdown
+ok   mid-length say shows in full without Show more
+ok   long Brief expand removes clamp and shows Show less
+ok   no Waiting on list when the DAG is present
+ok   dependent focus still shows Chain
+ok   focus YOU ARE HERE fits inside the canvas
+ok   upstream focus shows Chain card
+ok   upstream focus shows DAG
+ok   long-brief chain has no Waiting on list
+ok   long-brief YOU ARE HERE fits inside the canvas
+FAIL legacy RepoPolicy notes render expanded (no Show more)
+ok   audit RepoPolicy notes collapse by default
+FAIL consecutive audit stamps share one expand
+ok   cooling details shows remaining time
+ok   cooling details offers skip cooldown now
+ok   designloop not-eligible stamp is visible on Details
+ok   designloop UI candidate stamp is not labeled not eligible
+ok   eligible without rounds hides Design tab
+ok   eligible without rounds still shows designloop stamp
+ok   design record shows Design tab between Chat and admin tabs
+ok   Design tab deep-link opens sequence with final headline
+FAIL admin Cost tab sits after Transcripts
+ok   Cost mixed totals show billed input and vendor dollars
+FAIL Cost mixed coverage names tracked unavailable and unsupported
+ok   Cost is totals not a per-run table
+ok   timeout-only Cost does not look free
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/item-details (light)
+item-details-shots.mjs exited 1
+
+=== drawer-chat-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 700x4502 -> 655x4488
+FAIL Details rail labels stay unbroken
+ok   Chat subtabs gap label from count
+ok   Details shows Chat pointer with count
+ok   Chat pointer lives in Details meta actions
+ok   Details has no inline Message composer
+ok   Lifecycle uses icon link to Chat
+ok   Details waiting shows ask + answer top
+ok   Requester sub-tab shows origin messages
+ok   Requester has Message composer only
+ok   waiting_feedback opens Agent sub-tab
+ok   Agent has feedback composer, not Message
+ok   Agent waiting replaces Steer with answer controls
+ok   Agent question has Send feedback only
+ok   Plan-approval mount on Agent
+ok   Plan scene has Approve / Reject only
+ok   Steer composer mount on Agent when not blocked
+ok   Steer scene shows Message the agent + pending
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/drawer-chat (light)
+drawer-chat-shots.mjs exited 1
+
+=== drawer-campaign-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 720x2200 -> 664x1586
+trim tint-picker.png 550x23 -> 480x23
+ok   Before hides Campaign tab
+ok   After shows Campaign tab
+ok   After panel ready with header
+ok   Guidance editor present
+ok   Tint picker lists presets
+ok   After rollup matches occupancy
+ok   Current member marked
+ok   Members grouped by board lanes with cards
+ok   Retint updates header badge
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/drawer-campaign (light)
+
+=== history-filters-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim 01-closed.png 744x700 -> 738x495
+trim 02-opening.png 744x700 -> 740x546
+trim 02b-opening-frozen.png 744x700 -> 739x536
+trim 03-open.png 744x700 -> 741x548
+trim 04-bug-selected.png 744x556 -> 741x552
+trim 05-two-facets.png 744x551 -> 741x547
+trim 05b-creator-selected.png 744x551 -> 741x547
+trim 05c-repo-selected.png 744x551 -> 741x547
+trim 06-cleared-still-open.png 744x700 -> 738x569
+trim 07-closed-again.png 744x700 -> 738x569
+ok   filters portal opens from the toolbar
+ok   Bug facet narrows the list
+ok   facet count lights the toggle
+ok   Created by intersects with Bug
+ok   creator selection bumps facet count
+ok   Repo facet narrows the list
+ok   repo selection bumps facet count
+ok   Clear filters restores the list
+ok   Clear keeps the portal open
+ok   Escape closes the portal
+ok   head has no timing badge strip
+ok   Timing control sits beside Filters
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/history-filters (light)
+
+=== history-timing-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim after-closed.png 778x230 -> 778x206
+trim after-empty.png 778x432 -> 778x421
+trim after-open.png 778x553 -> 778x541
+trim all.png 820x1628 -> 798x1527
+trim before.png 778x213 -> 778x202
+ok   before scene shows retired badge strips
+ok   after-closed has Timing off and clean head
+ok   Timing toggle mounts the panel
+ok   Timing toggle unmounts the panel
+ok   after-open shows definitions on screen
+ok   after-empty uses em dashes not 0m
+ok   outlier chip opens the item
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/history-timing (light)
+trim after-closed-dark.png 778x230 -> 778x206
+trim after-closed.png 778x206 -> 758x206
+trim after-empty-dark.png 778x432 -> 778x421
+trim after-open-dark.png 778x553 -> 778x541
+trim all-dark.png 820x1628 -> 796x1525
+trim before-dark.png 778x213 -> 778x202
+ok   before scene shows retired badge strips
+ok   after-closed has Timing off and clean head
+ok   Timing toggle mounts the panel
+ok   Timing toggle unmounts the panel
+ok   after-open shows definitions on screen
+ok   after-empty uses em dashes not 0m
+ok   outlier chip opens the item
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/history-timing (dark)
+
+=== history-pagination-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim after.png 758x488 -> 758x479
+trim all.png 820x1428 -> 778x875
+trim before.png 758x297 -> 758x275
+ok   after first page is ~PAGE_SIZE tasks
+ok   after Load more jumps by ~PAGE_SIZE
+ok   before Load more only adds 1–2 tasks
+ok   after badge matches visible rows
+ok   after still partial of total
+ok   head has no timing badge strip
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/history-pagination (light)
+
+=== history-row-icons-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim rows.png 744x330 -> 704x285
+ok   leading glyph shows bug classification
+ok   leading glyph shows feature classification
+ok   leading glyph shows untriaged CircleDashed
+ok   leading glyph is not status hand
+ok   leading glyph is not status inbox
+ok   leading glyph is not status circle-check
+ok   status remains visible on the row
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/history-row-icons (light)
+
+=== archive-collapse-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+ok   Done lane starts with a deck of cards
+ok   Archive all clears the lane
+ok   Archive all control is gone once empty
+ok   Dense Done lane starts with a large deck
+ok   Dense archive-all finishes within ~2s wall-clock
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/archive-collapse (light)
+
+=== dependency-graph-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1320x5573 -> 1264x5501
+trim card-blocked.png 1320x2200 -> 1264x2200
+trim card-pipeline.png 1320x2200 -> 1264x2200
+trim card-report.png 1320x2200 -> 1292x2200
+trim card-waiting.png 1320x2200 -> 1264x2200
+trim hover-after-scroll.png 1320x2200 -> 1264x2144
+trim hover-before-scroll.png 1320x2200 -> 1292x2144
+trim hover-dead.png 1320x2200 -> 1264x2192
+trim hover-diamond.png 1320x2200 -> 1264x2192
+trim hover-into-card.png 1320x2200 -> 1292x2184
+trim in-details.png 558x645 -> 558x622
+trim overflow-cramped-card.png 536x714 -> 536x627
+ok   Chain canvas fits inside the card
+ok   Fan-out canvas fits inside the card
+ok   Long serial canvas fits inside the card
+ok   Wide fan canvas fits inside the card
+ok   short Chain diagram is centered in its card
+ok   wide overflow card keeps painted height in a short pane
+ok   an oversized graph is pannable
+ok   opens with the focused ticket in view
+ok   drag moves the view
+ok   dead dependency scene names the break
+ok   no Dependencies/Graph tab
+ok   chain stays on Details after a click
+ok   you-are-here follows the click
+ok   header follows the click
+ok   hover card stays open when pointer moves onto it
+ok   PR link inside hover card is hit-testable
+ok   hover card dismisses after details pane scroll
+ok   Chain lit edge keeps arrow tip on stroke centerline
+ok   Fan-out lit edge keeps arrow tip on stroke centerline
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/dependency-graph (light)
+
+=== review-attention-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x748 -> 1066x303
+ok   quiet in-progress card has no attention class
+ok   under-review card uses needs-attention
+ok   under-review card pulses for attention
+ok   quiet card does not pulse
+ok   under-review exposes Approve / Reject
+ok   waiting-feedback also needs attention
+ok   waiting scene names the question
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/review-attention (light)
+
+=== board-feedback-md-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 820x588 -> 765x373
+ok   before scene still shows raw backticks
+ok   before scene still shows raw bold markers
+ok   after scene wraps Markdown
+ok   after scene renders inline code
+ok   after scene renders bold
+ok   after scene keeps Answer CTA
+ok   after scene names rejection.notes without delimiters
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/board-feedback-md (light)
+
+=== board-worker-phase-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 820x508 -> 765x297
+ok   before scene has no phase line
+ok   after scene shows provisioning copy
+ok   after scene uses card-worker-phase class
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/board-worker-phase (light)
+
+=== waiting-resume-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x520 -> 900x297
+ok   parked lane names Waiting to resume
+ok   parked lane title
+ok   approved card is waiting_resume
+ok   approved card shows slot chrome
+ok   slot chip uses Pause icon
+ok   working count stays at live work only
+ok   no lane-header status swatches
+ok   working has no waiting_resume card
+ok   working shows one in_progress card
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/waiting-resume (light)
+
+=== parked-occupancy-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x560 -> 1100x496
+ok   working lane label
+ok   parked lane label
+ok   no lane-header status swatches
+ok   no In flight column title
+ok   working has one in_progress card
+ok   parked has waiting_feedback
+ok   parked has under_review
+ok   parked has waiting_resume
+ok   todo has no waiting_resume
+ok   parked status filters have no color dots
+FAIL parked filter chips show counts
+ok   parked filter chips use short labels
+ok   parked filter chips fit one row without clipping
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/parked-occupancy (light)
+parked-occupancy-shots.mjs exited 1
+
+=== todo-lane-filters-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1280x1100 -> 1280x1071
+ok   filter pills render on To do
+ok   All shows labelled semantic groups
+ok   short pill labels Ready / Triage / Deps / Human
+ok   pill counts partition the lane (no Triage/Deps overlap)
+ok   todo filter pills keep dense 2px gap
+ok   filter pills fit one row
+ok   untriaged card shows Needs triage
+ok   Needs triage uses CircleDashed
+ok   dep-blocked card names the blocker
+ok   needs_human shows escalation reason
+ok   real asks keep CircleHelp
+ok   waiting_resume sits in Parked with slot chrome
+ok   waiting_resume uses Pause icon
+ok   Waiting for dependencies filter isolates blocker cards
+ok   single occupied bucket hides filter row
+ok   no lane-header status swatches
+ok   Parked status filters have no color dots
+ok   Parked shows multi-status filter pills
+ok   Parked filter chips show counts
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/todo-lane-filters (light)
+
+=== todo-lane-intake-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x1747 -> 1068x1684
+ok   open admin has pause beside +
+ok   open pause is not a ghost add twin
+ok   open has no Intake chrome menu
+ok   open Todo lane not tinted
+ok   paused Todo lane is tinted
+ok   paused admin shows resume
+ok   paused shows pause mark in head
+ok   paused keeps chrome strip
+ok   paused has no Intake chrome menu
+ok   member sees paused without mutate
+ok   member still sees paused chrome strip
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/todo-lane-intake (light)
+
+=== parked-unattended-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x10115 -> 1068x10052
+ok   off admin has toggle, no tint, no badges
+ok   on Parked lane is tinted
+ok   on admin shows lit toggle
+ok   on shows bot mark in head
+ok   on shows eligible + held (reviews + sensitive) badges
+ok   enable with saved list stays collapsed and names count
+ok   enable dialog uses short copy
+ok   excluded scene lists exclusions with edit
+ok   excluded scene holds create and keeps workq eligible
+ok   include scene shows Auto-land only line
+ok   include scene holds create and keeps workq eligible
+ok   empty include shows hold-all lane line
+ok   empty include holds ambient cards
+ok   admin-merge scene shows opt-in on banner
+ok   include edit dialog opens with include mode
+ok   duration hold badge without will-auto-land
+ok   forever hold badge without countdown
+ok   enable dialog hold row collapsed
+ok   enable dialog hold row open with presets
+ok   member sees on-state without mutate
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/parked-unattended (light)
+
+=== board-card-states-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1180x2528 -> 1164x2391
+ok   todo untriaged shows Needs triage
+ok   Needs triage uses CircleDashed
+ok   Needs triage has no filled background
+ok   deps-only shows Waiting on
+ok   deferred shows cooling-down chip
+ok   cooling chip shows remaining time
+ok   deferred chip uses data-block-context
+ok   stale deferred prefers no-live-pool overlay
+ok   unassigned sentinel shows unassigned-pool chip
+ok   smart-only wait shows waiting for a smart seat
+ok   unknown routing class chip is visible
+ok   overlap shows Needs triage and Waiting on
+ok   overlap triage has no filled background
+ok   waiting_resume shows slot chrome
+ok   waiting_resume uses Pause
+ok   waiting_resume has no filled background
+ok   designloop watch label
+ok   designloop slot chrome
+ok   designloop does not say Fix CI
+ok   landing+pending CI shows Waiting on CI
+ok   landing+pending CI hides slot chrome
+ok   ask prompt keeps CircleHelp
+ok   ask prompt keeps filled background
+ok   in_progress shows worker phase
+ok   under_review shows Waiting on CI
+ok   host wait hides Land and shows abstract hint
+ok   host approved offers Land
+ok   landing BLOCKED shows Host merge blocked
+ok   landing BLOCKED has no Force merge on the card
+ok   landing BLOCKED probe-no has no Force merge or allowlist on the card
+ok   terminal shows PR merged
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/board-card-states (light)
+
+=== mobile-shell-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 390x844 -> 390x825
+trim board-scrolled.png 390x844 -> 390x825
+trim mobile-board.png 366x787 -> 366x771
+trim nav-open.png 390x844 -> 388x844
+ok   closed nav is off-screen
+ok   hamburger opens nav on-screen
+ok   scrim paints while open
+ok   nav-item tap closes nav
+ok   board overflows horizontally
+ok   scroll reveals Completed lane
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/mobile-shell (light)
+
+=== mobile-drawer-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 390x844 -> 390x686
+trim mobile-drawer-open.png 390x844 -> 390x686
+ok   drawer fills the viewport width
+ok   resize handle is absent
+ok   details uses top tab strip
+ok   left rail is absent
+ok   drawer title wraps fully
+ok   head uses stacked mobile toolbar
+ok   guide link is hidden on mobile
+ok   tabs stack icon above label without wrapping
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/mobile-drawer (light)
+
+=== working-lane-capacity-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1180x4186 -> 1148x4127
+ok   before scene has no capacity chrome
+ok   open scene shows 2 free headline
+ok   open scene shows of 12 seats subline
+ok   open scene has no throttle mark
+ok   throttled scene shows 0 startable
+ok   throttled scene shows held framing
+ok   throttled chrome does not say free
+ok   throttled scene shows load cue
+ok   throttled data-load-throttled true
+ok   io scene shows 0 startable
+ok   routing-dead scene shows offline subline
+ok   over-roster scene shows 0 startable
+ok   over-capacity scene shows explicit present copy
+ok   over-capacity scene shows configured subline
+ok   over-capacity scene has +1 badge
+ok   over-capacity scene avoids naive 13/12 fraction
+ok   reserved scene shows 0 free headline
+ok   reserved scene shows designloop held on face
+ok   reserved scene shows of 12 seats subline
+ok   before-reserved scene shows silent Free/Busy gap
+ok   popover scene shows structured rows
+ok   popover leads with situation
+ok   popover names work already running
+ok   popover shows load vs budget
+ok   popover shows CPU pressure
+ok   popover shows roster note
+ok   popover demotes raw gate line under detail
+ok   popover lists present claim slots
+ok   popover lists configured seats
+ok   popover lists pool name
+ok   reserved popover lists designloop reserved
+ok   reserved popover lists Free (engineering)
+ok   reserved popover shows 2 idle
+ok   capacity trigger is a button
+ok   capacity is visible
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/working-lane-capacity (light)
+
+=== sensitive-land-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 760x2228 -> 704x168
+ok   refuse hides ordinary Land
+FAIL refuse shows recorded-review hint
+ok   refuse offers Land unreviewed
+FAIL in-flight holds with peer-review hint
+ok   in-flight hides ordinary Land
+ok   in-flight offers Land unreviewed
+FAIL stale shows older-head hint
+ok   stale hides ordinary Land
+ok   ready offers ordinary Land
+ok   ready has no Land unreviewed
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/sensitive-land (light)
+sensitive-land-shots.mjs exited 1
+
+=== add-task-picker-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1200x900 -> 1194x787
+ok   every state labels the field Waits for
+ok   collapsed shows the quiet open control
+ok   expanded empty is ready to search
+ok   expanded chosen keeps two tickets checked
+ok   chosen scene names the exporter interface
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/add-task-picker (light)
+
+=== add-task-pool-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1200x780 -> 1194x500
+ok   multi shows a required Pool select
+ok   single hides the picker
+ok   empty shows useful copy and blocks Add
+ok   single scene still names mac-studio
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/add-task-pool (light)
+
+=== pools-api-keys-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1400x2016 -> 1262x1902
+trim api-keys-grouped.png 400x945 -> 400x907
+trim pools-empty.png 400x449 -> 400x410
+trim pools-manage.png 400x1032 -> 400x993
+trim pools-pending.png 400x652 -> 400x614
+trim pools-refuse.png 400x801 -> 400x763
+ok   pools scene has create + share with mixed members
+ok   pools revoke confirm names keys and sessions
+ok   api keys mint reveal shown once with pool grouping
+ok   api keys pool select present
+ok   empty pools scene blocks share card
+ok   non-owner refusal hides invite form
+ok   pending invite shows accept without usable pool list
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/pools-api-keys (light)
+
+=== access-whitelist-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 820x1600 -> 730x1257
+ok   shows root short identity
+ok   shows analyst long identity
+ok   shows never signed in label
+ok   whitelist login labels stay on one line
+ok   whitelist action controls hold size (flex: none)
+ok   whitelist long identity truncates
+ok   whitelist row heights stay compact
+ok   whitelist status tags unbroken
+ok   pool members use user-identity wrapper
+ok   pool member login labels stay on one line
+ok   pool member long identity truncates
+ok   pool member row heights stay compact
+ok   pool member status tags unbroken
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/access-whitelist (light)
+
+=== github-auth-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x1424 -> 868x1314
+trim github-connected.png 852x389 -> 852x380
+ok   App auth + monitored PRs live inside GitHub catalog card
+ok   disconnected scene shows Authorize without Disconnect
+ok   connected scene shows install + repo preview
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/github-auth (light)
+
+=== harness-auth-wait-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 720x1100 -> 656x973
+ok   waiting scene shows Run auth + Needs auth
+ok   ready scene shows Auth is good to go + account
+ok   waiting scene lists Experimental peers
+ok   wsl waiting names the distro shell
+ok   posix waiting does not leak WSL copy
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/harness-auth-wait (light)
+
+=== onboarding-agent-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x2297 -> 868x2216
+ok   cursor waiting: ChoiceCards + Needs auth with setup controls
+ok   cursor ready: authenticated-as
+ok   api-key experimental: password field + setup on main screen
+ok   skip: workers will not start until authenticated
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/onboarding-agent (light)
+
+=== self-review-findings-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 600x1424 -> 546x739
+ok   nested-active starts with findings collapsed
+ok   verified-clean starts with findings collapsed
+ok   append-after-repass starts with findings collapsed
+ok   nested-active indents findings under Self-review
+ok   nested-active shows the active fixing finding
+ok   nested-active skips with justification note
+ok   nested-active strikes the skipped finding name
+ok   nested-active shows the done finding
+ok   verified-clean badges the parent Self-review
+ok   verified-clean badges the fixed finding
+ok   verified-clean shows verified copy
+ok   append-after-repass keeps prior nested findings and adds one
+ok   append-after-repass names the new finding
+ok   append-after-repass keeps the earlier verified finding
+ok   append-after-repass clears verified-clean on the parent
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/self-review-findings (light)
+
+=== singleton-pipeline-collapse-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 600x1124 -> 546x608
+ok   address-review-singleton collapses to one row (no nested chrome)
+ok   address-review-singleton keeps three top-level rows
+ok   address-review-singleton names the parent phase
+ok   address-review-singleton keeps the child note
+ok   address-review-singleton hides the child name as its own row
+ok   address-review-singleton has no user-collapse chrome
+ok   self-review-multi starts with findings collapsed
+ok   self-review-multi offers a disclosure on Self-review
+ok   self-review-multi still indents findings when expanded
+ok   self-review-multi keeps Self-review as parent
+ok   self-review-multi shows nested finding names
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/singleton-pipeline-collapse (light)
+
+=== interrupted-pipeline-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 720x1424 -> 664x1289
+ok   before shows pending Implement as a live todo
+ok   before has no interrupted kicker
+ok   before keeps Plan (human) active (spinning)
+ok   after labels Pipeline was interrupted
+ok   after marks the orphaned plan interrupted
+ok   after freezes Plan (human) at 2m 23s
+ok   after clears pending todos on the orphaned plan
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/interrupted-pipeline (light)
+
+=== request-changes-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 560x2373 -> 506x2349
+ok   closed scene shows the trigger
+ok   closed scene has no dialog
+ok   empty reason shows dialog copy
+ok   empty reason disables confirm
+ok   filled reason enables confirm
+ok   filled reason shows the typed reason
+ok   pending shows Working…
+ok   pending locks confirm
+ok   error surfaces the failure
+ok   error still allows confirm when reason is set
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/request-changes (light)
+
+=== plan-approval-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 640x1212 -> 576x1122
+ok   question scene has Send feedback only
+ok   plan-approval scene has Approve plan
+ok   plan-approval scene has Reject
+ok   plan-approval scene has no Send feedback
+ok   plan-approval shows prompt body
+ok   chat hidePrompt keeps actions without prompt body
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/plan-approval (light)
+
+=== evidence-proxy-shots.mjs ===
+proxy keys: /v1, /evidence, /auth, /health, /designloop-preview
+OK: /evidence proxied to API_TARGET (exactly once)
+mock API → http://127.0.0.1:52798 (seeded ev_proxy_harness_probe)
+Vite → http://127.0.0.1:5173 (WORKQ_DEV_API=http://127.0.0.1:52798)
+trim all.png 420x280 -> 275x144
+ok   proxy HTTP 200
+ok   proxy Content-Type is image
+ok   img naturalWidth > 0
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/evidence-proxy (light)
+
+=== evidence-meta-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 560x720 -> 548x330
+ok   runStartedAt chip is not raw epoch ms
+ok   runStartedAt chip looks like local absolute time
+ok   runStartedAt chip title keeps raw ms
+ok   durationMs stays a plain duration string
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/evidence-meta (light)
+
+=== priority-automerge-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 700x4763 -> 626x4740
+ok   critical pill renders
+ok   high pill renders
+ok   low pill renders
+ok   normal priority has no pill
+ok   board critical has top-right badge
+ok   board high has top-right badge
+ok   board low has top-right badge
+ok   board normal has no badge
+ok   board high tooltip includes effect
+ok   priority strip has all four levels
+ok   landing-off checkbox unchecked
+ok   landing-on checkbox checked
+ok   landing-gated checkbox checked
+ok   landing-off has Priority control
+ok   landing-off has Landing control
+ok   landing-off shows Chain card
+ok   no Dependencies section label
+ok   armed copy in landing-on details
+ok   gated copy in landing-gated details
+ok   armed watch scene states the claim
+ok   gated watch scene states the claim
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/priority-automerge (light)
+
+=== workers-parentage-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 960x986 -> 904x946
+ok   before claim-null shows Standalone orphans
+ok   after preserve shows mac-studio pool
+ok   after preserve has no Standalone group
+ok   after preserve nests workers under the pool
+ok   librarian scene nests the librarian under the pool
+ok   librarian scene excludes the librarian from free capacity
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/workers-parentage (light)
+
+=== workers-provision-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 960x1504 -> 944x1464
+ok   empty scene shows no live worktrees copy
+ok   empty scene shows no idle spares copy
+ok   empty scene shows honest empty seat inventory
+ok   populated shows bound item id
+ok   populated shows spare idle count
+ok   populated lists spare branch id
+ok   seats-absent scene does not imply all-current
+ok   failed seat shows danger status
+ok   failed seat shows failureDetail
+ok   pending seat shows pending fields
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/workers-provision (light)
+
+=== workers-occupancy-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 800x720 -> 696x487
+ok   working section label
+ok   parked section label
+ok   no Active work label
+ok   working has in_progress row
+ok   parked has waiting_feedback and under_review
+ok   roster badge stays lease-only (1)
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/workers-occupancy (light)
+
+=== workers-harness-identity-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x1200 -> 1076x1068
+ok   before scene present
+ok   after shows cursor-cli harness
+ok   after shows codex harness
+ok   after shows unknown for absent harness
+ok   after shows worker class badge
+ok   roster shows configured medium effort alongside Astra
+ok   detail labels configured medium effort
+ok   after shows smart marker
+ok   after shows soft-limited cue
+ok   after shows limit-parked cue
+FAIL after shows designloop reserved cue
+ok   detail shows token meters
+ok   detail soft-limited glance without click
+ok   detail breakdown opens after click
+FAIL unsupported usage is not painted as zero
+FAIL selecting a legacy worker shows no inferred effort
+ok   reselecting the configured worker restores its effort
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/workers-harness-identity (light)
+workers-harness-identity-shots.mjs exited 1
+
+=== terminal-cards-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 560x1600 -> 560x941
+ok   before shows Checks running
+ok   before shows Post PR
+ok   after-merged shows PR merged
+ok   after-merged has no Checks running
+ok   after-merged has no Post PR
+ok   after-answered shows Answered
+ok   after-answered has no Post answer step
+ok   after-rejected shows Rejected reason
+ok   after-rejected has no Fix step
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/terminal-cards (light)
+
+=== deps-cleared-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 560x2200 -> 560x1447
+ok   before-working shows Dependencies cleared
+ok   after-todo shows Dependencies cleared
+ok   after-working has no Dependencies cleared
+ok   after-parked has no Dependencies cleared
+ok   after-done has no Dependencies cleared
+ok   after-blocks shows waiters
+ok   after-blocks has no Dependencies cleared
+ok   after-todo card present
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/deps-cleared (light)
+
+=== under-review-pr-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 560x2457 -> 546x2412
+ok   before shows Waiting on CI
+ok   before shows Post PR
+ok   after shows Waiting on CI
+ok   after has no Post PR
+ok   after has PR #77 link
+ok   after PR link opens pull URL
+ok   details shows PR #77
+ok   details PR is a link
+ok   working shows CREATE-7002
+ok   working issue opens tracker URL
+ok   under_review shows CREATE-7002 and PR #77
+ok   details shows issue + PR peers
+ok   drawer head before is bare PR
+ok   drawer head after is PR #77
+ok   report links show PR #77 and CREATE-7002
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/under-review-pr (light)
+
+=== drawer-head-pr-align-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x900 -> 888x604
+ok   float scene measures identity + PR
+ok   float: PR sits above identity mid
+ok   aligned scene measures identity + PR
+ok   aligned: PR within 1px of identity mid
+ok   reviewing: link within 1px of identity mid
+ok   aligned shows PR #550
+ok   aligned .sub uses element children + drawer-head-dot
+ok   reviewing shows reviewing skatamatic/workq#550
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/drawer-head-pr-align (light)
+
+=== card-chain-baseline-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 760x1400 -> 688x929
+ok   float scene measures label + next
+ok   float: next-look sits above label baseline
+ok   busy-ci measures label + next
+ok   busy-ci: label and next share a baseline (≤1px)
+ok   busy-ci: icon within 2px of label mid
+ok   ready-to-land measures label + next
+ok   ready-to-land: label and next share a baseline (≤1px)
+ok   ready-to-land: icon within 2px of label mid
+ok   stuck-ci measures label + next
+ok   stuck-ci: label and next share a baseline (≤1px)
+ok   stuck-ci: icon within 2px of label mid
+ok   busy-ci .card-chain-text wraps label + next
+ok   busy-ci shows Waiting on CI
+ok   ready-to-land shows Ready to land
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/card-chain-baseline (light)
+
+=== github-issues-origin-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 920x720 -> 888x478
+ok   before: no GitHub brand on identity (globe path)
+ok   after: GitHub brand on identity
+ok   after: GitHub brand on issue link
+ok   after: issue key #740
+ok   after: PR #550 distinct from issue key
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/github-issues-origin (light)
+
+=== unblock-agents-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 960x5872 -> 928x5800
+trim chrome-idle.png 912x132 -> 912x99
+trim chrome-overlay.png 912x889 -> 912x868
+trim chrome-shell.png 912x654 -> 912x633
+trim details-over-unblock.png 912x610 -> 912x589
+trim flow-needs_human.png 912x570 -> 912x549
+trim flow-rejected.png 912x570 -> 912x549
+trim flow-under_review.png 912x570 -> 912x549
+trim flow-waiting_feedback.png 912x570 -> 912x549
+trim stage-empty.png 912x602 -> 912x581
+ok   idle is menus-only
+ok   idle has no Unblock menu
+ok   idle has no Intake menu
+ok   split shows Unblock menu
+ok   split shows unblock count
+ok   split shows paused intake strip
+ok   shell dialog open
+ok   shell has filled stage
+ok   shell nav pinned in stage
+ok   shell body scrolls
+ok   shell stage stays centered with long plan
+ok   shell stage fits scrim width
+ok   shell stage size stable across Next
+ok   overlay stage is non-inline
+ok   overlay stage is direct scrim child
+ok   overlay stage x/size stable across Next
+ok   overlay stage stays in scrim after Next
+ok   empty shell matches filled size
+ok   shell details opens drawer (no inline expand)
+ok   details stacks above unblock
+ok   dismiss details keeps unblock
+ok   dismiss unblock removes scrim
+ok   stack scene present
+ok   flow waiting_feedback actions
+ok   flow needs_human actions
+ok   flow under_review actions
+ok   flow rejected actions
+ok   flow needs_human Return to fleet
+ok   flow rejected Archive
+ok   flow rejected no Acknowledge
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/unblock-agents (light)
+
+=== fleet-chrome-repo-filter-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x2936 -> 1068x2872
+ok   All chip pressed in all scene
+ok   aliases collapse to one skatamatic/workq chip
+ok   Create stamps collapse to one scopear/worklink-create-2 chip
+ok   Create chip counts all three stamp forms
+ok   workq chip pressed in workq-only
+ok   all scene shows create seed-stamped card
+ok   all scene shows create basename-stamped card
+ok   all scene shows create owner/name-stamped card
+ok   all scene shows unscoped card
+ok   workq-only shows bare-stamped workq card
+ok   workq-only shows slug-stamped workq card
+ok   workq-only hides create
+ok   workq-only shows unscoped todo
+ok   workq-only hides unscoped in_progress
+ok   alias-slug shows bare-stamped workq card
+ok   alias-slug shows slug-stamped workq card
+ok   alias-slug shows unscoped todo
+ok   alias-slug hides create
+ok   create-unified shows seed-stamped create card
+ok   create-unified shows basename-stamped create card
+ok   create-unified shows owner/name-stamped create card
+ok   create-unified hides workq
+ok   multi shows create
+ok   multi shows unscoped todo
+ok   multi shows bare-stamped workq card
+ok   multi shows slug-stamped workq card
+ok   Repos then Pools (optional) with no Intake menu
+ok   workq-only shows filter strip
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-chrome-repo-filter (light)
+
+=== fleet-chrome-pool-filter-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x1857 -> 1068x1793
+trim multi.png 1052x414 -> 1052x397
+ok   All chip pressed in all scene
+ok   menu lists mac-studio, cloud, and No pool
+ok   mac chip pressed in mac-only
+ok   No pool chip pressed; All off
+ok   multi presses mac and No pool
+ok   all scene shows mac todo
+ok   all scene shows cloud card
+ok   all scene shows No pool card
+ok   mac-only shows mac todo
+ok   mac-only shows mac in_progress
+ok   mac-only hides cloud
+ok   mac-only hides No pool
+ok   no-pool scene shows No pool card
+ok   no-pool scene hides mac
+ok   no-pool scene hides cloud
+ok   multi shows mac
+ok   multi shows No pool
+ok   multi hides cloud
+ok   Pools menu present
+ok   mac-only shows filter strip
+ok   mac-only meta shows mac-studio
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-chrome-pool-filter (light)
+
+=== fleet-chrome-campaign-filter-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x1963 -> 1068x1899
+trim menu-open.png 1100x1600 -> 1068x1600
+ok   All tickets chip pressed in all scene
+ok   menu lists Live graph and Playwright
+ok   live chip pressed in live-only
+ok   All tickets off when campaign selected
+ok   all scene shows live card
+ok   all scene shows playwright card
+ok   all scene shows ungrouped card
+ok   live-only shows live todo
+ok   live-only shows waiting_feedback
+ok   live-only hides playwright
+ok   live-only hides ungrouped
+ok   campaign cards carry tint class
+ok   ungrouped card has no tint class
+ok   needs-attention still on tinted campaign card
+ok   Campaigns menu present
+ok   live-only shows filter strip
+ok   live-only meta shows Live graph
+ok   All tickets row stays untinted
+ok   Live graph filter row is tinted
+ok   Playwright filter row is tinted
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-chrome-campaign-filter (light)
+trim all-dark.png 1100x1963 -> 1068x1899
+trim menu-open-dark.png 1100x1600 -> 1068x1600
+ok   All tickets chip pressed in all scene
+ok   menu lists Live graph and Playwright
+ok   live chip pressed in live-only
+ok   All tickets off when campaign selected
+ok   all scene shows live card
+ok   all scene shows playwright card
+ok   all scene shows ungrouped card
+ok   live-only shows live todo
+ok   live-only shows waiting_feedback
+ok   live-only hides playwright
+ok   live-only hides ungrouped
+ok   campaign cards carry tint class
+ok   ungrouped card has no tint class
+ok   needs-attention still on tinted campaign card
+ok   Campaigns menu present
+ok   live-only shows filter strip
+ok   live-only meta shows Live graph
+ok   All tickets row stays untinted
+ok   Live graph filter row is tinted
+ok   Playwright filter row is tinted
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-chrome-campaign-filter (dark)
+
+=== fleet-chrome-creator-filter-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x1920 -> 1068x1856
+trim multi.png 1052x435 -> 1052x418
+ok   All chip pressed in all scene
+ok   menu lists Kyle, Ada, and Unattributed
+ok   Kyle chip pressed in kyle-only
+ok   Unattributed chip pressed; All off
+ok   multi presses Kyle and Unattributed
+ok   all scene shows Kyle card
+ok   all scene shows Ada card
+ok   all scene shows Unattributed card
+ok   kyle-only shows Kyle todo
+ok   kyle-only shows Kyle in_progress
+ok   kyle-only hides Ada
+ok   kyle-only hides Unattributed
+ok   unattributed scene shows Unattributed card
+ok   unattributed scene hides Kyle
+ok   unattributed scene hides Ada
+ok   multi shows Kyle
+ok   multi shows Unattributed
+ok   multi hides Ada
+ok   Repos → Created by → Pools (optional) order
+ok   kyle-only shows filter strip
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-chrome-creator-filter (light)
+
+=== fleet-chrome-topbar-options-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 1100x2400 -> 1048x1625
+trim both-filters.png 1032x193 -> 1032x176
+trim pool-filter.png 1032x193 -> 1032x176
+trim repo-filter.png 1032x192 -> 1032x175
+ok   idle has no left strip
+ok   idle has no Intake menu
+ok   paused has paused strip
+ok   paused has Resume
+ok   paused has no Intake menu
+ok   paused-over-filters shows pause not filter strip
+ok   repo has Clear all
+ok   pool strip names mac-studio
+ok   both-filters mentions pool and repos
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-chrome-topbar-options (light)
+
+=== run-log-retention-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 760x900 -> 515x624
+trim default.png 672x664 -> 507x623
+ok   shows usage count
+ok   shows item retention field
+ok   shows actor retention field
+ok   shows soft cap field
+ok   shows size unit control
+ok   has save button
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/run-log-retention (light)
+
+=== setup-shell-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim agent.png 1052x1350 -> 1052x1341
+trim all.png 1100x24876 -> 1068x24804
+trim chat-both.png 1052x1450 -> 1052x1347
+trim chat-slack-only.png 1052x1451 -> 1052x1347
+trim chat-teams-only.png 1052x1451 -> 1052x1347
+trim ci.png 1052x1450 -> 1052x1347
+trim completed-default.png 1052x1510 -> 1052x1502
+trim first-entry.png 1052x1328 -> 1052x1319
+trim memory.png 1052x1351 -> 1052x1338
+trim mid-resume.png 1052x1451 -> 1052x1347
+trim pair-empty.png 1052x1510 -> 1052x1501
+trim pair-mint.png 1052x1645 -> 1052x1637
+trim repo-bind.png 1052x808 -> 1052x800
+trim settings-ia-agent.png 1052x1509 -> 1052x1501
+trim size.png 1052x1350 -> 1052x1342
+trim tools-add-profile.png 1052x1956 -> 1052x1852
+trim waiting-connected.png 1052x1645 -> 1052x1636
+trim waiting-pending.png 1052x1645 -> 1052x1637
+trim waiting-unpaired.png 1052x1645 -> 1052x1636
+ok   page chrome omits theme toggle
+ok   page chrome omits Skip and Leave
+ok   first entry shows Setup rail
+ok   first entry shows welcome title
+ok   first entry names the pool
+ok   first entry avoids fleet-vs-pool encyclopedia
+ok   first entry shows Continue
+ok   first entry shows pool name field
+ok   first entry pool name prefilled
+FAIL pair-empty omits generate caption
+ok   pair-empty omits mint Off pill
+FAIL size lead explains concurrent jobs
+FAIL agent lead explains the harness
+FAIL memory title is not Optional
+FAIL memory lead explains Analyst
+ok   pair scene shows generate control
+ok   pair scene avoids mint/spent jargon
+ok   pair scene shows copyable init command
+ok   pair-mint panel contains mint and wait
+ok   no waiting rail tab
+ok   pair-mint shows waiting unlock false without host
+ok   waiting pending shows unlock false
+ok   waiting pending avoids desired-config jargon
+ok   waiting unpaired shows unlock false
+ok   waiting unpaired avoids desired-config jargon
+ok   waiting scene unlocks on host presence
+ok   welcome body avoids fleet digest / doctor
+ok   mid-resume shows tools hub
+ok   mid-resume shows integrations fields
+ok   mid-resume shows tracker rows
+ok   mid-resume shows grouped surfaces
+ok   mid-resume omits shared bridge sermon
+ok   mid-resume omits IntegrationsFields lead
+ok   mid-resume avoids unfinished-screen bridge
+ok   mid-resume keeps Setup rail
+ok   no slack placeholder
+ok   no slack rail tab
+ok   no teams rail tab
+ok   no chat rail tab
+ok   one integrations rail tab on first-entry
+ok   chat-slack-only shows Slack credentials
+ok   chat-teams-only shows Teams credentials
+ok   chat-both brands have credential controls
+ok   chat-both has one Integrations rail tab
+ok   chat-both omits IntegrationsFields lead
+FAIL chat lead explains connect-once guided setup
+ok   no ci placeholder
+ok   ci scene shows CircleCI and Jenkins enable controls
+ok   ci scene shows CircleCI credential controls
+ok   ci scene omits IntegrationsFields lead
+ok   ci scene includes tracker and forge rows
+FAIL ci lead explains connect-once guided setup
+ok   labelled credential form opens after Add click
+ok   repo-bind rail label is Connect repo
+ok   repo-bind title is Connect repo
+ok   repo-bind summary uses forge not Git host
+ok   repo-bind body avoids banned jargon
+ok   first-entry avoids banned jargon
+ok   mid-resume avoids banned jargon
+ok   shell width stable across rail tabs
+ok   completed-default opens Pool leaf not empty wizard
+ok   settings-ia-agent completed reentry shows real leaf
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/setup-shell (light)
+trim agent-dark.png 1052x1350 -> 1052x1341
+trim all-dark.png 1100x24876 -> 1068x24804
+trim chat-both-dark.png 1052x1450 -> 1052x1347
+trim chat-slack-only-dark.png 1052x1451 -> 1052x1347
+trim chat-teams-only-dark.png 1052x1451 -> 1052x1347
+trim ci-dark.png 1052x1450 -> 1052x1347
+trim completed-default-dark.png 1052x1510 -> 1052x1502
+trim first-entry-dark.png 1052x1328 -> 1052x1319
+trim memory-dark.png 1052x1351 -> 1052x1338
+trim mid-resume-dark.png 1052x1451 -> 1052x1347
+trim pair-empty-dark.png 1052x1510 -> 1052x1501
+trim pair-mint-dark.png 1052x1645 -> 1052x1637
+trim repo-bind-dark.png 1052x808 -> 1052x800
+trim settings-ia-agent-dark.png 1052x1509 -> 1052x1501
+trim size-dark.png 1052x1350 -> 1052x1342
+trim tools-add-profile-dark.png 1052x1956 -> 1052x1852
+trim waiting-connected-dark.png 1052x1645 -> 1052x1636
+trim waiting-pending-dark.png 1052x1645 -> 1052x1637
+trim waiting-unpaired-dark.png 1052x1645 -> 1052x1636
+ok   page chrome omits theme toggle
+ok   page chrome omits Skip and Leave
+ok   first entry shows Setup rail
+ok   first entry shows welcome title
+ok   first entry names the pool
+ok   first entry avoids fleet-vs-pool encyclopedia
+ok   first entry shows Continue
+ok   first entry shows pool name field
+ok   first entry pool name prefilled
+FAIL pair-empty omits generate caption
+ok   pair-empty omits mint Off pill
+FAIL size lead explains concurrent jobs
+FAIL agent lead explains the harness
+FAIL memory title is not Optional
+FAIL memory lead explains Analyst
+ok   pair scene shows generate control
+ok   pair scene avoids mint/spent jargon
+ok   pair scene shows copyable init command
+ok   pair-mint panel contains mint and wait
+ok   no waiting rail tab
+ok   pair-mint shows waiting unlock false without host
+ok   waiting pending shows unlock false
+ok   waiting pending avoids desired-config jargon
+ok   waiting unpaired shows unlock false
+ok   waiting unpaired avoids desired-config jargon
+ok   waiting scene unlocks on host presence
+ok   welcome body avoids fleet digest / doctor
+ok   mid-resume shows tools hub
+ok   mid-resume shows integrations fields
+ok   mid-resume shows tracker rows
+ok   mid-resume shows grouped surfaces
+ok   mid-resume omits shared bridge sermon
+ok   mid-resume omits IntegrationsFields lead
+ok   mid-resume avoids unfinished-screen bridge
+ok   mid-resume keeps Setup rail
+ok   no slack placeholder
+ok   no slack rail tab
+ok   no teams rail tab
+ok   no chat rail tab
+ok   one integrations rail tab on first-entry
+ok   chat-slack-only shows Slack credentials
+ok   chat-teams-only shows Teams credentials
+ok   chat-both brands have credential controls
+ok   chat-both has one Integrations rail tab
+ok   chat-both omits IntegrationsFields lead
+FAIL chat lead explains connect-once guided setup
+ok   no ci placeholder
+ok   ci scene shows CircleCI and Jenkins enable controls
+ok   ci scene shows CircleCI credential controls
+ok   ci scene omits IntegrationsFields lead
+ok   ci scene includes tracker and forge rows
+FAIL ci lead explains connect-once guided setup
+ok   labelled credential form opens after Add click
+ok   repo-bind rail label is Connect repo
+ok   repo-bind title is Connect repo
+ok   repo-bind summary uses forge not Git host
+ok   repo-bind body avoids banned jargon
+ok   first-entry avoids banned jargon
+ok   mid-resume avoids banned jargon
+ok   shell width stable across rail tabs
+ok   completed-default opens Pool leaf not empty wizard
+ok   settings-ia-agent completed reentry shows real leaf
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/setup-shell (dark)
+setup-shell-shots.mjs exited 1
+
+=== settings-ia-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+✓ single shell scene
+✓ no stacked scenes
+✓ sidebar Pool phase
+✓ sidebar Repositories phase
+✓ no Integrations phase
+✓ sidebar Prove phase
+✓ nav defaults parent
+✓ nav integrations under pool
+✓ repos header add button
+✓ no Add repository rail tab
+✓ nav workq overview
+✓ nav create overview
+✓ nav pool parent
+✓ pool keeps host and integrations directly accessible
+✓ pool Integrations label
+✓ pool Worker classes label
+✓ no Prove phase
+✓ no Prove evidence leaf
+✓ starts on workq pipelines
+✓ workq children visible
+✓ create children hidden
+✓ defaults children collapsed before first visit
+✓ advanced settings collapsed before first visit
+✓ defaults pipelines leaf in advanced
+✓ defaults quality leaf in advanced
+✓ defaults designloop leaf in advanced
+✓ defaults evidence leaf in advanced
+✓ defaults Quality label
+✓ defaults designloop label
+✓ defaults Evidence label
+✓ repo Quality label
+✓ repo designloop label
+✓ repo Evidence label
+✗ owner bar is repo
+✓ leaf crumb is Pipelines
+✓ rail marks current repo
+✓ workq inherit selected
+✓ setup convergence banner on repo leaf
+✗ workq pill flowchart
+✓ pool icon→label gap is 10px
+✓ integrations icon→label gap is 10px
+✓ workq-overview icon→label gap is 10px
+✓ workq-pipelines icon→label gap is 10px
+✓ rail child hover stays transparent
+✓ create children after select
+✓ workq children hidden after switch
+✓ create pipelines stage
+✗ create owner bar
+✓ create rail current
+✓ create override selected
+✓ create omits changed-files
+✓ defaults children after select
+✓ defaults overview marker
+✓ defaults overview fact links
+✓ defaults overview stage
+✓ defaults leaf Overview
+✓ defaults is summary not pipelines editor
+✓ defaults overview has no landing editor
+✓ defaults landing nav present
+✓ defaults landing stage
+✓ defaults landing leaf crumb
+✓ defaults landing editor
+✓ defaults overview deep link opens General
+✓ defaults pipelines stage
+✗ defaults owner bar
+✓ defaults leaf Pipelines
+✓ defaults PipelinesFields bug card
+✓ repo children hidden on defaults
+✓ defaults evidence stage
+✓ defaults evidence leaf crumb
+✓ defaults quality stage
+✓ defaults quality leaf crumb
+✓ defaults designloop stage
+✓ defaults designloop inherits bundled
+✓ defaults designloop leaf crumb
+✓ defaults designloop configure seeds Off banner
+✓ pool stage
+✗ pool owner bar
+✓ defaults children collapse on pool
+✓ pool destinations remain available
+✓ advanced pool composed stack
+✓ advanced disclosure reveals worker settings
+✓ worker-classes stage
+✓ worker-classes owner leaf
+✓ worker-classes panel mounts
+✓ worker-classes seat feedback
+✓ worker-classes has class rows
+✓ worker-classes picker on Cursor class
+✓ worker-classes Codex catalog picker
+✓ worker-classes reasoning only on Codex
+✓ worker-classes provisioning cost hint
+✓ routing conditions editor mounts
+✓ routing conditions save is page chrome
+✓ routing tester button mounts
+✓ token-limits stage
+✓ token-limits owner leaf
+✓ token-limits panel mounts
+✓ token-limits fleet partial configured
+✓ token-limits progressive add picker
+✓ token-limits unsupported harness warning
+✓ token-limits precedence shows class bind
+✓ integrations stage
+✗ integrations owner under pool
+✓ integrations leaf crumb
+✓ integrations no ownership radios
+✓ integrations seeded jira needs-auth without live ok
+✓ integrations seeded github ready
+✓ integrations github source row has no intake
+✓ integrations github issue intake
+✓ integrations auto-grab off by default
+✓ integrations intake disclosure collapsed by default
+✓ integrations laptop auto-grab guidance
+✓ integrations intake disclosure expands
+✓ integrations github intake repo checklist
+✓ integrations github intake pool select
+✓ integrations seeded slack ready
+✓ integrations category tabs
+✓ integrations mounts grouped surfaces
+✓ integrations hub disclosure stack
+✗ integrations paired disclosures share chrome
+✓ integrations tab switches surface
+✓ repo overview stage
+✓ repo children open on overview
+✓ defaults collapse on repo
+✓ quality still under defaults
+✓ designloop still under defaults
+✓ workq designloop stage
+✓ workq designloop override loaded
+✓ workq designloop enabled on
+✓ repo overview fact links
+✓ repo overview has no execution editor
+✓ repo overview has no workspace mode picker
+✓ repo overview has no landing editor
+✓ repo landing nav present
+✓ repo overview deep link opens General
+✓ disconnected general keeps execution read-only
+✓ repo landing stage
+✓ repo landing editor
+✓ repo general shows workspace mode editor
+✓ repo general workspace mode picker visible
+✓ repo selection stage
+✓ repo selection mounts RepoSelectionFields
+✓ repo selection shows SelectionSection
+✓ no page errors
+
+7 check(s) failed
+settings-ia-shots.mjs exited 1
+
+=== add-repo-cta-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x2000 -> 868x1649
+FAIL admin sidebar shows Setup
+ok   admin sidebar has a Fleet section
+FAIL admin sidebar lists Workers under Fleet
+ok   admin sidebar hides Add repo CTA
+ok   member sidebar hides Setup
+FAIL member sidebar still shows Workers
+ok   Admin tab row is Access Logs
+ok   Admin tab row drops Roles Quality Integrations Pipelines
+ok   Admin head has no Re-open without handler
+ok   Admin has no Host tab
+ok   Admin has no Repos tab
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/add-repo-cta (light)
+trim all-dark.png 900x2000 -> 868x1649
+FAIL admin sidebar shows Setup
+ok   admin sidebar has a Fleet section
+FAIL admin sidebar lists Workers under Fleet
+ok   admin sidebar hides Add repo CTA
+ok   member sidebar hides Setup
+FAIL member sidebar still shows Workers
+ok   Admin tab row is Access Logs
+ok   Admin tab row drops Roles Quality Integrations Pipelines
+ok   Admin head has no Re-open without handler
+ok   Admin has no Host tab
+ok   Admin has no Repos tab
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/add-repo-cta (dark)
+add-repo-cta-shots.mjs exited 1
+
+=== fleet-defaults-disclosure-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim admin-advanced.png 852x4199 -> 768x4159
+trim all.png 900x8784 -> 776x8699
+trim custom-gates.png 852x2358 -> 768x2317
+trim setup-primary.png 852x2182 -> 768x2141
+ok   Setup scene ready
+ok   admin scene ready
+ok   custom-gates scene ready
+ok   Setup omits in-body lead
+ok   admin keeps a short lead
+ok   Setup shows Advanced disclosures
+ok   Setup advanced review collapsed
+ok   Setup advanced testing collapsed
+ok   Setup omits load from quality bar
+ok   admin advanced review open
+ok   admin advanced testing open
+ok   Setup shows Review chapter heading
+ok   Setup shows required gates
+ok   Setup shows E2E strategy
+ok   Setup later-pass lives under Review details
+ok   Setup later-pass has three choice cards
+ok   Setup later-pass defaults to same-seam
+ok   Setup later-pass Confirm consequence copy
+ok   later-pass is not a readonly token
+ok   Setup gate cards state what they prove
+ok   Setup E2E strategy is a choice card
+ok   Setup self-review checkbox enabled
+ok   no floor badge
+ok   self-review consequence copy
+ok   custom gate row visible
+ok   custom gate pill visible
+ok   add gate control visible
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-defaults-disclosure (light)
+trim admin-advanced-dark.png 852x4199 -> 768x4159
+trim all-dark.png 900x8784 -> 776x8699
+trim custom-gates-dark.png 852x2358 -> 768x2317
+trim setup-primary-dark.png 852x2182 -> 768x2141
+ok   Setup scene ready
+ok   admin scene ready
+ok   custom-gates scene ready
+ok   Setup omits in-body lead
+ok   admin keeps a short lead
+ok   Setup shows Advanced disclosures
+ok   Setup advanced review collapsed
+ok   Setup advanced testing collapsed
+ok   Setup omits load from quality bar
+ok   admin advanced review open
+ok   admin advanced testing open
+ok   Setup shows Review chapter heading
+ok   Setup shows required gates
+ok   Setup shows E2E strategy
+ok   Setup later-pass lives under Review details
+ok   Setup later-pass has three choice cards
+ok   Setup later-pass defaults to same-seam
+ok   Setup later-pass Confirm consequence copy
+ok   later-pass is not a readonly token
+ok   Setup gate cards state what they prove
+ok   Setup E2E strategy is a choice card
+ok   Setup self-review checkbox enabled
+ok   no floor badge
+ok   self-review consequence copy
+ok   custom gate row visible
+ok   custom gate pill visible
+ok   add gate control visible
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/fleet-defaults-disclosure (dark)
+
+=== evidence-proof-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x2584 -> 736x2499
+trim cant-prove-yet.png 852x1008 -> 728x967
+trim fleet-default.png 852x524 -> 728x479
+trim one-repo-override.png 852x1007 -> 728x967
+ok   fleet-default scene ready
+ok   one-repo-override scene ready
+ok   cant-prove-yet scene ready
+ok   fleet default is not a stacked list of every seed
+ok   fleet default lists at most one repo row
+ok   fleet default picker is empty
+ok   override shows exactly one repo
+ok   insight override shows exactly one repo
+ok   insight offers harness work
+ok   override lists screenshots and video
+ok   override shows capture how-to
+ok   fleet has no capture how-to
+ok   fleet lists screenshots
+ok   ladder encyclopedia is not the main view
+ok   fleet default avoids jargon
+ok   override avoids jargon
+ok   insight avoids jargon
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/evidence-proof (light)
+trim all-dark.png 900x2584 -> 736x2499
+trim cant-prove-yet-dark.png 852x1008 -> 728x967
+trim fleet-default-dark.png 852x524 -> 728x479
+trim one-repo-override-dark.png 852x1007 -> 728x967
+ok   fleet-default scene ready
+ok   one-repo-override scene ready
+ok   cant-prove-yet scene ready
+ok   fleet default is not a stacked list of every seed
+ok   fleet default lists at most one repo row
+ok   fleet default picker is empty
+ok   override shows exactly one repo
+ok   insight override shows exactly one repo
+ok   insight offers harness work
+ok   override lists screenshots and video
+ok   override shows capture how-to
+ok   fleet has no capture how-to
+ok   fleet lists screenshots
+ok   ladder encyclopedia is not the main view
+ok   fleet default avoids jargon
+ok   override avoids jargon
+ok   insight avoids jargon
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/evidence-proof (dark)
+
+=== brand-marks-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all-tiers.png 1232x455 -> 1194x448
+trim all.png 1280x640 -> 1202x451
+ok   github mono at large
+ok   github mono at tiny
+ok   jira color at large
+ok   jira mono at tiny
+ok   slack color at large
+ok   slack color at tiny
+ok   teams color at large
+ok   teams color at tiny
+ok   cursor color at large
+ok   cursor mono at tiny
+ok   confluence color at large
+ok   confluence mono at tiny
+ok   circleci fallback at each tier
+ok   claude-code fallback at each tier
+ok   codex-cli fallback at each tier
+ok   jenkins color at large
+ok   jenkins color at tiny
+ok   bitbucket color at large
+ok   bitbucket mono at tiny
+ok   azure-devops color at large
+ok   azure-devops mono at tiny
+ok   linear color at large
+ok   linear mono at tiny
+ok   unknown fallback at each tier
+ok   inline demo present
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/brand-marks (light)
+trim all-dark.png 1280x640 -> 1202x451
+trim all-tiers-dark.png 1232x455 -> 1194x448
+ok   github mono at large
+ok   github mono at tiny
+ok   jira color at large
+ok   jira mono at tiny
+ok   slack color at large
+ok   slack color at tiny
+ok   teams color at large
+ok   teams color at tiny
+ok   cursor color at large
+ok   cursor mono at tiny
+ok   confluence color at large
+ok   confluence mono at tiny
+ok   circleci fallback at each tier
+ok   claude-code fallback at each tier
+ok   codex-cli fallback at each tier
+ok   jenkins color at large
+ok   jenkins color at tiny
+ok   bitbucket color at large
+ok   bitbucket mono at tiny
+ok   azure-devops color at large
+ok   azure-devops mono at tiny
+ok   linear color at large
+ok   linear mono at tiny
+ok   unknown fallback at each tier
+ok   inline demo present
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/brand-marks (dark)
+
+=== control-gallery-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 720x1409 -> 704x1393
+ok   buttons scene names variants
+ok   inputs scene names fields
+ok   surfaces scene names card
+ok   spacing scale --space-1 is 4px
+ok   spacing scale --space-2 is 8px
+ok   spacing scale --space-3 is 12px
+ok   spacing scale --space-4 is 16px
+ok   control pad tokens are 4px / 8px
+ok   sm control pad stays on the 4px grid
+ok   surface pad tokens are 8px / 12px
+ok   focus ring tokens are 2px
+ok   btn hugs label in a column flex
+ok   btn padding collapsed to 4px 8px
+ok   btn.sm padding stays 4px 8px
+ok   text-input padding collapsed to 4px 8px
+ok   select-input padding collapsed to 4px 8px
+ok   select-input.sm padding stays 4px 8px
+ok   field-input padding collapsed to 4px 8px
+ok   repo-policy-input padding collapsed to 4px 8px
+ok   repo-policy-select padding collapsed to 4px 8px
+ok   picker-open padding collapsed to 4px 8px
+ok   card padding collapsed to 8px 12px
+ok   panel-head padding collapsed to 8px 12px
+ok   panel-body padding collapsed to 8px 12px
+ok   account-card padding collapsed to 12px
+ok   repo-policy-field padding collapsed to 8px 12px
+ok   keyboard focus paints a solid accent ring on the button
+ok   keyboard focus paints a solid accent ring on the input
+ok   keyboard focus paints a solid accent ring on select-input
+ok   keyboard focus paints a solid accent ring on picker-open
+ok   keyboard focus paints a solid accent ring on field-input
+ok   keyboard focus paints a solid accent ring on repo-policy-input
+ok   keyboard focus paints a solid accent ring on repo-policy-select
+ok   btn hover uses the accent border
+ok   card hover lifts
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/control-gallery (light)
+trim all-dark.png 720x1409 -> 704x1393
+ok   buttons scene names variants
+ok   inputs scene names fields
+ok   surfaces scene names card
+ok   spacing scale --space-1 is 4px
+ok   spacing scale --space-2 is 8px
+ok   spacing scale --space-3 is 12px
+ok   spacing scale --space-4 is 16px
+ok   control pad tokens are 4px / 8px
+ok   sm control pad stays on the 4px grid
+ok   surface pad tokens are 8px / 12px
+ok   focus ring tokens are 2px
+ok   btn hugs label in a column flex
+ok   btn padding collapsed to 4px 8px
+ok   btn.sm padding stays 4px 8px
+ok   text-input padding collapsed to 4px 8px
+ok   select-input padding collapsed to 4px 8px
+ok   select-input.sm padding stays 4px 8px
+ok   field-input padding collapsed to 4px 8px
+ok   repo-policy-input padding collapsed to 4px 8px
+ok   repo-policy-select padding collapsed to 4px 8px
+ok   picker-open padding collapsed to 4px 8px
+ok   card padding collapsed to 8px 12px
+ok   panel-head padding collapsed to 8px 12px
+ok   panel-body padding collapsed to 8px 12px
+ok   account-card padding collapsed to 12px
+ok   repo-policy-field padding collapsed to 8px 12px
+ok   keyboard focus paints a solid accent ring on the button
+ok   keyboard focus paints a solid accent ring on the input
+ok   keyboard focus paints a solid accent ring on select-input
+ok   keyboard focus paints a solid accent ring on picker-open
+ok   keyboard focus paints a solid accent ring on field-input
+ok   keyboard focus paints a solid accent ring on repo-policy-input
+ok   keyboard focus paints a solid accent ring on repo-policy-select
+ok   btn hover uses the accent border
+ok   card hover lifts
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/control-gallery (dark)
+
+=== roles-sizing-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x13667 -> 868x12717
+trim capable-host.png 852x1530 -> 852x1522
+trim host-disk-reported.png 852x1449 -> 852x545
+trim host-disk-unreported.png 852x1450 -> 852x545
+trim host-disk-wsl.png 852x1450 -> 852x564
+trim host-running-12.png 852x1530 -> 852x1522
+trim host-unavailable.png 852x1531 -> 852x1522
+trim mixed-harness.png 852x1469 -> 852x1389
+trim roles-declined.png 852x1530 -> 852x1522
+trim small-host.png 852x1531 -> 852x1522
+FAIL capable host shows capacity title
+ok   capable host uses size surface
+ok   capable host shows pressure mode control
+ok   capable host hides librarian on size
+FAIL capable host shows host cores
+FAIL capable host suggests six workers
+ok   host running 12 seeds seats at 12
+ok   host running 12 marks seats source host
+ok   capable host explains load gate
+ok   capable host shows max workers per repo
+ok   small host recommends one worker
+FAIL small host shows two cores
+FAIL host unavailable states default
+FAIL host unavailable defaults to two
+FAIL roles declined omits memory if-off restatement
+ok   roles declined uses memory fields
+ok   roles declined hides sizing and pressure mode
+ok   mixed harness warns on librarian
+ok   mixed harness warn says Experimental
+ok   mixed harness librarian is claude-code
+ok   mixed harness uses full surface with gate_autoscale
+ok   mixed harness marks Cursor recommended
+ok   host-disk-wsl steers off /mnt/c
+ok   host-disk-reported keeps POSIX clone-root hint
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/roles-sizing (light)
+roles-sizing-shots.mjs exited 1
+
+=== memory-step-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 900x4688 -> 868x4612
+trim memory-off.png 852x1530 -> 852x1522
+trim memory-on.png 852x1530 -> 852x1519
+trim sources-auth-later.png 852x1531 -> 852x1522
+ok   memory-on shows master toggle
+FAIL memory-on omits advise-only restatement
+FAIL memory-on lead explains Analyst
+ok   memory-on shows source list
+ok   memory-on github ready
+ok   memory-on slack auth later
+ok   memory-off hides sources
+FAIL memory-off shows implement-only
+ok   sources-auth-later github selected
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/memory-step (light)
+memory-step-shots.mjs exited 1
+
+=== pipelines-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 960x7919 -> 928x7863
+trim seeded-catalog.png 912x1527 -> 912x1519
+ok   seeded catalog shows Pipelines step
+FAIL seeded catalog lists Bug template
+FAIL seeded catalog marks seeded origin
+ok   seeded catalog has no routing coverage card
+ok   seeded catalog has no After triage / Resume tabs
+FAIL seeded catalog shows Built-in badge
+FAIL seeded catalog human lead avoids spine jargon
+FAIL seeded catalog lists landing with resume chip
+FAIL seeded catalog shows shape preview
+FAIL seeded catalog summarises long bug spine
+FAIL seeded catalog shows bug whenToUse
+ok   custom scene shows Hotfix lane
+FAIL custom scene marks custom origin
+ok   omitted seed offers Add pipeline
+ok   author form is open
+ok   author form has id field
+ok   duplicate form is open
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/pipelines (light)
+pipelines-shots.mjs exited 1
+
+=== pipeline-editor-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-scene="verify-drop-confirm"]').locator('[data-pipeline-step-kind="verify"] [data-pipeline-step-remove]')
+    - locator resolved to <button type="button" aria-label="Remove Verify" class="icon-btn danger-hover" data-pipeline-step-remove="verify">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at afterScenes (/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/shots/pipeline-editor-shots.mjs:19:91)
+    at runHarnessShots (/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/harness-runner.mjs:291:28)
+    at async file:///Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/shots/pipeline-editor-shots.mjs:11:1 {
+  log: [
+    `  - waiting for locator('[data-scene="verify-drop-confirm"]').locator('[data-pipeline-step-kind="verify"] [data-pipeline-step-remove]')`,
+    '    - locator resolved to <button type="button" aria-label="Remove Verify" class="icon-btn danger-hover" data-pipeline-step-remove="verify">…</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    58 × waiting for element to be visible, enabled and stable',
+    '       - element is not visible',
+    '     - retrying click action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v22.17.0
+pipeline-editor-shots.mjs exited 1
+
+=== integrations-step-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim add-integration.png 772x5650 -> 772x3225
+trim all.png 820x102610 -> 789x100625
+trim ci-surface.png 772x5650 -> 772x875
+trim credential-create.png 772x5650 -> 772x1472
+trim credential-failure.png 772x5650 -> 772x1540
+trim credential-rotation.png 772x5650 -> 772x1472
+trim credential-scopes-bitbucket.png 772x5650 -> 772x1304
+trim credential-scopes-github.png 772x5650 -> 772x1371
+trim custom-author.png 772x5650 -> 772x4144
+trim defaults-accepted.png 772x5650 -> 772x3972
+trim failed-probe.png 772x5650 -> 772x4256
+trim forges-surface.png 772x5650 -> 772x875
+trim github-ready-no-seed.png 772x5650 -> 772x875
+trim jira-401-persists.png 772x5650 -> 772x2338
+trim large-fleet.png 772x5650 -> 772x3776
+trim mixed-fleet.png 772x5650 -> 772x3367
+trim repo-owned.png 772x5650 -> 772x3362
+trim this-fleet.png 772x5649 -> 772x4447
+trim trackers-surface.png 772x5650 -> 772x875
+ok   defaults shows Workq provides
+ok   defaults shows pool credentials
+ok   repo-owned states per-repo credentials
+ok   trackers surface lead
+ok   forges surface lead
+ok   defaults lead avoids unfinished shell
+ok   repo-owned hides jira credentials
+ok   mixed-fleet shows usage on create
+ok   mixed-fleet has no exception badge
+ok   mixed-fleet lists create exception
+ok   add-integration control present
+ok   custom-author shows prompt field
+ok   custom-author mentions skills path
+ok   failed-probe shows invalid_auth
+ok   failed-probe notice is error
+ok   jira-401-persists is Needs auth not Ready
+ok   jira-401-persists does not say ready to use
+ok   jira-401-persists shows error notice
+ok   github-ready-no-seed pill is Ready
+ok   github-ready-no-seed is not Needs auth
+ok   large-fleet has twenty repos in draft
+ok   large-fleet is not a grid of twenty jira radios
+ok   ci-surface lead
+ok   this-fleet GitHub Issues used on workq
+ok   this-fleet CircleCI used on create
+ok   this-fleet Jenkins used on insight
+ok   this-fleet CircleCI needs auth
+ok   this-fleet Jenkins needs auth
+ok   this-fleet has no Fleet answer copy
+ok   credential-create opens Jira form
+ok   credential-scopes-bitbucket shows Verify and fleet scopes
+ok   credential-scopes-github shows Verify and fleet scopes
+ok   credential-rotation prefills non-secret Base URL
+ok   credential-failure keeps editor with rejected notice
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/integrations-step (light)
+
+=== repos-draft-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-scene="url-selected"] [data-forge-change]')
+
+    at afterScenes (/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/shots/repos-draft-shots.mjs:26:75)
+    at async runHarnessShots (/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/harness-runner.mjs:291:22)
+    at async file:///Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/shots/repos-draft-shots.mjs:11:1 {
+  log: [
+    `  - waiting for locator('[data-scene="url-selected"] [data-forge-change]')`
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v22.17.0
+repos-draft-shots.mjs exited 1
+
+=== transcript-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim all.png 980x7830 -> 948x7520
+trim live-idle.png 932x470 -> 932x223
+trim live-running.png 932x470 -> 932x298
+trim nav-selection-before.png 932x470 -> 932x300
+trim nav-selection.png 932x470 -> 932x300
+trim nested-children.png 932x470 -> 932x321
+trim nested-depth2.png 932x470 -> 932x296
+trim stream-polish.png 932x470 -> 932x366
+trim usage-live-tracked.png 932x470 -> 932x224
+trim usage-running.png 932x470 -> 932x223
+trim usage-tracked-claude.png 932x470 -> 932x250
+trim usage-unavailable-abort.png 932x470 -> 932x223
+trim usage-unsupported.png 932x470 -> 932x224
+ok   nav shows Orchestrator + STOPPED + live labels
+ok   only live run is selected (aria-current)
+ok   stopped chrome does not equal active selection
+ok   before scene still shows competing STOPPED border
+ok   stream shows thinking / agent / tool gutters
+ok   stream distinguishes harness elision from credential scrub
+ok   stream shortens worktree absolute paths
+ok   nested Task children indented with titles
+ok   depth-2 lens nests under Self-review with derived duration
+ok   live-running selects the live chip, not the oldest finished
+ok   live-idle selects the newest finished run
+ok   live-history is bounded with Load older affordance
+ok   live-follow-control shows Follow live while a historical run is selected
+ok   live-empty-running distinguishes transcript-starting
+ok   usage-tracked-cursor shows tokens without a dollar figure
+ok   usage-tracked-claude may show USD
+ok   usage-unavailable-abort does not display 0
+ok   usage-unsupported names the gap
+ok   usage-running is pending, not a frozen zero
+ok   usage-live-tracked shows partial tokens while still live
+ok   phone stacks run list above stream
+ok   phone hides runlist resize handle
+ok   phone keeps run picker to one chip row
+ok   phone gives the stream the remaining height
+ok   phone shrinks transcript gutter
+ok   phone lets summaries wrap
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/transcript (light)
+
+=== memory-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim activity-disabled.png 852x950 -> 852x909
+trim activity-empty-running.png 852x950 -> 852x928
+trim activity-empty.png 852x950 -> 852x910
+trim activity-idle.png 852x950 -> 852x928
+trim activity-long.png 852x950 -> 852x928
+trim activity-member.png 852x950 -> 852x928
+trim all.png 900x13103 -> 868x12462
+trim documents-disabled.png 852x770 -> 852x193
+trim documents-empty.png 852x770 -> 852x440
+trim documents-index-missing.png 852x770 -> 852x769
+trim documents-near-cap.png 852x770 -> 852x563
+trim documents-no-users.png 852x770 -> 852x678
+trim documents-unknown.png 852x770 -> 852x192
+trim revisions.png 852x770 -> 852x633
+ok   documents kind filters gap label from count
+ok   documents scene groups Global index
+ok   documents scene groups Repo memory
+ok   documents scene groups User memory
+ok   documents scene shows a repo scope card
+ok   documents scene shows a user card by person name
+ok   documents scene keeps user id as the scope key
+ok   documents scene shows the source pill
+ok   documents scene shows budget fullness
+ok   documents scene shows at-cap sections
+ok   documents scene renders snapshot markdown
+ok   index-missing scene flags missing index
+ok   no-users scene flags missing user memory
+ok   near-cap scene marks the full document
+ok   revisions scene shows a commit chip
+ok   revisions scene shows the summary
+ok   revisions scene has a show-diff control
+ok   revisions scene exposes scope filters
+ok   revisions scene lists a known scope chip
+ok   revisions scene labels user scopes by person name
+ok   empty-enabled scene shows missing scopes
+ok   disabled scene distinguishes librarian off
+ok   unknown scene distinguishes no pool report
+ok   activity scene shows live phase
+ok   activity scene shows Running status
+ok   activity scene shows Logs rail for admin
+FAIL activity rail labels stay unbroken
+FAIL activity selects live run when a pass is running
+ok   activity-idle selects newest finished run
+FAIL activity-empty scene flags never-run
+ok   activity-empty-running waits for first transcript
+ok   activity-disabled scene prefers disabled over stale phase
+FAIL activity-long scene lists many revisions on Timeline
+ok   activity-member scene hides Logs rail
+FAIL activity-member scene labels user memory by person name
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/memory (light)
+memory-shots.mjs exited 1
+
+=== analyst-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+trim activity-disabled.png 912x950 -> 912x910
+trim activity-empty-running.png 912x950 -> 912x909
+trim activity-empty.png 912x950 -> 912x910
+trim activity-idle.png 912x950 -> 912x910
+trim activity-member.png 912x950 -> 912x910
+trim activity.png 912x950 -> 912x909
+trim all.png 980x10609 -> 928x10505
+trim collection-health.png 912x925 -> 912x884
+trim empty.png 912x770 -> 912x400
+trim reports-inbox.png 912x770 -> 912x583
+trim topics-exited.png 912x770 -> 912x695
+trim topics-tracking.png 912x1446 -> 912x1406
+ok   collection scene shows failure distinctly
+ok   collection scene shows quiet separately
+ok   collection scene surfaces the failure error
+ok   tracking scene lists sparse topic
+ok   tracking scene lists gap topic
+ok   tracking scene shows intervention overlay
+ok   tracking scene chart is present
+ok   exited filter is selected
+ok   exited scene shows reasoned exit
+ok   reports inbox lists delivered report
+ok   reports inbox expands markdown body
+ok   reports inbox offers acknowledge
+ok   reports inbox offers escalate
+ok   empty scene says no topics
+ok   activity scene shows live phase
+ok   activity scene shows Running status
+ok   activity scene shows Logs rail for admin
+FAIL activity rail labels stay unbroken
+FAIL activity selects live run when a pass is running
+ok   activity-idle selects newest finished run
+ok   activity-empty scene flags never-run
+FAIL activity-empty-running waits for first transcript
+ok   activity-disabled scene prefers disabled over stale phase
+ok   activity-member scene hides Logs rail
+ok   evidence cursor overlay installed
+shots -> /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/tmp/shots/analyst (light)
+analyst-shots.mjs exited 1
+
+=== cost-shots.mjs ===
+HARNESS_ORIGIN → http://127.0.0.1:51904 (explicit)
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+locator.hover: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-scene="populated"]').locator('.cost-title')
+
+    at afterScenes (/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/shots/cost-shots.mjs:70:44)
+    at async runHarnessShots (/Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/harness-runner.mjs:291:22)
+    at async file:///Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard/scripts/shots/cost-shots.mjs:12:1 {
+  log: [
+    `  - waiting for locator('[data-scene="populated"]').locator('.cost-title')`
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v22.17.0
+cost-shots.mjs exited 1
+npm error Lifecycle script `test:harness` failed with error:
+npm error code 1
+npm error path /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard
+npm error workspace @workq/dashboard@1.2.0
+npm error location /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_4c8e1f53-8e97-47d9-997b-00ce5b930960/apps/dashboard
+npm error command failed
+npm error command sh -c node ./scripts/run-all-harness-shots.mjs
+--- leftover vite ---
+44285 node /Users/kylewesley/workq/node_modules/.bin/vite
+81692 sh -c npm run generate-meta-tag && cross-env ENVIRONMENT=development API_ADDRESS=https://create-dev1.scopeartest.com/api CMS_LOGIN_ADDRESS=https://cms-dev1.scopeartest.com/oauth/authorize bash env.sh && bash npmsetup.sh && vite
+81995 node /private/tmp/create-dev-overlay-live/client/node_modules/.bin/vite
+87243 /bin/bash -O extglob -c snap=$(command cat <&3) && builtin shopt -s extglob && builtin eval -- "$snap" && { builtin set +u 2>/dev/null || true; builtin eval "${__CURSOR_SANDBOX_ENV_RESTORE:-}" 2>/dev/null; builtin export PWD="$(builtin pwd)"; builtin shopt -s expand_aliases 2>/dev/null; builtin eval "$1" < /dev/null; }; COMMAND_EXIT_CODE=$?; dump_bash_state >&4; builtin exit $COMMAND_EXIT_CODE -- SKILLS="${WORKQ_SKILLS_DIR:-.cursor/skills}"
+EV="node $SKILLS/workq-playbook/scripts/evidence.js"
+PIPE="node $SKILLS/workq-playbook/scripts/pipeline.js"
+cd /Users/kylewesley/.workq-pool/bases/workq/worktrees/workq_wi_c749b1b1-c1ea-40d0-82a1-54b42567daa3
+MB=5968521777862d64c3c964223c89f44e9a12d84d
+
+$EV run wi_c749b1b1-c1ea-40d0-82a1-54b42567daa3 --step "Lint & format" \
+  --title "lint:changed + format:check:changed" \
+  --desc "ESLint + Prettier on files changed vs merge-base develop." \
+  -- bash -lc 'npm run lint:changed && npm run format:check:changed'
+
+$EV run wi_c749b1b1-c1ea-40d0-82a1-54b42567daa3 --step "Unit tests" \
+  --title "npm test -- --changed <merge-base>" \
+  --desc "unit gate scoped (RepoPolicy): local Unit tests gate is policy unitStrategy=scoped. Used npm test -- --changed (extra -- required so npm does not strip --changed / treat the SHA as a vitest filter). Full suite still runs at: GitHub Actions CI / Unit tests. Diff-scoped is not equivalent to the full suite." \
+  -- npm test -- --changed "$MB"
+
+$EV run wi_c749b1b1-c1ea-40d0-82a1-54b42567daa3 --step "Integration" \
+
+[exit 1]
+That command exited 1, so it did not verify anything.
+
+Attaching it under a verification step would tell a reviewer the change
+works while showing them that it does not. Fix the failure and re-run.
+
+If the failure is unrelated and you can say why, pass --anyway and put
+the reason in --desc.
+
+Nothing was attached.
