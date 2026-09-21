@@ -1,0 +1,29 @@
+{
+  "scope": "bounded read-only Codex+MCP smoke (no disposable project; identity APIs still unavailable)",
+  "exitCode": 0,
+  "elapsedSeconds": 10.85,
+  "eventTypes": [
+    "item.completed",
+    "item.started",
+    "thread.started",
+    "turn.completed",
+    "turn.started"
+  ],
+  "toolCalls": [
+    {
+      "tool": "worklink_setup",
+      "status": "completed"
+    },
+    {
+      "tool": "worklink_list_active_sessions",
+      "status": "completed"
+    }
+  ],
+  "hasTurnCompleted": true,
+  "limitations": [
+    "No disposable Create project arranged in this slice",
+    "readBrowserSessionIdentity still fails closed (Create TestApi gap)",
+    "Full Cypress acceptance is downstream (wi_2cefcf4b)",
+    "Model identity requested not provider-verified"
+  ]
+}
