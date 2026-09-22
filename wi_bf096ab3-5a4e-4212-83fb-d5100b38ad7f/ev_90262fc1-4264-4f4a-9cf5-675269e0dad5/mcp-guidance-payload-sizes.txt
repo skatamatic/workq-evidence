@@ -1,0 +1,9 @@
+two-call MCP guidance payload sizes (jest fixture playbook)
+shared-first Apply ui+scenario-structure+graph-exploration: 22717 chars
+  entryIds delivered: ui, scenario-structure, graph-exploration
+  role bodies on shared page: none
+  planner in MCP shared: false
+  ui availableSections: recon, fast_executor, codegen
+UI section retrieval (guidanceAgents=those three): 32882 chars
+  planner in MCP sections: false
+  Companion session still has planner on ui: true
