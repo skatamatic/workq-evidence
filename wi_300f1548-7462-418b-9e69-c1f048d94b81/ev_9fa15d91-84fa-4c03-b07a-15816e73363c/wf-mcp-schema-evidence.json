@@ -1,0 +1,82 @@
+{
+  "workflowToolCount": 22,
+  "workflowTools": [
+    "AbortWorkflowRunTo",
+    "ApplyCustomWorkflowBatch",
+    "ClearWorkflowSessionTrace",
+    "CreateCustomWorkflow",
+    "DeleteCustomWorkflow",
+    "DuplicateCustomWorkflow",
+    "GetWorkflow",
+    "GetWorkflowAuthoringCatalog",
+    "InspectWorkflowSession",
+    "ListActiveWorkflowSessions",
+    "ListStepWorkflows",
+    "RenameCustomWorkflow",
+    "RestartWorkflowSession",
+    "RunToWorkflowNode",
+    "SetWorkflowSessionAutoPlaying",
+    "SetWorkflowSessionProbeLive",
+    "SetWorkflowSessionStartWithStepping",
+    "SetWorkflowSessionStateValue",
+    "SetWorkflowSessionStepping",
+    "StepWorkflowSession",
+    "UpdateCustomWorkflowConfig",
+    "ValidateWorkflowConfig"
+  ],
+  "workflowTypeCount": 31,
+  "workflowTypes": [
+    "ApplyCustomWorkflowBatchOptions",
+    "ApplyCustomWorkflowBatchResult",
+    "CreateCustomWorkflowApiOptions",
+    "CustomWorkflowBatchOperation",
+    "CustomWorkflowMutationResult",
+    "DeleteCustomWorkflowApiOptions",
+    "DuplicateCustomWorkflowApiOptions",
+    "GetWorkflowResult",
+    "InspectWorkflowSessionResult",
+    "ListActiveWorkflowSessionsResult",
+    "ListStepWorkflowsResult",
+    "RenameCustomWorkflowApiOptions",
+    "RunToWorkflowNodeOptions",
+    "SetWorkflowSessionFlagOptions",
+    "SetWorkflowSessionStateOptions",
+    "SetWorkflowStartWithSteppingOptions",
+    "UpdateCustomWorkflowApiOptions",
+    "ValidateWorkflowConfigApiOptions",
+    "ValidateWorkflowConfigApiResult",
+    "WorkflowAuthoringCatalogResult",
+    "WorkflowCatalogFieldSummary",
+    "WorkflowCatalogKindSummary",
+    "WorkflowConfigPayload",
+    "WorkflowListEntry",
+    "WorkflowRuntimeExecutionStatus",
+    "WorkflowRuntimeSessionIdentity",
+    "WorkflowRuntimeSessionOptions",
+    "WorkflowRuntimeSessionSummary",
+    "WorkflowRuntimeSoftResult",
+    "WorkflowRuntimeStateEntry",
+    "WorkflowRuntimeTraceEntrySummary"
+  ],
+  "WorkflowConfigPayload": "{\n\tname: string;\n\tstartNodeId: string;\n\tnodes: object[];\n\tstate: object;\n\tbindings: object[];\n\tbindingTemplates?: object;\n}",
+  "CreateCustomWorkflow": {
+    "options": {
+      "type": "CreateCustomWorkflowApiOptions",
+      "optional": false,
+      "description": "step (required), optional label, preferredRuntimeName, config, validate."
+    }
+  },
+  "ValidateWorkflowConfig": {
+    "config": {
+      "type": "WorkflowConfigPayload",
+      "optional": false,
+      "description": "Portable WorkflowConfig candidate (name, startNodeId, nodes, state, bindings, optional bindingTemplates). Discover kinds via GetWorkflowAuthoringCatalog."
+    },
+    "options": {
+      "type": "ValidateWorkflowConfigApiOptions",
+      "optional": true,
+      "description": "host, checkNameUniqueness, excludeEntryId, reportUnknownFields."
+    }
+  },
+  "campaignRevHint": "e7b1ce4586"
+}
