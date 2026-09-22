@@ -1,0 +1,57 @@
+{
+  "before": {
+    "note": "worklink://tools/RemoveStep previously exposed only MCP inputSchema {steps}; no script signature",
+    "RemoveStep": {
+      "inputSchema": {
+        "properties": {
+          "steps": {}
+        }
+      }
+    }
+  },
+  "after": {
+    "RemoveStep": {
+      "inputSchema": {
+        "properties": {
+          "steps": {}
+        },
+        "required": [
+          "steps"
+        ]
+      },
+      "invocation": {
+        "directMcp": {
+          "style": "namedArguments"
+        },
+        "scriptCall": {
+          "available": true,
+          "signature": "RemoveStep(steps: Step | string | MinifiedStorableRef | Array<Step | string | MinifiedStorableRef>): void"
+        }
+      }
+    },
+    "EditStepUI": {
+      "invocation": {
+        "scriptCall": {
+          "available": true,
+          "signature": "EditStepUI(step: Step | string, options?: { … }): Promise<void>"
+        }
+      }
+    },
+    "SetObjectPosition": {
+      "invocation": {
+        "scriptCall": {
+          "available": true,
+          "signature": "SetObjectPosition(options: SetObjectPositionOptions): void"
+        }
+      }
+    },
+    "serverTool": {
+      "invocation": {
+        "scriptCall": {
+          "available": false,
+          "reason": "Server-only tool — not available inside ExecuteWorklinkScript."
+        }
+      }
+    }
+  }
+}
