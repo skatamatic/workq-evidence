@@ -1,0 +1,1370 @@
+diff --git a/docs/workflow-scenario-port.md b/docs/workflow-scenario-port.md
+index 62154f1..8fa0736 100644
+--- a/docs/workflow-scenario-port.md
++++ b/docs/workflow-scenario-port.md
+@@ -22,6 +22,56 @@ the default Maven `test` phase:
+   a spoofed `initiator`. Anonymous start is denied without process/task/history
+   mutation. A separate direct-completion test preserves the parallel join/end
+   **engine routing check**; it does not prove form or completion permissions.
++- `FormAppFormSubmissionScenarioTest` publishes the archive's BPMN and forms via
++  `FormAppArchiveService`, starts through Insight, and submits all ten department
++  arms through `FormService`. Missing required values, dropdown placeholders,
++  missing required table cells, anonymous users, and a named non-assignee are
++  refused with the tasks and process variables unchanged. Historic variables
++  pin the legacy arm-specific field IDs, including `user_assignee_owner_mp2`.
++
++### Supported FormApp submission boundary
++
++`FormAppArchiveService.deploy(InputStream)` supports the FormApp `FormProcess`
++archive only. Publication reads numeric form IDs from `form-models/<name>-<id>.json`
++filenames (not the JSON `referenceId`) and stores an immutable
++`insight-form-mappings.json` alias map alongside `forms/FormApp/<name>.json`
++resources in the same process-engine deployment. BPMN references remain numeric;
++runtime resolution uses the task's process-definition deployment, so publishing
++a later version cannot change a running task's form. Ordinary draft app
++publication does not import these archive forms.
++
++`FormService.getFormData(taskId, processDefinitionId)` exposes the stable form
++key, flattened container fields, required flags, current values, dropdown options,
++and table column definitions. The optional process-definition ID must match the
++task. Only the authenticated Insight assignee can read or submit the task form.
++`submitForm` accepts values by declared editable field ID and validates the entire
++request before one Flowable completion command writes those variables. Required
++values cannot be absent, null, blank, or empty; dropdown choices must use a
++declared non-placeholder option ID (a string or `{id: ...}`); dynamic tables are
++lists of row maps with every required column present and nonempty. Dates use ISO
++dates or offset timestamps, and people use an object with an ID. Arm fields map
++directly to process-variable IDs, preserving the legacy golden spine's payloads.
++
++This slice does not implement start-form submission/variable mapping, general
++Kickstart app import or app-engine/identity metadata, visibility expressions,
++REST-backed options, people-directory lookup, field length/range/regex constraints,
++table cell types/options, attachment/content mapping, PDF rendering, listeners,
++candidate/delegated-task permissions, or general draft-editor form publication.
++Readonly mirrors are exposed from their declared process-variable binding and
++cannot be submitted. Static required flags are enforced regardless of visibility.
++The separate engine-only completion path remains outside this form contract.
++The preflight inventory continues to report static publication gaps; it is not a
++behavioral certification. Follow the repository quality bar (Unit tests and
++Build locally, then the exact-head Jenkins/Sonar PR gates).
++
++Focused form checks:
++
++```bash
++JAVA_TOOL_OPTIONS=-Djava.awt.headless=true JAVA_HOME=/path/to/jdk-21 \
++  mvn -o -s /path/to/maven-settings.xml -pl insight-rest -am \
++  -Dtest=FormAppFormSubmissionScenarioTest,ArchiveFormDefinitionTest,FormAppArchiveServiceTest,FormAppFormControllerTest \
++  -Dsurefire.failIfNoSpecifiedTests=false test
++```
+ 
+ Run the ported slice with Java 21 and the existing Maven settings:
+ 
+diff --git a/insight-api/src/main/java/com/flatirons/insight/model/response/IFormFieldResponse.java b/insight-api/src/main/java/com/flatirons/insight/model/response/IFormFieldResponse.java
+index 8d03704..523a5d0 100644
+--- a/insight-api/src/main/java/com/flatirons/insight/model/response/IFormFieldResponse.java
++++ b/insight-api/src/main/java/com/flatirons/insight/model/response/IFormFieldResponse.java
+@@ -5,10 +5,15 @@
+  */
+ package com.flatirons.insight.model.response;
+ 
++import java.util.List;
++import java.util.Map;
++
+ public interface IFormFieldResponse {
+     String getId();
+     String getName();
+     String getType();
+     Boolean getRequired();
+     Object getValue();
++    List<Map<String, Object>> getOptions();
++    List<Map<String, Object>> getColumnDefinitions();
+ }
+diff --git a/insight-model/src/main/java/com/flatirons/insight/model/response/FormFieldResponse.java b/insight-model/src/main/java/com/flatirons/insight/model/response/FormFieldResponse.java
+index 6666e06..89c28db 100644
+--- a/insight-model/src/main/java/com/flatirons/insight/model/response/FormFieldResponse.java
++++ b/insight-model/src/main/java/com/flatirons/insight/model/response/FormFieldResponse.java
+@@ -5,12 +5,33 @@
+  */
+ package com.flatirons.insight.model.response;
+ 
++import java.util.List;
++import java.util.Map;
++
+ public class FormFieldResponse implements IFormFieldResponse {
+     private String id;
+     private String name;
+     private String type;
+     private Boolean required;
+     private Object value;
++    private List<Map<String, Object>> options;
++    private List<Map<String, Object>> columnDefinitions;
++
++    public List<Map<String, Object>> getOptions() {
++        return options;
++    }
++
++    public void setOptions(List<Map<String, Object>> options) {
++        this.options = options;
++    }
++
++    public List<Map<String, Object>> getColumnDefinitions() {
++        return columnDefinitions;
++    }
++
++    public void setColumnDefinitions(List<Map<String, Object>> columnDefinitions) {
++        this.columnDefinitions = columnDefinitions;
++    }
+ 
+     public String getId() {
+         return id;
+diff --git a/insight-rest/pom.xml b/insight-rest/pom.xml
+index ebe98c1..f60b63f 100644
+--- a/insight-rest/pom.xml
++++ b/insight-rest/pom.xml
+@@ -47,6 +47,11 @@
+       <artifactId>spring-boot-starter-test</artifactId>
+       <scope>test</scope>
+     </dependency>
++    <dependency>
++      <groupId>com.h2database</groupId>
++      <artifactId>h2</artifactId>
++      <scope>test</scope>
++    </dependency>
+     <dependency>
+         <groupId>org.testcontainers</groupId>
+         <artifactId>postgresql</artifactId>
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java
+index de0d696..ccb83e5 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java
+@@ -6,18 +6,139 @@ package com.flatirons.insight.service.runtime;
+ import com.flatirons.insight.model.request.IFormSubmitRequest;
+ import com.flatirons.insight.model.response.IFormDataResponse;
+ import com.flatirons.insight.model.response.IProcessInstanceResponse;
++import com.flatirons.insight.model.response.FormDataResponse;
++import com.flatirons.insight.model.response.ProcessInstanceResponse;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.security.InsightAppUser;
++import com.flatirons.insight.security.SecurityUtils;
++import com.flatirons.insight.service.editor.FormAppArchiveService;
++import com.flatirons.insight.service.exception.BadRequestException;
++import com.flatirons.insight.service.exception.NotFoundException;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import java.io.IOException;
++import java.io.InputStream;
++import java.util.Objects;
++import org.flowable.engine.RepositoryService;
++import org.flowable.engine.RuntimeService;
++import org.flowable.engine.HistoryService;
++import org.flowable.engine.TaskService;
++import org.flowable.task.api.Task;
++import org.flowable.task.api.DelegationState;
++import org.springframework.security.access.AccessDeniedException;
+ import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
+ 
+ @Service
+ public class FormServiceImpl implements FormService {
++    private final TaskService taskService;
++    private final RepositoryService repositoryService;
++    private final RuntimeService runtimeService;
++    private final HistoryService historyService;
++    private final ObjectMapper objectMapper;
++
++    public FormServiceImpl(TaskService taskService, RepositoryService repositoryService,
++                           RuntimeService runtimeService, HistoryService historyService,
++                           ObjectMapper objectMapper) {
++        this.taskService = taskService;
++        this.repositoryService = repositoryService;
++        this.runtimeService = runtimeService;
++        this.historyService = historyService;
++        this.objectMapper = objectMapper;
++    }
+ 
+     @Override
+     public IFormDataResponse getFormData(String taskId, String processDefinitionId) {
+-        return null;
++        Task task = ownedTask(taskId, processDefinitionId);
++        ResolvedForm form = resolveForm(task);
++        FormDataResponse response = new FormDataResponse();
++        response.setTaskId(task.getId());
++        response.setProcessDefinitionId(task.getProcessDefinitionId());
++        response.setFormKey(form.key());
++        response.setFields(form.definition().responses(runtimeService.getVariables(task.getProcessInstanceId())));
++        return response;
+     }
+ 
+     @Override
++    @Transactional
+     public IProcessInstanceResponse submitForm(IFormSubmitRequest submitRequest) {
+-        return null;
++        if (submitRequest == null || submitRequest.getBusinessKey() != null) {
++            throw new BadRequestException("Only task form submissions are supported");
++        }
++        Task task = ownedTask(submitRequest.getTaskId(), submitRequest.getProcessDefinitionId());
++        ResolvedForm form = resolveForm(task);
++        var values = form.definition().validatedValues(submitRequest.getValues());
++        var instance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
++        ProcessInstanceResponse response = new ProcessInstanceResponse(instance, false, null);
++        // Flowable persists the validated variables and completion in one engine command/transaction.
++        taskService.complete(task.getId(), task.getAssignee(), values);
++        var historic = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
++        response.setEnded(historic.getEndTime());
++        response.setStatus(historic.getEndTime() == null ? "running" : "ended");
++        return response;
+     }
++
++    private Task ownedTask(String taskId, String processDefinitionId) {
++        if (taskId == null || taskId.isBlank()) {
++            throw new BadRequestException("A task id is required; start forms are not supported");
++        }
++        String username = authenticatedUsername();
++        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
++        if (task == null) {
++            throw new NotFoundException("Task not found: " + taskId);
++        }
++        if (!username.equals(task.getAssignee())) {
++            throw new AccessDeniedException("Only the task assignee may access or submit its form");
++        }
++        if (task.isSuspended() || task.getDelegationState() == DelegationState.PENDING) {
++            throw new BadRequestException("Task is suspended or awaiting delegation resolution");
++        }
++        if (processDefinitionId != null && !Objects.equals(processDefinitionId, task.getProcessDefinitionId())) {
++            throw new BadRequestException("Process definition does not match the task");
++        }
++        return task;
++    }
++
++    private String authenticatedUsername() {
++        var authentication = SecurityUtils.getAuthentication();
++        String username = null;
++        Long userId = null;
++        if (authentication != null && authentication.isAuthenticated()) {
++            if (authentication.getPrincipal() instanceof InsightUserDetails user) {
++                username = user.getUsername();
++                userId = user.getUserId();
++            } else if (authentication.getPrincipal() instanceof InsightAppUser user) {
++                username = user.getUsername();
++                userId = user.getId();
++            }
++        }
++        if (userId == null || username == null || username.isBlank()) {
++            throw new AccessDeniedException("An authenticated Insight assignee is required");
++        }
++        return username;
++    }
++
++    private ResolvedForm resolveForm(Task task) {
++        var definition = repositoryService.getProcessDefinition(task.getProcessDefinitionId());
++        String deploymentId = definition.getDeploymentId();
++        if (task.getFormKey() == null || !repositoryService.getDeploymentResourceNames(deploymentId)
++                .contains(FormAppArchiveService.MAPPINGS_RESOURCE)) {
++            throw new BadRequestException("Process has no supported archive form mapping");
++        }
++        try (InputStream mapping = repositoryService.getResourceAsStream(deploymentId, FormAppArchiveService.MAPPINGS_RESOURCE)) {
++            String key = objectMapper.readTree(mapping).path(task.getFormKey()).asText();
++            if (key.isBlank()) {
++                throw new BadRequestException("Unresolved task form reference: " + task.getFormKey());
++            }
++            if (!repositoryService.getDeploymentResourceNames(deploymentId).contains(FormAppArchiveService.formResource(key))) {
++                throw new BadRequestException("Deployed form resource is missing: " + key);
++            }
++            try (InputStream resource = repositoryService.getResourceAsStream(deploymentId, FormAppArchiveService.formResource(key))) {
++                return new ResolvedForm(key, new ArchiveFormDefinition(objectMapper.readTree(resource), objectMapper));
++            }
++        } catch (IOException ex) {
++            throw new BadRequestException("Cannot read deployed form resource", ex);
++        }
++    }
++
++    private record ResolvedForm(String key, ArchiveFormDefinition definition) {}
+ }
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/editor/FormAppArchiveService.java b/insight-service/src/main/java/com/flatirons/insight/service/editor/FormAppArchiveService.java
+new file mode 100644
+index 0000000..3c8a72d
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/editor/FormAppArchiveService.java
+@@ -0,0 +1,135 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ */
++package com.flatirons.insight.service.editor;
++
++import java.io.ByteArrayInputStream;
++import java.io.IOException;
++import java.io.InputStream;
++import java.util.LinkedHashMap;
++import java.util.Map;
++import java.util.regex.Pattern;
++import java.util.zip.ZipEntry;
++import java.util.zip.ZipInputStream;
++
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.service.exception.BadRequestException;
++import org.flowable.bpmn.converter.BpmnXMLConverter;
++import org.flowable.bpmn.model.StartEvent;
++import org.flowable.bpmn.model.UserTask;
++import org.flowable.engine.RepositoryService;
++import org.flowable.engine.repository.Deployment;
++import org.springframework.stereotype.Service;
++
++/** Publishes the FormApp BPMN and its immutable, deployment-local form aliases. */
++@Service
++public class FormAppArchiveService {
++    public static final String MAPPINGS_RESOURCE = "insight-form-mappings.json";
++    private static final Pattern FORM_RESOURCE = Pattern.compile("form-models/([A-Za-z0-9_-]+)-(\\d+)\\.json");
++    private static final int MAX_ENTRY_BYTES = 8 * 1024 * 1024;
++    private static final int MAX_ARCHIVE_BYTES = 32 * 1024 * 1024;
++
++    private final RepositoryService repositoryService;
++    private final ObjectMapper objectMapper;
++
++    public FormAppArchiveService(RepositoryService repositoryService, ObjectMapper objectMapper) {
++        this.repositoryService = repositoryService;
++        this.objectMapper = objectMapper;
++    }
++
++    public Deployment deploy(InputStream archive) {
++        Map<String, byte[]> entries = readEntries(archive);
++        Map<String, byte[]> resources = new LinkedHashMap<>();
++        Map<String, String> aliases = new LinkedHashMap<>();
++        var processes = entries.entrySet().stream()
++                .filter(entry -> entry.getKey().endsWith(".bpmn20.xml")).toList();
++        if (processes.size() != 1) {
++            throw new BadRequestException("FormApp archive must contain one BPMN resource");
++        }
++        entries.forEach((name, bytes) -> addForm(name, bytes, resources, aliases));
++        byte[] bpmn = processes.getFirst().getValue();
++        validateReferences(bpmn, aliases);
++        try {
++            resources.put(MAPPINGS_RESOURCE, objectMapper.writeValueAsBytes(aliases));
++        } catch (IOException ex) {
++            throw new BadRequestException("Cannot serialize FormApp mappings", ex);
++        }
++        var builder = repositoryService.createDeployment().key("FormApp").name("FormApp");
++        resources.forEach(builder::addBytes);
++        return builder.addBytes("FormProcess.bpmn20.xml", bpmn).deploy();
++    }
++
++    private Map<String, byte[]> readEntries(InputStream archive) {
++        if (archive == null) {
++            throw new BadRequestException("A FormApp archive is required");
++        }
++        Map<String, byte[]> entries = new LinkedHashMap<>();
++        int totalBytes = 0;
++        try (ZipInputStream zip = new ZipInputStream(archive)) {
++            ZipEntry entry;
++            while ((entry = zip.getNextEntry()) != null) {
++                if (entry.isDirectory()) {
++                    continue;
++                }
++                byte[] bytes = zip.readNBytes(MAX_ENTRY_BYTES + 1);
++                totalBytes += bytes.length;
++                if (bytes.length > MAX_ENTRY_BYTES || totalBytes > MAX_ARCHIVE_BYTES) {
++                    throw new BadRequestException("FormApp archive exceeds supported size");
++                }
++                if (entries.putIfAbsent(entry.getName(), bytes) != null) {
++                    throw new BadRequestException("Duplicate archive entry: " + entry.getName());
++                }
++            }
++            return entries;
++        } catch (IOException ex) {
++            throw new BadRequestException("Cannot read FormApp archive", ex);
++        }
++    }
++
++    private void addForm(String name, byte[] bytes, Map<String, byte[]> resources, Map<String, String> aliases) {
++        var match = FORM_RESOURCE.matcher(name);
++        if (!match.matches()) {
++            return;
++        }
++        JsonNode form;
++        try {
++            form = objectMapper.readTree(bytes);
++        } catch (IOException ex) {
++            throw new BadRequestException("Cannot read form resource: " + name, ex);
++        }
++        if (form == null || !form.path("editorJson").path("fields").isArray()) {
++            throw new BadRequestException("Invalid form resource: " + name);
++        }
++        String key = "FormApp/" + match.group(1);
++        if (aliases.putIfAbsent(match.group(2), key) != null
++                || resources.putIfAbsent(formResource(key), bytes) != null) {
++            throw new BadRequestException("Duplicate form alias: " + name);
++        }
++    }
++
++    public static String formResource(String key) {
++        return "forms/" + key + ".json";
++    }
++
++    private void validateReferences(byte[] bpmn, Map<String, String> aliases) {
++        var model = new BpmnXMLConverter().convertToBpmnModel(() -> new ByteArrayInputStream(bpmn), false, true);
++        if (model.getProcesses().size() != 1 || !"FormProcess".equals(model.getMainProcess().getId())) {
++            throw new BadRequestException("Only the FormApp FormProcess archive is supported");
++        }
++        for (UserTask task : model.getMainProcess().findFlowElementsOfType(UserTask.class)) {
++            requireAlias(task.getFormKey(), aliases);
++        }
++        for (StartEvent start : model.getMainProcess().findFlowElementsOfType(StartEvent.class)) {
++            if (start.getFormKey() != null && !start.getFormKey().isBlank()) {
++                requireAlias(start.getFormKey(), aliases);
++            }
++        }
++    }
++
++    private void requireAlias(String reference, Map<String, String> aliases) {
++        if (!aliases.containsKey(reference)) {
++            throw new BadRequestException("Unresolved archive form reference: " + reference);
++        }
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java
+new file mode 100644
+index 0000000..0cfbfd3
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java
+@@ -0,0 +1,173 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ */
++package com.flatirons.insight.service.runtime;
++
++import java.time.LocalDate;
++import java.time.OffsetDateTime;
++import java.time.format.DateTimeParseException;
++import java.util.ArrayList;
++import java.util.Collection;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.model.response.FormFieldResponse;
++import com.flatirons.insight.service.exception.BadRequestException;
++
++/** The supported FormApp value contract; container layout does not become variables. */
++final class ArchiveFormDefinition {
++    private static final Set<String> WRITABLE_TYPES = Set.of("text", "multi-line-text", "date", "people", "dropdown", "dynamic-table");
++    private final Map<String, JsonNode> fields = new LinkedHashMap<>();
++    private final ObjectMapper objectMapper;
++
++    ArchiveFormDefinition(JsonNode form, ObjectMapper objectMapper) {
++        this.objectMapper = objectMapper;
++        JsonNode formFields = form.path("editorJson").path("fields");
++        if (!formFields.isArray()) {
++            throw new BadRequestException("Invalid deployed form fields");
++        }
++        collectFields(formFields);
++    }
++
++    private void collectFields(JsonNode nodes) {
++        for (JsonNode field : nodes) {
++            if ("ContainerRepresentation".equals(field.path("fieldType").asText())) {
++                for (JsonNode column : field.path("fields")) {
++                    collectFields(column);
++                }
++            } else {
++                String id = field.path("id").asText();
++                if (id.isBlank() || fields.putIfAbsent(id, field) != null) {
++                    throw new BadRequestException("Invalid or duplicate deployed field id: " + id);
++                }
++            }
++        }
++    }
++
++    List<FormFieldResponse> responses(Map<String, Object> variables) {
++        List<FormFieldResponse> result = new ArrayList<>();
++        fields.forEach((id, field) -> {
++            FormFieldResponse response = new FormFieldResponse();
++            response.setId(id);
++            response.setName(field.path("name").asText());
++            response.setType(field.path("type").asText());
++            response.setRequired(field.path("required").asBoolean());
++            String variable = field.path("params").path("field").path("id").asText(id);
++            Object value = variables.containsKey(variable) ? variables.get(variable)
++                    : objectMapper.convertValue(field.get("value"), Object.class);
++            response.setValue(value);
++            response.setOptions(schema(field.get("options")));
++            response.setColumnDefinitions(schema(field.get("columnDefinitions")));
++            result.add(response);
++        });
++        return result;
++    }
++
++    private List<Map<String, Object>> schema(JsonNode node) {
++        if (node == null || !node.isArray()) {
++            return List.of();
++        }
++        return objectMapper.convertValue(node, new com.fasterxml.jackson.core.type.TypeReference<>() {});
++    }
++
++    Map<String, Object> validatedValues(Map<String, Object> submitted) {
++        Map<String, Object> values = submitted == null ? Map.of() : new LinkedHashMap<>(submitted);
++        for (String id : values.keySet()) {
++            JsonNode field = fields.get(id);
++            if (field == null || !writable(field)) {
++                throw new BadRequestException("Unknown or read-only form field: " + id);
++            }
++        }
++        fields.forEach((id, field) -> {
++            Object value = values.get(id);
++            if (field.path("required").asBoolean() && empty(value)) {
++                throw new BadRequestException("Required form field: " + id);
++            }
++            if (values.containsKey(id) && !empty(value)) {
++                validateValue(id, field, value);
++            }
++        });
++        // Return only submitted, declared field IDs: no arbitrary process-variable writes.
++        return values;
++    }
++
++    private boolean writable(JsonNode field) {
++        return !field.path("readOnly").asBoolean() && WRITABLE_TYPES.contains(field.path("type").asText());
++    }
++
++    private void validateValue(String id, JsonNode field, Object value) {
++        switch (field.path("type").asText()) {
++            case "dropdown" -> validateOption(id, field, value);
++            case "dynamic-table" -> validateTable(id, field, value);
++            case "date" -> validateDate(id, value);
++            case "people" -> {
++                if (!(value instanceof Map<?, ?> person) || empty(person.get("id"))) {
++                    throw new BadRequestException("Expected a person with an id for: " + id);
++                }
++            }
++            case "text", "multi-line-text" -> {
++                if (!(value instanceof String)) {
++                    throw new BadRequestException("Expected text for: " + id);
++                }
++            }
++        }
++    }
++
++    private void validateDate(String id, Object value) {
++        if (value instanceof String date) {
++            try {
++                LocalDate.parse(date);
++                return;
++            } catch (DateTimeParseException ex) {
++                // Legacy date controls submit an ISO instant; date-only controls are also supported.
++            }
++            try {
++                OffsetDateTime.parse(date);
++                return;
++            } catch (DateTimeParseException ex) {
++                throw new BadRequestException("Expected an ISO date for: " + id);
++            }
++        }
++        throw new BadRequestException("Expected an ISO date for: " + id);
++    }
++
++    private void validateOption(String id, JsonNode field, Object value) {
++        Object selected = value instanceof Map<?, ?> option ? option.get("id") : value;
++        if (!(selected instanceof String selectedId) || "empty".equals(selectedId)) {
++            throw new BadRequestException("Invalid form option: " + id);
++        }
++        for (JsonNode option : field.path("options")) {
++            if (selectedId.equals(option.path("id").asText())) {
++                return;
++            }
++        }
++        throw new BadRequestException("Invalid form option: " + id);
++    }
++
++    private void validateTable(String id, JsonNode field, Object value) {
++        if (!(value instanceof List<?> rows)) {
++            throw new BadRequestException("Expected table rows for: " + id);
++        }
++        for (Object rowValue : rows) {
++            if (!(rowValue instanceof Map<?, ?> row)) {
++                throw new BadRequestException("Expected a table row for: " + id);
++            }
++            for (JsonNode column : field.path("columnDefinitions")) {
++                String columnId = column.path("id").asText();
++                if (column.path("required").asBoolean() && empty(row.get(columnId))) {
++                    throw new BadRequestException("Required table column: " + id + "." + columnId);
++                }
++            }
++        }
++    }
++
++    private static boolean empty(Object value) {
++        return value == null || value instanceof String text && text.isBlank()
++                || value instanceof Collection<?> collection && collection.isEmpty()
++                || value instanceof Map<?, ?> map && map.isEmpty();
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java
+new file mode 100644
+index 0000000..baaeff5
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java
+@@ -0,0 +1,405 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ */
++package com.flatirons.insight.scenario;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.mock;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.model.request.FormSubmitRequest;
++import com.flatirons.insight.model.request.ProcessInstanceStartRequest;
++import com.flatirons.insight.service.editor.FormAppArchiveService;
++import com.flatirons.insight.service.exception.BadRequestException;
++import com.flatirons.insight.service.exception.NotFoundException;
++import com.flatirons.insight.domain.UserEntity;
++import com.flatirons.insight.security.InsightAppUser;
++import org.junit.jupiter.params.provider.ValueSource;
++import com.flatirons.insight.service.runtime.FormServiceImpl;
++import com.flatirons.insight.service.runtime.ProcessInstanceServiceImpl;
++import com.flatirons.insight.service.runtime.UserCache;
++import com.flatirons.insight.service.runtime.UserService;
++import java.io.InputStream;
++import java.io.ByteArrayInputStream;
++import java.io.ByteArrayOutputStream;
++import java.util.zip.ZipEntry;
++import java.util.zip.ZipInputStream;
++import java.util.zip.ZipOutputStream;
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.node.ObjectNode;
++import java.util.stream.Stream;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.MethodSource;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Map;
++import org.flowable.engine.runtime.ProcessInstance;
++import org.flowable.task.api.Task;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.Test;
++import org.springframework.security.access.AccessDeniedException;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.context.SecurityContextHolder;
++
++class FormAppFormSubmissionScenarioTest extends FlowableScenarioTestBase {
++    private static final String STARTER = "admin@app.insight.com";
++    private static final String DATE = "2017-03-15T12:00:00.000Z";
++
++    @AfterEach
++    void clearIdentity() {
++        SecurityContextHolder.clearContext();
++    }
++
++    private void authenticate(String username) {
++        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
++                new InsightUserDetails(username, 42L, List.of(), List.of()), null, List.of()));
++    }
++
++    private ProcessInstance start() throws Exception {
++        try (InputStream archive = getClass().getClassLoader().getResourceAsStream(
++                "scenarios/customers/form-app/app.zip")) {
++            assertThat(archive).isNotNull();
++            new FormAppArchiveService(processEngine.getRepositoryService(), new ObjectMapper()).deploy(archive);
++        }
++        return startPublished();
++    }
++
++    private ProcessInstance startPublished() {
++        authenticate(STARTER);
++        ProcessInstanceStartRequest request = new ProcessInstanceStartRequest();
++        request.setProcessDefinitionKey("FormProcess");
++        request.setVariables(Map.of("businessValue", "unchanged"));
++        var started = new ProcessInstanceServiceImpl(processEngine.getRuntimeService(), processEngine.getHistoryService(),
++                mock(UserCache.class), mock(UserService.class), null, null, null, null,
++                processEngine.getRepositoryService()).startProcessInstance(request);
++        return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(started.getId()).singleResult();
++    }
++
++    private FormServiceImpl forms() {
++        return new FormServiceImpl(processEngine.getTaskService(), processEngine.getRepositoryService(),
++                processEngine.getRuntimeService(), processEngine.getHistoryService(), new ObjectMapper());
++    }
++
++    private Task task(String name) {
++        return processEngine.getTaskService().createTaskQuery().taskName(name).singleResult();
++    }
++
++    private void submit(Task task, Map<String, Object> values) {
++        FormSubmitRequest request = new FormSubmitRequest();
++        request.setTaskId(task.getId());
++        request.setValues(values);
++        forms().submitForm(request);
++    }
++
++    @Test
++    void allTenArmsSubmitTheirLegacyFieldsAndJoin() throws Exception {
++        ProcessInstance instance = start();
++        Map<String, Map<String, Object>> expected = armValues();
++        assertThat(processEngine.getTaskService().createTaskQuery().list()).hasSize(10);
++        for (Map.Entry<String, Map<String, Object>> arm : expected.entrySet()) {
++            Task task = task(arm.getKey());
++            assertThat(task.getAssignee()).isEqualTo(STARTER);
++            var data = forms().getFormData(task.getId(), null);
++            assertThat(data.getFormKey()).isEqualTo("FormApp/" + arm.getKey());
++            assertThat(data.getTaskId()).isEqualTo(task.getId());
++            assertThat(data.getFields()).extracting(field -> field.getId()).containsAll(arm.getValue().keySet());
++            submit(task, arm.getValue());
++            assertThat(processEngine.getTaskService().createTaskQuery().taskId(task.getId()).singleResult()).isNull();
++        }
++        expectEnded(instance);
++        for (Map<String, Object> values : expected.values()) {
++            values.forEach((field, value) -> assertThat(processEngine.getHistoryService()
++                    .createHistoricVariableInstanceQuery().processInstanceId(instance.getId())
++                    .variableName(field).singleResult().getValue()).as(field).isEqualTo(value));
++        }
++        assertThat(expected.get("MaintenanceProgram2")).containsKey("user_assignee_owner_mp2")
++                .doesNotContainKey("user_assignee_mp2");
++    }
++
++    @Test
++    void missingRequiredFieldCannotCompleteOrWriteVariables() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        Map<String, Object> values = new LinkedHashMap<>(armValues().get("Reliability"));
++        values.remove("due_date_reliability");
++        assertRefusedUnchanged(instance, task, values, BadRequestException.class);
++        submit(task, armValues().get("Reliability"));
++        assertThat(processEngine.getTaskService().createTaskQuery().count()).isEqualTo(9);
++    }
++
++    @Test
++    void dropdownPlaceholderCannotSatisfyRequiredAction() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Review");
++        Map<String, Object> values = new LinkedHashMap<>(armValues().get("Review"));
++        values.put("action_review", "empty");
++        assertRefusedUnchanged(instance, task, values, BadRequestException.class);
++    }
++
++    @Test
++    void requiredTableColumnCannotBeOmitted() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("MaterialsManagement");
++        Map<String, Object> values = new LinkedHashMap<>(armValues().get("MaterialsManagement"));
++        values.put("materials_materials_management", List.of(Map.of("material_part_number", "PN-1")));
++        assertRefusedUnchanged(instance, task, values, BadRequestException.class);
++    }
++
++    @Test
++    void namedIntruderAndAnonymousActorCannotReadOrSubmitAssignedForm() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        authenticate("intruder@app.insight.com");
++        assertThatThrownBy(() -> forms().getFormData(task.getId(), null)).isInstanceOf(AccessDeniedException.class);
++        assertRefusedUnchanged(instance, task, armValues().get("Reliability"), AccessDeniedException.class);
++        SecurityContextHolder.clearContext();
++        assertThatThrownBy(() -> forms().getFormData(task.getId(), null)).isInstanceOf(AccessDeniedException.class);
++        assertRefusedUnchanged(instance, task, armValues().get("Reliability"), AccessDeniedException.class);
++    }
++
++    @Test
++    void republishedFormCannotChangeSchemaOfExistingTask() throws Exception {
++        ProcessInstance oldInstance = start();
++        Task oldTask = task("Reliability");
++        var original = forms().getFormData(oldTask.getId(), null).getFields().stream()
++                .filter(field -> "due_date_reliability".equals(field.getId())).findFirst().orElseThrow();
++        assertThat(original.getRequired()).isTrue();
++        String originalName = original.getName();
++        new FormAppArchiveService(processEngine.getRepositoryService(), new ObjectMapper())
++                .deploy(new ByteArrayInputStream(revisedArchive()));
++        ProcessInstance newInstance = startPublished();
++        Task newTask = processEngine.getTaskService().createTaskQuery().processInstanceId(newInstance.getId())
++                .taskName("Reliability").singleResult();
++        assertThat(newTask.getProcessDefinitionId()).isNotEqualTo(oldTask.getProcessDefinitionId());
++        var retained = forms().getFormData(oldTask.getId(), null).getFields().stream()
++                .filter(field -> "due_date_reliability".equals(field.getId())).findFirst().orElseThrow();
++        assertThat(retained.getRequired()).isTrue();
++        assertThat(retained.getName()).isEqualTo(originalName);
++        var revised = forms().getFormData(newTask.getId(), null).getFields().stream()
++                .filter(field -> "due_date_reliability".equals(field.getId())).findFirst().orElseThrow();
++        assertThat(revised.getRequired()).isFalse();
++        assertThat(revised.getName()).isEqualTo("Revised optional due date");
++        Map<String, Object> withoutDate = new LinkedHashMap<>(armValues().get("Reliability"));
++        withoutDate.remove("due_date_reliability");
++        assertRefusedUnchanged(oldInstance, oldTask, withoutDate, BadRequestException.class);
++        submit(newTask, withoutDate);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(newTask.getId()).count()).isZero();
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(oldTask.getId()).count()).isEqualTo(1);
++    }
++
++    private byte[] revisedArchive() throws Exception {
++        ObjectMapper mapper = new ObjectMapper();
++        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
++        try (InputStream input = getClass().getClassLoader().getResourceAsStream(
++                "scenarios/customers/form-app/app.zip");
++             ZipInputStream source = new ZipInputStream(input);
++             ZipOutputStream target = new ZipOutputStream(bytes)) {
++            ZipEntry entry;
++            while ((entry = source.getNextEntry()) != null) {
++                byte[] contents = source.readAllBytes();
++                if ("form-models/Reliability-27.json".equals(entry.getName())) {
++                    JsonNode form = mapper.readTree(contents);
++                    reviseDueField(form);
++                    contents = mapper.writeValueAsBytes(form);
++                }
++                target.putNextEntry(new ZipEntry(entry.getName()));
++                target.write(contents);
++                target.closeEntry();
++            }
++        }
++        return bytes.toByteArray();
++    }
++
++    private void reviseDueField(JsonNode node) {
++        if (node.isObject() && "due_date_reliability".equals(node.path("id").asText())) {
++            ((ObjectNode) node).put("required", false).put("name", "Revised optional due date");
++        }
++        if (node.isContainerNode()) {
++            node.forEach(this::reviseDueField);
++        }
++    }
++
++    @Test
++    void mismatchedProcessDefinitionCannotReadOrSubmitTask() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        assertThatThrownBy(() -> forms().getFormData(task.getId(), "another-definition"))
++                .isInstanceOf(BadRequestException.class);
++        FormSubmitRequest request = new FormSubmitRequest();
++        request.setTaskId(task.getId());
++        request.setProcessDefinitionId("another-definition");
++        request.setValues(armValues().get("Reliability"));
++        Map<String, Object> before = processEngine.getRuntimeService().getVariables(instance.getId());
++        assertThatThrownBy(() -> forms().submitForm(request)).isInstanceOf(BadRequestException.class);
++        assertThat(processEngine.getRuntimeService().getVariables(instance.getId())).isEqualTo(before);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(task.getId()).count()).isEqualTo(1);
++    }
++
++    @Test
++    void undeclaredInitiatorAndReadonlyFieldsCannotBeWritten() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        Map<String, Object> spoofed = new LinkedHashMap<>(armValues().get("Reliability"));
++        spoofed.put("initiator", "intruder@app.insight.com");
++        assertRefusedUnchanged(instance, task, spoofed, BadRequestException.class);
++        Map<String, Object> readonly = new LinkedHashMap<>(armValues().get("Reliability"));
++        readonly.put("risklevel", "changed");
++        assertRefusedUnchanged(instance, task, readonly, BadRequestException.class);
++    }
++
++    @Test
++    void bpmnOnlyDeploymentCannotBypassRequiredFormSchema() throws Exception {
++        deployCustomerBpmn("form-app");
++        ProcessInstance instance = startPublished();
++        Task task = task("Reliability");
++        assertThatThrownBy(() -> forms().getFormData(task.getId(), null)).isInstanceOf(BadRequestException.class);
++        assertRefusedUnchanged(instance, task, armValues().get("Reliability"), BadRequestException.class);
++    }
++
++    private static Stream<Object> invalidPrincipals() {
++        return Stream.of("foreign-principal", new InsightUserDetails(STARTER, null, List.of(), List.of()),
++                new InsightUserDetails(" ", 42L, List.of(), List.of()));
++    }
++
++    @ParameterizedTest
++    @MethodSource("invalidPrincipals")
++    void invalidIdentityCannotAccessOrMutateForm(Object principal) throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        SecurityContextHolder.getContext().setAuthentication(
++                new UsernamePasswordAuthenticationToken(principal, null, List.of()));
++        assertThatThrownBy(() -> forms().getFormData(task.getId(), null)).isInstanceOf(AccessDeniedException.class);
++        assertRefusedUnchanged(instance, task, armValues().get("Reliability"), AccessDeniedException.class);
++    }
++
++    @ParameterizedTest
++    @ValueSource(booleans = {false, true})
++    void suspendedAndPendingDelegatedTasksCannotSubmit(boolean delegated) throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        if (delegated) {
++            processEngine.getTaskService().delegateTask(task.getId(), STARTER);
++        } else {
++            processEngine.getRuntimeService().suspendProcessInstanceById(instance.getId());
++        }
++        Task guarded = processEngine.getTaskService().createTaskQuery().taskId(task.getId()).singleResult();
++        assertThatThrownBy(() -> forms().getFormData(guarded.getId(), null)).isInstanceOf(BadRequestException.class);
++        assertRefusedUnchanged(instance, guarded, armValues().get("Reliability"), BadRequestException.class);
++        Task retained = processEngine.getTaskService().createTaskQuery().taskId(task.getId()).singleResult();
++        assertThat(retained.isSuspended()).isEqualTo(guarded.isSuspended());
++        assertThat(retained.getDelegationState()).isEqualTo(guarded.getDelegationState());
++    }
++
++    @Test
++    void invalidRequestsAndMissingOrCompletedTasksCannotWrite() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Review");
++        Map<String, Object> before = processEngine.getRuntimeService().getVariables(instance.getId());
++        FormServiceImpl service = forms();
++        assertThatThrownBy(() -> service.submitForm(null)).isInstanceOf(BadRequestException.class);
++        FormSubmitRequest emptyTask = new FormSubmitRequest();
++        emptyTask.setTaskId(" ");
++        assertThatThrownBy(() -> service.submitForm(emptyTask)).isInstanceOf(BadRequestException.class);
++        assertThatThrownBy(() -> service.getFormData(null, task.getProcessDefinitionId()))
++                .isInstanceOf(BadRequestException.class);
++        FormSubmitRequest unsupported = new FormSubmitRequest();
++        unsupported.setTaskId(task.getId());
++        unsupported.setBusinessKey("unsupported-start-form");
++        unsupported.setValues(armValues().get("Review"));
++        assertThatThrownBy(() -> service.submitForm(unsupported)).isInstanceOf(BadRequestException.class);
++        FormSubmitRequest missing = new FormSubmitRequest();
++        missing.setTaskId("nonexistent-task");
++        missing.setValues(armValues().get("Review"));
++        assertThatThrownBy(() -> service.submitForm(missing)).isInstanceOf(NotFoundException.class);
++        assertThatThrownBy(() -> service.getFormData("nonexistent-task", null)).isInstanceOf(NotFoundException.class);
++        assertThat(processEngine.getRuntimeService().getVariables(instance.getId())).isEqualTo(before);
++        assertThat(processEngine.getTaskService().createTaskQuery().count()).isEqualTo(10);
++        submit(task, armValues().get("Review"));
++        Map<String, Object> afterValid = processEngine.getRuntimeService().getVariables(instance.getId());
++        assertThatThrownBy(() -> submit(task, armValues().get("Review"))).isInstanceOf(NotFoundException.class);
++        assertThatThrownBy(() -> service.getFormData(task.getId(), null)).isInstanceOf(NotFoundException.class);
++        assertThat(processEngine.getRuntimeService().getVariables(instance.getId())).isEqualTo(afterValid);
++        assertThat(processEngine.getTaskService().createTaskQuery().count()).isEqualTo(9);
++    }
++
++    @Test
++    void unauthenticatedOwnerTokenCannotReadOrSubmit() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Reliability");
++        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
++                new InsightUserDetails(STARTER, 42L, List.of(), List.of()), null));
++        assertThatThrownBy(() -> forms().getFormData(task.getId(), null)).isInstanceOf(AccessDeniedException.class);
++        assertRefusedUnchanged(instance, task, armValues().get("Reliability"), AccessDeniedException.class);
++    }
++
++    @Test
++    void legacyInsightAppUserOwnerCanReadAndSubmit() throws Exception {
++        ProcessInstance instance = start();
++        Task task = task("Review");
++        UserEntity user = new UserEntity();
++        user.setId(42L);
++        user.setUserName(STARTER);
++        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
++                new InsightAppUser(user, STARTER, List.of()), null, List.of()));
++        assertThat(forms().getFormData(task.getId(), null).getFormKey()).isEqualTo("FormApp/Review");
++        submit(task, armValues().get("Review"));
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(task.getId()).count()).isZero();
++        assertThat(processEngine.getRuntimeService().getVariable(instance.getId(), "action_review"))
++                .isEqualTo("Completed");
++    }
++
++    private void assertRefusedUnchanged(ProcessInstance instance, Task task, Map<String, Object> values,
++            Class<? extends Throwable> exception) {
++        var variables = processEngine.getRuntimeService().getVariables(instance.getId());
++        var localVariables = processEngine.getTaskService().getVariablesLocal(task.getId());
++        var taskIds = processEngine.getTaskService().createTaskQuery().list().stream().map(Task::getId).toList();
++        assertThatThrownBy(() -> submit(task, values)).isInstanceOf(exception);
++        assertThat(processEngine.getRuntimeService().getVariables(instance.getId())).isEqualTo(variables);
++        assertThat(processEngine.getTaskService().getVariablesLocal(task.getId())).isEqualTo(localVariables);
++        assertThat(processEngine.getTaskService().createTaskQuery().list()).extracting(Task::getId)
++                .containsExactlyInAnyOrderElementsOf(taskIds);
++        Task unchanged = processEngine.getTaskService().createTaskQuery().taskId(task.getId()).singleResult();
++        assertThat(unchanged.getAssignee()).isEqualTo(task.getAssignee());
++        assertThat(unchanged.getFormKey()).isEqualTo(task.getFormKey());
++    }
++
++    private static Map<String, Map<String, Object>> armValues() {
++        Map<String, Map<String, Object>> arms = new LinkedHashMap<>();
++        arms.put("Reliability", values("reliability", "user_assignee_reliability", Map.of(
++                "prior_to_implementation_faa", "Yes", "escalation_20_percent", "No")));
++        arms.put("MaterialsManagement", values("materials_management", "user_assignee_materials_management", Map.of(
++                "materials_materials_management", List.of(Map.of("material_part_number", "PN-1",
++                        "material_stock_number", "STK-1", "material_quantity", "1", "material_comments", "smoke")))));
++        arms.put("MaintenanceProgram1", values("mp1", "user_assignee_mp1", Map.of(
++                "task", List.of(Map.of("mp_task_id", "MP-TASK-1")))));
++        arms.put("MaintenanceProgram2", values("mp2", "user_assignee_owner_mp2", Map.of(
++                "atr_actions_assessment", "Yes", "ops_spec_change", "No",
++                "techwriter_actions_assessment", "Yes", "date_check_implementation", "Yes")));
++        Map<String, Object> records = new LinkedHashMap<>();
++        records.putAll(Map.of("keyword_records", "Inspection", "etops_cep", "Yes", "etops_sign", "No",
++                "program", "CMR", "remove_part_for_maintenance", "No", "dual_signoff", "Yes", "rii", "No",
++                "fcn_category", "001   EXTENDED SERVICE VISIT", "nha", "NHA-smoke"));
++        records.put("signoff", List.of(Map.of("lower_level_signoff", "Yes", "higher_level_forecast_number", "HL-1")));
++        records.put("forecast", List.of(Map.of("forecast_number", "FC-1", "time_ctrl", "Hours", "auto", "Yes",
++                "value", "100", "allowable_start_time", "Allowable Life", "start", "DOM", "fleet_number", "F1")));
++        arms.put("ComplianceSystemsRecords", values("records", "user_assignee_records", records));
++        arms.put("TechnicalWriter", values("technical_writer", "user_assignee_technical_writer", Map.of(
++                "jic_scope_change_contact_planning", "N/A", "pre_draw_required", "No")));
++        arms.put("TechnicalPublications", values("technical_publications", "user_assignee_technical_publications",
++                Map.of("change_details", "AMM")));
++        arms.put("Review", values("review", "user_assignee_review", Map.of()));
++        arms.put("ETOPSProgramManager", values("etops", "user_assignee_etops", Map.of()));
++        arms.put("Other", values("other", "user_assignee_other", Map.of()));
++        return arms;
++    }
++
++    private static Map<String, Object> values(String suffix, String assigneeField, Map<String, Object> extras) {
++        Map<String, Object> fields = new LinkedHashMap<>(extras);
++        fields.put(assigneeField, Map.of("id", 42L, "email", STARTER));
++        fields.put("due_date_" + suffix, DATE);
++        fields.put("action_" + suffix, "Completed");
++        return fields;
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/editor/FormAppArchiveServiceTest.java b/insight-service/src/test/java/com/flatirons/insight/service/editor/FormAppArchiveServiceTest.java
+new file mode 100644
+index 0000000..8876a24
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/editor/FormAppArchiveServiceTest.java
+@@ -0,0 +1,111 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ */
++package com.flatirons.insight.service.editor;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.service.exception.BadRequestException;
++import java.io.ByteArrayInputStream;
++import java.io.ByteArrayOutputStream;
++import java.io.IOException;
++import java.io.InputStream;
++import java.nio.charset.StandardCharsets;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.zip.ZipEntry;
++import java.util.zip.ZipOutputStream;
++import org.flowable.engine.RepositoryService;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.verifyNoInteractions;
++
++class FormAppArchiveServiceTest {
++    private record Entry(String name, String content) {}
++
++    private ByteArrayInputStream archive(List<Entry> entries) throws Exception {
++        var bytes = new ByteArrayOutputStream();
++        try (var zip = new ZipOutputStream(bytes)) {
++            for (Entry entry : entries) {
++                zip.putNextEntry(new ZipEntry(entry.name()));
++                zip.write(entry.content().getBytes(StandardCharsets.UTF_8));
++                zip.closeEntry();
++            }
++        }
++        return new ByteArrayInputStream(bytes.toByteArray());
++    }
++
++    private String bpmn(String process, String reference) {
++        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
++                + "<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:activiti=\"http://activiti.org/bpmn\" targetNamespace=\"test\">"
++                + "<process id=\"" + process + "\" isExecutable=\"true\"><startEvent id=\"start\"/>"
++                + "<userTask id=\"task\" activiti:formKey=\"" + reference + "\"/></process></definitions>";
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"duplicate alias", "duplicate key", "unresolved reference", "no BPMN", "other process", "invalid form", "invalid JSON", "oversized entry", "multiple BPMN", "unresolved start reference"})
++    void invalidArchiveIsRefusedBeforeAnyDeploymentMutation(String problem) throws Exception {
++        var repository = mock(RepositoryService.class);
++        var service = new FormAppArchiveService(repository, new ObjectMapper());
++        String validForm = "{\"editorJson\":{\"fields\":[]}}";
++        var entries = new ArrayList<Entry>();
++        entries.add(new Entry("form-models/Reliability-27.json", validForm));
++        if (!"no BPMN".equals(problem)) {
++            String processXml = bpmn(
++                    "other process".equals(problem) ? "OtherProcess" : "FormProcess",
++                    "unresolved reference".equals(problem) ? "999" : "27");
++            if ("unresolved start reference".equals(problem)) {
++                processXml = processXml.replace("<startEvent id=\"start\"/>",
++                        "<startEvent id=\"start\" activiti:formKey=\"999\"/>");
++            }
++            entries.add(new Entry("FormProcess.bpmn20.xml", processXml));
++        }
++        switch (problem) {
++            case "duplicate alias" -> entries.add(new Entry("form-models/Other-27.json", validForm));
++            case "duplicate key" -> entries.add(new Entry("form-models/Reliability-28.json", validForm));
++            case "invalid form" -> entries.add(new Entry("form-models/Other-29.json", "{}"));
++            case "invalid JSON" -> entries.add(new Entry("form-models/Other-29.json", "{broken"));
++            case "oversized entry" -> entries.add(new Entry("oversized.bin", "x".repeat(8 * 1024 * 1024 + 1)));
++            case "multiple BPMN" -> entries.add(new Entry("Second.bpmn20.xml", bpmn("FormProcess", "27")));
++            default -> { }
++        }
++        var input = archive(entries);
++        assertThatThrownBy(() -> service.deploy(input)).isInstanceOf(BadRequestException.class);
++        verifyNoInteractions(repository);
++    }
++
++    @Test
++    void nullArchiveIsRefusedWithoutDeployment() {
++        var repository = mock(RepositoryService.class);
++        var service = new FormAppArchiveService(repository, new ObjectMapper());
++        assertThatThrownBy(() -> service.deploy(null)).isInstanceOf(BadRequestException.class);
++        verifyNoInteractions(repository);
++    }
++
++    @Test
++    void unreadableArchiveIsRefusedAndInputIsClosed() {
++        var repository = mock(RepositoryService.class);
++        var service = new FormAppArchiveService(repository, new ObjectMapper());
++        class UnreadableInput extends InputStream {
++            private boolean closed;
++
++            @Override
++            public int read() throws IOException {
++                throw new IOException("test read failure");
++            }
++
++            @Override
++            public void close() {
++                closed = true;
++            }
++        }
++        var input = new UnreadableInput();
++        assertThatThrownBy(() -> service.deploy(input)).isInstanceOf(BadRequestException.class)
++                .hasCauseInstanceOf(IOException.class);
++        org.assertj.core.api.Assertions.assertThat(input.closed).isTrue();
++        verifyNoInteractions(repository);
++    }
++
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java
+new file mode 100644
+index 0000000..3e3d006
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java
+@@ -0,0 +1,118 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ */
++package com.flatirons.insight.service.runtime;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.service.exception.BadRequestException;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Map;
++import java.util.stream.Stream;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.MethodSource;
++import org.junit.jupiter.params.provider.ValueSource;
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++
++class ArchiveFormDefinitionTest {
++    private final ObjectMapper mapper = new ObjectMapper();
++
++    private ArchiveFormDefinition form(String fields) throws Exception {
++        return new ArchiveFormDefinition(mapper.readTree("{\"editorJson\":{\"fields\":" + fields + "}}"), mapper);
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {
++            "{}",
++            "{\"editorJson\":{\"fields\":{}}}",
++            "{\"editorJson\":{\"fields\":[{\"id\":\"answer\",\"type\":\"text\"},{\"id\":\"answer\",\"type\":\"text\"}]}}",
++            "{\"editorJson\":{\"fields\":[{\"id\":\" \",\"type\":\"text\"}]}}"
++    })
++    void malformedSchemasAreRefusedBeforeTheyCanDescribeOrAcceptFields(String schema) throws Exception {
++        var parsed = mapper.readTree(schema);
++        assertThatThrownBy(() -> new ArchiveFormDefinition(parsed, mapper)).isInstanceOf(BadRequestException.class);
++    }
++
++    static Stream<Object> emptyRequiredValues() {
++        return Stream.of(null, "", "   ", List.of(), Map.of());
++    }
++
++    @ParameterizedTest
++    @MethodSource("emptyRequiredValues")
++    void missingRequiredValueCannotBeSubmitted(Object value) throws Exception {
++        var definition = form("[{\"id\":\"answer\",\"type\":\"text\",\"required\":true}]");
++        Map<String, Object> values = new LinkedHashMap<>();
++        values.put("answer", value);
++        assertThatThrownBy(() -> definition.validatedValues(values)).isInstanceOf(BadRequestException.class);
++        assertThat(values).containsKey("answer");
++        assertThatThrownBy(() -> definition.validatedValues(null)).isInstanceOf(BadRequestException.class);
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"unknown", "readOnly", "mirror"})
++    void arbitraryAndReadonlyFieldsCannotBecomeVariables(String id) throws Exception {
++        var definition = form("[{\"id\":\"readOnly\",\"type\":\"text\",\"readOnly\":true},{\"id\":\"mirror\",\"type\":\"readonly\"}]");
++        assertThatThrownBy(() -> definition.validatedValues(Map.of(id, "spoofed"))).isInstanceOf(BadRequestException.class);
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"2026-10-06", "2017-03-15T12:00:00.000Z"})
++    void acceptsLegacyInstantAndDateControlValues(String date) throws Exception {
++        var definition = form("[{\"id\":\"due\",\"type\":\"date\"}]");
++        assertThat(definition.validatedValues(Map.of("due", date))).containsEntry("due", date);
++        assertThatThrownBy(() -> definition.validatedValues(Map.of("due", "2026-02-30"))).isInstanceOf(BadRequestException.class);
++        assertThatThrownBy(() -> definition.validatedValues(Map.of("due", 20261006))).isInstanceOf(BadRequestException.class);
++    }
++
++    @Test
++    void textValuesRemainStringsAndValidatedResultDoesNotAliasRequest() throws Exception {
++        var definition = form("[{\"id\":\"answer\",\"type\":\"text\"}]");
++        var submitted = new LinkedHashMap<String, Object>();
++        submitted.put("answer", "kept");
++        var result = definition.validatedValues(submitted);
++        result.put("answer", "changed");
++        assertThat(submitted).containsEntry("answer", "kept");
++        assertThatThrownBy(() -> definition.validatedValues(Map.of("answer", 42))).isInstanceOf(BadRequestException.class);
++    }
++
++    @Test
++    void personRequiresIdentityRatherThanDisplayNameOnly() throws Exception {
++        var definition = form("[{\"id\":\"person\",\"type\":\"people\"}]");
++        assertThat(definition.validatedValues(Map.of("person", Map.of("id", 42)))).containsKey("person");
++        assertThatThrownBy(() -> definition.validatedValues(Map.of("person", Map.of("name", "Kyle")))).isInstanceOf(BadRequestException.class);
++        assertThatThrownBy(() -> definition.validatedValues(Map.of("person", "Kyle"))).isInstanceOf(BadRequestException.class);
++    }
++
++    @Test
++    void acceptsKnownOptionIdsAndRefusesPlaceholderAndUnknownChoices() throws Exception {
++        var definition = form("[{\"id\":\"action\",\"type\":\"dropdown\",\"required\":true,\"options\":[{\"id\":\"empty\",\"name\":\"Please choose one...\"},{\"id\":\"Completed\",\"name\":\"Completed\"}]}]");
++        for (Object valid : List.of("Completed", Map.of("id", "Completed"))) {
++            assertThat(definition.validatedValues(Map.of("action", valid))).containsEntry("action", valid);
++        }
++        for (Object invalid : List.of("empty", "Please choose one...", "invented", Map.of("id", "empty"), Map.of("name", "Completed"))) {
++            assertThatThrownBy(() -> definition.validatedValues(Map.of("action", invalid))).isInstanceOf(BadRequestException.class);
++        }
++    }
++
++    @Test
++    void tableRowsMustContainTheirRequiredColumn() throws Exception {
++        var definition = form("[{\"id\":\"materials\",\"type\":\"dynamic-table\",\"columnDefinitions\":[{\"id\":\"part\",\"required\":true}]}]");
++        var rows = List.of(Map.of("part", "PN-1"));
++        assertThat(definition.validatedValues(Map.of("materials", rows))).containsEntry("materials", rows);
++        for (Object invalid : List.of("not rows", List.of("not a row"), List.of(Map.of("other", "PN-1")))) {
++            assertThatThrownBy(() -> definition.validatedValues(Map.of("materials", invalid))).isInstanceOf(BadRequestException.class);
++        }
++    }
++
++    @Test
++    void exposesNestedFieldsAndReadonlyVariableWithSelectionSchemas() throws Exception {
++        var definition = form("[{\"fieldType\":\"ContainerRepresentation\",\"fields\":{\"1\":[{\"id\":\"mirror\",\"type\":\"readonly\",\"params\":{\"field\":{\"id\":\"business_value\"}}},{\"id\":\"choice\",\"type\":\"dropdown\",\"options\":[{\"id\":\"Yes\"}]},{\"id\":\"table\",\"type\":\"dynamic-table\",\"columnDefinitions\":[{\"id\":\"part\",\"required\":true}]}]}}]");
++        var responses = definition.responses(Map.of("business_value", "saved"));
++        assertThat(responses).hasSize(3);
++        assertThat(responses.getFirst().getValue()).isEqualTo("saved");
++        assertThat(responses.get(1).getOptions()).containsExactly(Map.of("id", "Yes"));
++        assertThat(responses.get(2).getColumnDefinitions()).containsExactly(Map.of("id", "part", "required", true));
++    }
++}
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/FormAppFormControllerTest.java b/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/FormAppFormControllerTest.java
+new file mode 100644
+index 0000000..42eb0d4
+--- /dev/null
++++ b/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/FormAppFormControllerTest.java
+@@ -0,0 +1,111 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ */
++package com.flatirons.insight.rest.internal.form;
++
++import com.flatirons.insight.model.request.FormSubmitRequest;
++import org.junit.jupiter.api.Test;
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.mockito.Mockito.mock;
++
++class FormAppFormControllerTest {
++
++    @Test
++    void invalidAndForeignActorSubmissionsReturnHttpErrorsWithoutChangingWorkflow() throws Exception {
++        var config = (org.flowable.engine.impl.cfg.ProcessEngineConfigurationImpl)
++                org.flowable.engine.ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration();
++        config.setPreBpmnParseHandlers(java.util.List.of(
++                new com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandler()));
++        var engine = config.setJdbcUrl("jdbc:h2:mem:form_http_" + java.util.UUID.randomUUID())
++                .setDatabaseSchemaUpdate(org.flowable.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
++                .setAsyncExecutorActivate(false).buildProcessEngine();
++        var previousAuthentication = org.flowable.common.engine.impl.identity.Authentication.getAuthenticationContext();
++        org.flowable.common.engine.impl.identity.Authentication.setAuthenticationContext(
++                new com.flatirons.insight.conf.security.SpringSecurityAuthenticationContext());
++        try {
++            var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
++            var publisher = new com.flatirons.insight.service.editor.FormAppArchiveService(engine.getRepositoryService(), mapper);
++            try (var archive = java.nio.file.Files.newInputStream(java.nio.file.Path.of(
++                    "../insight-service/src/test/resources/scenarios/customers/form-app/app.zip"))) {
++                publisher.deploy(archive);
++            }
++            authenticateFormActor("admin@app.insight.com", 42L);
++            var startService = new com.flatirons.insight.service.runtime.ProcessInstanceServiceImpl(
++                    engine.getRuntimeService(), engine.getHistoryService(),
++                    mock(com.flatirons.insight.service.runtime.UserCache.class),
++                    mock(com.flatirons.insight.service.runtime.UserService.class),
++                    null, null, null, null, engine.getRepositoryService());
++            var start = new com.flatirons.insight.model.request.ProcessInstanceStartRequest();
++            start.setProcessDefinitionKey("FormProcess");
++            start.setVariables(java.util.Map.of("businessValue", "preserved"));
++            String processId = startService.startProcessInstance(start).getId();
++            var task = engine.getTaskService().createTaskQuery().processInstanceId(processId)
++                    .taskName("Reliability").singleResult();
++            var taskSnapshot = formTaskSnapshot(engine, processId);
++            var variableSnapshot = engine.getRuntimeService().getVariables(processId);
++            var realService = new com.flatirons.insight.service.runtime.FormServiceImpl(
++                    engine.getTaskService(), engine.getRepositoryService(), engine.getRuntimeService(),
++                    engine.getHistoryService(), mapper);
++            var mvc = org.springframework.test.web.servlet.setup.MockMvcBuilders
++                    .standaloneSetup(new FormController(realService))
++                    .setControllerAdvice(new com.flatirons.insight.rest.exception.RestExceptionHandlerAdvice()).build();
++            var valid = new java.util.LinkedHashMap<String, Object>();
++            valid.put("user_assignee_reliability", java.util.Map.of("id", 42));
++            valid.put("due_date_reliability", "2017-03-15T12:00:00.000Z");
++            valid.put("prior_to_implementation_faa", "Yes");
++            valid.put("escalation_20_percent", "No");
++            valid.put("action_reliability", "Completed");
++            var request = new FormSubmitRequest();
++            request.setTaskId(task.getId());
++            var missingRequired = new java.util.LinkedHashMap<>(valid);
++            missingRequired.remove("due_date_reliability");
++            request.setValues(missingRequired);
++            mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/internal/form/data")
++                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
++                    .content(mapper.writeValueAsString(request)))
++                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isBadRequest());
++            assertThat(engine.getRuntimeService().getVariables(processId)).isEqualTo(variableSnapshot);
++            assertThat(formTaskSnapshot(engine, processId)).isEqualTo(taskSnapshot);
++
++            authenticateFormActor("refused@insight.test", 99L);
++            request.setValues(valid);
++            mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/internal/form/data")
++                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
++                    .content(mapper.writeValueAsString(request)))
++                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isForbidden());
++            mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/internal/form/data")
++                    .param("taskId", task.getId()))
++                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isForbidden());
++            assertThat(engine.getRuntimeService().getVariables(processId)).isEqualTo(variableSnapshot);
++            assertThat(formTaskSnapshot(engine, processId)).isEqualTo(taskSnapshot);
++
++            authenticateFormActor("admin@app.insight.com", 42L);
++            mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/internal/form/data")
++                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
++                    .content(mapper.writeValueAsString(request)))
++                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk());
++            assertThat(engine.getTaskService().createTaskQuery().taskId(task.getId()).count()).isZero();
++            assertThat(engine.getRuntimeService().getVariable(processId, "action_reliability")).isEqualTo("Completed");
++        } finally {
++            org.springframework.security.core.context.SecurityContextHolder.clearContext();
++            org.flowable.common.engine.impl.identity.Authentication.setAuthenticationContext(previousAuthentication);
++            engine.close();
++        }
++    }
++
++    private void authenticateFormActor(String username, Long id) {
++        var principal = new com.flatirons.insight.model.records.security.InsightUserDetails(
++                username, id, java.util.List.of(), java.util.List.of());
++        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(
++                new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
++                        principal, null, java.util.List.of()));
++    }
++
++    private java.util.List<java.util.List<Object>> formTaskSnapshot(org.flowable.engine.ProcessEngine engine, String processId) {
++        return engine.getTaskService().createTaskQuery().processInstanceId(processId).list()
++                .stream().sorted(java.util.Comparator.comparing(org.flowable.task.api.Task::getId))
++                .map(task -> java.util.List.<Object>of(task.getId(), task.getName(), task.getAssignee(),
++                        task.getFormKey(), task.getTaskDefinitionKey())).toList();
++    }
++
++}
