@@ -1,0 +1,636 @@
+diff --git a/docs/workflow-scenario-port.md b/docs/workflow-scenario-port.md
+index 62154f1..16c67db 100644
+--- a/docs/workflow-scenario-port.md
++++ b/docs/workflow-scenario-port.md
+@@ -23,12 +23,29 @@ the default Maven `test` phase:
+   mutation. A separate direct-completion test preserves the parallel join/end
+   **engine routing check**; it does not prove form or completion permissions.
+ 
++- `FormAppTaskActionScenarioTest` calls the real Insight task-action service.
++  Both supported principal types prove a named non-assignee receives an access
++  denial on claim and completion, with unchanged assignees, task state, active
++  task multiset, process/local variables, and task/activity/variable history.
++  The authenticated assignee claims using the existing username assignment and
++  completes all ten arms through the product service. Reassignment between the
++  permission read and mutation is rejected by the engine's optimistic locking.
++  These checks do not prove form import/submission or general reassignment.
++
++Task actions authorize assigned tasks only for their authenticated assignee.
++Unassigned tasks require a candidate user or actual candidate-group membership
++(including parent groups) before claim; completion requires assignment. Numeric
++engine identities mean Insight user IDs; other identities mean usernames.
++Candidate or participant visibility does not override another assignee. Owner,
++initiator-extension and special subtask permissions are not implemented here.
++`assignTask` still returns null and needs a separate assignment-operation change.
++
+ Run the ported slice with Java 21 and the existing Maven settings:
+ 
+ ```bash
+ JAVA_HOME=/path/to/jdk-21 mvn -o -s /path/to/maven-settings.xml \
+   -pl insight-service -am \
+-  -Dtest=SmokeScenarioTest,InclusiveGatewayScenarioTest,CustomerBpmnDeploymentScenarioTest,FormAppEngineScenarioTest \
++  -Dtest=SmokeScenarioTest,InclusiveGatewayScenarioTest,CustomerBpmnDeploymentScenarioTest,FormAppEngineScenarioTest,FormAppTaskActionScenarioTest \
+   -Dsurefire.failIfNoSpecifiedTests=false test
+ ```
+ 
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/rest/internal/runtime/TaskActionControllerTest.java b/insight-rest/src/test/java/com/flatirons/insight/rest/internal/runtime/TaskActionControllerTest.java
+index faf1341..021c2d2 100644
+--- a/insight-rest/src/test/java/com/flatirons/insight/rest/internal/runtime/TaskActionControllerTest.java
++++ b/insight-rest/src/test/java/com/flatirons/insight/rest/internal/runtime/TaskActionControllerTest.java
+@@ -10,6 +10,14 @@ import com.flatirons.insight.model.request.UserIdentityRequest;
+ import com.flatirons.insight.model.response.ITaskResponse;
+ import com.flatirons.insight.service.runtime.TaskActionService;
+ import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import org.springframework.security.access.AccessDeniedException;
++import com.flatirons.insight.rest.exception.RestExceptionHandlerAdvice;
++import org.springframework.test.web.servlet.setup.MockMvcBuilders;
++import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
++import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
++import static org.mockito.Mockito.doThrow;
+ import org.junit.jupiter.api.extension.ExtendWith;
+ import org.mockito.InjectMocks;
+ import org.mockito.Mock;
+@@ -32,6 +40,21 @@ class TaskActionControllerTest {
+     @InjectMocks
+     private TaskActionController controller;
+ 
++    @ParameterizedTest
++    @ValueSource(strings = {"claim", "complete"})
++    void refusedTaskActionIsReportedAsForbidden(String action) throws Exception {
++        String taskId = "assigned-formapp-arm";
++        AccessDeniedException refusal = new AccessDeniedException("non-assignee@app.insight.com cannot act on this task");
++        if ("claim".equals(action)) {
++            doThrow(refusal).when(taskActionService).claimTask(taskId);
++        } else {
++            doThrow(refusal).when(taskActionService).completeTask(taskId);
++        }
++        MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new RestExceptionHandlerAdvice())
++                .build().perform(put("/api/internal/task/" + taskId + "/action/" + action))
++                .andExpect(status().isForbidden());
++    }
++
+     @Test
+     void completeTask_delegatesToService() {
+         String taskId = "task-001";
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java
+index 47c631c..56c7bf0 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java
+@@ -17,6 +17,15 @@ import com.flatirons.insight.security.SecurityUtils;
+ import com.flatirons.insight.service.exception.NotFoundException;
+ import org.apache.commons.collections.CollectionUtils;
+ import org.flowable.engine.HistoryService;
++import org.flowable.engine.ManagementService;
++import org.flowable.task.api.Task;
++import org.flowable.identitylink.api.IdentityLink;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.security.InsightAppUser;
++import org.springframework.security.core.Authentication;
++import org.springframework.security.access.AccessDeniedException;
++import org.apache.commons.lang3.StringUtils;
++import java.util.Set;
+ import org.flowable.engine.RuntimeService;
+ import org.flowable.engine.TaskService;
+ import jakarta.ws.rs.BadRequestException;
+@@ -52,22 +61,34 @@ public class TaskActionServiceImpl implements TaskActionService {
+ 
+     protected TaskRepository taskRepository;
+ 
++    private final ManagementService managementService;
++    private final UserService userService;
++
+     public TaskActionServiceImpl(TaskService taskService, HistoryService historyService, RuntimeService runtimeService,
+-            UserCache userCache,TaskRepository taskRepository) {
++            UserCache userCache, TaskRepository taskRepository, ManagementService managementService, UserService userService) {
+         this.taskService = taskService;
+         this.historyService = historyService;
+         this.runtimeService = runtimeService;
+         this.userCache = userCache;
+         this.taskRepository = taskRepository;
++        this.managementService = managementService;
++        this.userService = userService;
+     }
+ 
+     @Override
+     public void completeTask(String taskId) {
+-        TaskEntity task = fetchTask(taskId);
+-        //TODO: Implement permission check
+-
+-        try{
+-            taskService.complete(task.getId());
++        TaskActor actor = authenticatedActor();
++        try {
++            // One engine command keeps the permission read and mutation on the same
++            // task revision. Flowable optimistic locking rejects concurrent changes.
++            managementService.executeCommand(context -> {
++                Task task = activeTask(taskId);
++                requireAssignee(task, actor);
++                taskService.complete(task.getId());
++                return null;
++            });
++        } catch (NotFoundException e) {
++            throw e;
+         } catch (BaseRestException e) {
+             throw new BadRequestException("Task " + taskId + " can't be completed", e);
+         }
+@@ -157,23 +178,86 @@ public class TaskActionServiceImpl implements TaskActionService {
+ 
+     @Override
+     public void claimTask(String taskId) {
+-        TaskEntity task = this.fetchTask(taskId);
+-        // TODO: Validate the claim task permission
+-        /*
+-         * boolean canClaimTask = this.permissionService.canClaimTask(currentUser,
+-         * task); if (!canClaimTask) { throw new
+-         * NotPermittedException("You are not allowed to claim this task with id: " +
+-         * task.getId()); }
+-         */
++        TaskActor actor = authenticatedActor();
+         try {
+-            UserEntity user = SecurityUtils.getCurrentUserObject();
+-            this.taskService.claim(task.getId(), String.valueOf(user.getId()));
+-            this.taskService.setVariableLocal(taskId, "task_assign_time", Calendar.getInstance().getTime());
++            managementService.executeCommand(context -> {
++                Task task = activeTask(taskId);
++                String assignee = task.getAssignee();
++                if (assignee != null) {
++                    requireAssignee(task, actor);
++                } else {
++                    requireCandidate(task, actor);
++                    // Existing candidate identity links and task queries use numeric IDs.
++                    assignee = actor.userId().toString();
++                }
++                taskService.claim(task.getId(), assignee);
++                taskService.setVariableLocal(taskId, "task_assign_time", Calendar.getInstance().getTime());
++                return null;
++            });
++        } catch (AccessDeniedException | NotFoundException e) {
++            throw e;
+         } catch (RuntimeException e) {
+             throw new BadRequestException("Task " + taskId + " can't be claimed", e);
+         }
+     }
+ 
++    private Task activeTask(String taskId) {
++        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
++        if (task == null) {
++            throw new NotFoundException("Task with id: " + taskId + " not found");
++        }
++        return task;
++    }
++
++    private void requireAssignee(Task task, TaskActor actor) {
++        if (!actor.matches(task.getAssignee())) {
++            throw new AccessDeniedException("You are not allowed to act on task " + task.getId());
++        }
++    }
++
++    private void requireCandidate(Task task, TaskActor actor) {
++        List<IdentityLink> links = taskService.getIdentityLinksForTask(task.getId()).stream()
++                .filter(link -> IdentityLinkType.CANDIDATE.equals(link.getType())).toList();
++        if (links.stream().anyMatch(link -> actor.matches(link.getUserId()))) {
++            return;
++        }
++        if (links.stream().anyMatch(link -> link.getGroupId() != null)) {
++            Set<String> groups = userService.getAllGroupIdsAndParentGroupIdsForUser(actor.userId());
++            if (links.stream().anyMatch(link -> link.getGroupId() != null && groups.contains(link.getGroupId()))) {
++                return;
++            }
++        }
++        throw new AccessDeniedException("You are not allowed to claim task " + task.getId());
++    }
++
++    private TaskActor authenticatedActor() {
++        // Never authorize using SecurityUtils' development admin fallback or assumed user.
++        Authentication authentication = SecurityUtils.getAuthentication();
++        if (authentication == null || !authentication.isAuthenticated()) {
++            throw new AccessDeniedException("An authenticated Insight user is required to act on a task");
++        }
++        TaskActor actor;
++        if (authentication.getPrincipal() instanceof InsightUserDetails user) {
++            actor = new TaskActor(user.getUserId(), user.getUsername());
++        } else if (authentication.getPrincipal() instanceof InsightAppUser user) {
++            actor = new TaskActor(user.getId(), user.getUsername());
++        } else {
++            throw new AccessDeniedException("An authenticated Insight user is required to act on a task");
++        }
++        if (actor.userId() == null || StringUtils.isBlank(actor.username())) {
++            throw new AccessDeniedException("An authenticated Insight user is required to act on a task");
++        }
++        return actor;
++    }
++
++    private record TaskActor(Long userId, String username) {
++        boolean matches(String identity) {
++            // Numeric engine identities are Insight user IDs, not usernames.
++            // Otherwise a user named "42" could impersonate user ID 42.
++            return StringUtils.isNumeric(identity) ? userId.toString().equals(identity) : username.equals(identity);
++        }
++    }
++
+     @Override
+     public void unclaimTask(String taskId) {
+         // User currentUser = SecurityUtils.getCurrentUserObject();
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/TaskActionServiceImplTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/TaskActionServiceImplTest.java
+index ce58b0c..ccafd14 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/TaskActionServiceImplTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/TaskActionServiceImplTest.java
+@@ -9,6 +9,13 @@ import com.flatirons.insight.service.exception.ConflictRequestException;
+ import com.flatirons.insight.security.SecurityUtils;
+ import jakarta.ws.rs.BadRequestException;
+ import org.flowable.engine.HistoryService;
++import org.flowable.engine.ManagementService;
++import org.flowable.common.engine.impl.interceptor.Command;
++import org.flowable.task.api.TaskQuery;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.junit.jupiter.api.AfterEach;
+ import org.flowable.engine.RuntimeService;
+ import org.flowable.engine.TaskService;
+ import org.flowable.identitylink.api.history.HistoricIdentityLink;
+@@ -50,14 +57,38 @@ class TaskActionServiceImplTest {
+     @Mock
+     private TaskRepository taskRepository;
+ 
++    @Mock
++    private ManagementService managementService;
++    @Mock
++    private UserService userService;
++
+     private TaskActionServiceImpl service;
+     private TaskEntity taskStub;
+ 
+     @BeforeEach
+     void init() {
+         MockitoAnnotations.openMocks(this);
+-        service = new TaskActionServiceImpl(taskService, historyService, runtimeService, userCache, taskRepository);
++        service = new TaskActionServiceImpl(taskService, historyService, runtimeService, userCache, taskRepository, managementService, userService);
+         taskStub = createTaskStub();
++        authenticate();
++        Task engineTask = mock(Task.class);
++        when(engineTask.getId()).thenAnswer(call -> taskStub.getId());
++        when(engineTask.getAssignee()).thenAnswer(call -> taskStub.getAssignee());
++        TaskQuery query = mock(TaskQuery.class);
++        when(taskService.createTaskQuery()).thenReturn(query);
++        when(query.taskId(anyString())).thenReturn(query);
++        when(query.singleResult()).thenAnswer(call -> taskRepository.findById(taskStub.getId()).isPresent() ? engineTask : null);
++        when(managementService.executeCommand(any())).thenAnswer(call -> ((Command<?>) call.getArgument(0)).execute(null));
++    }
++
++    private void authenticate() {
++        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
++                new InsightUserDetails("admin", 1L, List.of(), List.of()), null, List.of()));
++    }
++
++    @AfterEach
++    void clearAuthentication() {
++        SecurityContextHolder.clearContext();
+     }
+ 
+     @Test
+@@ -298,9 +329,10 @@ class TaskActionServiceImplTest {
+             currentUser.setId(1L);
+             utils.when(SecurityUtils::getCurrentUserObject).thenReturn(currentUser);
+ 
++            utils.when(SecurityUtils::getAuthentication).thenReturn(SecurityContextHolder.getContext().getAuthentication());
+             service.claimTask(taskId);
+ 
+-            verify(taskService, times(1)).claim(eq(taskId), eq("1"));
++            verify(taskService, times(1)).claim(eq(taskId), eq("admin"));
+             verify(taskService, times(1)).setVariableLocal(eq(taskId), eq("task_assign_time"), any(Date.class));
+         }
+     }
+@@ -315,13 +347,14 @@ class TaskActionServiceImplTest {
+         when(taskRepository.findById(taskId)).thenReturn(Optional.of(taskStub));
+ 
+ 
+-        doThrow(new RuntimeException("Claim failed")).when(taskService).claim(taskId, "1");
++        doThrow(new RuntimeException("Claim failed")).when(taskService).claim(taskId, "admin");
+ 
+         try (MockedStatic<SecurityUtils> utils = Mockito.mockStatic(SecurityUtils.class)) {
+             UserEntity currentUser = new UserEntity();
+             currentUser.setId(1L);
+             utils.when(SecurityUtils::getCurrentUserObject).thenReturn(currentUser);
+ 
++            utils.when(SecurityUtils::getAuthentication).thenReturn(SecurityContextHolder.getContext().getAuthentication());
+             assertThrows(BadRequestException.class, () -> service.claimTask(taskId));
+         }
+     }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java
+new file mode 100644
+index 0000000..3900c70
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java
+@@ -0,0 +1,309 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.scenario;
++
++import com.flatirons.insight.conf.security.SpringSecurityAuthenticationContext;
++import com.flatirons.insight.domain.UserEntity;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.model.request.ProcessInstanceStartRequest;
++import com.flatirons.insight.repository.TaskRepository;
++import com.flatirons.insight.security.InsightAppUser;
++import com.flatirons.insight.service.runtime.ProcessInstanceServiceImpl;
++import com.flatirons.insight.service.runtime.TaskActionServiceImpl;
++import com.flatirons.insight.service.runtime.UserCache;
++import com.flatirons.insight.service.runtime.UserService;
++import org.flowable.common.engine.api.identity.AuthenticationContext;
++import org.flowable.common.engine.impl.identity.Authentication;
++import org.flowable.engine.runtime.ProcessInstance;
++import org.flowable.task.api.Task;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import org.junit.jupiter.params.provider.MethodSource;
++import org.junit.jupiter.params.provider.Arguments;
++import java.util.stream.Stream;
++import org.springframework.security.access.AccessDeniedException;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.context.SecurityContextHolder;
++
++import java.util.Date;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++import java.util.TreeMap;
++import java.util.concurrent.Executors;
++import java.util.concurrent.TimeUnit;
++import org.flowable.engine.TaskService;
++import org.flowable.common.engine.api.FlowableOptimisticLockingException;
++import static org.mockito.Mockito.spy;
++import static org.mockito.Mockito.doAnswer;
++import static org.mockito.ArgumentMatchers.anyString;
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.when;
++
++/** Product claim/complete authorization; no direct engine completion as permission proof. */
++class FormAppTaskActionScenarioTest extends FlowableScenarioTestBase {
++    private static final String STARTER = "admin@app.insight.com";
++    private static final String INTRUDER = "non-assignee@app.insight.com";
++    private AuthenticationContext previousAuthenticationContext;
++    private UserService userService;
++    private TaskActionServiceImpl actions;
++
++    @BeforeEach
++    void configureProductServices() {
++        previousAuthenticationContext = Authentication.getAuthenticationContext();
++        Authentication.setAuthenticationContext(new SpringSecurityAuthenticationContext());
++        userService = mock(UserService.class);
++        actions = new TaskActionServiceImpl(processEngine.getTaskService(), processEngine.getHistoryService(),
++                processEngine.getRuntimeService(), mock(UserCache.class), mock(TaskRepository.class),
++                processEngine.getManagementService(), userService);
++    }
++
++    @AfterEach
++    void restoreAuthentication() {
++        SecurityContextHolder.clearContext();
++        Authentication.setAuthenticationContext(previousAuthenticationContext);
++    }
++
++    private void authenticate(String username, long id, boolean jwt) {
++        UserEntity user = new UserEntity();
++        user.setId(id);
++        user.setUserName(username);
++        Object principal = jwt ? new InsightUserDetails(username, id, List.of(), List.of())
++                : new InsightAppUser(user, username, List.of());
++        SecurityContextHolder.getContext().setAuthentication(
++                new UsernamePasswordAuthenticationToken(principal, null, List.of()));
++    }
++
++    private ProcessInstance startFormApp(boolean jwt) throws Exception {
++        deployCustomerBpmn("form-app");
++        authenticate(STARTER, 42L, jwt);
++        ProcessInstanceStartRequest request = new ProcessInstanceStartRequest();
++        request.setProcessDefinitionKey("FormProcess");
++        request.setVariables(Map.of("businessValue", "unchanged"));
++        new ProcessInstanceServiceImpl(processEngine.getRuntimeService(), processEngine.getHistoryService(),
++                mock(UserCache.class), userService, null, null, null, null,
++                processEngine.getRepositoryService()).startProcessInstance(request);
++        ProcessInstance instance = processEngine.getRuntimeService().createProcessInstanceQuery().singleResult();
++        assertThat(activeTaskNames(instance)).hasSize(10);
++        assertThat(processEngine.getTaskService().createTaskQuery().list()).extracting(Task::getAssignee)
++                .containsOnly(STARTER);
++        return instance;
++    }
++
++    private Task reliability(ProcessInstance instance) {
++        return processEngine.getTaskService().createTaskQuery().processInstanceId(instance.getId())
++                .taskName("Reliability").singleResult();
++    }
++
++    private static Stream<Arguments> refusedActions() {
++        return Stream.of(Arguments.of(false, false), Arguments.of(false, true),
++                Arguments.of(true, false), Arguments.of(true, true));
++    }
++
++    @ParameterizedTest
++    @MethodSource("refusedActions")
++    void namedNonAssigneeCannotClaimOrCompleteAssignedArmWithoutAnyMutation(boolean jwt, boolean claim) throws Exception {
++        ProcessInstance instance = startFormApp(jwt);
++        Task task = reliability(instance);
++        // Even candidate/participant visibility must not override an existing assignee.
++        processEngine.getTaskService().addCandidateUser(task.getId(), INTRUDER);
++        processEngine.getTaskService().addUserIdentityLink(task.getId(), INTRUDER, "participant");
++        processEngine.getTaskService().setVariableLocal(task.getId(), "armValue", "unchanged");
++        Snapshot before = snapshot(instance);
++        authenticate(INTRUDER, 99L, jwt);
++        String taskId = task.getId();
++        if (claim) {
++            assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        } else {
++            assertThatThrownBy(() -> actions.completeTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        }
++        assertThat(snapshot(instance)).isEqualTo(before);
++        assertThat(activeTaskNames(instance)).hasSize(10);
++    }
++
++    @ParameterizedTest
++    @ValueSource(booleans = {false, true})
++    void authenticatedAssigneeClaimsWithoutChangingIdentityAndCompletesAllTenArms(boolean jwt) throws Exception {
++        ProcessInstance instance = startFormApp(jwt);
++        Task task = reliability(instance);
++        String taskId = task.getId();
++        actions.claimTask(taskId);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee())
++                .isEqualTo(STARTER);
++        assertThat(processEngine.getTaskService().getVariableLocal(taskId, "task_assign_time"))
++                .isInstanceOf(Date.class);
++        actions.completeTask(taskId);
++        assertThat(activeTaskNames(instance)).hasSize(9).doesNotContain("Reliability");
++        assertThat(processEngine.getHistoryService().createHistoricTaskInstanceQuery().taskId(taskId)
++                .singleResult().getEndTime()).isNotNull();
++        assertThat(processEngine.getRuntimeService().getVariable(instance.getId(), "businessValue"))
++                .isEqualTo("unchanged");
++        for (Task remaining : processEngine.getTaskService().createTaskQuery().processInstanceId(instance.getId()).list()) {
++            actions.completeTask(remaining.getId());
++        }
++        expectEnded(instance);
++        assertThat(processEngine.getHistoryService().createHistoricTaskInstanceQuery()
++                .processInstanceId(instance.getId()).finished().count()).isEqualTo(10);
++    }
++
++    @Test
++    void anonymousForeignAndIncompletePrincipalsCannotMutateAssignedArm() throws Exception {
++        ProcessInstance instance = startFormApp(true);
++        String taskId = reliability(instance).getId();
++        Snapshot before = snapshot(instance);
++        List<org.springframework.security.core.Authentication> invalid = List.of(
++                new UsernamePasswordAuthenticationToken("unauthenticated", null),
++                new UsernamePasswordAuthenticationToken("foreign", null, List.of()),
++                new UsernamePasswordAuthenticationToken(
++                        new InsightUserDetails(STARTER, null, List.of(), List.of()), null, List.of()),
++                new UsernamePasswordAuthenticationToken(
++                        new InsightUserDetails(" ", 42L, List.of(), List.of()), null, List.of()));
++        SecurityContextHolder.clearContext();
++        assertRefusedWithoutMutation(taskId, instance, before);
++        for (org.springframework.security.core.Authentication actor : invalid) {
++            SecurityContextHolder.getContext().setAuthentication(actor);
++            assertRefusedWithoutMutation(taskId, instance, before);
++        }
++    }
++
++    private void assertRefusedWithoutMutation(String taskId, ProcessInstance instance, Snapshot before) {
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThat(snapshot(instance)).isEqualTo(before);
++        assertThatThrownBy(() -> actions.completeTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThat(snapshot(instance)).isEqualTo(before);
++    }
++
++    @Test
++    void unassignedTaskRequiresCandidateAndClaimBeforeCompletion() {
++        authenticate(INTRUDER, 99L, true);
++        Task task = processEngine.getTaskService().newTask();
++        task.setName("candidate task");
++        processEngine.getTaskService().saveTask(task);
++        String taskId = task.getId();
++        processEngine.getTaskService().addUserIdentityLink(taskId, INTRUDER, "participant");
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.completeTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee()).isNull();
++        assertThat(processEngine.getTaskService().getVariablesLocal(taskId)).isEmpty();
++        processEngine.getTaskService().addCandidateUser(taskId, "99");
++        actions.claimTask(taskId);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee())
++                .isEqualTo("99");
++        actions.completeTask(taskId);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult()).isNull();
++    }
++
++    @Test
++    void numericUsernameCannotImpersonateAnotherUsersNumericAssignmentOrCandidateLink() {
++        authenticate("42", 99L, true);
++        Task task = processEngine.getTaskService().newTask();
++        task.setAssignee("42");
++        processEngine.getTaskService().saveTask(task);
++        String taskId = task.getId();
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.completeTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee())
++                .isEqualTo("42");
++        assertThat(processEngine.getTaskService().getVariablesLocal(taskId)).isEmpty();
++        processEngine.getTaskService().setAssignee(taskId, null);
++        processEngine.getTaskService().addCandidateUser(taskId, "42");
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee()).isNull();
++        assertThat(processEngine.getTaskService().getVariablesLocal(taskId)).isEmpty();
++    }
++
++    @Test
++    void groupCandidateRequiresRealMembershipIncludingParentGroups() {
++        authenticate(INTRUDER, 99L, false);
++        Task task = processEngine.getTaskService().newTask();
++        processEngine.getTaskService().saveTask(task);
++        String taskId = task.getId();
++        processEngine.getTaskService().addCandidateGroup(taskId, "7");
++        when(userService.getAllGroupIdsAndParentGroupIdsForUser(99L)).thenReturn(Set.of("8"));
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee()).isNull();
++        assertThat(processEngine.getTaskService().getVariablesLocal(taskId)).isEmpty();
++        when(userService.getAllGroupIdsAndParentGroupIdsForUser(99L)).thenReturn(Set.of("7", "8"));
++        actions.claimTask(taskId);
++        assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee())
++                .isEqualTo("99");
++    }
++
++    @ParameterizedTest
++    @ValueSource(booleans = {false, true})
++    void reassignmentBetweenPermissionReadAndMutationRejectsStaleActor(boolean claim) throws Exception {
++        ProcessInstance instance = startFormApp(true);
++        String taskId = reliability(instance).getId();
++        TaskService engineTasks = processEngine.getTaskService();
++        TaskService interceptedTasks = spy(engineTasks);
++        try (var executor = Executors.newSingleThreadExecutor()) {
++            org.mockito.stubbing.Answer<Object> concurrentReassignment = invocation -> {
++                executor.submit(() -> engineTasks.setAssignee(taskId, INTRUDER)).get(10, TimeUnit.SECONDS);
++                return invocation.callRealMethod();
++            };
++            if (claim) {
++                doAnswer(concurrentReassignment).when(interceptedTasks).claim(anyString(), anyString());
++            } else {
++                doAnswer(concurrentReassignment).when(interceptedTasks).complete(anyString());
++            }
++            TaskActionServiceImpl guarded = new TaskActionServiceImpl(interceptedTasks,
++                    processEngine.getHistoryService(), processEngine.getRuntimeService(), mock(UserCache.class),
++                    mock(TaskRepository.class), processEngine.getManagementService(), userService);
++            if (claim) {
++                assertThatThrownBy(() -> guarded.claimTask(taskId))
++                        .hasRootCauseInstanceOf(FlowableOptimisticLockingException.class);
++            } else {
++                assertThatThrownBy(() -> guarded.completeTask(taskId))
++                        .isInstanceOf(FlowableOptimisticLockingException.class);
++            }
++        }
++        Task current = engineTasks.createTaskQuery().taskId(taskId).singleResult();
++        assertThat(current.getAssignee()).isEqualTo(INTRUDER);
++        assertThat(current.getClaimTime()).isNull();
++        assertThat(engineTasks.getVariablesLocal(taskId)).isEmpty();
++        assertThat(activeTaskNames(instance)).hasSize(10);
++        assertThat(processEngine.getHistoryService().createHistoricTaskInstanceQuery().taskId(taskId)
++                .singleResult().getEndTime()).isNull();
++        assertThat(processEngine.getRuntimeService().getVariable(instance.getId(), "businessValue"))
++                .isEqualTo("unchanged");
++    }
++
++    private Snapshot snapshot(ProcessInstance instance) {
++        String processId = instance.getId();
++        Map<String, TaskState> tasks = new TreeMap<>();
++        for (Task task : processEngine.getTaskService().createTaskQuery().processInstanceId(processId).list()) {
++            tasks.put(task.getId(), new TaskState(task.getName(), task.getAssignee(), task.getOwner(),
++                    task.isSuspended(), task.getDelegationState(), task.getState(), task.getClaimedBy(), task.getClaimTime(),
++                    processEngine.getTaskService().getVariablesLocal(task.getId())));
++        }
++        Map<String, List<Object>> history = new TreeMap<>();
++        processEngine.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processId).list()
++                .forEach(task -> history.put("task:" + task.getId(), java.util.Arrays.asList(
++                        task.getAssignee(), task.getOwner(), task.getEndTime(), task.getClaimTime(), task.getDeleteReason(), task.getState(), task.getClaimedBy())));
++        processEngine.getHistoryService().createHistoricActivityInstanceQuery().processInstanceId(processId).list()
++                .forEach(activity -> history.put("activity:" + activity.getId(), java.util.Arrays.asList(
++                        activity.getActivityId(), activity.getAssignee(), activity.getEndTime())));
++        processEngine.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(processId).list()
++                .forEach(variable -> history.put("variable:" + variable.getId(), java.util.Arrays.asList(
++                        variable.getTaskId(), variable.getVariableName(), variable.getValue())));
++        Map<String, List<String>> links = new TreeMap<>();
++        tasks.keySet().forEach(id -> links.put(id, processEngine.getHistoryService().getHistoricIdentityLinksForTask(id)
++                .stream().map(link -> link.getType() + ":" + link.getUserId() + ":" + link.getGroupId()).sorted().toList()));
++        return new Snapshot(tasks, activeTaskNames(instance), processEngine.getRuntimeService().getVariables(processId),
++                history, links);
++    }
++
++    private record TaskState(String name, String assignee, String owner, boolean suspended,
++                             Object delegation, String state, String claimedBy, Date claimTime, Map<String, Object> localVariables) { }
++    private record Snapshot(Map<String, TaskState> tasks, List<String> activeNames, Map<String, Object> variables,
++                            Map<String, List<Object>> history, Map<String, List<String>> identityLinks) { }
++}
