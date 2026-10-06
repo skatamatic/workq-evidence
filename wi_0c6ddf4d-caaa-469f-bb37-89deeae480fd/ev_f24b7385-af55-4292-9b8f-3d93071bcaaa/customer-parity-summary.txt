@@ -1,0 +1,30 @@
+form-app / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+form-app / authenticated-start = ASSERTED (observed=2) — JWT and legacy authenticated starter owns all ten tasks despite spoofing
+form-app / form-refusal = ASSERTED (observed=1) — Required field refused before writes; task/local-variable invariants also asserted
+form-app / task-refusal = ASSERTED (observed=4) — Named non-assignee refused on claim and complete under both principals
+form-app / first-wait = ASSERTED (observed=1) — Product start reaches ten assigned tasks
+form-app / customer-path = ASSERTED (observed=1) — All ten product form submissions join; historic arm fields checked
+form-app / full-journey = PENDING — Start forms attachments mail identity and general app publication are outside implemented boundary
+mdcr / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+mdcr / authenticated-start = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+mdcr / form-refusal = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+mdcr / task-refusal = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+mdcr / first-wait = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+mdcr / customer-path = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+mdcr / full-journey = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-analysis / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+safran-analysis / authenticated-start = PENDING — setBusinessKeyListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-analysis / form-refusal = PENDING — setBusinessKeyListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-analysis / task-refusal = PENDING — setBusinessKeyListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-analysis / first-wait = PENDING — setBusinessKeyListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-analysis / customer-path = PENDING — setBusinessKeyListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-analysis / full-journey = PENDING — setBusinessKeyListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-feedback / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+safran-feedback / authenticated-start = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-feedback / form-refusal = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-feedback / task-refusal = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-feedback / first-wait = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-feedback / customer-path = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+safran-feedback / full-journey = PENDING — insightRenameProcessListener blocks unchanged archive start; persisted identifier seam tests do not certify customer execution
+Customer parity: fixtures=4 deployed=4 asserted=5 pending-or-waived=19 observed-claim-invocations=13 (shared test invocations counted per dimension; not complete legacy parity)
+Surefire scenario invocations: tests=64 failures-or-errors=0 skipped=0
