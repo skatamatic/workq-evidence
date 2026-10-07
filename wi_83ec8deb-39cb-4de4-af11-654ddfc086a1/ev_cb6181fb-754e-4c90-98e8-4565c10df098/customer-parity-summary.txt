@@ -1,0 +1,30 @@
+form-app / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+form-app / authenticated-start = ASSERTED (observed=2) — JWT and legacy authenticated starter owns all ten tasks despite spoofing
+form-app / form-refusal = ASSERTED (observed=1) — Required field refused before writes; task/local-variable invariants also asserted
+form-app / task-refusal = ASSERTED (observed=4) — Named non-assignee refused on claim and complete under both principals
+form-app / first-wait = ASSERTED (observed=1) — Product start reaches ten assigned tasks
+form-app / customer-path = ASSERTED (observed=1) — All ten product form submissions join; historic arm fields checked
+form-app / full-journey = PENDING — Start forms attachments mail identity and general app publication are outside implemented boundary
+mdcr / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+mdcr / authenticated-start = PENDING — insightLdapListener.setLdapProcessVariables(task) blocks first wait after reporting ID and process rename; adapter effects roll back
+mdcr / form-refusal = PENDING — insightLdapListener.setLdapProcessVariables(task) blocks first wait after reporting ID and process rename; adapter effects roll back
+mdcr / task-refusal = PENDING — insightLdapListener.setLdapProcessVariables(task) blocks first wait after reporting ID and process rename; adapter effects roll back
+mdcr / first-wait = PENDING — insightLdapListener.setLdapProcessVariables(task) blocks first wait after reporting ID and process rename; adapter effects roll back
+mdcr / customer-path = PENDING — insightLdapListener.setLdapProcessVariables(task) blocks first wait after reporting ID and process rename; adapter effects roll back
+mdcr / full-journey = PENDING — insightLdapListener.setLdapProcessVariables(task) blocks first wait after reporting ID and process rename; adapter effects roll back
+safran-analysis / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+safran-analysis / authenticated-start = PENDING — insightSafranDispatchListener.isAnalysisRequired blocks first wait after package ID and publicationId business key; adapter effects roll back
+safran-analysis / form-refusal = PENDING — insightSafranDispatchListener.isAnalysisRequired blocks first wait after package ID and publicationId business key; adapter effects roll back
+safran-analysis / task-refusal = PENDING — insightSafranDispatchListener.isAnalysisRequired blocks first wait after package ID and publicationId business key; adapter effects roll back
+safran-analysis / first-wait = PENDING — insightSafranDispatchListener.isAnalysisRequired blocks first wait after package ID and publicationId business key; adapter effects roll back
+safran-analysis / customer-path = PENDING — insightSafranDispatchListener.isAnalysisRequired blocks first wait after package ID and publicationId business key; adapter effects roll back
+safran-analysis / full-journey = PENDING — insightSafranDispatchListener.isAnalysisRequired blocks first wait after package ID and publicationId business key; adapter effects roll back
+safran-feedback / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+safran-feedback / authenticated-start = PENDING — insightJsonUtilListener.extractDisplayTextToColumn blocks first wait after package ID and process rename; adapter effects roll back
+safran-feedback / form-refusal = PENDING — insightJsonUtilListener.extractDisplayTextToColumn blocks first wait after package ID and process rename; adapter effects roll back
+safran-feedback / task-refusal = PENDING — insightJsonUtilListener.extractDisplayTextToColumn blocks first wait after package ID and process rename; adapter effects roll back
+safran-feedback / first-wait = PENDING — insightJsonUtilListener.extractDisplayTextToColumn blocks first wait after package ID and process rename; adapter effects roll back
+safran-feedback / customer-path = PENDING — insightJsonUtilListener.extractDisplayTextToColumn blocks first wait after package ID and process rename; adapter effects roll back
+safran-feedback / full-journey = PENDING — insightJsonUtilListener.extractDisplayTextToColumn blocks first wait after package ID and process rename; adapter effects roll back
+Customer parity: fixtures=4 deployed=4 asserted=5 pending-or-waived=19 observed-claim-invocations=13 (shared test invocations counted per dimension; not complete legacy parity)
+Surefire scenario invocations: tests=81 failures-or-errors=0 skipped=0
