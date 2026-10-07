@@ -1,0 +1,10 @@
+{
+  "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-58/1/testReport/",
+  "passCount": 2064,
+  "failCount": 0,
+  "skipCount": 0,
+  "executionCount": 2064,
+  "uniqueTestCount": 1032,
+  "failures": [],
+  "failureListTruncated": false
+}
