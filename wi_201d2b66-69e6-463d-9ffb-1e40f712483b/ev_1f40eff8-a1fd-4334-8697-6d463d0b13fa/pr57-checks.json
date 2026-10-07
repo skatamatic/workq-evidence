@@ -1,0 +1,101 @@
+{
+  "head": "cdcedad35dac",
+  "checks": [
+    {
+      "key": "5086d28f586dba69ead5436c00b57c64",
+      "type": "build",
+      "state": "FAILED",
+      "name": "Research & Development » insight-server » kwesley/reusable-app-archive-publication #2",
+      "refname": "kwesley/reusable-app-archive-publication",
+      "commit": {
+        "hash": "cdcedad35daca23d2b274e22ce718645c98c6da6",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server/commit/cdcedad35daca23d2b274e22ce718645c98c6da6"
+          },
+          "html": {
+            "href": "https://bitbucket.org/flatironssolutions/insight-server/commits/cdcedad35daca23d2b274e22ce718645c98c6da6"
+          }
+        },
+        "type": "commit"
+      },
+      "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/kwesley%252Freusable-app-archive-publication/2/display/redirect",
+      "repository": {
+        "type": "repository",
+        "full_name": "flatironssolutions/insight-server",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server"
+          },
+          "html": {
+            "href": "https://bitbucket.org/flatironssolutions/insight-server"
+          },
+          "avatar": {
+            "href": "https://bytebucket.org/ravatar/%7B01d4628a-614f-48ea-8541-d81b7f54f724%7D?ts=default"
+          }
+        },
+        "name": "Insight Server",
+        "uuid": "{01d4628a-614f-48ea-8541-d81b7f54f724}"
+      },
+      "description": "There was a failure building this commit.",
+      "created_on": "2026-10-07T20:28:58.964538+00:00",
+      "updated_on": "2026-10-07T20:36:55.867994+00:00",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server/commit/cdcedad35daca23d2b274e22ce718645c98c6da6/statuses/build/5086d28f586dba69ead5436c00b57c64"
+        },
+        "commit": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server/commit/cdcedad35daca23d2b274e22ce718645c98c6da6"
+        }
+      }
+    },
+    {
+      "key": "cfb4c34c866509019981a28f838304df",
+      "type": "build",
+      "state": "SUCCESSFUL",
+      "name": "Research & Development » insight-server » Publish reusable Kickstart app archives with stable form references (#57) #2",
+      "refname": "kwesley/reusable-app-archive-publication",
+      "commit": {
+        "hash": "cdcedad35daca23d2b274e22ce718645c98c6da6",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server/commit/cdcedad35daca23d2b274e22ce718645c98c6da6"
+          },
+          "html": {
+            "href": "https://bitbucket.org/flatironssolutions/insight-server/commits/cdcedad35daca23d2b274e22ce718645c98c6da6"
+          }
+        },
+        "type": "commit"
+      },
+      "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-57/2/display/redirect",
+      "repository": {
+        "type": "repository",
+        "full_name": "flatironssolutions/insight-server",
+        "links": {
+          "self": {
+            "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server"
+          },
+          "html": {
+            "href": "https://bitbucket.org/flatironssolutions/insight-server"
+          },
+          "avatar": {
+            "href": "https://bytebucket.org/ravatar/%7B01d4628a-614f-48ea-8541-d81b7f54f724%7D?ts=default"
+          }
+        },
+        "name": "Insight Server",
+        "uuid": "{01d4628a-614f-48ea-8541-d81b7f54f724}"
+      },
+      "description": "This commit looks good.",
+      "created_on": "2026-10-07T20:28:59.176722+00:00",
+      "updated_on": "2026-10-07T20:37:09.264331+00:00",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server/commit/cdcedad35daca23d2b274e22ce718645c98c6da6/statuses/build/cfb4c34c866509019981a28f838304df"
+        },
+        "commit": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-server/commit/cdcedad35daca23d2b274e22ce718645c98c6da6"
+        }
+      }
+    }
+  ]
+}
