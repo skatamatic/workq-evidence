@@ -1,0 +1,883 @@
+diff --git a/docs/workflow-scenario-seams.md b/docs/workflow-scenario-seams.md
+index b997724..d9459b5 100644
+--- a/docs/workflow-scenario-seams.md
++++ b/docs/workflow-scenario-seams.md
+@@ -76,12 +76,74 @@ routing only; see [workflow-scenario-port.md](workflow-scenario-port.md).
+   `ScriptEngineManager.getEngineByName("JavaScript")` returned null. Script
+   migration or an explicit engine is needed before those paths can run.
+ 
+-The production process-rename and business-key adapters now advance authenticated
+-product-service starts beyond their earlier blockers. MDCR next fails at LDAP
+-projection, Analysis at Safran dispatch, and Feedback at JSON display-text
+-projection, before any first wait. All start effects roll back and customer
+-journey rows remain PENDING. See [workflow-identifiers.md](workflow-identifiers.md)
+-for source configuration, actual names/keys, and exact blocker expressions.
++The production process-rename and business-key adapters advance authenticated
++starts to the next listener seam. Analysis remains blocked at Safran dispatch.
++The work-in-progress MDCR/Feedback slice defines the bounded contracts below; the parity
++inventory is the authoritative list of assertions with passing receipts.
++
++### Bounded first-wait listener contracts (work in progress)
++
++Feedback acceptance is currently red at the reached
++`insightEmailExecutionListener.processMailTask(execution, "start")` on
++`submitter-notification`. Its archive uses a parallel gateway, whose exits ignore
++conditions in both legacy Activiti and Flowable. Although the archive sets
++`skipEmails=true`, that variable does not suppress the native mail branch.
++The real notification listener and native-mail configuration/transport path must
++be implemented before Feedback's first wait can persist. No placeholder or
++skip-mail behavior has been added, and no customer parity row has been promoted.
++
++`insightLdapListener.setLdapProcessVariables(task)` supports MDCR's
++`originate-mdcr` task only. It resolves the persisted Insight user by the
++JWT/legacy authenticated principal's ID, requires an active user and matching
++username/initiator, and maps `userName`, `firstName`, `lastName`, and `email` to
++`originator_id`, `originator_first_name`, `originator_last_name`, and
++`originator_email`. These mappings are established by legacy
++`insight-app/acm/config-insight-acm-mapping.json` at snapshot `525716d6c` and the
++current ACM-synchronized UserEntity. Department, title, and phone have no
++established current entity mapping and are deliberately outside the supported
++subset; no customer values are fabricated. The archive's literal `$INITIATOR`
++assignee is resolved to the trusted username. Missing/mismatched/inactive
++identity refuses the command, including any reporting-ID allocation and earlier
++name changes. The adapter has no mutable delegate fields or remote LDAP calls.
++
++Feedback first reaches `insightJsonUtilListener.extractDisplayTextToColumn`.
++It copies the reference table, selects displayText with hyperlink fallback (or a
++literal string), and persists the JSON string once all rows validate. An absent
++table preserves the source behavior; malformed JSON/non-object rows fail before
++writes. The reached `activiti_flowConditionsBean.exists` gateway operation
++recognizes Boolean false as present; dotted-variable paths are unsupported.
++
++Feedback's `local-review-feedback` task uses a persisted exact-key contract:
++
++- A non-deleted `ReferenceDataLookup` of type `workflow-task-routing`, key
++  `SafranFeedbackWorkflow/local-review-feedback`, contains textual metadata
++  `processKey`, `taskKey`, `lookupVariable`, `lookupType`, and `taskName`.
++- Both process/task keys must match the deployed task. The supported lookup
++  variable is `submitting_site`; its nonblank String value selects an exact
++  key from the configured lookupType, distinct from `workflow-task-routing`.
++- That non-deleted lookup row contains `candidateGroup`, the stable name of an
++  active functional Insight group. Group resolution is separate from lookup.
++  The resolved numeric Insight group ID replaces the archive candidate IDs,
++  is exposed as `candidate_group`, and is added as a task and process participant
++  when the archive invokes `assignCandidateGroupAndInvolveGroup`.
++- `insightRenameTaskListener.renameTask` uses the explicit persisted `taskName`
++  (maximum 255 characters). This is a supported display-name subset, not the
++  legacy arbitrary variable-formatting grammar. No bundled legacy JSON supplies
++  production rules or customer names.
++
++Only this first Feedback task and the default tenant are supported. Missing rule,
++lookup match, group, inactive/deleted data, or mismatched keys fails closed in the
++same engine/JPA transaction. No default group fallback hides configuration errors.
++The broader Administration PDC-005 configured-table/dropdown/query contract
++remains **Discovery required**, and other routing methods/tasks remain unsupported.
++
++Unchanged archive tests use ProcessInstanceServiceImpl under both principal types
++and TaskActionServiceImpl for wrong-user claim/complete refusal. Successful
++first-wait starts do not prove form submission, subsequent routing, notifications,
++or customer completion. After the notification blocker is resolved, the next product gap is numeric archive form resolution:
++MDCR formKey `18` and Feedback formKey `319` require form publication/submission
++parity. On later outgoing paths MDCR routing/assignment/date helpers and Feedback
++mail/downstream routing and condition arms are still unimplemented by this slice.
+ 
+ ## Actual implementation gaps
+ 
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java
+new file mode 100644
+index 0000000..abe2bb0
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java
+@@ -0,0 +1,124 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime;
++
++import java.util.Set;
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.domain.ReferenceDataLookupEntity;
++import com.flatirons.insight.domain.GroupEntity;
++import com.flatirons.insight.model.enums.status.GroupStatus;
++import com.flatirons.insight.model.enums.type.GroupType;
++import com.flatirons.insight.repository.ReferenceDataLookupRepository;
++import com.flatirons.insight.repository.GroupRepository;
++import org.flowable.engine.RepositoryService;
++import org.flowable.engine.RuntimeService;
++import org.flowable.task.service.delegate.DelegateTask;
++import org.flowable.identitylink.api.IdentityLinkType;
++import org.springframework.context.annotation.Lazy;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++/** Bounded persisted exact-key lookup, distinct from group resolution. No Administration table emulation. */
++@Service
++public class WorkflowTaskRoutingService {
++    private static final String RULE_TYPE = "workflow-task-routing";
++    private final ReferenceDataLookupRepository lookups;
++    private final GroupRepository groups;
++    private final RepositoryService repository;
++    private final RuntimeService runtime;
++    private final ObjectMapper mapper;
++
++    public WorkflowTaskRoutingService(ReferenceDataLookupRepository lookups, GroupRepository groups,
++            @Lazy RepositoryService repository, @Lazy RuntimeService runtime, ObjectMapper mapper) {
++        this.lookups = lookups;
++        this.groups = groups;
++        this.repository = repository;
++        this.runtime = runtime;
++        this.mapper = mapper;
++    }
++
++    private JsonNode rule(DelegateTask task) {
++        if (task.getTenantId() != null && !task.getTenantId().isEmpty()) {
++            throw new IllegalArgumentException("Tenant routing is not supported at " + task.getTaskDefinitionKey());
++        }
++        String process = repository.getProcessDefinition(task.getProcessDefinitionId()).getKey();
++        String taskKey = task.getTaskDefinitionKey();
++        if (!"SafranFeedbackWorkflow".equals(process) || !"local-review-feedback".equals(taskKey)) {
++            throw new IllegalArgumentException("Unsupported routing at " + process + "/" + taskKey);
++        }
++        JsonNode rule = record(RULE_TYPE, process + "/" + taskKey);
++        if (!process.equals(text(rule, "processKey")) || !taskKey.equals(text(rule, "taskKey"))) {
++            throw new IllegalArgumentException("Routing rule process/task mismatch at " + taskKey);
++        }
++        return rule;
++    }
++
++    @Transactional(transactionManager = "insightTransactionManager")
++    public void rename(DelegateTask task) {
++        // Administration supplies the display name explicitly; no bundled customer naming configuration.
++        String name = text(rule(task), "taskName");
++        if (name.length() > 255) { throw new IllegalArgumentException("Routing task name exceeds 255 characters"); }
++        task.setName(name);
++    }
++
++    @Transactional(transactionManager = "insightTransactionManager")
++    public void assign(DelegateTask task, boolean involve) {
++        JsonNode rule = rule(task);
++        String variable = text(rule, "lookupVariable");
++        if (!"submitting_site".equals(variable)) {
++            throw new IllegalArgumentException("Unsupported routing variable " + variable);
++        }
++        Object value = task.getVariable(variable);
++        if (!(value instanceof String key) || key.isBlank() || key.length() > 255) {
++            throw new IllegalArgumentException("Missing routing lookup value at " + task.getTaskDefinitionKey());
++        }
++        String lookupType = text(rule, "lookupType");
++        if (RULE_TYPE.equals(lookupType)) { throw new IllegalArgumentException("Routing lookup cannot select a rule"); }
++        JsonNode match = record(lookupType, key);
++        String groupName = text(match, "candidateGroup");
++        GroupEntity group = groups.findByNameAndGroupType(groupName, GroupType.GROUP)
++                .orElseThrow(() -> new IllegalArgumentException("Unresolved routing group " + groupName));
++        if (group.getId() == null || group.getStatus() != GroupStatus.ACTIVE) {
++            throw new IllegalArgumentException("Inactive routing group " + groupName);
++        }
++        String groupId = group.getId().toString();
++        // Resolve everything before touching assignment. The Flowable command and JPA share one transaction.
++        for (var link : Set.copyOf(task.getCandidates())) {
++            if (link.getGroupId() != null) { task.deleteCandidateGroup(link.getGroupId()); }
++            if (link.getUserId() != null) { task.deleteCandidateUser(link.getUserId()); }
++        }
++        task.addCandidateGroup(groupId);
++        task.setVariable("candidate_group", groupId);
++        if (involve) {
++            task.addGroupIdentityLink(groupId, IdentityLinkType.PARTICIPANT);
++            runtime.addParticipantGroup(task.getProcessInstanceId(), groupId);
++        }
++    }
++
++    private JsonNode record(String type, String key) {
++        ReferenceDataLookupEntity entity = lookups.findByLookupTypeAndKeyValue(type, key)
++                .orElseThrow(() -> new IllegalArgumentException("Missing routing lookup " + type + "/" + key));
++        if (!Boolean.FALSE.equals(entity.getIsDeleted())) {
++            throw new IllegalArgumentException("Deleted routing lookup " + type + "/" + key);
++        }
++        try {
++            JsonNode metadata = mapper.readTree(entity.getMetadata());
++            if (metadata == null || !metadata.isObject()) { throw new IllegalArgumentException("Routing metadata must be an object"); }
++            return metadata;
++        } catch (java.io.IOException e) {
++            throw new IllegalArgumentException("Malformed routing metadata " + type + "/" + key, e);
++        }
++    }
++
++    private static String text(JsonNode node, String field) {
++        JsonNode value = node.get(field);
++        if (value == null || !value.isTextual() || value.textValue().isBlank() || value.textValue().length() > 255) {
++            throw new IllegalArgumentException("Invalid routing field " + field);
++        }
++        return value.textValue();
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/FlowConditionsBean.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/FlowConditionsBean.java
+new file mode 100644
+index 0000000..3b2ef15
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/FlowConditionsBean.java
+@@ -0,0 +1,20 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime.listener;
++
++import org.flowable.engine.delegate.DelegateExecution;
++import org.springframework.stereotype.Service;
++
++/** Reached Feedback gateway contract; false is a present value. */
++@Service("activiti_flowConditionsBean")
++public class FlowConditionsBean {
++    public boolean exists(DelegateExecution execution, String variable) {
++        if (variable == null || variable.isBlank() || variable.contains(".")) {
++            throw new IllegalArgumentException("Unsupported condition variable " + variable);
++        }
++        return execution.getVariable(variable) != null;
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightJsonUtilListener.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightJsonUtilListener.java
+new file mode 100644
+index 0000000..6a398c8
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightJsonUtilListener.java
+@@ -0,0 +1,50 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime.listener;
++
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.fasterxml.jackson.databind.node.ObjectNode;
++import org.flowable.engine.delegate.DelegateExecution;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++/** Source-backed display-text extraction on the reached Feedback start sequence flow. */
++@Service("insightJsonUtilListener")
++public class InsightJsonUtilListener {
++    private final ObjectMapper mapper;
++    public InsightJsonUtilListener(ObjectMapper mapper) { this.mapper = mapper; }
++
++    @Transactional(transactionManager = "insightTransactionManager")
++    public void extractDisplayTextToColumn(DelegateExecution execution, String source, String field, String column) {
++        Object raw = execution.getVariable(source);
++        if (raw == null) { return; } // Legacy absent-table behavior.
++        try {
++            JsonNode table = raw instanceof String text ? mapper.readTree(text) : mapper.valueToTree(raw);
++            if (table == null || !table.isArray()) {
++                throw new IllegalArgumentException("Expected array table " + source);
++            }
++            table = table.deepCopy();
++            for (JsonNode row : table) {
++                if (!(row instanceof ObjectNode object)) {
++                    throw new IllegalArgumentException("Expected object row in " + source);
++                }
++                JsonNode link = row.get(field);
++                String display = "";
++                if (link != null && link.isTextual()) {
++                    display = link.textValue();
++                } else if (link != null && link.isObject()) {
++                    display = link.path("displayText").asText("");
++                    if (display.isBlank()) { display = link.path("hyperlink").asText(""); }
++                }
++                object.put(column, display);
++            }
++            execution.setVariable(source, mapper.writeValueAsString(table));
++        } catch (java.io.IOException e) {
++            throw new IllegalArgumentException("Invalid table " + source + " at " + execution.getCurrentActivityId(), e);
++        }
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightLdapListener.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightLdapListener.java
+new file mode 100644
+index 0000000..9b00c86
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightLdapListener.java
+@@ -0,0 +1,74 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime.listener;
++
++import com.flatirons.insight.domain.UserEntity;
++import com.flatirons.insight.model.enums.status.UserAccountStatus;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.repository.UserRepository;
++import com.flatirons.insight.security.InsightAppUser;
++import com.flatirons.insight.security.SecurityUtils;
++import org.flowable.engine.RepositoryService;
++import org.flowable.task.service.delegate.DelegateTask;
++import org.springframework.context.annotation.Lazy;
++import org.springframework.security.access.AccessDeniedException;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++/** MDCR's reached ACM subset: username, first/last name and email, from persisted authenticated identity. */
++@Service("insightLdapListener")
++public class InsightLdapListener {
++    private final UserRepository users;
++    private final RepositoryService repository;
++
++    public InsightLdapListener(UserRepository users, @Lazy RepositoryService repository) {
++        this.users = users;
++        this.repository = repository;
++    }
++
++    @Transactional(transactionManager = "insightTransactionManager")
++    public void setLdapProcessVariables(DelegateTask task) {
++        String process = repository.getProcessDefinition(task.getProcessDefinitionId()).getKey();
++        if (!"MDCR".equalsIgnoreCase(process) || !"originate-mdcr".equals(task.getTaskDefinitionKey())) {
++            throw new IllegalArgumentException("Unsupported ACM mapping at " + task.getTaskDefinitionKey());
++        }
++        var authentication = SecurityUtils.getAuthentication();
++        if (authentication == null || !authentication.isAuthenticated()) {
++            throw new AccessDeniedException("Authenticated ACM identity required at " + task.getTaskDefinitionKey());
++        }
++        Long id;
++        String username;
++        if (authentication.getPrincipal() instanceof InsightUserDetails user) {
++            id = user.getUserId();
++            username = user.getUsername();
++        } else if (authentication.getPrincipal() instanceof InsightAppUser user) {
++            id = user.getId();
++            username = user.getUsername();
++        } else {
++            throw new AccessDeniedException("Authenticated ACM identity required");
++        }
++        if (id == null || username == null || username.isBlank()
++                || !username.equals(task.getVariable("initiator"))) {
++            throw new AccessDeniedException("ACM initiator mismatch at " + task.getTaskDefinitionKey());
++        }
++        UserEntity user = users.findById(id).orElseThrow(() -> new AccessDeniedException("ACM identity not found"));
++        if (!username.equals(user.getUserName()) || user.getAccountStatus() != UserAccountStatus.ACTIVE) {
++            throw new AccessDeniedException("ACM identity mismatch");
++        }
++        if (!"$INITIATOR".equals(task.getAssignee()) && !username.equals(task.getAssignee())) {
++            throw new AccessDeniedException("MDCR task must belong to its initiator");
++        }
++        // These mappings exist in legacy config-insight-acm-mapping.json. No invented department/title/phone.
++        task.setVariable("originator_id", user.getUserName());
++        task.setVariable("originator_first_name", user.getFirstName());
++        task.setVariable("originator_last_name", user.getLastName());
++        task.setVariable("originator_email", user.getEmail());
++        // The unchanged Activiti archive uses a literal marker; Flowable does not evaluate it as an expression.
++        if ("$INITIATOR".equals(task.getAssignee())) {
++            task.setAssignee(username);
++        }
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightRenameTaskListener.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightRenameTaskListener.java
+new file mode 100644
+index 0000000..4bdb87f
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightRenameTaskListener.java
+@@ -0,0 +1,17 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime.listener;
++
++import com.flatirons.insight.service.runtime.WorkflowTaskRoutingService;
++import org.flowable.task.service.delegate.DelegateTask;
++import org.springframework.stereotype.Service;
++
++@Service("insightRenameTaskListener")
++public class InsightRenameTaskListener {
++    private final WorkflowTaskRoutingService routing;
++    public InsightRenameTaskListener(WorkflowTaskRoutingService routing) { this.routing = routing; }
++    public void renameTask(DelegateTask task) { routing.rename(task); }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightRoutingProcessListener.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightRoutingProcessListener.java
+new file mode 100644
+index 0000000..13897e4
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/InsightRoutingProcessListener.java
+@@ -0,0 +1,18 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime.listener;
++
++import com.flatirons.insight.service.runtime.WorkflowTaskRoutingService;
++import org.flowable.task.service.delegate.DelegateTask;
++import org.springframework.stereotype.Service;
++
++@Service("insightRoutingProcessListener")
++public class InsightRoutingProcessListener {
++    private final WorkflowTaskRoutingService routing;
++    public InsightRoutingProcessListener(WorkflowTaskRoutingService routing) { this.routing = routing; }
++    public void assignCandidateGroup(DelegateTask task) { routing.assign(task, false); }
++    public void assignCandidateGroupAndInvolveGroup(DelegateTask task) { routing.assign(task, true); }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
+new file mode 100644
+index 0000000..82c635f
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
+@@ -0,0 +1,260 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.scenario;
++
++import com.flatirons.insight.service.runtime.*;
++
++import java.io.InputStream;
++import java.util.List;
++import java.util.Map;
++import java.util.Set;
++import java.util.zip.ZipInputStream;
++import com.flatirons.insight.conf.security.SpringSecurityAuthenticationContext;
++import com.flatirons.insight.domain.UserEntity;
++import com.flatirons.insight.domain.GroupEntity;
++import com.flatirons.insight.domain.ReferenceDataLookupEntity;
++import com.flatirons.insight.model.enums.type.UserAccountType;
++import com.flatirons.insight.model.enums.type.GroupType;
++import com.flatirons.insight.model.enums.status.GroupStatus;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.model.request.ProcessInstanceStartRequest;
++import com.flatirons.insight.repository.UserRepository;
++import com.flatirons.insight.repository.GroupRepository;
++import com.flatirons.insight.repository.ReferenceDataLookupRepository;
++import com.flatirons.insight.repository.TaskRepository;
++import com.flatirons.insight.security.InsightAppUser;
++import org.flowable.common.engine.api.identity.AuthenticationContext;
++import org.flowable.common.engine.impl.identity.Authentication;
++import org.flowable.engine.ProcessEngine;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.CsvSource;
++import org.springframework.context.annotation.AnnotationConfigApplicationContext;
++import org.springframework.core.env.MapPropertySource;
++import org.springframework.security.access.AccessDeniedException;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.context.SecurityContextHolder;
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.when;
++
++/** Unchanged customer archives, production starts/listeners and product refusal boundary. */
++@org.testcontainers.junit.jupiter.Testcontainers
++class CustomerFirstWaitScenarioTest {
++    @org.testcontainers.junit.jupiter.Container
++    private static final org.testcontainers.containers.PostgreSQLContainer<?> POSTGRES =
++            new org.testcontainers.containers.PostgreSQLContainer<>("postgres:16-alpine");
++    private AuthenticationContext previous;
++    @BeforeEach void setup() {
++        previous = Authentication.getAuthenticationContext();
++        Authentication.setAuthenticationContext(new SpringSecurityAuthenticationContext());
++    }
++    @AfterEach void cleanup() {
++        SecurityContextHolder.clearContext();
++        Authentication.setAuthenticationContext(previous);
++    }
++
++    @ParameterizedTest
++    @CsvSource({"mdcr,false", "mdcr,true"})
++    void authenticatedArchiveReachesFirstWaitAndRefusesWrongUser(String fixture, boolean jwt) throws Exception {
++        try (var context = open()) {
++            ProcessEngine engine = context.getBean(ProcessEngine.class);
++            String key = deploy(engine, fixture);
++            UserEntity user = new UserEntity();
++            user.setUserName("admin@app.insight.com");
++            user.setFirstName("Admin");
++            user.setLastName("Administrator");
++            user.setEmail("admin@app.insight.com");
++            user.setAccountType(UserAccountType.USER);
++            user = context.getBean(UserRepository.class).saveAndFlush(user);
++            authenticate(user, jwt);
++            if (fixture.equals("safran-feedback")) { routing(context, key); }
++            var runtime = engine.getRuntimeService();
++            var service = new ProcessInstanceServiceImpl(runtime, engine.getHistoryService(), mock(UserCache.class),
++                    mock(UserService.class), null, null, null, null, engine.getRepositoryService());
++            var request = new ProcessInstanceStartRequest();
++            request.setProcessDefinitionKey(key);
++            request.setVariables(Map.of("initiator", "spoofed", "nomenclature", "Engine", "aa_number", "AA-42",
++                    "type_of_document_pub_number", "DOC-9", "equipment_types", "Turbine", "submitting_site", "Paris",
++                    "references", "[{\"reference\":{\"displayText\":\"Chapter 42\",\"hyperlink\":\"https://example.test/42\"}}]"));
++            var response = service.startProcessInstance(request);
++            var instance = engine.getRuntimeService().createProcessInstanceQuery().singleResult();
++            var task = engine.getTaskService().createTaskQuery().processInstanceId(instance.getId()).singleResult();
++            assertThat(task).isNotNull();
++            assertThat(task.getTaskDefinitionKey()).isEqualTo(fixture.equals("mdcr") ? "originate-mdcr" : "local-review-feedback");
++            assertThat(runtime.getVariable(instance.getId(), "initiator")).isEqualTo(user.getUserName());
++            if (fixture.equals("mdcr")) {
++                assertThat(task.getAssignee()).isEqualTo(user.getUserName());
++                assertThat(task.getName()).isEqualTo("Originate MDCR");
++                assertThat(runtime.getVariables(instance.getId())).containsEntry("originator_id", user.getUserName())
++                        .containsEntry("originator_first_name", "Admin").containsEntry("originator_last_name", "Administrator")
++                        .containsEntry("originator_email", user.getEmail()).containsEntry("process_id", 1L);
++            } else {
++                assertThat(task.getAssignee()).isNull();
++                assertThat(task.getName()).isEqualTo("Paris: Local Support Feedback");
++                var links = engine.getTaskService().getIdentityLinksForTask(task.getId());
++                String group = context.getBean(GroupRepository.class).findByName("Feedback Admin").orElseThrow().getId().toString();
++                assertThat(links).filteredOn(link -> "candidate".equals(link.getType())).extracting(link -> link.getGroupId())
++                        .containsExactly(group);
++                assertThat(links).filteredOn(link -> "participant".equals(link.getType())).extracting(link -> link.getGroupId())
++                        .containsExactly(group);
++                assertThat(runtime.getIdentityLinksForProcessInstance(instance.getId())).anySatisfy(link -> {
++                    assertThat(link.getType()).isEqualTo("participant");
++                    assertThat(link.getGroupId()).isEqualTo(group);
++                });
++                assertThat(runtime.getVariables(instance.getId())).containsEntry("candidate_group", group)
++                        .containsEntry("site_scope", "Local").containsEntry("src_task_id", task.getId())
++                        .containsEntry("review_feedback", task.getId()).containsEntry("package_id", 1L);
++                assertThat(runtime.getVariable(instance.getId(), "references").toString()).contains("\"displayReference\":\"Chapter 42\"");
++            }
++            var variables = runtime.getVariables(instance.getId());
++            var local = engine.getTaskService().getVariablesLocal(task.getId());
++            var links = engine.getTaskService().getIdentityLinksForTask(task.getId()).stream()
++                    .map(link -> link.getType() + ":" + link.getUserId() + ":" + link.getGroupId()).sorted().toList();
++            UserEntity intruder = new UserEntity();
++            intruder.setId(999L);
++            intruder.setUserName("refused@insight.test");
++            authenticate(intruder, jwt);
++            UserService users = mock(UserService.class);
++            when(users.getAllGroupIdsAndParentGroupIdsForUser(999L)).thenReturn(Set.of());
++            var actions = new TaskActionServiceImpl(engine.getTaskService(), engine.getHistoryService(), runtime,
++                    mock(UserCache.class), mock(TaskRepository.class), engine.getManagementService(), users);
++            assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++            assertThatThrownBy(() -> actions.completeTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++            assertThat(runtime.getVariables(instance.getId())).isEqualTo(variables);
++            assertThat(engine.getTaskService().getVariablesLocal(task.getId())).isEqualTo(local);
++            var unchanged = engine.getTaskService().createTaskQuery().taskId(task.getId()).singleResult();
++            assertThat(unchanged.getAssignee()).isEqualTo(task.getAssignee());
++            assertThat(unchanged.getName()).isEqualTo(task.getName());
++            assertThat(engine.getTaskService().createTaskQuery().processInstanceId(instance.getId()).count()).isEqualTo(1);
++            assertThat(engine.getTaskService().getIdentityLinksForTask(task.getId()).stream()
++                    .map(link -> link.getType() + ":" + link.getUserId() + ":" + link.getGroupId()).sorted().toList()).isEqualTo(links);
++            System.out.println("PARITY_ASSERTED:" + fixture + ".authenticated-first-wait");
++            System.out.println("PARITY_ASSERTED:" + fixture + ".first-wait-assignment-variables");
++            System.out.println("PARITY_ASSERTED:" + fixture + ".wrong-user-no-mutation");
++        }
++    }
++
++    @ParameterizedTest
++    @org.junit.jupiter.params.provider.ValueSource(booleans = {false, true})
++    void feedbackMustReachFirstWaitAndRefuseWrongUser(boolean jwt) throws Exception {
++        authenticatedArchiveReachesFirstWaitAndRefusesWrongUser("safran-feedback", jwt);
++    }
++
++    @ParameterizedTest
++    @CsvSource({"missing-identity", "missing-rule", "wrong-process", "missing-match", "missing-group", "deleted-rule", "wrong-task", "missing-value", "inactive-group", "malformed-rule"})
++    void unavailableIdentityOrRoutingRollsBackArchiveStart(String fault) throws Exception {
++        try (var context = open()) {
++            ProcessEngine engine = context.getBean(ProcessEngine.class);
++            boolean mdcr = fault.equals("missing-identity");
++            String key = deploy(engine, mdcr ? "mdcr" : "safran-feedback");
++            UserEntity user = new UserEntity();
++            user.setId(999L);
++            user.setUserName("admin@app.insight.com");
++            authenticate(user, true);
++            if (!mdcr && !fault.equals("missing-rule")) {
++                routing(context, key);
++                var lookups = context.getBean(ReferenceDataLookupRepository.class);
++                if (fault.equals("inactive-group")) {
++                    var group = context.getBean(GroupRepository.class).findByName("Feedback Admin").orElseThrow();
++                    group.setStatus(GroupStatus.INACTIVE);
++                    context.getBean(GroupRepository.class).saveAndFlush(group);
++                } else if (fault.equals("missing-value")) {
++                    // Checked below via the actual start request.
++                } else if (fault.equals("missing-match")) {
++                    lookups.delete(lookups.findByLookupTypeAndKeyValue("feedback-sites", "Paris").orElseThrow());
++                } else if (fault.equals("missing-group")) {
++                    context.getBean(GroupRepository.class).deleteAll();
++                } else {
++                    var rule = lookups.findByLookupTypeAndKeyValue("workflow-task-routing", key + "/local-review-feedback").orElseThrow();
++                    if (fault.equals("deleted-rule")) { rule.setIsDeleted(true); }
++                    else if (fault.equals("wrong-task")) { rule.setMetadata(rule.getMetadata().replace("local-review-feedback", "wrong-task")); }
++                    else if (fault.equals("malformed-rule")) { rule.setMetadata("[]"); }
++                    else { rule.setMetadata(rule.getMetadata().replace(key, "wrong-process")); }
++                    lookups.saveAndFlush(rule);
++                }
++            }
++            var service = new ProcessInstanceServiceImpl(engine.getRuntimeService(), engine.getHistoryService(),
++                    mock(UserCache.class), mock(UserService.class), null, null, null, null, engine.getRepositoryService());
++            var request = new ProcessInstanceStartRequest();
++            request.setProcessDefinitionKey(key);
++            request.setVariables(fault.equals("missing-value") ? Map.of() : Map.of("submitting_site", "Paris"));
++            String expected = switch (fault) {
++                case "missing-identity" -> "ACM identity not found";
++                case "missing-rule" -> "Missing routing lookup workflow-task-routing";
++                case "wrong-process", "wrong-task" -> "Routing rule process/task mismatch";
++                case "missing-match" -> "Missing routing lookup feedback-sites/Paris";
++                case "missing-group" -> "Unresolved routing group";
++                case "deleted-rule" -> "Deleted routing lookup";
++                case "missing-value" -> "Missing routing lookup value";
++                case "inactive-group" -> "Inactive routing group";
++                case "malformed-rule" -> "Routing metadata must be an object";
++                default -> throw new IllegalArgumentException(fault);
++            };
++            assertThatThrownBy(() -> service.startProcessInstance(request)).isInstanceOf(RuntimeException.class)
++                    .hasStackTraceContaining(expected);
++            assertThat(engine.getRuntimeService().createProcessInstanceQuery().count()).isZero();
++            assertThat(engine.getTaskService().createTaskQuery().count()).isZero();
++            assertThat(engine.getHistoryService().createHistoricProcessInstanceQuery().count()).isZero();
++            assertThat(context.getBean(com.flatirons.insight.repository.InsightSequenceRepository.class).count()).isZero();
++            assertThat(context.getBean(com.flatirons.insight.repository.InsightProcessIdRepository.class).count()).isZero();
++        }
++    }
++
++    static AnnotationConfigApplicationContext open() {
++        var context = new AnnotationConfigApplicationContext();
++        String schema = "first_wait_" + java.util.UUID.randomUUID().toString().replace("-", "");
++        try (var connection = java.sql.DriverManager.getConnection(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
++                var statement = connection.createStatement()) {
++            statement.execute("create schema " + schema);
++        } catch (java.sql.SQLException e) { throw new IllegalStateException(e); }
++        String url = POSTGRES.getJdbcUrl() + (POSTGRES.getJdbcUrl().contains("?") ? "&" : "?") + "currentSchema=" + schema;
++        context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("firstWait",
++                Map.of("identifier.test.url", url, "identifier.test.username", POSTGRES.getUsername(),
++                        "identifier.test.password", POSTGRES.getPassword(), "identifier.test.schema", schema)));
++        context.register(CustomerFirstWaitTestConfiguration.class);
++        context.refresh();
++        return context;
++    }
++    private void authenticate(UserEntity user, boolean jwt) {
++        Object principal = jwt ? new InsightUserDetails(user.getUserName(), user.getId(), List.of(), List.of())
++                : new InsightAppUser(user, user.getUserName(), List.of());
++        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, null, List.of()));
++    }
++    static void routing(AnnotationConfigApplicationContext context, String key) {
++        GroupEntity group = new GroupEntity();
++        group.setName("Feedback Admin");
++        group.setGroupType(GroupType.GROUP);
++        group.setStatus(GroupStatus.ACTIVE);
++        context.getBean(GroupRepository.class).saveAndFlush(group);
++        save(context, "workflow-task-routing", key + "/local-review-feedback", "{\"processKey\":\"" + key
++                + "\",\"taskKey\":\"local-review-feedback\",\"lookupVariable\":\"submitting_site\","
++                + "\"lookupType\":\"feedback-sites\",\"taskName\":\"Paris: Local Support Feedback\"}");
++        save(context, "feedback-sites", "Paris", "{\"candidateGroup\":\"Feedback Admin\"}");
++    }
++    static void save(AnnotationConfigApplicationContext context, String type, String key, String metadata) {
++        var lookup = new ReferenceDataLookupEntity();
++        lookup.setLookupType(type);
++        lookup.setKeyValue(key);
++        lookup.setMetadata(metadata);
++        context.getBean(ReferenceDataLookupRepository.class).saveAndFlush(lookup);
++    }
++    static String deploy(ProcessEngine engine, String fixture) throws Exception {
++        try (InputStream input = CustomerFirstWaitScenarioTest.class.getClassLoader().getResourceAsStream("scenarios/customers/" + fixture + "/app.zip");
++                ZipInputStream zip = new ZipInputStream(input)) {
++            java.util.zip.ZipEntry entry;
++            while ((entry = zip.getNextEntry()) != null) {
++                if (entry.getName().endsWith(".bpmn20.xml")) {
++                    var deployment = engine.getRepositoryService().createDeployment().addBytes(fixture + ".bpmn20.xml", zip.readAllBytes()).deploy();
++                    return engine.getRepositoryService().createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult().getKey();
++                }
++            }
++        }
++        throw new IllegalArgumentException("No archive BPMN");
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+new file mode 100644
+index 0000000..9c1726e
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+@@ -0,0 +1,131 @@
++/**
++ * Copyright (c) 2026, Flatirons Solutions. All Rights Reserved.
++ * This code may not be used without the express written permission
++ * of the copyright holder, Flatirons Solutions.
++ */
++package com.flatirons.insight.service.runtime;
++
++import java.util.Map;
++import javax.sql.DataSource;
++import jakarta.persistence.EntityManagerFactory;
++
++import com.flatirons.insight.domain.InsightProcessIdEntity;
++import com.flatirons.insight.domain.InsightSequenceEntity;
++import com.flatirons.insight.domain.WorkflowIdentifierLockEntity;
++import com.flatirons.insight.repository.InsightProcessIdRepository;
++import com.flatirons.insight.repository.InsightSequenceRepository;
++import com.flatirons.insight.repository.WorkflowIdentifierLockRepository;
++import com.flatirons.insight.service.runtime.listener.InsightProcessIdGenListener;
++import com.flatirons.insight.service.runtime.listener.InsightSequenceListener;
++import com.flatirons.insight.service.runtime.listener.InsightRenameProcessListener;
++import com.flatirons.insight.service.runtime.listener.InsightSetBusinessKeyListener;
++import org.flowable.engine.ProcessEngine;
++import org.flowable.engine.RepositoryService;
++import org.flowable.engine.RuntimeService;
++import org.flowable.spring.ProcessEngineFactoryBean;
++import org.flowable.spring.SpringProcessEngineConfiguration;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.ComponentScan.Filter;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.context.annotation.FilterType;
++import org.springframework.context.annotation.Import;
++import org.springframework.context.annotation.DependsOn;
++import org.springframework.core.env.Environment;
++import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
++import org.springframework.jdbc.datasource.DriverManagerDataSource;
++import org.springframework.orm.jpa.JpaTransactionManager;
++import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
++import org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypes;
++import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
++import org.springframework.transaction.PlatformTransactionManager;
++import org.springframework.transaction.annotation.EnableTransactionManagement;
++
++/** Real identifier beans, migration, and Flowable share one database and transaction manager. */
++@Configuration
++@EnableTransactionManagement
++@EnableJpaRepositories(basePackages = "com.flatirons.insight.repository",
++        includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
++                InsightSequenceRepository.class, InsightProcessIdRepository.class,
++                WorkflowIdentifierLockRepository.class, com.flatirons.insight.repository.UserRepository.class,
++                com.flatirons.insight.repository.GroupRepository.class, com.flatirons.insight.repository.ReferenceDataLookupRepository.class}), transactionManagerRef = "insightTransactionManager")
++@Import({WorkflowIdentifierConfiguration.class, InsightSequenceService.class,
++        InsightProcessIdGenService.class, InsightSequenceListener.class, InsightProcessIdGenListener.class,
++        WorkflowProcessNamingConfiguration.class, InsightRenameProcessListener.class, InsightSetBusinessKeyListener.class, WorkflowTaskRoutingService.class,
++        com.flatirons.insight.service.runtime.listener.InsightLdapListener.class,
++        com.flatirons.insight.service.runtime.listener.InsightJsonUtilListener.class,
++        com.flatirons.insight.service.runtime.listener.FlowConditionsBean.class,
++        com.flatirons.insight.service.runtime.listener.InsightRoutingProcessListener.class,
++        com.flatirons.insight.service.runtime.listener.InsightRenameTaskListener.class})
++public class CustomerFirstWaitTestConfiguration {
++    @Bean
++    com.fasterxml.jackson.databind.ObjectMapper objectMapper() { return new com.fasterxml.jackson.databind.ObjectMapper(); }
++
++    @Bean
++    DataSource dataSource(Environment environment) {
++        return new DriverManagerDataSource(environment.getRequiredProperty("identifier.test.url"),
++                environment.getProperty("identifier.test.username", "sa"), environment.getProperty("identifier.test.password", ""));
++    }
++
++    @Bean
++    LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, Environment environment) {
++        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
++        factory.setDataSource(dataSource);
++        factory.setManagedTypes(PersistenceManagedTypes.of(InsightSequenceEntity.class.getName(),
++                InsightProcessIdEntity.class.getName(), WorkflowIdentifierLockEntity.class.getName(),
++                com.flatirons.insight.domain.UserEntity.class.getName(), com.flatirons.insight.domain.GroupEntity.class.getName(),
++                com.flatirons.insight.domain.ReferenceDataLookupEntity.class.getName(),
++                com.flatirons.insight.domain.UserGroupEntity.class.getName(),
++                com.flatirons.insight.domain.GroupPrivilegeEntity.class.getName()));
++        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
++        factory.setJpaPropertyMap(Map.of("hibernate.hbm2ddl.auto", "create-drop", "hibernate.hbm2ddl.halt_on_error", true,
++                "hibernate.cache.use_second_level_cache", false,
++                "hibernate.default_schema", environment.getRequiredProperty("identifier.test.schema")));
++        return factory;
++    }
++
++    @Bean(name = "insightTransactionManager")
++    PlatformTransactionManager transactionManager(EntityManagerFactory factory) {
++        return new JpaTransactionManager(factory);
++    }
++
++    @Bean
++    @DependsOn("entityManagerFactory")
++    Boolean identifierFixture(DataSource source) {
++        new org.springframework.jdbc.core.JdbcTemplate(source)
++                .update("insert into insight_identifier_lock (id) values (1)");
++        return true;
++    }
++
++    @Bean
++    @DependsOn("identifierFixture")
++    SpringProcessEngineConfiguration processEngineConfiguration(DataSource source,
++            PlatformTransactionManager transactionManager, Environment environment) {
++        SpringProcessEngineConfiguration configuration = new SpringProcessEngineConfiguration();
++        configuration.setDataSource(source);
++        configuration.setTransactionManager(transactionManager);
++        configuration.setDatabaseSchema(environment.getRequiredProperty("identifier.test.schema"));
++        configuration.setDatabaseSchemaUpdate("true");
++        configuration.setDisableIdmEngine(true);
++        configuration.setDisableEventRegistry(true);
++        configuration.setAsyncExecutorActivate(false);
++        configuration.addCustomPostCommandInterceptor(new ProcessEffectsRecorder());
++        return configuration;
++    }
++
++    @Bean
++    ProcessEngineFactoryBean processEngine(SpringProcessEngineConfiguration configuration) {
++        ProcessEngineFactoryBean factory = new ProcessEngineFactoryBean();
++        factory.setProcessEngineConfiguration(configuration);
++        return factory;
++    }
++
++    @Bean
++    RuntimeService runtimeService(ProcessEngine engine) {
++        return engine.getRuntimeService();
++    }
++
++    @Bean
++    RepositoryService repositoryService(ProcessEngine engine) {
++        return engine.getRepositoryService();
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerReachedListenerTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerReachedListenerTest.java
+new file mode 100644
+index 0000000..c5c4da8
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerReachedListenerTest.java
+@@ -0,0 +1,50 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.service.runtime.listener.InsightJsonUtilListener;
++import com.flatirons.insight.service.runtime.listener.FlowConditionsBean;
++import org.flowable.engine.delegate.DelegateExecution;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import static org.mockito.Mockito.*;
++import static org.assertj.core.api.Assertions.*;
++import org.mockito.ArgumentCaptor;
++
++class CustomerReachedListenerTest {
++    @Test void extractsTextLinksFallbackAndEmptyValuesWithoutMutatingCallerJson() throws Exception {
++        var mapper = new ObjectMapper();
++        var table = mapper.readTree("[{\"reference\":{\"displayText\":\"Label\",\"hyperlink\":\"URL\"}},"
++                + "{\"reference\":{\"displayText\":\" \",\"hyperlink\":\"fallback\"}},"
++                + "{\"reference\":\"literal\"},{}]");
++        var original = table.deepCopy();
++        var execution = mock(DelegateExecution.class);
++        when(execution.getVariable("references")).thenReturn(table);
++        new InsightJsonUtilListener(mapper).extractDisplayTextToColumn(execution, "references", "reference", "displayReference");
++        var value = ArgumentCaptor.forClass(Object.class);
++        verify(execution).setVariable(eq("references"), value.capture());
++        var result = mapper.readTree(value.getValue().toString());
++        assertThat(result.findValuesAsText("displayReference")).containsExactly("Label", "fallback", "literal", "");
++        assertThat(table).isEqualTo(original);
++    }
++    @ParameterizedTest @ValueSource(strings = {"{}", "[1]", "invalid"})
++    void invalidTableRefusesBeforeVariableWrite(String value) {
++        var execution = mock(DelegateExecution.class);
++        when(execution.getVariable("references")).thenReturn(value);
++        assertThatThrownBy(() -> new InsightJsonUtilListener(new ObjectMapper())
++                .extractDisplayTextToColumn(execution, "references", "reference", "displayReference"))
++                .isInstanceOf(IllegalArgumentException.class);
++        verify(execution, never()).setVariable(anyString(), any());
++    }
++    @Test void absentTableKeepsLegacyAbsenceAndFalseIsPresentToGateway() {
++        var execution = mock(DelegateExecution.class);
++        var listener = new InsightJsonUtilListener(new ObjectMapper());
++        listener.extractDisplayTextToColumn(execution, "references", "reference", "displayReference");
++        verify(execution, never()).setVariable(anyString(), any());
++        var gateway = new FlowConditionsBean();
++        assertThat(gateway.exists(execution, "skipEmails")).isFalse();
++        when(execution.getVariable("skipEmails")).thenReturn(false);
++        assertThat(gateway.exists(execution, "skipEmails")).isTrue();
++    }
++}
