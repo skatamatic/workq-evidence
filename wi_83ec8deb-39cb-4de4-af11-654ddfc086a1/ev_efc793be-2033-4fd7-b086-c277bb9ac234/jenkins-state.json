@@ -1,0 +1,49 @@
+{
+  "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-58/1/",
+  "building": false,
+  "result": "FAILURE",
+  "revisions": [
+    {
+      "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+      "branch": [
+        {
+          "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+          "name": "master"
+        }
+      ]
+    },
+    {
+      "SHA1": "0be3b379197faea88e3ff33c37968b22ed49a424",
+      "branch": [
+        {
+          "SHA1": "0be3b379197faea88e3ff33c37968b22ed49a424",
+          "name": "PR-58"
+        }
+      ]
+    }
+  ],
+  "milestones": [
+    "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+    "[Pipeline] stage",
+    "Checking out Revision 0be3b379197faea88e3ff33c37968b22ed49a424 (PR-58)",
+    "[Pipeline] stage",
+    "[INFO] BUILD SUCCESS",
+    "[Pipeline] stage",
+    "[Pipeline] { (Verify)",
+    "[INFO]      [java] Customer parity: fixtures=4 deployed=4 asserted=5 pending-or-waived=19 observed-claim-invocations=13 (shared test invocations counted per dimension; not complete legacy parity)",
+    "[INFO]      [java] Surefire scenario invocations: tests=81 failures-or-errors=0 skipped=0",
+    "[INFO] BUILD SUCCESS",
+    "[Pipeline] stage",
+    "[Pipeline] { (Static Analysis)",
+    "[Pipeline] stage",
+    "[Pipeline] stage",
+    "[Pipeline] stage",
+    "[INFO]      [java] Customer parity: fixtures=4 deployed=4 asserted=5 pending-or-waived=19 observed-claim-invocations=13 (shared test invocations counted per dimension; not complete legacy parity)",
+    "[INFO]      [java] Surefire scenario invocations: tests=81 failures-or-errors=0 skipped=0",
+    "[INFO] BUILD SUCCESS",
+    "SonarQube task 'e674e95c-b84a-45c5-a78d-0aaa74aaf6ef' completed. Quality gate is 'ERROR'",
+    "[Pipeline] stage",
+    "ERROR: Pipeline aborted due to quality gate failure: ERROR",
+    "Finished: FAILURE"
+  ]
+}
