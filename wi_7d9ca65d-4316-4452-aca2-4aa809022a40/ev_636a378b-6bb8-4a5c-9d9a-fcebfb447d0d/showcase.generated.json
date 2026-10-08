@@ -1,0 +1,1650 @@
+{
+  "catalogHash": "3c2d3bdde1c1bc95d32f991b1764111418081f71db1709161a613836d284eeb2",
+  "components": [
+    {
+      "capabilities": [
+        {
+          "id": "configured-default-and-explicit-clear",
+          "reason": "Production default hydration distinguishes missing and cleared runtime values.",
+          "status": "supported"
+        },
+        {
+          "id": "single-and-multiple-selection",
+          "reason": "Production Dropdown persists string and string-array selections.",
+          "status": "supported"
+        },
+        {
+          "id": "required-disabled-readonly",
+          "reason": "Control validation and renderer disabled context are browser successor interaction cases.",
+          "status": "supported"
+        },
+        {
+          "id": "dynamic-value-sets",
+          "reason": "FB-037 owns server-managed options; these fixtures use static production string options.",
+          "status": "pending"
+        },
+        {
+          "id": "object-options-and-async-loaders",
+          "reason": "Current Dropdown contract supports static string options only.",
+          "status": "unsupported"
+        }
+      ],
+      "cases": [
+        {
+          "caseId": "default",
+          "configuredDefaults": {
+            "dropdown-default-value": "Open"
+          },
+          "currentData": {},
+          "definition": {
+            "id": "dropdown-default-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-default-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {},
+            "hydratedData": {
+              "dropdown-default-value": "Open"
+            },
+            "persistedData": {}
+          },
+          "operations": ["hydrate"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        },
+        {
+          "caseId": "explicit-null-clear",
+          "configuredDefaults": {
+            "dropdown-explicit-null-clear-value": "Open"
+          },
+          "currentData": {
+            "dropdown-explicit-null-clear-value": null
+          },
+          "definition": {
+            "id": "dropdown-explicit-null-clear-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-explicit-null-clear-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "remountValues": {
+                "dropdown-explicit-null-clear-value": null
+              }
+            },
+            "hydratedData": {
+              "dropdown-explicit-null-clear-value": null
+            },
+            "persistedData": {
+              "dropdown-explicit-null-clear-value": null
+            }
+          },
+          "operations": ["clear", "hydrate", "remount"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        },
+        {
+          "caseId": "multiple-empty-clear",
+          "configuredDefaults": {
+            "dropdown-multiple-empty-clear-value": ["Open"]
+          },
+          "currentData": {
+            "dropdown-multiple-empty-clear-value": []
+          },
+          "definition": {
+            "id": "dropdown-multiple-empty-clear-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-multiple-empty-clear-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": ["Open"],
+                    "label": "Fixture selection",
+                    "multiple": true
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "remountValues": {
+                "dropdown-multiple-empty-clear-value": []
+              }
+            },
+            "hydratedData": {
+              "dropdown-multiple-empty-clear-value": []
+            },
+            "persistedData": {
+              "dropdown-multiple-empty-clear-value": []
+            }
+          },
+          "operations": ["clear", "hydrate", "remount"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        },
+        {
+          "caseId": "selection",
+          "configuredDefaults": {
+            "dropdown-selection-value": ["Open"]
+          },
+          "currentData": {
+            "dropdown-selection-value": ["Closed", "Open"]
+          },
+          "definition": {
+            "id": "dropdown-selection-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-selection-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": ["Open"],
+                    "label": "Fixture selection",
+                    "multiple": true
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {},
+            "hydratedData": {
+              "dropdown-selection-value": ["Closed", "Open"]
+            },
+            "persistedData": {
+              "dropdown-selection-value": ["Closed", "Open"]
+            }
+          },
+          "operations": ["select", "submit"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        },
+        {
+          "caseId": "required",
+          "configuredDefaults": {},
+          "currentData": {
+            "dropdown-required-value": null
+          },
+          "definition": {
+            "id": "dropdown-required-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-required-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "fsErrorMsg": "Choose a fixture option.",
+                    "label": "Fixture selection",
+                    "validationType": "required"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "requiredRefusal": ["dropdown-required-value"]
+            },
+            "hydratedData": {
+              "dropdown-required-value": null
+            },
+            "persistedData": {
+              "dropdown-required-value": null
+            }
+          },
+          "operations": ["clear", "submit"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        },
+        {
+          "caseId": "configured-disabled",
+          "configuredDefaults": {
+            "dropdown-configured-disabled-value": "Open"
+          },
+          "currentData": {
+            "dropdown-configured-disabled-value": "Closed"
+          },
+          "definition": {
+            "id": "dropdown-configured-disabled-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-configured-disabled-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "disabled": true,
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "disabledIds": ["dropdown-configured-disabled-value"]
+            },
+            "hydratedData": {
+              "dropdown-configured-disabled-value": "Closed"
+            },
+            "persistedData": {
+              "dropdown-configured-disabled-value": "Closed"
+            }
+          },
+          "operations": ["disable", "submit"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        },
+        {
+          "caseId": "readonly",
+          "configuredDefaults": {
+            "dropdown-readonly-value": "Open"
+          },
+          "currentData": {
+            "dropdown-readonly-value": "Closed"
+          },
+          "definition": {
+            "id": "dropdown-readonly-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-readonly-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "readonlyIds": ["dropdown-readonly-value"]
+            },
+            "hydratedData": {
+              "dropdown-readonly-value": "Closed"
+            },
+            "persistedData": {
+              "dropdown-readonly-value": "Closed"
+            }
+          },
+          "operations": ["readonly", "submit"],
+          "ruleRegistry": {
+            "rules": []
+          }
+        }
+      ],
+      "componentId": "dropdown",
+      "provenance": {
+        "activities": ["FB-013"],
+        "contractNotes": [
+          "Current implementation preserves explicit null and empty-array runtime clears; this supersedes the older FB-013 clear-to-default prose.",
+          "Required refusal is a runtime control expectation, not definition-save validation.",
+          "Readonly is supplied by the renderer context; Dropdown persists configured disabled, not a separate readonly property."
+        ],
+        "sources": [
+          "docs/design/form-builder/completed/fb-013-standardize-dropdown-field-configuration.md",
+          "src/app/main/components/forms/utils/builder-default-value.util.ts",
+          "src/app/main/components/forms/utils/dropdown-field-config.util.ts",
+          "src/app/shared/components/form-renderer/form-renderer.component.spec.ts"
+        ]
+      },
+      "requiredCaseIds": [
+        "default",
+        "explicit-null-clear",
+        "multiple-empty-clear",
+        "selection",
+        "required",
+        "configured-disabled",
+        "readonly"
+      ],
+      "version": 1
+    },
+    {
+      "capabilities": [
+        {
+          "id": "scoped-rule-effects",
+          "reason": "Production registry validation and rule evaluation share form-scoped IDs.",
+          "status": "supported"
+        },
+        {
+          "id": "embedded-metadata",
+          "reason": "The strict production placeholder reader preserves declared field metadata.",
+          "status": "supported"
+        },
+        {
+          "id": "browser-remount",
+          "reason": "Value expectations are registered for the successor isolated browser host.",
+          "status": "pending"
+        },
+        {
+          "id": "tinymce-save-cleanup",
+          "reason": "Preview artifact removal requires the production editor bridge interaction.",
+          "status": "pending"
+        },
+        {
+          "id": "legacy-javascript-events",
+          "reason": "Legacy HTML events are ignored; current rules are central registry entries.",
+          "status": "unsupported"
+        },
+        {
+          "id": "required-optional-rule-actions",
+          "reason": "The production rule action contract supports hide, disable, and enable only.",
+          "status": "unsupported"
+        }
+      ],
+      "cases": [
+        {
+          "caseId": "hide",
+          "configuredDefaults": {},
+          "currentData": {
+            "embedded-hide-document": "<div data-field-id=\"embedded-hide-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+            "embedded-hide-source": "hide",
+            "embedded-hide-target": "Retained notes"
+          },
+          "definition": {
+            "id": "embedded-hide-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-hide-source",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Rule source"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-hide-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {},
+            "effects": {
+              "disabledById": {},
+              "hiddenIds": ["embedded-hide-target"]
+            },
+            "embeddedDefinitions": [
+              {
+                "display": "block",
+                "fieldId": "embedded-hide-target",
+                "fieldType": "textarea",
+                "hideLabel": true,
+                "label": "Embedded notes",
+                "placeholder": "Enter notes",
+                "required": true,
+                "rowCount": 4
+              }
+            ],
+            "hydratedData": {
+              "embedded-hide-document": "<div data-field-id=\"embedded-hide-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+              "embedded-hide-source": "hide",
+              "embedded-hide-target": "Retained notes"
+            },
+            "persistedData": {
+              "embedded-hide-document": "<div data-field-id=\"embedded-hide-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+              "embedded-hide-source": "hide",
+              "embedded-hide-target": "Retained notes"
+            }
+          },
+          "operations": ["hydrate", "hide"],
+          "ruleRegistry": {
+            "rules": [
+              {
+                "action": "hide",
+                "condition": {
+                  "operator": "equals",
+                  "value": "hide"
+                },
+                "ruleId": "embedded-hide-rule",
+                "sourceItemId": "embedded-hide-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-hide-target"
+              }
+            ]
+          }
+        },
+        {
+          "caseId": "disable",
+          "configuredDefaults": {},
+          "currentData": {
+            "embedded-disable-document": "<span data-field-id=\"embedded-disable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+            "embedded-disable-source": "disable",
+            "embedded-disable-target": "Retained notes"
+          },
+          "definition": {
+            "id": "embedded-disable-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-disable-target",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Structural target"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-disable-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "disabledIds": ["embedded-disable-target"]
+            },
+            "effects": {
+              "disabledById": {
+                "embedded-disable-target": "forceDisabled"
+              },
+              "hiddenIds": []
+            },
+            "embeddedDefinitions": [
+              {
+                "display": "inline",
+                "fieldId": "embedded-disable-source",
+                "fieldType": "text",
+                "label": "Rule source",
+                "placeholder": "Enter a rule trigger",
+                "required": false
+              }
+            ],
+            "hydratedData": {
+              "embedded-disable-document": "<span data-field-id=\"embedded-disable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+              "embedded-disable-source": "disable",
+              "embedded-disable-target": "Retained notes"
+            },
+            "persistedData": {
+              "embedded-disable-document": "<span data-field-id=\"embedded-disable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+              "embedded-disable-source": "disable",
+              "embedded-disable-target": "Retained notes"
+            }
+          },
+          "operations": ["hydrate", "disable"],
+          "ruleRegistry": {
+            "rules": [
+              {
+                "action": "disable",
+                "condition": {
+                  "operator": "equals",
+                  "value": "disable"
+                },
+                "ruleId": "embedded-disable-rule",
+                "sourceItemId": "embedded-disable-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-disable-target"
+              }
+            ]
+          }
+        },
+        {
+          "caseId": "enable",
+          "configuredDefaults": {},
+          "currentData": {
+            "embedded-enable-document": "<span data-field-id=\"embedded-enable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+            "embedded-enable-source": "enable",
+            "embedded-enable-target": "Retained notes"
+          },
+          "definition": {
+            "id": "embedded-enable-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-enable-target",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "disabled": true,
+                    "label": "Structural target"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-enable-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {},
+            "effects": {
+              "disabledById": {
+                "embedded-enable-target": "forceEnabled"
+              },
+              "hiddenIds": []
+            },
+            "embeddedDefinitions": [
+              {
+                "display": "inline",
+                "fieldId": "embedded-enable-source",
+                "fieldType": "text",
+                "label": "Rule source",
+                "placeholder": "Enter a rule trigger",
+                "required": false
+              }
+            ],
+            "hydratedData": {
+              "embedded-enable-document": "<span data-field-id=\"embedded-enable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+              "embedded-enable-source": "enable",
+              "embedded-enable-target": "Retained notes"
+            },
+            "persistedData": {
+              "embedded-enable-document": "<span data-field-id=\"embedded-enable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+              "embedded-enable-source": "enable",
+              "embedded-enable-target": "Retained notes"
+            }
+          },
+          "operations": ["hydrate", "enable"],
+          "ruleRegistry": {
+            "rules": [
+              {
+                "action": "enable",
+                "condition": {
+                  "operator": "equals",
+                  "value": "enable"
+                },
+                "ruleId": "embedded-enable-rule",
+                "sourceItemId": "embedded-enable-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-enable-target"
+              }
+            ]
+          }
+        },
+        {
+          "caseId": "remount-populated",
+          "configuredDefaults": {},
+          "currentData": {
+            "embedded-remount-populated-document": "<div data-field-id=\"embedded-remount-populated-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+            "embedded-remount-populated-source": "hide",
+            "embedded-remount-populated-target": "Retained notes"
+          },
+          "definition": {
+            "id": "embedded-remount-populated-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-remount-populated-source",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Rule source"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-remount-populated-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "remountValues": {
+                "embedded-remount-populated-target": "Retained notes"
+              }
+            },
+            "effects": {
+              "disabledById": {},
+              "hiddenIds": ["embedded-remount-populated-target"]
+            },
+            "embeddedDefinitions": [
+              {
+                "display": "block",
+                "fieldId": "embedded-remount-populated-target",
+                "fieldType": "textarea",
+                "hideLabel": true,
+                "label": "Embedded notes",
+                "placeholder": "Enter notes",
+                "required": true,
+                "rowCount": 4
+              }
+            ],
+            "hydratedData": {
+              "embedded-remount-populated-document": "<div data-field-id=\"embedded-remount-populated-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+              "embedded-remount-populated-source": "hide",
+              "embedded-remount-populated-target": "Retained notes"
+            },
+            "persistedData": {
+              "embedded-remount-populated-document": "<div data-field-id=\"embedded-remount-populated-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+              "embedded-remount-populated-source": "hide",
+              "embedded-remount-populated-target": "Retained notes"
+            }
+          },
+          "operations": ["hydrate", "hide", "remount"],
+          "ruleRegistry": {
+            "rules": [
+              {
+                "action": "hide",
+                "condition": {
+                  "operator": "equals",
+                  "value": "hide"
+                },
+                "ruleId": "embedded-remount-populated-rule",
+                "sourceItemId": "embedded-remount-populated-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-remount-populated-target"
+              }
+            ]
+          }
+        },
+        {
+          "caseId": "remount-clear",
+          "configuredDefaults": {},
+          "currentData": {
+            "embedded-remount-clear-document": "<div data-field-id=\"embedded-remount-clear-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+            "embedded-remount-clear-source": "hide",
+            "embedded-remount-clear-target": ""
+          },
+          "definition": {
+            "id": "embedded-remount-clear-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-remount-clear-source",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Rule source"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-remount-clear-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          "expected": {
+            "browser": {
+              "remountValues": {
+                "embedded-remount-clear-target": ""
+              }
+            },
+            "effects": {
+              "disabledById": {},
+              "hiddenIds": ["embedded-remount-clear-target"]
+            },
+            "embeddedDefinitions": [
+              {
+                "display": "block",
+                "fieldId": "embedded-remount-clear-target",
+                "fieldType": "textarea",
+                "hideLabel": true,
+                "label": "Embedded notes",
+                "placeholder": "Enter notes",
+                "required": true,
+                "rowCount": 4
+              }
+            ],
+            "hydratedData": {
+              "embedded-remount-clear-document": "<div data-field-id=\"embedded-remount-clear-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+              "embedded-remount-clear-source": "hide",
+              "embedded-remount-clear-target": ""
+            },
+            "persistedData": {
+              "embedded-remount-clear-document": "<div data-field-id=\"embedded-remount-clear-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+              "embedded-remount-clear-source": "hide",
+              "embedded-remount-clear-target": ""
+            }
+          },
+          "operations": ["hydrate", "hide", "remount"],
+          "ruleRegistry": {
+            "rules": [
+              {
+                "action": "hide",
+                "condition": {
+                  "operator": "equals",
+                  "value": "hide"
+                },
+                "ruleId": "embedded-remount-clear-rule",
+                "sourceItemId": "embedded-remount-clear-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-remount-clear-target"
+              }
+            ]
+          }
+        }
+      ],
+      "componentId": "embedded",
+      "provenance": {
+        "activities": ["FB-005"],
+        "contractNotes": [
+          "Rules use the production form-scoped registry and explicit source/target IDs, never HTML events.",
+          "The hide case targets an embedded field; disable and enable use an embedded source and structural target.",
+          "Placeholder HTML is production authoring preview output. TinyMCE bridge cleanup and actual remount interaction require the successor browser host.",
+          "Remount expectations retain populated and explicitly cleared values; pure snapshots do not prove DOM mounting."
+        ],
+        "sources": [
+          "docs/design/form-builder/completed/fb-005-embedded-rich-text-rules.md",
+          "src/app/main/components/forms/utils/embedded-rich-text-placeholder.util.ts",
+          "src/app/shared/components/form-renderer/form-rule-engine.ts",
+          "src/app/shared/components/form-renderer/form-renderer.component.spec.ts"
+        ]
+      },
+      "requiredCaseIds": ["hide", "disable", "enable", "remount-populated", "remount-clear"],
+      "version": 1
+    }
+  ],
+  "consumedLibraryVersion": "20.3.16-feature-etc-insight.1791070420",
+  "contractVersion": 1,
+  "declaredLibraryVersion": "20.3.16-feature-etc-insight.1791070420",
+  "payload": {
+    "ancestorId": null,
+    "description": "Synthetic contract showcase",
+    "formData": {
+      "dropdown-configured-disabled-value": "Closed",
+      "dropdown-explicit-null-clear-value": null,
+      "dropdown-multiple-empty-clear-value": [],
+      "dropdown-readonly-value": "Closed",
+      "dropdown-required-value": null,
+      "dropdown-selection-value": ["Closed", "Open"],
+      "embedded-disable-document": "<span data-field-id=\"embedded-disable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+      "embedded-disable-source": "disable",
+      "embedded-disable-target": "Retained notes",
+      "embedded-enable-document": "<span data-field-id=\"embedded-enable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+      "embedded-enable-source": "enable",
+      "embedded-enable-target": "Retained notes",
+      "embedded-hide-document": "<div data-field-id=\"embedded-hide-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+      "embedded-hide-source": "hide",
+      "embedded-hide-target": "Retained notes",
+      "embedded-remount-clear-document": "<div data-field-id=\"embedded-remount-clear-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+      "embedded-remount-clear-source": "hide",
+      "embedded-remount-clear-target": "",
+      "embedded-remount-populated-document": "<div data-field-id=\"embedded-remount-populated-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+      "embedded-remount-populated-source": "hide",
+      "embedded-remount-populated-target": "Retained notes"
+    },
+    "formDefinition": {
+      "ruleRegistry": {
+        "rules": [
+          {
+            "action": "disable",
+            "condition": {
+              "operator": "equals",
+              "value": "disable"
+            },
+            "ruleId": "embedded-disable-rule",
+            "sourceItemId": "embedded-disable-source",
+            "sourceKey": "field.value",
+            "targetItemId": "embedded-disable-target"
+          },
+          {
+            "action": "enable",
+            "condition": {
+              "operator": "equals",
+              "value": "enable"
+            },
+            "ruleId": "embedded-enable-rule",
+            "sourceItemId": "embedded-enable-source",
+            "sourceKey": "field.value",
+            "targetItemId": "embedded-enable-target"
+          },
+          {
+            "action": "hide",
+            "condition": {
+              "operator": "equals",
+              "value": "hide"
+            },
+            "ruleId": "embedded-hide-rule",
+            "sourceItemId": "embedded-hide-source",
+            "sourceKey": "field.value",
+            "targetItemId": "embedded-hide-target"
+          },
+          {
+            "action": "hide",
+            "condition": {
+              "operator": "equals",
+              "value": "hide"
+            },
+            "ruleId": "embedded-remount-clear-rule",
+            "sourceItemId": "embedded-remount-clear-source",
+            "sourceKey": "field.value",
+            "targetItemId": "embedded-remount-clear-target"
+          },
+          {
+            "action": "hide",
+            "condition": {
+              "operator": "equals",
+              "value": "hide"
+            },
+            "ruleId": "embedded-remount-populated-rule",
+            "sourceItemId": "embedded-remount-populated-source",
+            "sourceKey": "field.value",
+            "targetItemId": "embedded-remount-populated-target"
+          }
+        ]
+      },
+      "structure": {
+        "id": "fixture-showcase-root",
+        "items": [
+          {
+            "id": "dropdown-configured-disabled-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-configured-disabled-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "disabled": true,
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "dropdown-default-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-default-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "dropdown-explicit-null-clear-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-explicit-null-clear-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "dropdown-multiple-empty-clear-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-multiple-empty-clear-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": ["Open"],
+                    "label": "Fixture selection",
+                    "multiple": true
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "dropdown-readonly-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-readonly-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": "Open",
+                    "label": "Fixture selection"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "dropdown-required-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-required-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "fsErrorMsg": "Choose a fixture option.",
+                    "label": "Fixture selection",
+                    "validationType": "required"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "dropdown-selection-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "dropdown-selection-value",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["Open", "Closed"],
+                    "defaultValue": ["Open"],
+                    "label": "Fixture selection",
+                    "multiple": true
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "embedded-disable-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-disable-target",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Structural target"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-disable-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "embedded-enable-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-enable-target",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "disabled": true,
+                    "label": "Structural target"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-enable-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "embedded-hide-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-hide-source",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Rule source"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-hide-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "embedded-remount-clear-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-remount-clear-source",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Rule source"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-remount-clear-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          },
+          {
+            "id": "embedded-remount-populated-root",
+            "items": [
+              {
+                "fieldType": "dropdown",
+                "id": "embedded-remount-populated-source",
+                "objectType": "field",
+                "renderer": {
+                  "config": {
+                    "data": ["hide", "disable", "enable", "Retained notes"],
+                    "label": "Rule source"
+                  },
+                  "type": "dropdown"
+                },
+                "type": "object"
+              },
+              {
+                "id": "embedded-remount-populated-document",
+                "objectType": "richText",
+                "toolboxLabelKey": "richText",
+                "type": "object",
+                "viewRenderer": "embeddedRuntime"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          }
+        ],
+        "layout": "column",
+        "type": "container"
+      }
+    },
+    "formType": "Workcard",
+    "fullText": "",
+    "id": 0,
+    "isCurrent": true,
+    "libraryId": 0,
+    "metadata": {
+      "revisionComment": "fixture-catalog-v1",
+      "usageType": "Operation"
+    },
+    "name": "All registered component fixtures",
+    "revision": 0,
+    "status": "Draft",
+    "subtemplates": [
+      {
+        "formData": {
+          "dropdown-configured-disabled-value": "Closed",
+          "dropdown-explicit-null-clear-value": null,
+          "dropdown-multiple-empty-clear-value": [],
+          "dropdown-readonly-value": "Closed",
+          "dropdown-required-value": null,
+          "dropdown-selection-value": ["Closed", "Open"],
+          "embedded-disable-document": "<span data-field-id=\"embedded-disable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+          "embedded-disable-source": "disable",
+          "embedded-disable-target": "Retained notes",
+          "embedded-enable-document": "<span data-field-id=\"embedded-enable-source\" data-field-type=\"text\" data-display=\"inline\" data-label=\"Rule source\" data-placeholder=\"Enter a rule trigger\" class=\"embedded-rich-text-form-field\" style=\"display:inline-block;vertical-align:middle;min-width:7rem;margin:0;padding:0.1rem 0.2rem;border-radius:4px;cursor:pointer;user-select:none;width:100%;box-sizing:border-box;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\">Rule source</span><input type=\"text\" disabled placeholder=\"Enter a rule trigger\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;font-size:0.875rem;pointer-events:none;\" /></span>",
+          "embedded-enable-source": "enable",
+          "embedded-enable-target": "Retained notes",
+          "embedded-hide-document": "<div data-field-id=\"embedded-hide-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+          "embedded-hide-source": "hide",
+          "embedded-hide-target": "Retained notes",
+          "embedded-remount-clear-document": "<div data-field-id=\"embedded-remount-clear-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+          "embedded-remount-clear-source": "hide",
+          "embedded-remount-clear-target": "",
+          "embedded-remount-populated-document": "<div data-field-id=\"embedded-remount-populated-target\" data-field-type=\"textarea\" data-display=\"block\" data-label=\"Embedded notes\" data-placeholder=\"Enter notes\" data-row-count=\"4\" data-required=\"true\" data-hide-label=\"true\" class=\"embedded-rich-text-form-field\" style=\"display:block;margin:0.75rem 0;padding:0.5rem;border-radius:4px;cursor:pointer;user-select:none;\" contenteditable=\"false\" data-embedded-rich-text-field-preview=\"true\"><span style=\"display:block;font-weight:normal;font-size:0.875rem;margin-bottom:0.2rem;\"><span>*</span></span><textarea disabled rows=\"4\" placeholder=\"Enter notes\" style=\"padding:0.35rem 0.5rem;border:1px solid #ccc;border-radius:4px;width:100%;font-family:inherit;box-sizing:border-box;resize:none;font-size:0.875rem;pointer-events:none;\"></textarea></div>",
+          "embedded-remount-populated-source": "hide",
+          "embedded-remount-populated-target": "Retained notes"
+        },
+        "formDefinition": {
+          "ruleRegistry": {
+            "rules": [
+              {
+                "action": "disable",
+                "condition": {
+                  "operator": "equals",
+                  "value": "disable"
+                },
+                "ruleId": "embedded-disable-rule",
+                "sourceItemId": "embedded-disable-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-disable-target"
+              },
+              {
+                "action": "enable",
+                "condition": {
+                  "operator": "equals",
+                  "value": "enable"
+                },
+                "ruleId": "embedded-enable-rule",
+                "sourceItemId": "embedded-enable-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-enable-target"
+              },
+              {
+                "action": "hide",
+                "condition": {
+                  "operator": "equals",
+                  "value": "hide"
+                },
+                "ruleId": "embedded-hide-rule",
+                "sourceItemId": "embedded-hide-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-hide-target"
+              },
+              {
+                "action": "hide",
+                "condition": {
+                  "operator": "equals",
+                  "value": "hide"
+                },
+                "ruleId": "embedded-remount-clear-rule",
+                "sourceItemId": "embedded-remount-clear-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-remount-clear-target"
+              },
+              {
+                "action": "hide",
+                "condition": {
+                  "operator": "equals",
+                  "value": "hide"
+                },
+                "ruleId": "embedded-remount-populated-rule",
+                "sourceItemId": "embedded-remount-populated-source",
+                "sourceKey": "field.value",
+                "targetItemId": "embedded-remount-populated-target"
+              }
+            ]
+          },
+          "structure": {
+            "id": "fixture-showcase-step",
+            "items": [
+              {
+                "id": "dropdown-configured-disabled-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-configured-disabled-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "defaultValue": "Open",
+                        "disabled": true,
+                        "label": "Fixture selection"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "dropdown-default-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-default-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "defaultValue": "Open",
+                        "label": "Fixture selection"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "dropdown-explicit-null-clear-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-explicit-null-clear-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "defaultValue": "Open",
+                        "label": "Fixture selection"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "dropdown-multiple-empty-clear-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-multiple-empty-clear-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "defaultValue": ["Open"],
+                        "label": "Fixture selection",
+                        "multiple": true
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "dropdown-readonly-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-readonly-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "defaultValue": "Open",
+                        "label": "Fixture selection"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "dropdown-required-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-required-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "fsErrorMsg": "Choose a fixture option.",
+                        "label": "Fixture selection",
+                        "validationType": "required"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "dropdown-selection-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "dropdown-selection-value",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["Open", "Closed"],
+                        "defaultValue": ["Open"],
+                        "label": "Fixture selection",
+                        "multiple": true
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "embedded-disable-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "embedded-disable-target",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["hide", "disable", "enable", "Retained notes"],
+                        "label": "Structural target"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "id": "embedded-disable-document",
+                    "objectType": "richText",
+                    "toolboxLabelKey": "richText",
+                    "type": "object",
+                    "viewRenderer": "embeddedRuntime"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "embedded-enable-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "embedded-enable-target",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["hide", "disable", "enable", "Retained notes"],
+                        "disabled": true,
+                        "label": "Structural target"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "id": "embedded-enable-document",
+                    "objectType": "richText",
+                    "toolboxLabelKey": "richText",
+                    "type": "object",
+                    "viewRenderer": "embeddedRuntime"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "embedded-hide-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "embedded-hide-source",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["hide", "disable", "enable", "Retained notes"],
+                        "label": "Rule source"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "id": "embedded-hide-document",
+                    "objectType": "richText",
+                    "toolboxLabelKey": "richText",
+                    "type": "object",
+                    "viewRenderer": "embeddedRuntime"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "embedded-remount-clear-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "embedded-remount-clear-source",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["hide", "disable", "enable", "Retained notes"],
+                        "label": "Rule source"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "id": "embedded-remount-clear-document",
+                    "objectType": "richText",
+                    "toolboxLabelKey": "richText",
+                    "type": "object",
+                    "viewRenderer": "embeddedRuntime"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              },
+              {
+                "id": "embedded-remount-populated-root",
+                "items": [
+                  {
+                    "fieldType": "dropdown",
+                    "id": "embedded-remount-populated-source",
+                    "objectType": "field",
+                    "renderer": {
+                      "config": {
+                        "data": ["hide", "disable", "enable", "Retained notes"],
+                        "label": "Rule source"
+                      },
+                      "type": "dropdown"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "id": "embedded-remount-populated-document",
+                    "objectType": "richText",
+                    "toolboxLabelKey": "richText",
+                    "type": "object",
+                    "viewRenderer": "embeddedRuntime"
+                  }
+                ],
+                "layout": "column",
+                "type": "container"
+              }
+            ],
+            "layout": "column",
+            "type": "container"
+          }
+        },
+        "metadata": {
+          "fixtureScope": "subtemplate"
+        },
+        "ordinal": 0,
+        "seqPath": "1",
+        "stepType": "Operation",
+        "title": "Scoped component fixtures"
+      }
+    ],
+    "versionNumber": 0
+  },
+  "sourceHashes": {
+    "docs/design/form-builder/completed/fb-005-embedded-rich-text-rules.md": "f96cbf5328f60f2c1ba167d622dee1db950e47e4259e6be6dc483af00a75cea3",
+    "docs/design/form-builder/completed/fb-013-standardize-dropdown-field-configuration.md": "66edb7d233449e9a77b3759e2078ce195da32a712c50bab604a2a70f81a7eff5",
+    "src/app/main/components/forms/service/form-builder-save.service.ts": "a8d025102930511b506c0346b923f3232c6f90c5b8a7f53c7e6fa9f930e89cb5",
+    "src/app/main/components/forms/utils/builder-default-value.util.ts": "61a3ef904207e4905d9f37feb3e5385cca97c6f9f442d62f1ef41358fb518330",
+    "src/app/main/components/forms/utils/dropdown-field-config.util.ts": "7c58829e2c4b3f49e0d266e8c4ac553f632ff20424cb64b4a520af46bfa51045",
+    "src/app/main/components/forms/utils/embedded-rich-text-placeholder.util.ts": "6c6663011203594f021c97d80b52ff88af730c44131a61090bf96d44d4876ee0",
+    "src/app/main/components/forms/utils/form-builder-save-payload.util.ts": "12ca0956fa61fc5db1efb70c03414a1601f67b7953a2bd460d38f41e6bb2557a",
+    "src/app/main/components/forms/utils/form-definition-data.util.ts": "8fb9b5985dc7492fd0a40cb1605c4143a6f616f6d39fecfd0837a00c0883d58a",
+    "src/app/main/components/forms/utils/form-rule-registry.util.ts": "03c0a7c046a42fe27e7f2e4806dce062ceb886bb52ee8b4dc5d6db0815432b5f",
+    "src/app/shared/components/form-renderer/form-renderer.component.spec.ts": "29c576360bfdbc7cc38749c3c16cf17b96acc79a7b9fb41c3e37c8d91da3f916",
+    "src/app/shared/components/form-renderer/form-rule-engine.ts": "c6388849bd399c439e7543265a2f077c3132f1369b96d3a466380dd6b65918d1",
+    "src/testing/form-fixtures/catalog.ts": "10151df3321150faf02a236b98386bed00fe80b2262055a4fd8a99eab2e71aab",
+    "src/testing/form-fixtures/components/dropdown.fixture.ts": "eba6e11f58861992a2cd21dacf8cebc79092c9061290521571f110817847ace2",
+    "src/testing/form-fixtures/components/embedded.fixture.ts": "2b43034d39fe4545617944d7f2d9cfa3bc482f6e5b96a09589530ff844735cad",
+    "src/testing/form-fixtures/fixture-contract.ts": "752f8b057cd22dc6cf0f90d32e3075dc16c200f0987d16dca325b8aef0ac41a8",
+    "tools/form-fixtures/catalog-entry.ts": "5d002fbc7d27ba54f46336e0f957c77a4cc42d6203722483b197ee68de9792a8",
+    "tools/form-fixtures/catalog.mjs": "aac3f775baf8582f02105bcae395c69fdf6a351a8fb55ba7009d7352a4c63fec"
+  }
+}
