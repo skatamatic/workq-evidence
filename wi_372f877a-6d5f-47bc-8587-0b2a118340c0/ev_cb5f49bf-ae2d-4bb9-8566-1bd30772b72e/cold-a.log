@@ -1,0 +1,1972 @@
+
+> etc-client@0.0.0 test-coverage
+> nx run etc-client:test-coverage --watch=false --skip-nx-cache --include=src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts --include=src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts --include=src/testing/forms-diagnostics.spec.ts
+
+
+> nx run etc-client:test-coverage --watch=false --include=src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts --include=src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts --include=src/testing/forms-diagnostics.spec.ts
+
+(node:4128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4169) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4174) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+- Generating browser application bundles (phase: setup)...
+[36m08 10 2026 15:37:35.412:DEBUG [config]: [39mLoading config /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/karma.conf.js
+[36m08 10 2026 15:37:35.413:DEBUG [config]: [39mautoWatch set to false, because of singleRun
+[36m08 10 2026 15:37:35.417:DEBUG [karma-server]: [39mFinal config Config {
+  LOG_DISABLE: 'OFF',
+  LOG_ERROR: 'ERROR',
+  LOG_WARN: 'WARN',
+  LOG_INFO: 'INFO',
+  LOG_DEBUG: 'DEBUG',
+  frameworks: [ 'jasmine', '@angular-devkit/build-angular' ],
+  protocol: 'http:',
+  port: 0,
+  listenAddress: '0.0.0.0',
+  hostname: 'localhost',
+  httpsServerConfig: {},
+  basePath: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0',
+  files: [],
+  browserConsoleLogOptions: { level: 'debug', format: '%b %T: %m', terminal: true },
+  customContextFile: null,
+  customDebugFile: null,
+  customClientContextFile: null,
+  exclude: [
+    '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/**/target/**/*.ts',
+    '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/**/e2e/tests/**/*.spec.ts',
+    '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/**/e2e/pages/*.ts',
+    '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/karma.conf.js'
+  ],
+  logLevel: 'DEBUG',
+  colors: true,
+  autoWatch: false,
+  autoWatchBatchDelay: 250,
+  restartOnFileChange: true,
+  usePolling: false,
+  reporters: [ 'progress', 'kjhtml' ],
+  singleRun: true,
+  browsers: [ 'ChromeHeadlessNoSandbox' ],
+  captureTimeout: 60000,
+  pingTimeout: 5000,
+  proxies: {},
+  proxyValidateSSL: true,
+  preprocessors: [Object: null prototype] {},
+  preprocessor_priority: {},
+  urlRoot: '/',
+  upstreamProxy: undefined,
+  reportSlowerThan: 0,
+  loggers: [
+    {
+      type: 'console',
+      layout: { type: 'pattern', pattern: '%[%d{DATETIME}:%p [%c]: %]%m' }
+    }
+  ],
+  transports: [ 'polling', 'websocket' ],
+  forceJSONP: false,
+  plugins: [
+    {
+      'framework:jasmine': [
+        'factory',
+        [Function: initJasmine] { '$inject': [ 'config.files' ] }
+      ],
+      'reporter:karma-jasmine': [
+        'factory',
+        [Function: InjectKarmaJasmineReporter] {
+          '$inject': [ 'config.singleRun' ]
+        }
+      ]
+    },
+    {
+      'launcher:Chrome': [
+        'type',
+        [Function: ChromeBrowser] {
+          '$inject': [ 'baseBrowserDecorator', 'args' ]
+        }
+      ],
+      'launcher:ChromeHeadless': [
+        'type',
+        [Function: ChromeHeadlessBrowser] {
+          '$inject': [ 'baseBrowserDecorator', 'args' ]
+        }
+      ],
+      'launcher:ChromeCanary': [
+        'type',
+        [Function: ChromeCanaryBrowser] {
+          '$inject': [ 'baseBrowserDecorator', 'args' ]
+        }
+      ],
+      'launcher:ChromeCanaryHeadless': [
+        'type',
+        [Function: ChromeCanaryHeadlessBrowser] {
+          '$inject': [ 'baseBrowserDecorator', 'args' ]
+        }
+      ],
+      'launcher:Chromium': [
+        'type',
+        [Function: ChromiumBrowser] {
+          '$inject': [ 'baseBrowserDecorator', 'args' ]
+        }
+      ],
+      'launcher:ChromiumHeadless': [ 'type', [Function: ChromiumHeadlessBrowser] ],
+      'launcher:Dartium': [
+        'type',
+        [Function: DartiumBrowser] {
+          '$inject': [ 'baseBrowserDecorator', 'args' ]
+        }
+      ],
+      test: {
+        isJSFlags: [Function: isJSFlags],
+        sanitizeJSFlags: [Function: sanitizeJSFlags],
+        headlessGetOptions: [Function: headlessGetOptions],
+        canaryGetOptions: [Function: canaryGetOptions]
+      }
+    },
+    {
+      'reporter:kjhtml': [
+        'type',
+        [Function: initReporter] {
+          '$inject': [ 'config', 'baseReporterDecorator' ]
+        }
+      ]
+    },
+    {
+      'preprocessor:coverage': [
+        'factory',
+        [Function: createCoveragePreprocessor] {
+          '$inject': [
+            'logger',
+            'config.basePath',
+            'config.reporters',
+            'config.coverageReporter'
+          ]
+        }
+      ],
+      'reporter:coverage': [
+        'type',
+        [Function: CoverageReporter] {
+          '$inject': [ 'config', 'helper', 'logger', 'emitter' ]
+        }
+      ]
+    },
+    {
+      'framework:@angular-devkit/build-angular': [
+        'factory',
+        [Function: init] { '$inject': [ 'config', 'emitter' ] }
+      ],
+      'reporter:@angular-devkit/build-angular--sourcemap-reporter': [
+        'type',
+        [Function: sourceMapReporter] {
+          '$inject': [ 'baseReporterDecorator', 'config' ]
+        }
+      ],
+      'reporter:@angular-devkit/build-angular--event-reporter': [
+        'type',
+        [Function: eventReporter] {
+          '$inject': [ 'baseReporterDecorator', 'config' ]
+        }
+      ],
+      'middleware:@angular-devkit/build-angular--blocker': [ 'factory', [Function: requestBlocker] ],
+      'middleware:@angular-devkit/build-angular--fallback': [ 'factory', [Function: fallbackMiddleware] ]
+    },
+    [Object: null prototype] {
+      'launcher:ChromeHeadlessNoSandbox': [ 'factory', [Function (anonymous)] ]
+    }
+  ],
+  client: {
+    args: [ '' ],
+    useIframe: true,
+    runInParent: false,
+    captureConsole: true,
+    clearContext: true,
+    allowedReturnUrlPatterns: [ '^https?://' ],
+    jasmine: {}
+  },
+  defaultClient: {
+    args: [ '' ],
+    useIframe: true,
+    runInParent: false,
+    captureConsole: true,
+    clearContext: true,
+    allowedReturnUrlPatterns: [ '^https?://' ],
+    jasmine: {}
+  },
+  browserDisconnectTimeout: 2000,
+  browserDisconnectTolerance: 0,
+  browserNoActivityTimeout: 30000,
+  processKillTimeout: 2000,
+  concurrency: Infinity,
+  failOnEmptyTestSuite: true,
+  retryLimit: 2,
+  detached: false,
+  crossOriginAttribute: true,
+  browserSocketTimeout: 20000,
+  buildWebpack: {
+    options: {
+      main: 'src/test.ts',
+      polyfills: 'node_modules/zone.js',
+      tsConfig: 'tsconfig.spec.json',
+      karmaConfig: 'karma.conf.js',
+      inlineStyleLanguage: 'scss',
+      styles: [
+        'node_modules/@flatirons/flatirons-icon-font/style.scss',
+        'node_modules/tinymce/skins/content/default/content.min.css',
+        'src/assets/styles/styles.scss',
+        'src/assets/indicators/rte-indicators.css'
+      ],
+      stylePreprocessorOptions: { includePaths: [ 'src/assets/styles', 'node_modules', '.' ] },
+      assets: [ 'src/favicon.ico', 'src/assets' ],
+      codeCoverage: true,
+      watch: false,
+      include: [
+        'src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts',
+        'src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts',
+        'src/testing/forms-diagnostics.spec.ts'
+      ],
+      scripts: [],
+      exclude: [],
+      sourceMap: true,
+      progress: true,
+      codeCoverageExclude: [],
+      fileReplacements: [],
+      builderMode: 'browser',
+      aot: false,
+      poll: undefined,
+      preserveSymlinks: undefined,
+      browsers: undefined,
+      reporters: [],
+      webWorkerTsConfig: undefined
+    },
+    webpackConfig: {
+      mode: 'development',
+      devtool: false,
+      target: [ 'web', 'es2015' ],
+      profile: false,
+      resolve: {
+        roots: [
+          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0'
+        ],
+        extensions: [ '.ts', '.tsx', '.mjs', '.js' ],
+        symlinks: true,
+        modules: [
+          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0',
+          'node_modules'
+        ],
+        mainFields: [ 'es2020', 'es2015', 'browser', 'module', 'main' ],
+        conditionNames: [ 'es2020', 'es2015', '...' ]
+      },
+      resolveLoader: { symlinks: true },
+      context: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0',
+      entry: {
+        main: [
+          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/test.ts'
+        ],
+        polyfills: [
+          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/zone.js',
+          '@angular/compiler'
+        ]
+      },
+      externals: [],
+      output: {
+        uniqueName: 'etc-client',
+        hashFunction: 'xxhash64',
+        clean: true,
+        path: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0',
+        publicPath: '',
+        filename: '[name].js',
+        chunkFilename: '[name].js',
+        libraryTarget: undefined,
+        crossOriginLoading: false,
+        trustedTypes: 'angular#bundler',
+        scriptType: 'module'
+      },
+      watch: true,
+      watchOptions: { poll: undefined, followSymlinks: false, ignored: undefined },
+      snapshot: { module: { hash: false } },
+      performance: { hints: false },
+      ignoreWarnings: [
+        /Failed to parse source map from/,
+        /Add postcss as project dependency/,
+        /"@charset" must be the first rule in the file/
+      ],
+      module: {
+        strictExportPresence: true,
+        parser: {
+          javascript: { requireContext: false, url: false, worker: false }
+        },
+        rules: [
+          {
+            test: /\.?(svg|html)$/,
+            resourceQuery: /\?ngResource/,
+            type: 'asset/source'
+          },
+          { test: /[/\\]rxjs[/\\]add[/\\].+\.js$/, sideEffects: true },
+          {
+            test: /\.[cm]?[tj]sx?$/,
+            resolve: { fullySpecified: false },
+            exclude: [
+              /[\\/]node_modules[/\\](?:core-js|@babel|tslib|web-animations-js|web-streams-polyfill|whatwg-url)[/\\]/
+            ],
+            use: [
+              {
+                loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/@angular-devkit/build-angular/src/tools/babel/webpack-loader.js',
+                options: {
+                  cacheDirectory: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/.angular/cache/20.3.14/babel-webpack',
+                  aot: false,
+                  optimize: false,
+                  supportedBrowsers: [
+                    'and_chr 154', 'and_ff 157', 'chrome 154',  'chrome 153',
+                    'chrome 152',  'chrome 151', 'chrome 150',  'chrome 149',
+                    'chrome 148',  'chrome 147', 'chrome 146',  'chrome 145',
+                    'chrome 144',  'chrome 143', 'chrome 142',  'chrome 141',
+                    'chrome 140',  'chrome 139', 'chrome 138',  'chrome 137',
+                    'chrome 136',  'chrome 135', 'chrome 134',  'chrome 133',
+                    'chrome 132',  'chrome 131', 'chrome 130',  'chrome 129',
+                    'chrome 128',  'chrome 127', 'chrome 126',  'chrome 125',
+                    'chrome 124',  'chrome 123', 'chrome 122',  'chrome 121',
+                    'chrome 120',  'chrome 119', 'chrome 118',  'chrome 117',
+                    'chrome 116',  'chrome 115', 'chrome 114',  'chrome 113',
+                    'chrome 112',  'chrome 111', 'chrome 110',  'chrome 109',
+                    'chrome 108',  'chrome 107', 'edge 154',    'edge 153',
+                    'edge 152',    'edge 151',   'edge 150',    'edge 149',
+                    'edge 148',    'edge 147',   'edge 146',    'edge 145',
+                    'edge 144',    'edge 143',   'edge 142',    'edge 141',
+                    'edge 140',    'edge 139',   'edge 138',    'edge 137',
+                    'edge 136',    'edge 135',   'edge 134',    'edge 133',
+                    'edge 132',    'edge 131',   'edge 130',    'edge 129',
+                    'edge 128',    'edge 127',   'edge 126',    'edge 125',
+                    'edge 124',    'edge 123',   'edge 122',    'edge 121',
+                    'edge 120',    'edge 119',   'edge 118',    'edge 117',
+                    'edge 116',    'edge 115',   'edge 114',    'edge 113',
+                    'edge 112',    'edge 111',   'edge 110',    'edge 109',
+                    'edge 108',    'edge 107',   'firefox 157', 'firefox 156',
+                    ... 108 more items
+                  ],
+                  instrumentCode: {
+                    includedBasePath: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src',
+                    excludedPaths: Set(0) {}
+                  }
+                }
+              }
+            ]
+          },
+          {
+            test: /\.[cm]?jsx?$/,
+            enforce: 'pre',
+            loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/source-map-loader/dist/cjs.js',
+            options: {
+              filterSourceMappingUrl: [Function: filterSourceMappingUrl]
+            }
+          },
+          {
+            test: /\.[cm]?tsx?$/,
+            loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/@ngtools/webpack/src/ivy/index.js',
+            exclude: [
+              /[\\/]node_modules[/\\](?:css-loader|mini-css-extract-plugin|webpack-dev-server|webpack)[/\\]/
+            ]
+          },
+          {
+            test: /\.(?:css)$/i,
+            rules: [
+              {
+                oneOf: [
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/mini-css-extract-plugin/dist/loader.js'
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false },
+                          sourceMap: true
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngGlobalStyle/
+                  },
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1,
+                          exportType: 'string',
+                          esModule: false
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false }
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngResource/
+                  }
+                ]
+              },
+              { use: [] }
+            ]
+          },
+          {
+            test: /\.(?:scss)$/i,
+            rules: [
+              {
+                oneOf: [
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/mini-css-extract-plugin/dist/loader.js'
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false },
+                          sourceMap: true
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngGlobalStyle/
+                  },
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1,
+                          exportType: 'string',
+                          esModule: false
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false }
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngResource/
+                  }
+                ]
+              },
+              {
+                use: [
+                  {
+                    loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/resolve-url-loader/index.js',
+                    options: { sourceMap: true }
+                  },
+                  {
+                    loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/sass-loader/dist/cjs.js',
+                    options: {
+                      sourceMap: true,
+                      api: 'modern',
+                      implementation: SassWorkerImplementation {
+                        rebase: false,
+                        maxThreads: 2
+                      },
+                      webpackImporter: false,
+                      sassOptions: [Function: sassOptions]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            test: /\.(?:sass)$/i,
+            rules: [
+              {
+                oneOf: [
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/mini-css-extract-plugin/dist/loader.js'
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false },
+                          sourceMap: true
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngGlobalStyle/
+                  },
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1,
+                          exportType: 'string',
+                          esModule: false
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false }
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngResource/
+                  }
+                ]
+              },
+              {
+                use: [
+                  {
+                    loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/resolve-url-loader/index.js',
+                    options: { sourceMap: true }
+                  },
+                  {
+                    loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/sass-loader/dist/cjs.js',
+                    options: {
+                      sourceMap: true,
+                      api: 'modern',
+                      implementation: SassWorkerImplementation {
+                        rebase: false,
+                        maxThreads: 2
+                      },
+                      webpackImporter: false,
+                      sassOptions: [Function: sassOptions]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            test: /\.(?:less)$/i,
+            rules: [
+              {
+                oneOf: [
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/mini-css-extract-plugin/dist/loader.js'
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false },
+                          sourceMap: true
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngGlobalStyle/
+                  },
+                  {
+                    use: [
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/css-loader/dist/cjs.js',
+                        options: {
+                          url: false,
+                          sourceMap: true,
+                          importLoaders: 1,
+                          exportType: 'string',
+                          esModule: false
+                        }
+                      },
+                      {
+                        loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/postcss-loader/dist/cjs.js',
+                        options: {
+                          implementation: <ref *18> [Function: postcss] {
+                            plugin: [Function: plugin],
+                            stringify: <ref *1> [Function: stringify] {
+                              default: [Circular *1]
+                            },
+                            parse: <ref *2> [Function: parse] {
+                              default: [Circular *2]
+                            },
+                            fromJSON: <ref *3> [Function: fromJSON] {
+                              default: [Circular *3]
+                            },
+                            list: <ref *4> {
+                              comma: [Function: comma],
+                              space: [Function: space],
+                              split: [Function: split],
+                              default: [Circular *4]
+                            },
+                            comment: [Function (anonymous)],
+                            atRule: [Function (anonymous)],
+                            decl: [Function (anonymous)],
+                            rule: [Function (anonymous)],
+                            root: [Function (anonymous)],
+                            document: [Function (anonymous)],
+                            CssSyntaxError: <ref *5> [class CssSyntaxError extends Error] {
+                              default: [Circular *5]
+                            },
+                            Declaration: <ref *6> [class Declaration extends Node] {
+                              default: [Circular *6]
+                            },
+                            Container: <ref *7> [class Container extends Node] {
+                              registerParse: [Function (anonymous)],
+                              registerRule: [Function (anonymous)],
+                              registerAtRule: [Function (anonymous)],
+                              registerRoot: [Function (anonymous)],
+                              default: [Circular *7],
+                              rebuild: [Function (anonymous)]
+                            },
+                            Processor: <ref *8> [class Processor] {
+                              default: [Circular *8]
+                            },
+                            Document: <ref *9> [class Document extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *9]
+                            },
+                            Comment: <ref *10> [class Comment extends Node] {
+                              default: [Circular *10]
+                            },
+                            Warning: <ref *11> [class Warning] {
+                              default: [Circular *11]
+                            },
+                            AtRule: <ref *12> [class AtRule extends Container] {
+                              default: [Circular *12]
+                            },
+                            Result: <ref *13> [class Result] {
+                              default: [Circular *13]
+                            },
+                            Input: <ref *14> [class Input] {
+                              default: [Circular *14]
+                            },
+                            Rule: <ref *15> [class Rule extends Container] {
+                              default: [Circular *15]
+                            },
+                            Root: <ref *16> [class Root extends Container] {
+                              registerLazyResult: [Function (anonymous)],
+                              registerProcessor: [Function (anonymous)],
+                              default: [Circular *16]
+                            },
+                            Node: <ref *17> [class Node] {
+                              default: [Circular *17]
+                            },
+                            default: [Circular *18]
+                          },
+                          postcssOptions: [Function: optionGenerator] { config: false }
+                        }
+                      }
+                    ],
+                    resourceQuery: /\?ngResource/
+                  }
+                ]
+              },
+              {
+                use: [
+                  {
+                    loader: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/less-loader/dist/cjs.js',
+                    options: {
+                      implementation: {
+                        node: [Function (anonymous)],
+                        color: [Function (anonymous)],
+                        atrule: [Function (anonymous)],
+                        detachedruleset: [Function (anonymous)],
+                        operation: [Function (anonymous)],
+                        dimension: [Function (anonymous)],
+                        unit: [Function (anonymous)],
+                        keyword: [Function (anonymous)],
+                        variable: [Function (anonymous)],
+                        property: [Function (anonymous)],
+                        ruleset: [Function (anonymous)],
+                        element: [Function (anonymous)],
+                        attribute: [Function (anonymous)],
+                        combinator: [Function (anonymous)],
+                        selector: [Function (anonymous)],
+                        quoted: [Function (anonymous)],
+                        expression: [Function (anonymous)],
+                        declaration: [Function (anonymous)],
+                        call: [Function (anonymous)],
+                        url: [Function (anonymous)],
+                        import: [Function (anonymous)],
+                        comment: [Function (anonymous)],
+                        anonymous: [Function (anonymous)],
+                        value: [Function (anonymous)],
+                        javascript: [Function (anonymous)],
+                        assignment: [Function (anonymous)],
+                        condition: [Function (anonymous)],
+                        paren: [Function (anonymous)],
+                        media: [Function (anonymous)],
+                        container: [Function (anonymous)],
+                        queryinparens: [Function (anonymous)],
+                        unicodedescriptor: [Function (anonymous)],
+                        negative: [Function (anonymous)],
+                        extend: [Function (anonymous)],
+                        variablecall: [Function (anonymous)],
+                        namespacevalue: [Function (anonymous)],
+                        mixin: [Object: null prototype] {
+                          call: [Function (anonymous)],
+                          definition: [Function (anonymous)]
+                        },
+                        createFromEnvironment: [Function: default_1],
+                        lesscHelper: {
+                          stylize: [Function: stylize],
+                          printUsage: [Function: printUsage]
+                        },
+                        PluginLoader: [Function: PluginLoader],
+                        fs: {
+                          appendFile: [Function: appendFile],
+                          appendFileSync: [Function: appendFileSync],
+                          access: [Function: access],
+                          accessSync: [Function: accessSync],
+                          chown: [Function (anonymous)],
+                          chownSync: [Function (anonymous)],
+                          chmod: [Function (anonymous)],
+                          chmodSync: [Function (anonymous)],
+                          close: [Function: close],
+                          closeSync: [Function: closeSync],
+                          copyFile: [Function: copyFile],
+                          copyFileSync: [Function: copyFileSync],
+                          cp: [Function: cp],
+                          cpSync: [Function: cpSync],
+                          createReadStream: [Function: createReadStream],
+                          createWriteStream: [Function: createWriteStream],
+                          exists: [Function: exists],
+                          existsSync: [Function: existsSync],
+                          fchown: [Function (anonymous)],
+                          fchownSync: [Function (anonymous)],
+                          fchmod: [Function (anonymous)],
+                          fchmodSync: [Function (anonymous)],
+                          fdatasync: [Function: fdatasync],
+                          fdatasyncSync: [Function: fdatasyncSync],
+                          fstat: [Function (anonymous)],
+                          fstatSync: [Function (anonymous)],
+                          fsync: [Function: fsync],
+                          fsyncSync: [Function: fsyncSync],
+                          ftruncate: [Function: ftruncate],
+                          ftruncateSync: [Function: ftruncateSync],
+                          futimes: [Function: futimes],
+                          futimesSync: [Function: futimesSync],
+                          glob: [Function: glob],
+                          globSync: [Function: globSync],
+                          lchown: [Function (anonymous)],
+                          lchownSync: [Function (anonymous)],
+                          lchmod: [Function (anonymous)],
+                          lchmodSync: [Function (anonymous)],
+                          link: [Function: link],
+                          linkSync: [Function: linkSync],
+                          lstat: [Function (anonymous)],
+                          lstatSync: [Function (anonymous)],
+                          lutimes: [Function: lutimes],
+                          lutimesSync: [Function: lutimesSync],
+                          mkdir: [Function: mkdir],
+                          mkdirSync: [Function: mkdirSync],
+                          mkdtemp: [Function: mkdtemp],
+                          mkdtempSync: [Function: mkdtempSync],
+                          open: [Function: open],
+                          openSync: [Function: openSync],
+                          openAsBlob: [Function: openAsBlob],
+                          readdir: [Function: readdir],
+                          readdirSync: [Function: readdirSync],
+                          read: [Function: read],
+                          readSync: [Function (anonymous)],
+                          readv: [Function: readv],
+                          readvSync: [Function: readvSync],
+                          readFile: [Function: readFile],
+                          readFileSync: [Function: readFileSync],
+                          readlink: [Function: readlink],
+                          readlinkSync: [Function: readlinkSync],
+                          realpath: [Function: realpath] {
+                            native: [Function (anonymous)]
+                          },
+                          realpathSync: [Function: realpathSync] {
+                            native: [Function (anonymous)]
+                          },
+                          rename: [Function: rename],
+                          renameSync: [Function: renameSync],
+                          rm: [Function: rm],
+                          rmSync: [Function: rmSync],
+                          rmdir: [Function: rmdir],
+                          rmdirSync: [Function: rmdirSync],
+                          stat: [Function (anonymous)],
+                          statfs: [Function: statfs],
+                          statSync: [Function (anonymous)],
+                          statfsSync: [Function: statfsSync],
+                          symlink: [Function: symlink],
+                          symlinkSync: [Function: symlinkSync],
+                          truncate: [Function: truncate],
+                          truncateSync: [Function: truncateSync],
+                          unwatchFile: [Function: unwatchFile],
+                          unlink: [Function: unlink],
+                          unlinkSync: [Function: unlinkSync],
+                          utimes: [Function: utimes],
+                          utimesSync: [Function: utimesSync],
+                          watch: [Function: watch],
+                          watchFile: [Function: watchFile],
+                          writeFile: [Function: writeFile],
+                          writeFileSync: [Function: writeFileSync],
+                          write: [Function: write],
+                          writeSync: [Function: writeSync],
+                          writev: [Function: writev],
+                          writevSync: [Function: writevSync],
+                          Dirent: [class Dirent],
+                          Stats: [Function: deprecated],
+                          ReadStream: [Getter/Setter],
+                 
+         WriteStream: [Getter/Setter],
+                          FileReadStream: [Getter/Setter],
+                          FileWriteStream: [Getter/Setter],
+                          _toUnixTimestamp: [Function: toUnixTimestamp],
+                          Dir: [class Dir],
+                          opendir: [Function: opendir],
+                          opendirSync: [Function: opendirSync],
+                          F_OK: 0,
+                          R_OK: 4,
+                          W_OK: 2,
+                          X_OK: 1,
+                          constants: [Object: null prototype] {
+                            UV_FS_SYMLINK_DIR: 1,
+                            UV_FS_SYMLINK_JUNCTION: 2,
+                            O_RDONLY: 0,
+                            O_WRONLY: 1,
+                            O_RDWR: 2,
+                            UV_DIRENT_UNKNOWN: 0,
+                            UV_DIRENT_FILE: 1,
+                            UV_DIRENT_DIR: 2,
+                            UV_DIRENT_LINK: 3,
+                            UV_DIRENT_FIFO: 4,
+                            UV_DIRENT_SOCKET: 5,
+                            UV_DIRENT_CHAR: 6,
+                            UV_DIRENT_BLOCK: 7,
+                            S_IFMT: 61440,
+                            S_IFREG: 32768,
+                            S_IFDIR: 16384,
+                            S_IFCHR: 8192,
+                            S_IFBLK: 24576,
+                            S_IFIFO: 4096,
+                            S_IFLNK: 40960,
+                            S_IFSOCK: 49152,
+                            O_CREAT: 512,
+                            O_EXCL: 2048,
+                            UV_FS_O_FILEMAP: 0,
+                            O_NOCTTY: 131072,
+                            O_TRUNC: 1024,
+                            O_APPEND: 8,
+                            O_DIRECTORY: 1048576,
+                            O_NOFOLLOW: 256,
+                            O_SYNC: 128,
+                            O_DSYNC: 4194304,
+                            O_SYMLINK: 2097152,
+                            O_NONBLOCK: 4,
+                            S_IRWXU: 448,
+                            S_IRUSR: 256,
+                            S_IWUSR: 128,
+                            S_IXUSR: 64,
+                            S_IRWXG: 56,
+                            S_IRGRP: 32,
+                            S_IWGRP: 16,
+                            S_IXGRP: 8,
+                            S_IRWXO: 7,
+                            S_IROTH: 4,
+                            S_IWOTH: 2,
+                            S_IXOTH: 1,
+                            F_OK: 0,
+                            R_OK: 4,
+                            W_OK: 2,
+                            X_OK: 1,
+                            UV_FS_COPYFILE_EXCL: 1,
+                            COPYFILE_EXCL: 1,
+                            UV_FS_COPYFILE_FICLONE: 2,
+                            COPYFILE_FICLONE: 2,
+                            UV_FS_COPYFILE_FICLONE_FORCE: 4,
+                            COPYFILE_FICLONE_FORCE: 4
+                          },
+                          promises: [Getter],
+                          gracefulify: [Function: patch]
+                        },
+                        FileManager: [Function: FileManager],
+                        UrlFileManager: [Function: UrlFileManager],
+                        options: {
+                          javascriptEnabled: false,
+                          depends: false,
+                          compress: false,
+                          lint: false,
+                          paths: [],
+                          color: true,
+                          strictImports: false,
+                          insecure: false,
+                          rootpath: '',
+                          rewriteUrls: false,
+                          math: 1,
+                          strictUnits: false,
+                          globalVars: null,
+                          modifyVars: null,
+                          urlArgs: ''
+                        }
+                      },
+                      sourceMap: true,
+                      lessOptions: {
+                        javascriptEnabled: true,
+                        paths: [
+                          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/assets/styles',
+                          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules',
+                          '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0'
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      experiments: {
+        backCompat: false,
+        syncWebAssembly: true,
+        asyncWebAssembly: true,
+        topLevelAwait: false
+      },
+      infrastructureLogging: { debug: undefined, level: 'error' },
+      stats: {
+        all: false,
+        colors: true,
+        hash: true,
+        timings: true,
+        chunks: true,
+        builtAt: true,
+        warnings: true,
+        errors: true,
+        assets: true,
+        cachedAssets: true,
+        ids: true,
+        entrypoints: true
+      },
+      cache: {
+        type: 'filesystem',
+        profile: undefined,
+        cacheDirectory: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/.angular/cache/20.3.14/angular-webpack',
+        maxMemoryGenerations: 1,
+        name: '82f67eac70a2edac0f332a39a899a6ef611459c7'
+      },
+      optimization: {
+        minimizer: [],
+        moduleIds: 'deterministic',
+        chunkIds: 'named',
+        emitOnErrors: false,
+        runtimeChunk: 'single',
+        splitChunks: {
+          maxAsyncRequests: Infinity,
+          cacheGroups: {
+            default: false,
+            common: false,
+            vendors: false,
+            defaultVendors: {
+              name: 'vendor',
+              chunks: [Function: chunks],
+              enforce: true,
+              test: /[\\/]node_modules[\\/]/
+            }
+          }
+        }
+      },
+      plugins: [
+        NamedChunksPlugin {},
+        OccurrencesPlugin {
+          options: { aot: false, scriptsOptimization: false }
+        },
+        DedupeModuleResolvePlugin {
+          options: { verbose: undefined },
+          modules: Map(0) {}
+        },
+        ProgressPlugin {
+          profile: false,
+          handler: [Function: handler],
+          modulesCount: 5000,
+          dependenciesCount: 10000,
+          showEntries: true,
+          showModules: true,
+          showDependencies: true,
+          showActiveModules: false,
+          percentBy: undefined
+        },
+        CopyPlugin {
+          patterns: [
+            {
+              context: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/',
+              to: '',
+              from: 'favicon.ico',
+              noErrorOnMissing: true,
+              force: true,
+              globOptions: {
+                dot: true,
+                followSymbolicLinks: false,
+                ignore: [
+                  '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/.gitkeep',
+                  '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/**/.DS_Store',
+                  '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/**/Thumbs.db'
+                ]
+              },
+              priority: 0
+            },
+            {
+              context: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/assets/',
+              to: 'assets/',
+              from: '**/*',
+              noErrorOnMissing: true,
+              force: true,
+              globOptions: {
+                dot: true,
+                followSymbolicLinks: false,
+                ignore: [
+                  '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/assets/.gitkeep',
+                  '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/assets/**/.DS_Store',
+                  '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src/assets/**/Thumbs.db'
+                ]
+              },
+              priority: 1
+            }
+          ],
+          options: {}
+        },
+        DevToolsIgnorePlugin {},
+        SourceMapDevToolPlugin {
+          sourceMapFilename: '[file].map',
+          sourceMappingURLComment: '\n//# sourceMappingURL=[url]',
+          moduleFilenameTemplate: '[resource-path]',
+          fallbackModuleFilenameTemplate: 'webpack://[namespace]/[resourcePath]?[hash]',
+          namespace: '',
+          options: {
+            filename: '[file].map',
+            include: [ /js$/, /css$/ ],
+            sourceRoot: 'webpack:///',
+            moduleFilenameTemplate: '[resource-path]',
+            append: undefined
+          }
+        },
+        AngularWebpackPlugin {
+          pluginOptions: {
+            emitClassMetadata: false,
+            emitNgModuleScope: true,
+            jitMode: true,
+            fileReplacements: {},
+            substitutions: {},
+            directTemplateLoading: true,
+            tsconfig: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/tsconfig.spec.json',
+            compilerOptions: {
+              sourceMap: true,
+              declaration: false,
+              declarationMap: false,
+              removeComments: false,
+              preserveSymlinks: false
+            },
+            inlineStyleFileExtension: 'scss'
+          },
+          compilerCliModule: undefined,
+          compilerCliToolingModule: undefined,
+          watchMode: undefined,
+          ngtscNextProgram: undefined,
+          builder: undefined,
+          sourceFileCache: undefined,
+          webpackCache: undefined,
+          webpackCreateHash: undefined,
+          fileDependencies: Map(0) {},
+          requiredFilesToEmit: Set(0) {},
+          requiredFilesToEmitCache: Map(0) {},
+          fileEmitHistory: Map(0) {}
+        },
+        AnyComponentStyleBudgetChecker { budgets: [] },
+        StylesWebpackPlugin {
+          options: {
+            root: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0',
+            entryPoints: {
+              styles: [
+                'node_modules/@flatirons/flatirons-icon-font/style.scss',
+                'node_modules/tinymce/skins/content/default/content.min.css',
+                'src/assets/styles/styles.scss',
+                'src/assets/indicators/rte-indicators.css'
+              ]
+            },
+            preserveSymlinks: false
+          },
+          compilation: undefined
+        },
+        { apply: [Function: apply] },
+        MiniCssExtractPlugin {
+          _sortedModulesCache: WeakMap { <items unknown> },
+          options: {
+            filename: '[name].css',
+            ignoreOrder: false,
+            experimentalUseImportModule: undefined,
+            runtime: true,
+            chunkFilename: '[name].css'
+          },
+          runtimeOptions: {
+            insert: undefined,
+            linkType: 'text/css',
+            attributes: undefined
+          }
+        },
+        SuppressExtractedTextChunksWebpackPlugin {},
+        FindTestsPlugin {
+          options: {
+            include: [
+              'src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts',
+              'src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts',
+              'src/testing/forms-diagnostics.spec.ts'
+            ],
+            exclude: [],
+            workspaceRoot: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0',
+            projectSourceRoot: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/src'
+          },
+          compilation: undefined
+        }
+      ],
+      node: false
+    },
+    logger: Logger {
+      name: 'etc-client:test-coverage',
+      parent: null,
+      _subject: Subject {
+        closed: false,
+        currentObservers: null,
+        observers: [
+          <ref *19> SafeSubscriber {
+            initialTeardown: undefined,
+            closed: false,
+            _parentage: null,
+            _finalizers: [
+              Subscription {
+                initialTeardown: [Function (anonymous)],
+                closed: false,
+                _parentage: [Circular *19],
+                _finalizers: null
+              }
+            ],
+            isStopped: false,
+            destination: ConsumerObserver {
+              partialObserver: {
+                next: [Function (anonymous)],
+                error: undefined,
+                complete: undefined
+              }
+            }
+          },
+          <ref *20> SafeSubscriber {
+            initialTeardown: undefined,
+            closed: false,
+            _parentage: null,
+            _finalizers: [
+              Subscription {
+                initialTeardown: [Function (anonymous)],
+                closed: false,
+                _parentage: [Circular *20],
+                _finalizers: null
+              }
+            ],
+            isStopped: false,
+            destination: ConsumerObserver {
+              partialObserver: {
+                next: undefined,
+                error: undefined,
+                complete: [Function (anonymous)]
+              }
+            }
+          }
+        ],
+        isStopped: false,
+        hasError: false,
+        thrownError: null
+      },
+      _metadata: { name: 'etc-client:test-coverage', path: [] },
+      _obs: Observable {
+        source: Subject {
+          closed: false,
+          currentObservers: null,
+          observers: [
+            <ref *19> SafeSubscriber {
+              initialTeardown: undefined,
+              closed: false,
+              _parentage: null,
+              _finalizers: [
+                Subscription {
+                  initialTeardown: [Function (anonymous)],
+                  closed: false,
+                  _parentage: [Circular *19],
+                  _finalizers: null
+                }
+              ],
+              isStopped: false,
+              destination: ConsumerObserver {
+                partialObserver: {
+                  next: [Function (anonymous)],
+                  error: undefined,
+                  complete: undefined
+                }
+              }
+            },
+            <ref *20> SafeSubscriber {
+              initialTeardown: undefined,
+              closed: false,
+              _parentage: null,
+              _finalizers: [
+                Subscription {
+                  initialTeardown: [Function (anonymous)],
+                  closed: false,
+                  _parentage: [Circular *20],
+                  _finalizers: null
+                }
+              ],
+              isStopped: false,
+              destination: ConsumerObserver {
+                partialObserver: {
+                  next: undefined,
+                  error: undefined,
+                  complete: [Function (anonymous)]
+                }
+              }
+            }
+          ],
+          isStopped: false,
+          hasError: false,
+          thrownError: null
+        }
+      },
+      _subscription: null
+    },
+    failureCb: [Function (anonymous)],
+    successCb: [Function (anonymous)]
+  },
+  jasmineHtmlReporter: { suppressAll: true },
+  coverageReporter: {
+    dir: '/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/coverage/etc-client/run-4128',
+    subdir: '.',
+    reporters: [ { type: 'html' }, { type: 'text-summary' }, { type: 'lcov' } ]
+  },
+  customLaunchers: {
+    ChromeHeadlessNoSandbox: {
+      base: 'ChromeHeadless',
+      flags: [
+        '--remote-debugging-port=0',
+        '--no-sandbox',
+        '--headless',
+        '--disable-gpu',
+        '--disable-translate',
+        '--disable-extensions'
+      ]
+    }
+  }
+}
+[36m08 10 2026 15:37:35.417:DEBUG [plugin]: [39mLoading inline plugin defining framework:jasmine, reporter:karma-jasmine.
+[36m08 10 2026 15:37:35.417:DEBUG [plugin]: [39mLoading inline plugin defining launcher:Chrome, launcher:ChromeHeadless, launcher:ChromeCanary, launcher:ChromeCanaryHeadless, launcher:Chromium, launcher:ChromiumHeadless, launcher:Dartium, test.
+[36m08 10 2026 15:37:35.417:DEBUG [plugin]: [39mLoading inline plugin defining reporter:kjhtml.
+[36m08 10 2026 15:37:35.417:DEBUG [plugin]: [39mLoading inline plugin defining preprocessor:coverage, reporter:coverage.
+[36m08 10 2026 15:37:35.417:DEBUG [plugin]: [39mLoading inline plugin defining framework:@angular-devkit/build-angular, reporter:@angular-devkit/build-angular--sourcemap-reporter, reporter:@angular-devkit/build-angular--event-reporter, middleware:@angular-devkit/build-angular--blocker, middleware:@angular-devkit/build-angular--fallback.
+[36m08 10 2026 15:37:35.417:DEBUG [plugin]: [39mLoading inline plugin defining launcher:ChromeHeadlessNoSandbox.
+[32m✔[39m Browser application bundle generation complete.
+[36m08 10 2026 15:38:11.728:DEBUG [web-server]: [39mInstantiating middleware
+[36m08 10 2026 15:38:11.729:DEBUG [reporter]: [39mTrying to load reporter: @angular-devkit/build-angular--event-reporter
+[36m08 10 2026 15:38:11.729:DEBUG [reporter]: [39mTrying to load color-version of reporter: @angular-devkit/build-angular--event-reporter (@angular-devkit/build-angular--event-reporter_color)
+[36m08 10 2026 15:38:11.729:DEBUG [reporter]: [39mCouldn't load color-version.
+[36m08 10 2026 15:38:11.729:DEBUG [reporter]: [39mTrying to load reporter: @angular-devkit/build-angular--sourcemap-reporter
+[36m08 10 2026 15:38:11.729:DEBUG [reporter]: [39mTrying to load color-version of reporter: @angular-devkit/build-angular--sourcemap-reporter (@angular-devkit/build-angular--sourcemap-reporter_color)
+[36m08 10 2026 15:38:11.729:DEBUG [reporter]: [39mCouldn't load color-version.
+[36m08 10 2026 15:38:11.738:DEBUG [reporter]: [39mTrying to load reporter: kjhtml
+[36m08 10 2026 15:38:11.738:DEBUG [reporter]: [39mTrying to load color-version of reporter: kjhtml (kjhtml_color)
+[36m08 10 2026 15:38:11.738:DEBUG [reporter]: [39mCouldn't load color-version.
+[36m08 10 2026 15:38:11.738:DEBUG [reporter]: [39mTrying to load reporter: coverage
+[36m08 10 2026 15:38:11.738:DEBUG [reporter]: [39mTrying to load color-version of reporter: coverage (coverage_color)
+[36m08 10 2026 15:38:11.738:DEBUG [reporter]: [39mCouldn't load color-version.
+[32m08 10 2026 15:38:11.755:INFO [karma-server]: [39mKarma v6.4.4 server started at http://localhost:59496/
+[32m08 10 2026 15:38:11.755:INFO [launcher]: [39mLaunching browsers ChromeHeadlessNoSandbox with concurrency unlimited
+[32m08 10 2026 15:38:11.759:INFO [launcher]: [39mStarting browser ChromeHeadless
+[36m08 10 2026 15:38:11.760:DEBUG [launcher]: [39mnull -> BEING_CAPTURED
+[36m08 10 2026 15:38:11.760:DEBUG [temp-dir]: [39mCreating temp dir at /var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/karma-20084823
+[36m08 10 2026 15:38:11.760:DEBUG [launcher]: [39m/Users/kylewesley/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --user-data-dir=/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/karma-20084823 --enable-automation --no-default-browser-check --no-first-run --disable-default-apps --disable-popup-blocking --disable-translate --disable-background-timer-throttling --disable-renderer-backgrounding --disable-device-discovery-notifications --remote-debugging-port=0 --no-sandbox --headless --disable-gpu --disable-translate --disable-extensions http://localhost:59496/?id=20084823 --headless --disable-gpu --disable-dev-shm-usage
+[36m08 10 2026 15:38:12.703:DEBUG [web-server]: [39mserving: /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma/static/client.html
+[36m08 10 2026 15:38:14.713:DEBUG [web-server]: [39mserving: /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma/static/karma.js
+[36m08 10 2026 15:38:14.728:DEBUG [karma-server]: [39mA browser has connected on socket Fu13wB_XBvAt_62lAAAA
+[36m08 10 2026 15:38:14.729:DEBUG [web-server]: [39mupgrade /socket.io/?EIO=4&transport=websocket&sid=GmRyLZ0-65oRJWZ8AAAA
+[36m08 10 2026 15:38:14.740:DEBUG [Chrome Headless 151.0.7922.34 (Mac OS 10.15.7)]: [39mundefined -> CONNECTED
+[32m08 10 2026 15:38:14.740:INFO [Chrome Headless 151.0.7922.34 (Mac OS 10.15.7)]: [39mConnected on socket Fu13wB_XBvAt_62lAAAA with id 20084823
+[36m08 10 2026 15:38:14.741:DEBUG [launcher]: [39mBEING_CAPTURED -> CAPTURED
+[36m08 10 2026 15:38:14.742:DEBUG [launcher]: [39mChromeHeadless (id 20084823) captured in 2.986 secs
+[36m08 10 2026 15:38:14.742:DEBUG [Chrome Headless 151.0.7922.34 (Mac OS 10.15.7)]: [39mCONNECTED -> CONFIGURING
+[36m08 10 2026 15:38:14.745:DEBUG [middleware:karma]: [39mcustom files /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/@angular-devkit/build-angular/src/tools/webpack/plugins/karma/karma-context.html /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/@angular-devkit/build-angular/src/tools/webpack/plugins/karma/karma-debug.html null
+[36m08 10 2026 15:38:14.746:DEBUG [middleware:karma]: [39mServing customContextFile /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/@angular-devkit/build-angular/src/tools/webpack/plugins/karma/karma-context.html
+[36m08 10 2026 15:38:14.752:DEBUG [web-server]: [39mserving: /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/@angular-devkit/build-angular/src/tools/webpack/plugins/karma/karma-context.html
+[36m08 10 2026 15:38:14.758:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/styles.css
+[36m08 10 2026 15:38:14.758:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/styles.css
+[36m08 10 2026 15:38:14.765:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/runtime.js
+[36m08 10 2026 15:38:14.765:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/runtime.js
+[36m08 10 2026 15:38:14.767:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/jasmine-core/lib/jasmine-core/jasmine.css?e096e6fa813a911e08a89dcb9bd114186f3f2638
+[36m08 10 2026 15:38:14.767:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/jasmine-core/lib/jasmine-core/jasmine.css
+[36m08 10 2026 15:38:14.767:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/jasmine-core/lib/jasmine-core/jasmine.css
+[36m08 10 2026 15:38:14.767:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/polyfills.js
+[36m08 10 2026 15:38:14.767:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/polyfills.js
+[36m08 10 2026 15:38:14.771:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/karma-jasmine/lib/boot.js?760d54bbca4f739f1f8b252c1636d76201cc4e88
+[36m08 10 2026 15:38:14.771:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine/lib/boot.js
+[36m08 10 2026 15:38:14.771:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine/lib/boot.js
+[36m08 10 2026 15:38:14.772:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/karma-jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js?86d98e11f43f2c8cfac9fb4806ed6c0aced74cbe
+[36m08 10 2026 15:38:14.772:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js
+[36m08 10 2026 15:38:14.772:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js
+[36m08 10 2026 15:38:14.773:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/source-map-support/browser-source-map-support.js?d396c5c772d39dd251c37919a75f287e2244d0a2
+[36m08 10 2026 15:38:14.773:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/source-map-support/browser-source-map-support.js
+[36m08 10 2026 15:38:14.773:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/source-map-support/browser-source-map-support.js
+[36m08 10 2026 15:38:14.773:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/karma-jasmine/lib/adapter.js?db55991565c0f0381ab0fb3c340df5194b4bef99
+[36m08 10 2026 15:38:14.774:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine/lib/adapter.js
+[36m08 10 2026 15:38:14.774:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine/lib/adapter.js
+[36m08 10 2026 15:38:14.776:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/karma-source-map-support/lib/client.js?fcb459e84379f1ce8e91fe200d87463f3780ca1b
+[36m08 10 2026 15:38:14.776:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-source-map-support/lib/client.js
+[36m08 10 2026 15:38:14.776:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-source-map-support/lib/client.js
+[36m08 10 2026 15:38:14.777:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/karma-jasmine-html-reporter/src/boot.js?1020b197219c07ddd112de03190a3d7123a5c7f1
+[36m08 10 2026 15:38:14.777:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine-html-reporter/src/boot.js
+[36m08 10 2026 15:38:14.777:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma-jasmine-html-reporter/src/boot.js
+[36m08 10 2026 15:38:14.777:DEBUG [middleware:source-files]: [39mRequesting /base/node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js?a129fecec0b7d7140a95d0cf50d5880ef31fcc57
+[36m08 10 2026 15:38:14.777:DEBUG [middleware:source-files]: [39mFetching /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js
+[36m08 10 2026 15:38:14.777:DEBUG [web-server]: [39mserving (cached): /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js
+[36m08 10 2026 15:38:14.778:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/vendor.js
+[36m08 10 2026 15:38:14.778:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/vendor.js
+[36m08 10 2026 15:38:14.784:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/main.js
+[36m08 10 2026 15:38:14.784:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/main.js
+[36m08 10 2026 15:38:14.788:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/scripts.js
+[36m08 10 2026 15:38:14.788:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/scripts.js
+[36m08 10 2026 15:38:14.790:DEBUG [web-server]: [39mserving: /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/node_modules/karma/static/context.js
+[36m08 10 2026 15:38:14.870:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/runtime.js
+[36m08 10 2026 15:38:14.870:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/runtime.js
+[36m08 10 2026 15:38:14.873:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/runtime.js
+[36m08 10 2026 15:38:14.873:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/runtime.js
+[36m08 10 2026 15:38:14.875:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/runtime.js.map
+[36m08 10 2026 15:38:14.875:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/runtime.js.map
+[36m08 10 2026 15:38:14.879:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/main.js
+[36m08 10 2026 15:38:14.879:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/main.js
+[36m08 10 2026 15:38:14.884:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/main.js
+[36m08 10 2026 15:38:14.885:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/main.js
+[36m08 10 2026 15:38:14.897:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/main.js.map
+[36m08 10 2026 15:38:14.897:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/main.js.map
+[36m08 10 2026 15:38:14.947:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/vendor.js
+[36m08 10 2026 15:38:14.947:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/vendor.js
+[36m08 10 2026 15:38:14.986:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/vendor.js
+[36m08 10 2026 15:38:14.986:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/vendor.js
+[36m08 10 2026 15:38:15.037:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/vendor.js.map
+[36m08 10 2026 15:38:15.037:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/vendor.js.map
+[36m08 10 2026 15:38:15.831:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/polyfills.js
+[36m08 10 2026 15:38:15.831:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/polyfills.js
+[36m08 10 2026 15:38:15.841:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/polyfills.js
+[36m08 10 2026 15:38:15.841:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/polyfills.js
+[36m08 10 2026 15:38:15.856:DEBUG [middleware:source-files]: [39mRequesting /_karma_webpack_/polyfills.js.map
+[36m08 10 2026 15:38:15.856:DEBUG [middleware:source-files]: [39mFetching /_karma_webpack_/polyfills.js.map
+[36m08 10 2026 15:38:15.985:DEBUG [Chrome Headless 151.0.7922.34 (Mac OS 10.15.7)]: [39mCONFIGURING -> EXECUTING
+Chrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 0 of 17[32m SUCCESS[39m (0 secs / 0 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 1 of 17[32m SUCCESS[39m (0 secs / 0.059 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 2 of 17[32m SUCCESS[39m (0 secs / 0.076 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 3 of 17[32m SUCCESS[39m (0 secs / 0.084 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 4 of 17[32m SUCCESS[39m (0 secs / 0.091 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 5 of 17[32m SUCCESS[39m (0 secs / 0.105 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 6 of 17[32m SUCCESS[39m (0 secs / 0.114 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 7 of 17[32m SUCCESS[39m (0 secs / 0.122 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 8 of 17[32m SUCCESS[39m (0 secs / 0.123 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 9 of 17[32m SUCCESS[39m (0 secs / 0.124 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 10 of 17[32m SUCCESS[39m (0 secs / 0.135 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 11 of 17[32m SUCCESS[39m (0 secs / 0.151 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 12 of 17[32m SUCCESS[39m (0 secs / 0.157 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 13 of 17[32m SUCCESS[39m (0 secs / 0.164 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 14 of 17[32m SUCCESS[39m (0 secs / 0.171 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 15 of 17[32m SUCCESS[39m (0 secs / 0.179 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 16 of 17[32m SUCCESS[39m (0 secs / 0.186 secs)
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 17 of 17[32m SUCCESS[39m (0 secs / 0.192 secs)
+[36m08 10 2026 15:38:16.190:DEBUG [Chrome Headless 151.0.7922.34 (Mac OS 10.15.7)]: [39mEXECUTING -> CONNECTED
+[1A[2KChrome Headless 151.0.7922.34 (Mac OS 10.15.7): Executed 17 of 17[32m SUCCESS[39m (0.205 secs / 0.192 secs)
+[36m08 10 2026 15:38:16.192:DEBUG [launcher]: [39mCAPTURED -> BEING_KILLED
+[36m08 10 2026 15:38:16.193:DEBUG [launcher]: [39mBEING_KILLED -> BEING_FORCE_KILLED
+[36m08 10 2026 15:38:16.193:DEBUG [Chrome Headless 151.0.7922.34 (Mac OS 10.15.7)]: [39mCONNECTED -> DISCONNECTED
+[32mTOTAL: 17 SUCCESS[39m
+[36m08 10 2026 15:38:16.196:DEBUG [karma-server]: [39mRun complete, exiting.
+[36m08 10 2026 15:38:16.196:DEBUG [launcher]: [39mDisconnecting all browsers
+[36m08 10 2026 15:38:16.196:DEBUG [launcher]: [39mBEING_FORCE_KILLED -> BEING_FORCE_KILLED
+[36m08 10 2026 15:38:16.197:DEBUG [proxy]: [39mDestroying proxy agents
+[32m✔[39m Browser application bundle generation complete.
+=============================== Coverage summary ===============================
+[31;1mStatements   : 49.27% ( 409/830 )[0m
+[31;1mBranches     : 22.51% ( 104/462 )[0m
+[31;1mFunctions    : 49.72% ( 91/183 )[0m
+[31;1mLines        : 48.98% ( 385/786 )[0m
+================================================================================
+[36m08 10 2026 15:38:16.298:DEBUG [launcher]: [39mProcess ChromeHeadless exited with code 143 and signal null
+[36m08 10 2026 15:38:16.298:DEBUG [temp-dir]: [39mCleaning temp dir /var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/karma-20084823
+[36m08 10 2026 15:38:16.300:DEBUG [coverage]: [39mWriting coverage to /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/coverage/etc-client/run-4128
+[36m08 10 2026 15:38:16.334:DEBUG [coverage]: [39mWriting coverage to /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/coverage/etc-client/run-4128
+[36m08 10 2026 15:38:16.394:DEBUG [launcher]: [39mFinished all browsers
+[36m08 10 2026 15:38:16.395:DEBUG [launcher]: [39mBEING_FORCE_KILLED -> FINISHED
+[36m08 10 2026 15:38:16.395:DEBUG [launcher]: [39mFINISHED -> FINISHED
+[36m08 10 2026 15:38:16.395:DEBUG [karma-server]: [39mReceived stop event, exiting.
+[36m08 10 2026 15:38:16.396:DEBUG [launcher]: [39mDisconnecting all browsers
+[36m08 10 2026 15:38:16.396:DEBUG [launcher]: [39mFINISHED -> BEING_FORCE_KILLED
+[36m08 10 2026 15:38:16.396:DEBUG [proxy]: [39mDestroying proxy agents
+[32m✔[39m Browser application bundle generation complete.
+
+
+
+ NX   Successfully ran target test-coverage for project etc-client
+
+
+       52.91 real        49.59 user         5.64 sys
+          3162570752  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              302934  page reclaims
+                1454  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                1511  messages sent
+                1414  messages received
+                   1  signals received
+               13585  voluntary context switches
+              315417  involuntary context switches
+           852576779  instructions retired
+           486077028  cycles elapsed
+            25136008  peak memory footprint
