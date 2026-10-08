@@ -1,0 +1,626 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 3f39ddb..d294fb3 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -123,6 +123,18 @@ Use these guardrails proactively during implementation, not only after lint or r
+ 
+   **Root cause**: The dynamic form component re-marks itself dirty during table refresh change detection after a successful save, even though data is persisted on the server. The form cannot distinguish between user edits and server-synced data updates. All three layers should be re-enabled when the form component properly tracks persisted state and only marks dirty for actual user changes. See TODO comments in all affected files for details.
+ 
++## Forms Delivery
++
++For dynamic form fields, controls, serialization or embedded rules, read the canonical
++[form-field delivery skill](docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md).
++Read only its references that apply to the task. The same entry is linked from the builder
++context, so provisioned workers can find it even when root guidance is supplied by their harness.
++
++For forms work, implement and write automated regression tests together, then run the
++configured gates and present the PR for human review. Do not stop before writing tests.
++Update only targeted context/activity docs; close an activity only when its acceptance
++criteria are met. This forms workflow takes precedence over the general sequence below.
++
+ ## Preferred Feature Workflow
+ 
+ For non-trivial feature work in `etc-client`, follow this sequence unless the user explicitly asks for a different order. This workflow is meant for feature work and multi-file behavior changes, not tiny lint-only or narrowly scoped test fixes:
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md b/docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md
+index 6bbb12a..64ebd23 100644
+--- a/docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md
+@@ -1,262 +1,82 @@
+ ---
+ name: form-field-refactor-skill
+-description: Implement and verify dynamic form-field changes in etc-client, especially configuration editors, renderer behavior, defaults, validation, form-data persistence, instantiation, layout, and component-library integration. Use for requests that add or modify field types, validation, default values, builder/runtime synchronization, or form rendering errors.
++description: Implement and test etc-client dynamic form-field changes across authoring, serialized definitions, runtime controls, shared rules and consumed component-library behavior.
+ ---
+ 
+-# Form Field Refactor Skill
+-
+-## Purpose
+-
+-Use this skill for changes to the dynamic form-builder field pipeline in `etc-client`. Treat a field as a cross-cutting feature: its authoring model, configuration editor, builder preview, persisted definition, runtime renderer, Angular form control, validation behavior, and instantiated-form state must agree.
+-
+-Start by reading `docs/project-overview.md`, `docs/form-builder-context.md`, and the directly relevant design document under `docs/design/form-builder/`. Inspect the existing working tree before editing and preserve unrelated user changes.
+-
+-### Pre-production compatibility policy
+-
+-`etc-client` is not yet in production, so compatibility with previously persisted field definitions is opt-in rather than assumed. Existing definitions may fail when a field contract changes. Do not add legacy schema normalization, adapter fallbacks, or migration code solely to preserve old definitions unless the field-specific design explicitly requires compatibility. A clean canonical model may replace legacy properties, remove unsupported settings, and intentionally invalidate old field definitions.
+-
+-## Cross-field configuration standards
+-
+-Use these standards for configurable form fields unless a field-specific design explicitly documents an exception.
+-
+-### Configuration-editor ordering
+-
+-Order the settings in each field editor as follows:
+-
+-1. Label
+-2. Placeholder, when the field supports one
+-3. Default Value, when the field supports one
+-4. Shared validation settings, including validation type and custom error message
+-5. Field-specific settings
+-6. Disabled
+-
+-The shared validation row is always represented by `ValidationConfigEditorComponent`. Its
+-`Validation` dropdown must contain the field’s supported validation choices, including
+-`Required` when applicable; do not add a separate Required checkbox or toggle beside the
+-field controls. A domain-specific label such as `Default Group` still occupies the
+-Default Value position in this order. `Disabled` is a separate final checkbox after all
+-field-specific settings and must write `renderer.config.disabled`.
+-
+-The shared configuration modal owns the Override ID and ID controls. They appear after the field-specific editor and should not be duplicated inside individual field editors. Omit settings that are not applicable; do not add a placeholder merely to satisfy the ordering.
+-
+-### Placeholder versus default value
+-
+-A placeholder is display-only guidance shown while a field is empty. It is not a default value and must not:
+-
+-- populate `formData`;
+-- become the Angular control value;
+-- suppress a configured `defaultValue`; or
+-- be submitted as entered data.
+-
+-Only expose a placeholder editor input when the field’s runtime control supports it. Keep placeholder text separate from option/default-value logic.
+-
+-### Default-value behavior
+-
+-Use this contract for fields that support configured defaults. Keep field-specific normalization and validation in the shared default-value utility rather than implementing separate precedence logic in each editor, adapter, or renderer.
+-
+-- Store the configured default in `renderer.config.defaultValue`. A configured default is authoring configuration, not a duplicate `formData` entry.
+-- The builder is WYSIWYG: show the configured default when the field has no valid current value, including while the field is disabled in the editor. Any value entered through builder interaction synchronizes to `renderer.config.defaultValue`; it must not be emitted as ordinary builder `formData`. Clearing the value removes the configured default and the corresponding builder data entry.
+-- Initial runtime hydration resolves a valid current value, then a valid configured default, then empty. After hydration, an explicit runtime clear is a current value rather than a missing value and must remain clear in the runtime snapshot.
+-- Normalize values at the shared boundary according to the field’s value type and validity rules. Preserve configured option value types.
+-- When loading a persisted builder draft, use the shared normalizer to promote legacy values into `renderer.config.defaultValue`, with an existing valid configured default taking precedence, only when compatibility or draft migration is part of the field-specific design. Otherwise, do not add migration solely to preserve old definitions. Remove only migrated field IDs from builder `formData`; preserve unrelated data.
+-- Standalone imports are different from persisted-draft loading. Imported `formData` represents prefilled current values and must remain in `formData`; do not run the all-field draft migration on the imported subtree. A legacy field-specific normalizer may remain as a compatibility wrapper, but it should delegate to the shared utility rather than duplicate its algorithm.
+-- On save, strip default-backed field IDs from root and subtemplate `formData` so configured defaults are not persisted twice. Preserve the sanitized state returned to the builder and avoid mutating the caller’s form-data object.
+-- Configuration editors must expose the default-value control immediately below Placeholder when both settings exist. Default editing must remain available while Disabled is selected so authors do not need to toggle the field just to set its initial value.
+-
+-### Runtime clearing must not reapply defaults
+-
+-Treat a configured default as an initialization fallback, not as a value that continuously competes with the user's runtime edits. A user must be able to clear a default-backed field and save the empty result.
+-
+-- Distinguish a missing value from an explicit runtime clear. Depending on the field contract, an explicit clear may be `''`, `null`, `undefined`, `false`, or `[]` for a multi-select. Do not run normalization that converts an intentional empty value into `undefined` and then immediately falls back to the configured default.
+-- Save-time reads must merge raw Angular control values over any hydrated/session snapshot values, without calling default resolution again. Raw values such as `''`, `null`, and `[]` must overwrite the old/default-backed value in the save payload.
+-- Runtime controls must bind to the actual Angular form control when the form is interactive. Do not bind a computed `defaultValue`-backed expression with `[ngModel]` in a way that can write a stale default back during change detection before the form snapshot updates. Builder previews may use default resolution; runtime controls need current-control precedence.
+-- Conditional rules can destroy and recreate runtime controls. When the processed container changes, hydrate newly registered controls once from the retained runtime snapshot (`currentValues`) after the view mounts. Do not resolve configured defaults again during this remount step: the snapshot was default-hydrated once and already preserves explicit `''`, `null`, and `[]` clears. Do not restore remounted controls with a continuously computed `[ngModel]` expression, because that can replay a configured default before the snapshot catches up.
+-- Composite controls need an explicit clear path for every subcontrol. Verify date-only clearing, time-only clearing, single-select clearing, and multi-select clear-all independently. If a shared value accessor fails to propagate an empty subcontrol value, fix the application boundary or the shared source as appropriate, and test the currently consumed artifact.
+-- The bug commonly appears after a short audit/debounce window: the control emits an empty value immediately, while a delayed session snapshot still contains the configured default. Test the sequence of setting a default, clearing it at runtime, saving immediately, and hydrating the saved empty value again.
+-- The same stale-value bug can appear when a rule hides a field and later shows it again. Test both a populated value and an explicit clear across hide → show, and assert that the recreated control receives the retained raw value rather than the configured default.
+-- Add regression coverage at the shared default utility, renderer save-read, runtime field adapter/template, and host-container boundaries as applicable. Assert that configured defaults still appear for missing values, while explicit clears remain empty after change detection, save, and reload.
+-
+-### Disabled configuration and rules
+-
+-Configurable form fields use the optional boolean `renderer.config.disabled` property:
+-
+-- missing and `false` mean enabled;
+-- the field editor exposes the same Disabled checkbox for every supported field;
+-- the checkbox writes the renderer configuration rather than a separate item-level flag;
+-- runtime disabled state combines the field configuration with external/read-only state; and
+-- rule-driven disable/enable effects preserve the rest of the renderer configuration.
+-
+-An enable rule may override a field’s configured `disabled: true` state, but it must not bypass an inherited disabled state from a parent container or external read-only mode. Use explicit boolean checks rather than truthiness checks when resolving the configured state.
+-
+-Do not materialize `disabled: false` into existing definitions or add migration code unless the field-specific design explicitly requires it. Boundary normalization for a newly defined contract must not silently rewrite persisted definitions.
+-
+-## Workflow
+-
+-### 1. Trace the complete field path
+-
+-For a generic field, inspect only the files needed for the change. Usually trace the relevant:
+-
+-- field model/renderer type, toolbox entry, adapter, and configuration editor;
+-- builder renderer and runtime form renderer;
+-- persistence/save transformation and instantiation path; and
+-- component-library control or validation directive when the field depends on shared behavior.
+-
+-For instantiated work cards or work steps, also trace the relevant host component and `FormDefinitionService` instantiation path. Do not assume that builder state and runtime form data use the same source.
+-
+-When a field depends on a shared component-library control or directive, trace the contract across both repositories. Verify that configuration reaches every relevant subcontrol, including value handling, validation, disabled state, visual affordances, and constraints. Inspect and change the library source rather than generated artifacts or `node_modules`, then rebuild and test the artifact consumed by the application.
+-
+-### 2. Keep defaults separate from entered form data
+-
+-Apply the default-value contract above consistently through the editor, adapter, builder, runtime renderer, and save path. Route normalization through the shared utility, distinguish persisted-draft migration from standalone imports, and verify that current values, configured defaults, empty values, and invalid values follow the documented precedence without duplicating defaults into `formData`.
+-
+-### 3. Implement validation consistently
+-
+-Use the centralized validation configuration for fields that support validation:
+-
+-- Reuse `ValidationConfigEditorComponent` for validation type selection and custom error-message editing rather than duplicating validation UI in each field editor.
+-- Persist the canonical form-definition property `validationType`; keep component-library-specific flags such as `fsValidationRequired` at the adapter/runtime boundary.
+-- For standardized fields, keep the validation type and custom-message properties consistent in the form schema; do not persist a translated fallback message.
+-- When compatibility is part of the field-specific design, read legacy field definitions at the adapter boundary and normalize them into the editor/runtime model without requiring an immediate data migration. The pre-production compatibility policy above takes precedence when it is not.
+-- Show the translated default message as the error-message placeholder. Persist a custom message only when the author enters one; resolve the default again at runtime so it remains translatable.
+-- Clear stale custom messages when validation is removed.
+-- Ensure the rendered component receives the library-specific validation configuration required for client-side enforcement.
+-- Confirm required behavior on the actual runtime form, not only in the config modal.
+-- When validation includes constraints, default errors should explain the applicable constraint or constraints. A custom error message remains an explicit author override.
+-
+-### Clearing submit-time validation
+-
+-The component-library form handler can own validation state in both the Angular control and the rendered error element. A submit-time `customError` may remain visible when a nested custom value accessor emits its native event before `NgModel` has committed the new value.
+-
+-- Refresh validation after the field value is committed, using the handler’s `refreshValidationMessages([controlName])` API so the control errors, error text, and validation classes are updated together.
+-- Scope the refresh to the field that changed. Do not refresh every control on every form change; that can mark untouched fields as touched, display unrelated errors, and create change-detection loops.
+-- Treat validation refresh as a repeatable operation. It must reuse the existing error element rather than append another one; add a regression check that repeated refreshes leave one visible error container per field.
+-- Do not clear only `control.setErrors(null)` when the form handler owns the visual message. That can leave stale text or classes in the DOM; let the handler recompute the field.
+-- For custom value accessors, keep `writeValue` one-way. If a shared control incorrectly echoes programmatic writes through `onChange`, guard or deduplicate those emissions at the application adapter boundary until the library can be corrected safely.
+-- Composite controls can have multiple value-event paths, such as native input, autocomplete selection, explicit selection outputs, and clear actions. Define one canonical parent propagation path, deduplicate equivalent values, and refresh validation once the parent control contains the committed value.
+-
+-The component library does not necessarily render required markers consistently. If a control receives required validation but has no asterisk, add the marker at the application rendering layer. Keep the visual weight consistent with neighboring field labels.
+-
+-### 4. Preserve Angular and form-handler control identity
+-
+-Angular `NgModel` can register a control through the component input `[name]`, while the component library’s `FsFormHandlerDirective` locates controls using a DOM query such as `[name="controlName"]`. Some `fs-*` components do not reflect their `name` input onto the host element.
+-
+-For a shared `fs-*` control whose host is the element recognized by the form handler, bind both:
+-
+-```html
+-[name]="fieldName" [attr.name]="fieldName"
+-```
+-
+-The host attribute lets the form handler find the component and inspect its inner control. Missing it can cause `formElement is null`, `tagName` errors, missing validation messages, and broken submit validation.
+-
+-For an application wrapper around a shared control, verify which element the form handler will find first. A wrapper can correctly receive `[name]` for Angular registration while still being the wrong DOM validation target. In that case, keep the Angular `[name]` input on the wrapper, put the DOM `name` on the inner control, and ensure the form handler’s query resolves to the actual input or recognized shared-control host. Do not add `[attr.name]` to a wrapper merely because the wrapped control needs a name.
+-
+-Test both identities explicitly: assert that Angular registers the expected control and that a form-level `[name="controlName"]` lookup resolves to the element used for validation. Repeat the check after conditional rendering and configuration changes.
+-
+-When a control is conditionally hidden or rendered inside a lazily mounted view, it may remain registered with Angular while its DOM element is temporarily absent. Treat DOM lookups as nullable in both application code and shared directives. Skip DOM-only listener, error-message, and class operations when the element is unavailable, while preserving form-model operations such as reset or value updates. If validation listeners must work after the control is mounted later, make setup idempotent and retryable.
+-
+-When a shared directive assumes that every registered control has a live DOM element, fix that assumption in the component-library source rather than patching `node_modules`. Fix application control identity separately when the host element is genuinely missing its required name or registration attribute.
+-
+-### 5. Handle composite controls consistently
+-
+-For fields composed of multiple related controls, apply the field configuration consistently to every subcontrol. This includes disabled state, validation, placeholders, icons, and interaction affordances. Constraints that span multiple parts must be enforced against the complete field value, not only the primary subcontrol. Test each subcontrol independently and test transitions where optional parts are enabled, disabled, mounted, or unmounted.
+-
+-Composite controls often expose both ControlValueAccessor callbacks and separate UI outputs. Avoid wiring both paths directly to the parent form unless they are intentionally deduplicated; otherwise one selection or clear action can emit multiple model changes, touched notifications, or validation refreshes. Test typing, selection, blur, clear, invalid-entry cleanup, and programmatic writes independently.
+-
+-Apply effective disabled state to every nested interactive affordance, not only the primary input. This includes clear buttons, suffix actions, autocomplete selection, remove/add actions, and any keyboard path that can change the value. If the shared control does not propagate disabled state to an affordance, synchronize its configuration and guard its callback at the application boundary, then test the actual nested element and an attempted interaction.
+-
+-### 6. Handle component-library styling deliberately
+-
+-The component library’s internal styles may be encapsulated and can override ordinary global selectors. For a cross-component visual correction:
+-
+-- Create a narrowly scoped partial under `src/assets/styles/` named for the affected component.
+-- Import it from `src/assets/styles/styles.scss`.
+-- Scope the selector through a stable application wrapper unique to the affected control.
+-- Use `!important` only when the library’s encapsulated rule otherwise cannot be overridden, and keep the selector narrowly scoped.
+-
+-Do not use `::ng-deep`. Do not introduce animations or ripples unless explicitly requested.
+-
+-### 7. Check field-editor layout separately
+-
+-Scrollable option editors need a dedicated action column. Use a grid with a constrained option-content column, for example `minmax(0, 1fr)`, and a fixed action column wide enough for remove/add controls. Leave enough right-side space that the scrollbar cannot cover the add button. Verify both desktop and the responsive layout.
+-
+-## Verification sequence
+-
+-Follow the repository workflow: implement first, then hand off for manual verification. Add or update unit tests after the user confirms the behavior.
+-
+-General manual checks:
+-
+-1. Add the field in the builder and open its configuration editor.
+-2. Enable applicable validation, submit with an invalid/empty value, and confirm the visual and form-model errors.
+-3. Verify configured disabled state, external/read-only state, and rule-driven disable/enable behavior, including inherited disabled containers.
+-4. Repeat key checks after changing configuration on an existing field and after the field is re-rendered.
+-5. Check the browser console for form-handler errors, especially missing-element or `tagName` errors.
+-6. Verify each field editor follows Label, optional Placeholder, optional Default Value, Validation, field-specific settings, Disabled, then the shared ID controls.
+-7. Verify Required is an option inside the Validation dropdown rather than a standalone checkbox, and verify Disabled is a separate final checkbox when supported.
+-8. Verify placeholders remain display-only and never appear in form data or submitted values.
+-9. Verify that the form handler’s DOM lookup resolves to the actual validation control, not merely a containing application wrapper.
+-10. For composite fields, verify every subcontrol independently, including clear/suffix actions, and test controls that are conditionally mounted or unmounted.
+-
+-When the field supports options or defaults:
+-
+-1. Set, change, clear, reorder, remove, and rename option values.
+-2. Verify builder interaction updates the configured default rather than `formData` when that contract applies.
+-3. Save and reload the builder, then instantiate the form and confirm defaults and options remain synchronized.
+-4. Enter a different value and confirm it is preserved as the current runtime value.
+-5. Remove or invalidate a saved value and confirm the configured default becomes visible.
+-6. Verify option-editor add/remove controls are not covered by the scrollbar.
+-
+-After manual confirmation, use only the repository-approved commands:
+-
+-```bash
++# Deliver a form field
++
++Read the relevant field activity, [builder context](../../../../form-builder-context.md)
++and current source. Trace model → toolbox/config editor → builder → save/reader →
++runtime control → current-value save; include the host and consumed library when relevant.
++Justin’s UX redesign is outside this delivery initiative.
++
++## Essential contracts
++
++- Keep definition/configuration separate from entered `formData`. Use the existing
++  `structure`/`ruleRegistry` envelope; fixture metadata is not a product schema.
++- Defaults initialize missing/invalid values; explicit runtime clears stay clear after
++  debounce, save/reload and remount. Builder default edits write `renderer.config.defaultValue`,
++  not duplicate ordinary `formData`. Standalone imported prefill remains current data.
++- Placeholder is display-only. Persist canonical validation configuration; required/custom
++  errors must work on the actual registered runtime control. Verify both Angular control
++  identity and the DOM target used by the form handler, including after remount.
++- Forced disable, disabled ancestors and external read-only state beat enable rules;
++  an enable rule may override configured field disabled state. Preserve other configuration.
++- Regular and embedded fields use the shared field catalog, rule registry and engine
++  (`hide`/`disable`/`enable`). Keep main-form and step/subtemplate scopes isolated.
++  Rename preserves rule IDs and rewrites references; delete removes referencing rules; duplicate/import remap
++  field references and allocate new rule IDs; revisions retain valid IDs/references.
++- Hide/remount retains values. Active submissions exclude hidden fields; save reads overlay
++  raw control values so disabled visible values and explicit clears survive.
++- Composite controls need consistent subcontrol configuration and one parent value path.
++  Change library source, then test the artifact/version actually consumed by the app.
++- Legacy compatibility is opt-in per field design. Customer legacy conversion is a separate
++  explicit adapter; record unsupported mappings rather than silently accepting them.
++
++## Read only the relevant detail
++
++- Defaults, clear/save regressions, editor ordering or disabled state:
++  [field contracts](references/field-contracts.md).
++- Required/custom errors, DOM names or conditional control registration:
++  [validation and controls](references/validation-and-controls.md).
++- Embedded rule scope, remount, ID lifecycle or serialization:
++  [shared rules and scope](references/shared-rules-and-scope.md), plus field contracts for retained values.
++- Composite inputs, value-accessor emissions or library affordances:
++  [composite and library](references/composite-and-library.md).
++- Symptoms resembling previous failures: [failure signatures](references/failure-signatures.md).
++
++## Implement and verify together
++
++Write automated regressions with the implementation; human review follows at the PR.
++Use production authoring/save/reader/renderer seams. Assert observable behavior across
++applicable defaults/clears/options, validation, disabled actions, control identity,
++serialization, scope isolation and rule remounts. Fail unexpected template diagnostics;
++helper-call assertions, skips and empty fixtures do not prove required behavior.
++Require ≥80% coverage of new/materially changed scope; report scoped coverage separately
++from existing repository baselines. Use the approved commands and supported targeted includes:
++
++```sh
+ npm run lint:etc-client -- --output-style=stream
+ npm run test:etc-client -- --output-style=stream
+ npm run build:etc-client -- --output-style=stream
+-```
+-
+-Prefer lint for small changes, targeted tests for nearby specs, and build when template/module wiring or broader compilation is involved. These commands may require escalated execution outside the sandbox. Do not substitute `tsc`, `ng build`, or ad hoc compiler checks.
+-
+-## Test coverage targets
+-
+-After manual verification, cover the smallest useful boundaries and require at least 80% coverage for new or materially changed code in the task’s scope:
+-
+-- config parsing, typed values, and canonical/legacy schema mapping at adapter boundaries;
+-- centralized validation-editor output, constraint handling, and translated default/custom messages;
+-- editor output and builder synchronization when validation, defaults, or options change;
+-- save-payload sanitization for root and subtemplate data;
+-- runtime current-value/default precedence and placeholder separation;
+-- disabled configuration, external state, and rule precedence;
+-- rendered control identity and required validation behavior;
+-- shared-library configuration propagation across every subcontrol;
+-- nullable DOM handling for registered controls whose elements are temporarily absent; and
+-- behavior after configuration changes, re-rendering, and conditional mount/unmount.
+-
+-Use the repository coverage command when measuring the target:
+-
+-```bash
+ npm run test-coverage -- --output-style=stream
+ ```
+ 
+-Report both the targeted/new-code coverage and the repository-wide result. Do not represent an existing repository-wide baseline below 80% as a regression caused by a focused field change.
+-
+-Keep fixtures and helpers small and named. Avoid new `any` types, non-null assertions, repeated semantic string literals, and large test helpers.
+-
+-## Common failure signatures
++Preserve configured gates. Include browser evidence for TinyMCE or interaction-sensitive
++changes. Fixture-backed I/O does not prove server persistence; use a real-service isolated
++persistence check when that boundary changes, with periodic product E2E where configured.
+ 
+-| Symptom                                                     | Likely cause                                                                                                                                                                                                                                          |
+-| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+-| Default persists but is not selected at runtime             | Runtime `formData` contains an empty/invalid non-null value, or the runtime CVA was never initialized from the configured default.                                                                                                                    |
+-| Builder selection appears in saved `formData`               | Builder interaction is emitting a normal field value instead of updating renderer configuration and clearing the data entry.                                                                                                                          |
+-| Required flag is saved but no asterisk appears              | The component library does not render a required marker for that field type; add it in the application renderer.                                                                                                                                      |
+-| Required submit validation does nothing                     | The rendered control lacks the library validation attribute, is not registered with the Angular form, or the form handler cannot locate its named host element.                                                                                       |
+-| Submit error remains after correcting a field               | A nested value accessor may have emitted before `NgModel` committed the new value, or only the Angular errors were cleared; refresh the changed field through `refreshValidationMessages`.                                                            |
+-| Repeated interaction displays duplicate validation messages | The form handler is creating a new error element on each refresh, often because it is resolving an unrecognized wrapper instead of the existing shared control; correct the DOM control identity and make refresh setup reuse the existing container. |
+-| `Cannot access property "tagName", formElement is null`     | A registered control either lacks the host `[attr.name]` needed for lookup or is temporarily unmounted; check control identity first, then ensure DOM-dependent library code handles absent elements safely.                                          |
+-| Disabled field can still be cleared or changed              | Disabled state reached the primary input but not a nested clear/suffix action or keyboard path; propagate effective disabled state and guard the action callback.                                                                                     |
+-| Option removal leaves a selection/default behind            | Option changes are not validating and clearing both configured defaults and stale current values.                                                                                                                                                     |
+-| Add button is clipped by the scrollbar                      | The option-row grid has no reserved action width or the content column is not constrained with `minmax(0, 1fr)`.                                                                                                                                      |
+-| Placeholder appears as submitted data                       | Placeholder text was wired as a value/default instead of as display-only control metadata.                                                                                                                                                            |
+-| Rule enable loses field configuration                       | Disabled-rule application rebuilt the renderer without spreading the existing configuration.                                                                                                                                                          |
++## Foundation prerequisites and completion
+ 
+-## Handoff
++The fixture catalog, generated all-components showcase, isolated browser harness and
++scope selector are foundation deliverables, not available commands. Check the checkout
++and dependencies before use. Foundation tasks establish them; component-completion tasks
++require the applicable foundation to land first. Once available, update focused catalog
++cases and the generated showcase; disclose exclusions and broaden on shared changes.
++Do not invent harness commands or expected behavior, or label absent checks passed.
+ 
+-Report the user-visible behavior changed, the files or paths touched, what was manually verified, and which approved commands were run. If tests are intentionally deferred, say so explicitly and leave test/doc activity updates for the appropriate follow-up.
++Record the requirement, source revision/hash, consumed library version, exercised seams,
++commands/counts, coverage and pending/unsupported cases (fixture IDs once available).
++Update only relevant context/activity docs. Component completion requires applicable
++catalog cases, serialization/runtime agreement, showcase inclusion and a landed PR;
++this skill does not authorize blanket activity closure.
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/agents/openai.yaml b/docs/design/form-builder/skills/form-field-refactor-skill/agents/openai.yaml
+index c2f22e1..e16e430 100644
+--- a/docs/design/form-builder/skills/form-field-refactor-skill/agents/openai.yaml
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/agents/openai.yaml
+@@ -1,4 +1,4 @@
+ interface:
+-  display_name: 'Form Field Refactor'
+-  short_description: 'Safely update dynamic form fields'
+-  default_prompt: 'Use $form-field-refactor-skill to implement and verify a dynamic form-field change.'
++  display_name: 'Form Field Delivery'
++  short_description: 'Implement and test dynamic form-field contracts'
++  default_prompt: 'Use $form-field-refactor-skill to implement a dynamic form-field change with automated regressions and PR review.'
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/references/composite-and-library.md b/docs/design/form-builder/skills/form-field-refactor-skill/references/composite-and-library.md
+new file mode 100644
+index 0000000..5a04c7b
+--- /dev/null
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/references/composite-and-library.md
+@@ -0,0 +1,22 @@
++# Composite controls and library integration
++
++For fields composed of multiple related controls, apply the field configuration consistently to every subcontrol. This includes disabled state, validation, placeholders, icons, and interaction affordances. Constraints that span multiple parts must be enforced against the complete field value, not only the primary subcontrol. Test each subcontrol independently and test transitions where optional parts are enabled, disabled, mounted, or unmounted.
++
++Composite controls often expose both ControlValueAccessor callbacks and separate UI outputs. Avoid wiring both paths directly to the parent form unless they are intentionally deduplicated; otherwise one selection or clear action can emit multiple model changes, touched notifications, or validation refreshes. Test typing, selection, blur, clear, invalid-entry cleanup, and programmatic writes independently.
++
++Apply effective disabled state to every nested interactive affordance, not only the primary input. This includes clear buttons, suffix actions, autocomplete selection, remove/add actions, and any keyboard path that can change the value. If the shared control does not propagate disabled state to an affordance, synchronize its configuration and guard its callback at the application boundary, then test the actual nested element and an attempted interaction.
++
++### Handle component-library styling deliberately
++
++The component library’s internal styles may be encapsulated and can override ordinary global selectors. For a cross-component visual correction:
++
++- Create a narrowly scoped partial under `src/assets/styles/` named for the affected component.
++- Import it from `src/assets/styles/styles.scss`.
++- Scope the selector through a stable application wrapper unique to the affected control.
++- Use `!important` only when the library’s encapsulated rule otherwise cannot be overridden, and keep the selector narrowly scoped.
++
++Do not use `::ng-deep`. Do not introduce animations or ripples unless explicitly requested.
++
++### Check field-editor layout separately
++
++Scrollable option editors need a dedicated action column. Use a grid with a constrained option-content column, for example `minmax(0, 1fr)`, and a fixed action column wide enough for remove/add controls. Leave enough right-side space that the scrollbar cannot cover the add button. Verify both desktop and the responsive layout.
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/references/failure-signatures.md b/docs/design/form-builder/skills/form-field-refactor-skill/references/failure-signatures.md
+new file mode 100644
+index 0000000..ee13ea8
+--- /dev/null
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/references/failure-signatures.md
+@@ -0,0 +1,16 @@
++# Failure signatures
++
++| Symptom                                                     | Likely cause                                                                                                                                                                                                                                          |
++| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Default persists but is not selected at runtime             | Check whether initialization received missing/invalid data or an explicit clear; inspect default hydration and the runtime CVA before changing precedence.                                                                                            |
++| Builder selection appears in saved `formData`               | Builder interaction is emitting a normal field value instead of updating renderer configuration and clearing the data entry.                                                                                                                          |
++| Required flag is saved but no asterisk appears              | The component library does not render a required marker for that field type; add it in the application renderer.                                                                                                                                      |
++| Required submit validation does nothing                     | The rendered control lacks the library validation attribute, is not registered with the Angular form, or the form handler cannot locate its named host element.                                                                                       |
++| Submit error remains after correcting a field               | A nested value accessor may have emitted before `NgModel` committed the new value, or only the Angular errors were cleared; refresh the changed field through `refreshValidationMessages`.                                                            |
++| Repeated interaction displays duplicate validation messages | The form handler is creating a new error element on each refresh, often because it is resolving an unrecognized wrapper instead of the existing shared control; correct the DOM control identity and make refresh setup reuse the existing container. |
++| `Cannot access property "tagName", formElement is null`     | A registered control either lacks the host `[attr.name]` needed for lookup or is temporarily unmounted; check control identity first, then ensure DOM-dependent library code handles absent elements safely.                                          |
++| Disabled field can still be cleared or changed              | Disabled state reached the primary input but not a nested clear/suffix action or keyboard path; propagate effective disabled state and guard the action callback.                                                                                     |
++| Option removal leaves a selection/default behind            | Option changes are not validating and clearing both configured defaults and stale current values.                                                                                                                                                     |
++| Add button is clipped by the scrollbar                      | The option-row grid has no reserved action width or the content column is not constrained with `minmax(0, 1fr)`.                                                                                                                                      |
++| Placeholder appears as submitted data                       | Placeholder text was wired as a value/default instead of as display-only control metadata.                                                                                                                                                            |
++| Rule enable loses field configuration                       | Disabled-rule application rebuilt the renderer without spreading the existing configuration.                                                                                                                                                          |
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/references/field-contracts.md b/docs/design/form-builder/skills/form-field-refactor-skill/references/field-contracts.md
+new file mode 100644
+index 0000000..aacbc8d
+--- /dev/null
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/references/field-contracts.md
+@@ -0,0 +1,76 @@
++# Field contracts
++
++Verify field-specific behavior against current source and the applicable design.
++
++Use these standards for configurable form fields unless a field-specific design explicitly documents an exception.
++
++### Configuration-editor ordering
++
++Order the settings in each field editor as follows:
++
++1. Label
++2. Placeholder, when the field supports one
++3. Default Value, when the field supports one
++4. Shared validation settings, including validation type and custom error message
++5. Field-specific settings
++6. Disabled
++
++The shared validation row is always represented by `ValidationConfigEditorComponent`. Its
++`Validation` dropdown must contain the field’s supported validation choices, including
++`Required` when applicable; do not add a separate Required checkbox or toggle beside the
++field controls. A domain-specific label such as `Default Group` still occupies the
++Default Value position in this order. `Disabled` is a separate final checkbox after all
++field-specific settings and must write `renderer.config.disabled`.
++
++The shared configuration modal owns the Override ID and ID controls. They appear after the field-specific editor and should not be duplicated inside individual field editors. Omit settings that are not applicable; do not add a placeholder merely to satisfy the ordering.
++
++### Placeholder versus default value
++
++A placeholder is display-only guidance shown while a field is empty. It is not a default value and must not:
++
++- populate `formData`;
++- become the Angular control value;
++- suppress a configured `defaultValue`; or
++- be submitted as entered data.
++
++Only expose a placeholder editor input when the field’s runtime control supports it. Keep placeholder text separate from option/default-value logic.
++
++### Default-value behavior
++
++Use this contract for fields that support configured defaults. Keep field-specific normalization and validation in the shared default-value utility rather than implementing separate precedence logic in each editor, adapter, or renderer.
++
++- Store the configured default in `renderer.config.defaultValue`. A configured default is authoring configuration, not a duplicate `formData` entry.
++- The builder is WYSIWYG: show the configured default when the field has no valid current value, including while the field is disabled in the editor. Any value entered through builder interaction synchronizes to `renderer.config.defaultValue`; it must not be emitted as ordinary builder `formData`. Clearing the value removes the configured default and the corresponding builder data entry.
++- Initial runtime hydration resolves a valid current value, then a valid configured default, then empty. After hydration, an explicit runtime clear is a current value rather than a missing value and must remain clear in the runtime snapshot.
++- Normalize values at the shared boundary according to the field’s value type and validity rules. Preserve configured option value types.
++- When loading a persisted builder draft, use the shared normalizer to promote legacy values into `renderer.config.defaultValue`, with an existing valid configured default taking precedence, only when compatibility or draft migration is part of the field-specific design. Otherwise, do not add migration solely to preserve old definitions. Remove only migrated field IDs from builder `formData`; preserve unrelated data.
++- Standalone imports are different from persisted-draft loading. Imported `formData` represents prefilled current values and must remain in `formData`; do not run the all-field draft migration on the imported subtree. A legacy field-specific normalizer may remain as a compatibility wrapper, but it should delegate to the shared utility rather than duplicate its algorithm.
++- On save, strip default-backed field IDs from root and subtemplate `formData` so configured defaults are not persisted twice. Preserve the sanitized state returned to the builder and avoid mutating the caller’s form-data object.
++- Configuration editors must expose the default-value control immediately below Placeholder when both settings exist. Default editing must remain available while Disabled is selected so authors do not need to toggle the field just to set its initial value.
++
++### Runtime clearing must not reapply defaults
++
++Treat a configured default as an initialization fallback, not as a value that continuously competes with the user's runtime edits. A user must be able to clear a default-backed field and save the empty result.
++
++- Distinguish a missing value from an explicit runtime clear. Depending on the field contract, an explicit clear may be `''`, `null`, `false`, or `[]` for a multi-select. An absent or `undefined` value is not a portable persisted clear: follow the field’s serialized empty representation. Do not run normalization that converts an intentional empty value into `undefined` and then immediately falls back to the configured default.
++- Save-time reads must merge raw Angular control values over any hydrated/session snapshot values, without calling default resolution again. Raw values such as `''`, `null`, and `[]` must overwrite the old/default-backed value in the save payload.
++- Runtime controls must bind to the actual Angular form control when the form is interactive. Do not bind a computed `defaultValue`-backed expression with `[ngModel]` in a way that can write a stale default back during change detection before the form snapshot updates. Builder previews may use default resolution; runtime controls need current-control precedence.
++- Conditional rules can destroy and recreate runtime controls. When the processed container changes, hydrate newly registered controls once from the retained runtime snapshot (`currentValues`) after the view mounts. Do not resolve configured defaults again during this remount step: the snapshot was default-hydrated once and already preserves explicit `''`, `null`, and `[]` clears. Do not restore remounted controls with a continuously computed `[ngModel]` expression, because that can replay a configured default before the snapshot catches up.
++- Composite controls need an explicit clear path for every subcontrol. Verify date-only clearing, time-only clearing, single-select clearing, and multi-select clear-all independently. If a shared value accessor fails to propagate an empty subcontrol value, fix the application boundary or the shared source as appropriate, and test the currently consumed artifact.
++- The bug commonly appears after a short audit/debounce window: the control emits an empty value immediately, while a delayed session snapshot still contains the configured default. Test the sequence of setting a default, clearing it at runtime, saving immediately, and hydrating the saved empty value again.
++- The same stale-value bug can appear when a rule hides a field and later shows it again. Test both a populated value and an explicit clear across hide → show, and assert that the recreated control receives the retained raw value rather than the configured default.
++- Add regression coverage at the shared default utility, renderer save-read, runtime field adapter/template, and host-container boundaries as applicable. Assert that configured defaults still appear for missing values, while explicit clears remain empty after change detection, save, and reload.
++
++### Disabled configuration and rules
++
++Configurable form fields use the optional boolean `renderer.config.disabled` property:
++
++- missing and `false` mean enabled;
++- the field editor exposes the same Disabled checkbox for every supported field;
++- the checkbox writes the renderer configuration rather than a separate item-level flag;
++- runtime disabled state combines the field configuration with external/read-only state; and
++- rule-driven disable/enable effects preserve the rest of the renderer configuration.
++
++An enable rule may override a field’s configured `disabled: true` state, but it must not bypass an inherited disabled state from a parent container or external read-only mode. Use explicit boolean checks rather than truthiness checks when resolving the configured state.
++
++Do not materialize `disabled: false` into existing definitions or add migration code unless the field-specific design explicitly requires it. Boundary normalization for a newly defined contract must not silently rewrite persisted definitions.
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/references/shared-rules-and-scope.md b/docs/design/form-builder/skills/form-field-refactor-skill/references/shared-rules-and-scope.md
+new file mode 100644
+index 0000000..85f8077
+--- /dev/null
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/references/shared-rules-and-scope.md
+@@ -0,0 +1,35 @@
++# Shared rules, scope and remount
++
++Use the current shared rule model for regular and embedded fields. Historical
++FB-005 design text is a proposal, not the current persistence contract.
++
++- Persist `{ structure, ruleRegistry }`; entered values remain separate `formData`.
++  Actions are `hide`, `disable`, `enable`. The shared field catalog discovers embedded
++  fields alongside structural fields; do not introduce an embedded-only engine or
++  revive legacy `data-events` or `__formRuleRegistry` storage.
++- Resolve the owning main-form or step/subtemplate root, values and registry together.
++  Never combine a step root with main-form values. Rename rewrites source/target
++  references and migrates values within that scope while preserving rule IDs.
++- Delete removes rules referencing deleted IDs. Fragment duplication copies only
++  rules whose source and target are both in the fragment, remapping references and
++  assigning new rule IDs. Standalone import remaps references through the receiving
++  scope’s ID map and assigns new rule IDs. Revisions preserve valid IDs/references.
++- The renderer initializes defaults once, retains a runtime snapshot and hydrates
++  newly registered controls from that snapshot after rule-driven remount. Hidden
++  values remain retained but are excluded from active runtime context/save. Save
++  reads overlay raw Angular values, preserving explicit clears and disabled visible
++  controls. Read [field contracts](field-contracts.md) for default/clear semantics.
++- Test populated and explicitly cleared values across hide → show; assert actual
++  remounted control values and save payloads. Exercise embedded fields in both root
++  and step scopes and prove that another scope’s data/rules remain unchanged.
++  For identity changes, assert resulting references, values and rule IDs, not only
++  calls to a transformation helper.
++
++Current implementation anchors (paths relative to this reference):
++
++- [Rule model](../../../../../../src/app/main/components/forms/models/form-rule.model.ts)
++- [Field catalog](../../../../../../src/app/main/components/forms/utils/form-rule-catalog.util.ts)
++- [Scope resolver](../../../../../../src/app/main/components/forms/utils/form-builder-scope.util.ts)
++- [ID lifecycle](../../../../../../src/app/main/components/forms/utils/form-rule-lifecycle.util.ts)
++- [Runtime renderer](../../../../../../src/app/shared/components/form-renderer/form-renderer.component.ts)
++- [Embedded runtime regressions](../../../../../../src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts)
+diff --git a/docs/design/form-builder/skills/form-field-refactor-skill/references/validation-and-controls.md b/docs/design/form-builder/skills/form-field-refactor-skill/references/validation-and-controls.md
+new file mode 100644
+index 0000000..4163f23
+--- /dev/null
++++ b/docs/design/form-builder/skills/form-field-refactor-skill/references/validation-and-controls.md
+@@ -0,0 +1,46 @@
++# Validation and control identity
++
++Use the centralized validation configuration for fields that support validation:
++
++- Reuse `ValidationConfigEditorComponent` for validation type selection and custom error-message editing rather than duplicating validation UI in each field editor.
++- Persist the canonical form-definition property `validationType`; keep component-library-specific flags such as `fsValidationRequired` at the adapter/runtime boundary.
++- For standardized fields, keep the validation type and custom-message properties consistent in the form schema; do not persist a translated fallback message.
++- When compatibility is part of the field-specific design, read legacy field definitions at the adapter boundary and normalize them into the editor/runtime model without requiring an immediate data migration. Legacy compatibility is opt-in per field design; do not add an automatic migration.
++- Show the translated default message as the error-message placeholder. Persist a custom message only when the author enters one; resolve the default again at runtime so it remains translatable.
++- Clear stale custom messages when validation is removed.
++- Ensure the rendered component receives the library-specific validation configuration required for client-side enforcement.
++- Confirm required behavior on the actual runtime form, not only in the config modal.
++- When validation includes constraints, default errors should explain the applicable constraint or constraints. A custom error message remains an explicit author override.
++
++### Clearing submit-time validation
++
++The component-library form handler can own validation state in both the Angular control and the rendered error element. A submit-time `customError` may remain visible when a nested custom value accessor emits its native event before `NgModel` has committed the new value.
++
++- Refresh validation after the field value is committed, using the handler’s `refreshValidationMessages([controlName])` API so the control errors, error text, and validation classes are updated together.
++- Scope the refresh to the field that changed. Do not refresh every control on every form change; that can mark untouched fields as touched, display unrelated errors, and create change-detection loops.
++- Treat validation refresh as a repeatable operation. It must reuse the existing error element rather than append another one; add a regression check that repeated refreshes leave one visible error container per field.
++- Do not clear only `control.setErrors(null)` when the form handler owns the visual message. That can leave stale text or classes in the DOM; let the handler recompute the field.
++- For custom value accessors, keep `writeValue` one-way. If a shared control incorrectly echoes programmatic writes through `onChange`, identify the owning source, correct the value propagation contract, and verify the consumed library artifact; do not hide a deterministic defect with an adapter guard.
++- Composite controls can have multiple value-event paths, such as native input, autocomplete selection, explicit selection outputs, and clear actions. Define one canonical parent propagation path, deduplicate equivalent values, and refresh validation once the parent control contains the committed value.
++
++The component library does not necessarily render required markers consistently. If a control receives required validation but has no asterisk, add the marker at the application rendering layer. Keep the visual weight consistent with neighboring field labels.
++
++### Preserve Angular and form-handler control identity
++
++Angular `NgModel` can register a control through the component input `[name]`, while the component library’s `FsFormHandlerDirective` locates controls using a DOM query such as `[name="controlName"]`. Some `fs-*` components do not reflect their `name` input onto the host element.
++
++For a shared `fs-*` control whose host is the element recognized by the form handler, bind both:
++
++```html
++[name]="fieldName" [attr.name]="fieldName"
++```
++
++The host attribute lets the form handler find the component and inspect its inner control. Missing it can cause `formElement is null`, `tagName` errors, missing validation messages, and broken submit validation.
++
++For an application wrapper around a shared control, verify which element the form handler will find first. A wrapper can correctly receive `[name]` for Angular registration while still being the wrong DOM validation target. In that case, keep the Angular `[name]` input on the wrapper, put the DOM `name` on the inner control, and ensure the form handler’s query resolves to the actual input or recognized shared-control host. Do not add `[attr.name]` to a wrapper merely because the wrapped control needs a name.
++
++Test both identities explicitly: assert that Angular registers the expected control and that a form-level `[name="controlName"]` lookup resolves to the element used for validation. Repeat the check after conditional rendering and configuration changes.
++
++When a control is conditionally hidden or rendered inside a lazily mounted view, it may remain registered with Angular while its DOM element is temporarily absent. Treat DOM lookups as nullable in both application code and shared directives. Skip DOM-only listener, error-message, and class operations when the element is unavailable, while preserving form-model operations such as reset or value updates. If validation listeners must work after the control is mounted later, make setup idempotent and retryable.
++
++When a shared directive assumes that every registered control has a live DOM element, fix that assumption in the component-library source rather than patching `node_modules`. Fix application control identity separately when the host element is genuinely missing its required name or registration attribute.
+diff --git a/docs/form-builder-context.md b/docs/form-builder-context.md
+index 8b89c36..49660ff 100644
+--- a/docs/form-builder-context.md
++++ b/docs/form-builder-context.md
+@@ -1,5 +1,13 @@
+ # form-builder-context
+ 
++## Delivery Skill
++
++For form-field implementation, clear/save regressions or embedded rule remounts, read
++[the canonical form-field delivery skill](design/form-builder/skills/form-field-refactor-skill/SKILL.md).
++Implementation and automated regressions happen together; human review follows at the PR.
++Its references are conditional. The fixture catalog/showcase and isolated harness remain
++foundation prerequisites until their actual commands land.
++
+ ## Purpose
+ 
+ Full-page editor for creating and modifying form definitions. Reached by navigating to `/form-builder` with query params identifying the form and library.
+diff --git a/eslint.config.mjs b/eslint.config.mjs
+index d826093..e192c69 100644
+--- a/eslint.config.mjs
++++ b/eslint.config.mjs
+@@ -11,6 +11,7 @@ import unusedImports from 'eslint-plugin-unused-imports';
+ export default [
+   {
+     ignores: [
++      '.codex/skills/**',
+       'node_modules',
+       'dist',
+       '**/dist/**',
