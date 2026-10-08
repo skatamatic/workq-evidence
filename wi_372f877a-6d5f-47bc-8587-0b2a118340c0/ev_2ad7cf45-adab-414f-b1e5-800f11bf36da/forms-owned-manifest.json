@@ -1,0 +1,17 @@
+{
+  "base": "5ec0cfa4881e3ea16e9f13e3e1dc4b5cf1c0218c",
+  "branch": "workq/wi_372f877a-6d5f-47bc-8587-0b2a118340c0",
+  "files": {
+    "docs/design/form-builder/forms-test-diagnostics.md": "1f989acf703cdd0f64a27c648242b4012606b7e56c7f69f9869a46166c2ae82e",
+    "karma.conf.js": "0f44e9874875fca83bb1b2989e22e907584495f30286687ba9ac9ca71c24f10b",
+    "package.json": "8487304ee177555fe7e8104d53bf0ec5c9585c668bf9aa2c64dee9210696e00a",
+    "src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts": "d71497febf06387ef1721ed7693755882669f77f945bf891ce8bb1f63e69aa0d",
+    "src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts": "7c84bde396c501d29314d41b624a690700c42e960a9355e71d5d570c2047ba60",
+    "src/test.ts": "601c155c1c6183f945c71d7c6926fbf3a239a645523ca96d671923d38c7980fb",
+    "src/testing/forms-diagnostics.spec.ts": "0963a1d43f123a8858ef694807264438c7be458eb29b1595365303b5476f8deb",
+    "src/testing/forms-diagnostics.ts": "db61daa4a6edd6e5bb78e392cd54cafe1d2a35572f7ebbfd1087764236e6fd2c",
+    "tools/verification/browser-smoke.spec.js": "fb2cee86c2e2f922048bc57f617791af0e924c86adc9b6f9ed5223013bb6eddf",
+    "tools/verification/preflight.cjs": "9c75ddb7ea066a0d9667afa0e0073860413f19d1ae62c97dfa3a0d1eec19b545"
+  },
+  "snapshotSha256": "8b5e251ff6d38c5510220f772d987fd7b645a5f417ecf025d92ad725e7285622"
+}
