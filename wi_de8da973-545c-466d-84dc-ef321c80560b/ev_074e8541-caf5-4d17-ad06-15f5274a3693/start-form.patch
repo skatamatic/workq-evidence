@@ -1,0 +1,701 @@
+diff --git a/docs/workflow-scenario-port.md b/docs/workflow-scenario-port.md
+index c24dd0f..41785f5 100644
+--- a/docs/workflow-scenario-port.md
++++ b/docs/workflow-scenario-port.md
+@@ -191,7 +191,7 @@ dates or offset timestamps, and people use an object with an ID. Arm fields map
+ directly to process-variable IDs, preserving the legacy golden spine's payloads.
+ 
+ The supported importer now supplies the runtime app/process/form graph. This
+-submission boundary does not implement start-form submission/variable mapping,
++submission boundary now shares deployment-local resolution with the bounded start-form contract below. It does not implement general start variable/execution bindings,
+ identity metadata application, visibility expressions,
+ REST-backed options, people-directory lookup, field length/range/regex constraints,
+ table cell types/options, attachment/content mapping, PDF rendering, listeners,
+@@ -199,6 +199,53 @@ candidate/delegated-task permissions, or general draft-editor form publication.
+ Readonly mirrors are exposed from their declared process-variable binding and
+ cannot be submitted. Static required flags are enforced regardless of visibility.
+ The separate engine-only completion path remains outside this form contract.
++
++### Bounded archived start-form contract
++
++`FormService.getFormData(null, processDefinitionId)` reads the ordinary start
++form in that exact definition deployment. `ProcessInstanceService.startProcessInstance`
++accepts `values` keyed by declared editable field ID, separately from raw
++`variables`. Nonempty archived start forms require validated values; unknown,
++read-only/unsupported fields, required omissions, invalid types and placeholder
++or unknown dropdown options refuse before any Flowable start command. A supplied
++`formId` must resolve to the start event's form in the same deployment. Raw
++variable injection is refused for these forms; caller `variables.initiator` is
++ignored and the authenticated JWT or legacy Insight principal supplies identity.
++Empty FormApp start forms and processes without archive mappings retain their
++existing variable-only start behavior. This is principal validation, not a new
++process-specific group/tenant ACL policy.
++
++The bounded mapping preserves field IDs and validated payload types
++(text/date strings and table row lists). Inline dropdown submissions become the
++schema option ID plus `<field>_LABEL`, taking the label from the deployed options
++rather than trusting a submitted name. Explicit nulls remain explicit clears;
++missing optional fields stay absent. Generic field bindings, execution mappings,
++REST option loading, upload/content binding and legacy JavaScript are unsupported.
++Task submission keeps its existing payload contract.
++
++`ArchivedStartFormScenarioTest` uses real Flowable and isolated PostgreSQL
++schemas with persisted Insight users, notification outbox and content entity
++mappings. Its carrier BPMN is explicitly synthetic (ordinary start → assigned
++wait → end); it does not modify or execute a customer BPMN archive. Exact archived
++form bytes are pinned: PPStart-3 SHA-256
++`79842ee07ace272215263d8fbe627b8be556488e90cb07bc8879871b53cae2cf`
++and AnalystStart-13 SHA-256
++`246bead0482ed82b3ac00cf4265985cbb4ad06a28bb5ca0fdc59f89f44fa4197`.
++The existing archive provenance and sanitization receipts remain authoritative.
++PPStart uses aliases 318/source 3; AnalystStart uses 297/source 13. FormApp's
++MDCR-23 start resource has no fields; MDCR's process has no start form.
++
++These are actual start-form receipts **on isolated carriers only**: JWT/legacy
++identity, transport JSON roundtrip, declared values and canonical labels,
++persisted runtime/history, refusal with no process/task/history/outbox/content
++rows and deployment-local version selection. They do not certify an ETC renderer,
++customer notifications or downstream customer journeys. Feedback remains
++published-but-not-runnable and Analysis publication remains refused by
++`CustomerArchivePublicationTest`. Both Safran seed manifests declare
++`optionSources: []`; no persisted dynamic-option parity is claimed. A reviewed,
++source-backed workflow migration and option-source mapping remain **open
++prerequisites for actual customer journey coverage**. No Administration/PDC-005
++policy is inferred.
+ The preflight inventory continues to report static publication gaps; it is not a
+ behavioral certification. Follow the repository quality bar (Unit tests and
+ Build locally, then the exact-head Jenkins/Sonar PR gates).
+diff --git a/insight-api/src/main/java/com/flatirons/insight/model/request/IProcessInstanceStartRequest.java b/insight-api/src/main/java/com/flatirons/insight/model/request/IProcessInstanceStartRequest.java
+index 9c8091f..f4147f6 100644
+--- a/insight-api/src/main/java/com/flatirons/insight/model/request/IProcessInstanceStartRequest.java
++++ b/insight-api/src/main/java/com/flatirons/insight/model/request/IProcessInstanceStartRequest.java
+@@ -14,4 +14,6 @@ public interface IProcessInstanceStartRequest {
+     String getName();
+     String getFormId();
+     Map<String, Object> getVariables();
++    /** Entered start-form data, keyed by declared field id; distinct from process variables. */
++    default Map<String, Object> getValues() { return null; }
+ }
+diff --git a/insight-model/src/main/java/com/flatirons/insight/model/request/ProcessInstanceStartRequest.java b/insight-model/src/main/java/com/flatirons/insight/model/request/ProcessInstanceStartRequest.java
+index 3ecb836..de71a69 100644
+--- a/insight-model/src/main/java/com/flatirons/insight/model/request/ProcessInstanceStartRequest.java
++++ b/insight-model/src/main/java/com/flatirons/insight/model/request/ProcessInstanceStartRequest.java
+@@ -14,6 +14,7 @@ public class ProcessInstanceStartRequest implements IProcessInstanceStartRequest
+     private String name;
+     private String formId;
+     private Map<String, Object> variables;
++    private Map<String, Object> values;
+ 
+     public String getProcessDefinitionId() {
+         return processDefinitionId;
+@@ -55,6 +56,14 @@ public class ProcessInstanceStartRequest implements IProcessInstanceStartRequest
+         this.formId = formId;
+     }
+ 
++    public Map<String, Object> getValues() {
++        return values;
++    }
++
++    public void setValues(Map<String, Object> values) {
++        this.values = values;
++    }
++
+     public Map<String, Object> getVariables() {
+         return variables;
+     }
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java
+index faf90c0..c39143d 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java
+@@ -96,6 +96,41 @@ final class ArchiveFormDefinition {
+         return values;
+     }
+ 
++    boolean isEmpty() {
++        return fields.isEmpty();
++    }
++
++    /** Bounded legacy start mapping: field ids and schema-backed dropdown id/_LABEL pairs. */
++    Map<String, Object> startVariables(Map<String, Object> submitted) {
++        Map<String, Object> validated = validatedValues(submitted);
++        Map<String, Object> result = new LinkedHashMap<>();
++        validated.forEach((id, value) -> {
++            JsonNode field = fields.get(id);
++            if (!field.path("params").path("field").isMissingNode()) {
++                throw new BadRequestException("Start field binding is not supported: " + id);
++            }
++            if ("initiator".equals(id) || fields.containsKey(id + "_LABEL")) {
++                throw new BadRequestException("Reserved or colliding start field: " + id);
++            }
++            if ("dropdown".equals(field.path("type").asText())) {
++                Object selected = value instanceof Map<?, ?> option ? option.get("id") : value;
++                result.put(id, selected);
++                Object label = null;
++                if (!empty(value)) {
++                    for (JsonNode option : field.path("options")) {
++                        if (option.path("id").asText().equals(selected)) {
++                            label = option.path("name").asText();
++                        }
++                    }
++                }
++                result.put(id + "_LABEL", label);
++            } else {
++                result.put(id, value);
++            }
++        });
++        return result;
++    }
++
+     private boolean writable(JsonNode field) {
+         return !field.path("readOnly").asBoolean() && WRITABLE_TYPES.contains(field.path("type").asText());
+     }
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java
+index 8a70483..9b7d4db 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java
+@@ -11,12 +11,10 @@ import com.flatirons.insight.model.response.ProcessInstanceResponse;
+ import com.flatirons.insight.model.records.security.InsightUserDetails;
+ import com.flatirons.insight.security.InsightAppUser;
+ import com.flatirons.insight.security.SecurityUtils;
+-import com.flatirons.insight.service.editor.ArchiveFormResources;
++import com.flatirons.insight.service.runtime.ArchiveFormResolver.ResolvedForm;
+ import com.flatirons.insight.service.exception.BadRequestException;
+ import com.flatirons.insight.service.exception.NotFoundException;
+ import com.fasterxml.jackson.databind.ObjectMapper;
+-import java.io.IOException;
+-import java.io.InputStream;
+ import java.util.Objects;
+ import org.flowable.engine.RepositoryService;
+ import org.flowable.engine.RuntimeService;
+@@ -48,6 +46,25 @@ public class FormServiceImpl implements FormService {
+ 
+     @Override
+     public IFormDataResponse getFormData(String taskId, String processDefinitionId) {
++        if (taskId == null || taskId.isBlank()) {
++            authenticatedUsername();
++            if (processDefinitionId == null || processDefinitionId.isBlank()) {
++                throw new BadRequestException("A task id or process definition id is required");
++            }
++            var definition = repositoryService.getProcessDefinition(processDefinitionId);
++            if (definition == null) {
++                throw new NotFoundException("Process definition not found: " + processDefinitionId);
++            }
++            ResolvedForm form = new ArchiveFormResolver(repositoryService, objectMapper).startForm(definition);
++            if (form == null) {
++                throw new BadRequestException("Process has no supported archive start form");
++            }
++            FormDataResponse response = new FormDataResponse();
++            response.setProcessDefinitionId(definition.getId());
++            response.setFormKey(form.key());
++            response.setFields(form.definition().responses(java.util.Map.of()));
++            return response;
++        }
+         Task task = ownedTask(taskId, processDefinitionId);
+         ResolvedForm form = resolveForm(task);
+         FormDataResponse response = new FormDataResponse();
+@@ -119,26 +136,6 @@ public class FormServiceImpl implements FormService {
+ 
+     private ResolvedForm resolveForm(Task task) {
+         var definition = repositoryService.getProcessDefinition(task.getProcessDefinitionId());
+-        String deploymentId = definition.getDeploymentId();
+-        if (task.getFormKey() == null || !repositoryService.getDeploymentResourceNames(deploymentId)
+-                .contains(ArchiveFormResources.MAPPINGS_RESOURCE)) {
+-            throw new BadRequestException("Process has no supported archive form mapping");
+-        }
+-        try (InputStream mapping = repositoryService.getResourceAsStream(deploymentId, ArchiveFormResources.MAPPINGS_RESOURCE)) {
+-            String key = objectMapper.readTree(mapping).path(task.getFormKey()).asText();
+-            if (key.isBlank()) {
+-                throw new BadRequestException("Unresolved task form reference: " + task.getFormKey());
+-            }
+-            if (!repositoryService.getDeploymentResourceNames(deploymentId).contains(ArchiveFormResources.formResource(key))) {
+-                throw new BadRequestException("Deployed form resource is missing: " + key);
+-            }
+-            try (InputStream resource = repositoryService.getResourceAsStream(deploymentId, ArchiveFormResources.formResource(key))) {
+-                return new ResolvedForm(key, new ArchiveFormDefinition(objectMapper.readTree(resource), objectMapper));
+-            }
+-        } catch (IOException ex) {
+-            throw new BadRequestException("Cannot read deployed form resource", ex);
+-        }
++        return new ArchiveFormResolver(repositoryService, objectMapper).resolve(definition, task.getFormKey());
+     }
+-
+-    private record ResolvedForm(String key, ArchiveFormDefinition definition) {}
+ }
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/ProcessInstanceServiceImpl.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ProcessInstanceServiceImpl.java
+index 93dc913..3118d46 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/ProcessInstanceServiceImpl.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ProcessInstanceServiceImpl.java
+@@ -91,6 +91,9 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
+     @Override
+     @SuppressWarnings("all")
+     public IProcessInstanceResponse startProcessInstance(IProcessInstanceStartRequest request) {
++        if (request == null) {
++            throw new BadRequestException("A start request is required");
++        }
+         if (StringUtils.isEmpty(request.getProcessDefinitionId())
+                 && StringUtils.isEmpty(request.getProcessDefinitionKey())) {
+             throw new BadRequestException("Either Process definition id or process definition key is required");
+@@ -133,23 +136,31 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
+             throw new AccessDeniedException("An authenticated Insight user is required to start a process");
+         }
+         com.flatirons.insight.service.editor.ArchiveProcessAvailability.requireRunnable(repositoryService, processDefinition);
++        var resolver = new ArchiveFormResolver(repositoryService, new com.fasterxml.jackson.databind.ObjectMapper());
++        var form = resolver.startForm(processDefinition);
+         Map<String, Object> variables = new HashMap<>();
+-        if (request.getVariables() != null) {
+-            variables.putAll(request.getVariables());
++        if (form != null && (!form.definition().isEmpty() || request.getValues() != null || request.getFormId() != null)) {
++            if (request.getFormId() != null
++                    && !resolver.resolve(processDefinition, request.getFormId()).key().equals(form.key())) {
++                throw new BadRequestException("Form does not match the process start event");
++            }
++            if (request.getVariables() != null && request.getVariables().keySet().stream()
++                    .anyMatch(key -> !"initiator".equals(key))) {
++                throw new BadRequestException("Start forms accept declared field values, not raw variables");
++            }
++            variables.putAll(form.definition().startVariables(request.getValues()));
++        } else {
++            if (request.getValues() != null || request.getFormId() != null) {
++                throw new BadRequestException("Process has no supported archive start form");
++            }
++            if (request.getVariables() != null) {
++                variables.putAll(request.getVariables());
++            }
+         }
+         // Reserved start identity: a client value must never determine task ownership.
+         variables.put("initiator", initiator);
+ 
+-        //TODO: Verify user has permission to start the new process instance
+-
+-        //TODO: Implement the following items(Refer AlfrescoProcessInstanceService:startNewProcessInstance)
+-        /*
+-        * 1. Form value updation
+-        * 2. Field to variable mapping
+-        * 3. Execution variable mapping
+-        * 4. Form content mapping
+-        * */
+-
++        // Process-specific start permission policy remains a separate prerequisite.
+         ProcessInstance processInstance = runtimeService.createProcessInstanceBuilder()
+                 .processDefinitionId(processDefinition.getId())
+                 .variables(variables)
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java
+index b27184f..aae3d97 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java
+@@ -358,8 +358,7 @@ class FormAppFormSubmissionScenarioTest extends ArchivePublicationScenarioTestBa
+         emptyTask.setTaskId(" ");
+         assertThatThrownBy(() -> service.submitForm(emptyTask)).isInstanceOf(BadRequestException.class);
+         String processDefinitionId = task.getProcessDefinitionId();
+-        assertThatThrownBy(() -> service.getFormData(null, processDefinitionId))
+-                .isInstanceOf(BadRequestException.class);
++        assertThat(service.getFormData(null, processDefinitionId).getFields()).isEmpty();
+         FormSubmitRequest unsupported = new FormSubmitRequest();
+         unsupported.setTaskId(task.getId());
+         unsupported.setBusinessKey("unsupported-start-form");
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java
+index 837a1f2..f48c8f2 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/ArchiveFormDefinitionTest.java
+@@ -59,6 +59,18 @@ class ArchiveFormDefinitionTest {
+     void arbitraryAndReadonlyFieldsCannotBecomeVariables(String id) throws Exception {
+         var definition = form("[{\"id\":\"readOnly\",\"type\":\"text\",\"readOnly\":true},{\"id\":\"mirror\",\"type\":\"readonly\"}]");
+         assertThatThrownBy(() -> rejectValue(definition, id, "spoofed")).isInstanceOf(BadRequestException.class);
++        assertThatThrownBy(() -> definition.startVariables(Map.of(id, "spoofed"))).isInstanceOf(BadRequestException.class);
++    }
++
++    @Test
++    void startMappingRefusesUnsupportedBindingsAndIdentityCollisions() throws Exception {
++        for (String field : List.of(
++                "{\"id\":\"initiator\",\"type\":\"text\"}",
++                "{\"id\":\"bound\",\"type\":\"text\",\"params\":{\"field\":{\"id\":\"target\"}}}")) {
++            var definition = form("[" + field + "]");
++            String id = mapper.readTree(field).path("id").asText();
++            assertThatThrownBy(() -> definition.startVariables(Map.of(id, "value"))).isInstanceOf(BadRequestException.class);
++        }
+     }
+ 
+     @ParameterizedTest
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+index afd4439..85b2b47 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+@@ -90,6 +90,7 @@ public class CustomerFirstWaitTestConfiguration {
+                 com.flatirons.insight.domain.WorkflowNotificationRuleEntity.class.getName(),
+                 com.flatirons.insight.domain.WorkflowTaskRoutingRuleEntity.class.getName(),
+                 com.flatirons.insight.domain.WorkflowNotificationOutboxEntity.class.getName(),
++                com.flatirons.insight.domain.RelatedContentEntity.class.getName(),
+                 com.flatirons.insight.domain.UserGroupEntity.class.getName(),
+                 com.flatirons.insight.domain.GroupPrivilegeEntity.class.getName()));
+         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormResolver.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormResolver.java
+new file mode 100644
+index 0000000..0d8d55a
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormResolver.java
+@@ -0,0 +1,61 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.service.editor.ArchiveFormResources;
++import com.flatirons.insight.service.exception.BadRequestException;
++import java.io.IOException;
++import java.io.InputStream;
++import org.flowable.bpmn.model.StartEvent;
++import org.flowable.engine.RepositoryService;
++import org.flowable.engine.repository.ProcessDefinition;
++
++/** Resolves aliases and immutable form bytes within the selected definition's deployment. */
++final class ArchiveFormResolver {
++    private final RepositoryService repository;
++    private final ObjectMapper mapper;
++
++    ArchiveFormResolver(RepositoryService repository, ObjectMapper mapper) {
++        this.repository = repository;
++        this.mapper = mapper;
++    }
++
++    ResolvedForm startForm(ProcessDefinition definition) {
++        if (!repository.getDeploymentResourceNames(definition.getDeploymentId())
++                .contains(ArchiveFormResources.MAPPINGS_RESOURCE)) {
++            return null;
++        }
++        var process = repository.getBpmnModel(definition.getId()).getProcessById(definition.getKey());
++        var starts = process.findFlowElementsOfType(StartEvent.class, false).stream()
++                .filter(start -> start.getEventDefinitions().isEmpty()).toList();
++        if (starts.size() != 1) {
++            throw new BadRequestException("Archive requires exactly one ordinary start event");
++        }
++        String reference = starts.getFirst().getFormKey();
++        return reference == null || reference.isBlank() ? null : resolve(definition, reference);
++    }
++
++    ResolvedForm resolve(ProcessDefinition definition, String reference) {
++        String deploymentId = definition.getDeploymentId();
++        if (reference == null || !repository.getDeploymentResourceNames(deploymentId)
++                .contains(ArchiveFormResources.MAPPINGS_RESOURCE)) {
++            throw new BadRequestException("Process has no supported archive form mapping");
++        }
++        try (InputStream mapping = repository.getResourceAsStream(deploymentId, ArchiveFormResources.MAPPINGS_RESOURCE)) {
++            String key = mapper.readTree(mapping).path(reference).asText();
++            if (key.isBlank()) {
++                throw new BadRequestException("Unresolved form reference: " + reference);
++            }
++            if (!repository.getDeploymentResourceNames(deploymentId).contains(ArchiveFormResources.formResource(key))) {
++                throw new BadRequestException("Deployed form resource is missing: " + key);
++            }
++            try (InputStream resource = repository.getResourceAsStream(deploymentId, ArchiveFormResources.formResource(key))) {
++                return new ResolvedForm(key, new ArchiveFormDefinition(mapper.readTree(resource), mapper));
++            }
++        } catch (IOException ex) {
++            throw new BadRequestException("Cannot read deployed form resource", ex);
++        }
++    }
++
++    record ResolvedForm(String key, ArchiveFormDefinition definition) { }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedStartFormScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedStartFormScenarioTest.java
+new file mode 100644
+index 0000000..297ccb8
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedStartFormScenarioTest.java
+@@ -0,0 +1,298 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.scenario;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.conf.security.SpringSecurityAuthenticationContext;
++import com.flatirons.insight.domain.UserEntity;
++import com.flatirons.insight.model.enums.type.UserAccountType;
++import com.flatirons.insight.model.records.security.InsightUserDetails;
++import com.flatirons.insight.model.request.ProcessInstanceStartRequest;
++import com.flatirons.insight.repository.UserRepository;
++import com.flatirons.insight.repository.WorkflowNotificationOutboxRepository;
++import com.flatirons.insight.security.InsightAppUser;
++import com.flatirons.insight.service.editor.ArchiveFormResources;
++import com.flatirons.insight.service.exception.BadRequestException;
++import com.flatirons.insight.service.runtime.*;
++import jakarta.persistence.EntityManagerFactory;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Map;
++import java.util.UUID;
++import java.util.zip.ZipInputStream;
++import org.flowable.common.engine.api.identity.AuthenticationContext;
++import org.flowable.common.engine.impl.identity.Authentication;
++import org.flowable.engine.ProcessEngine;
++import org.flowable.engine.repository.ProcessDefinition;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.CsvSource;
++import org.junit.jupiter.params.provider.ValueSource;
++import org.springframework.context.annotation.AnnotationConfigApplicationContext;
++import org.springframework.core.env.MapPropertySource;
++import org.springframework.security.access.AccessDeniedException;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.testcontainers.containers.PostgreSQLContainer;
++import org.testcontainers.junit.jupiter.Container;
++import org.testcontainers.junit.jupiter.Testcontainers;
++
++import static org.assertj.core.api.Assertions.*;
++import static org.mockito.Mockito.mock;
++
++/** Exact archived forms on explicitly isolated carrier BPMN; never a customer journey receipt. */
++@Testcontainers
++class ArchivedStartFormScenarioTest {
++    @Container
++    private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine");
++    private static final ObjectMapper MAPPER = new ObjectMapper();
++    private AnnotationConfigApplicationContext context;
++    private ProcessEngine engine;
++    private UserEntity user;
++    private AuthenticationContext previous;
++
++    @BeforeEach
++    void open() throws Exception {
++        previous = Authentication.getAuthenticationContext();
++        Authentication.setAuthenticationContext(new SpringSecurityAuthenticationContext());
++        String schema = "start_form_" + UUID.randomUUID().toString().replace("-", "");
++        try (var connection = java.sql.DriverManager.getConnection(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
++                var statement = connection.createStatement()) {
++            statement.execute("create schema " + schema);
++        }
++        context = new AnnotationConfigApplicationContext();
++        context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("startForm",
++                Map.of("identifier.test.url", POSTGRES.getJdbcUrl() + (POSTGRES.getJdbcUrl().contains("?") ? "&" : "?") + "currentSchema=" + schema,
++                        "identifier.test.username", POSTGRES.getUsername(), "identifier.test.password", POSTGRES.getPassword(),
++                        "identifier.test.schema", schema, "insight.workflow.web-base-url", "https://insight.example.invalid/")));
++        context.registerBean(CustomerMailCapture.class, CustomerMailCapture::new);
++        context.registerBean(java.time.Clock.class, java.time.Clock::systemUTC);
++        context.register(CustomerFirstWaitTestConfiguration.class);
++        context.refresh();
++        engine = context.getBean(ProcessEngine.class);
++        user = new UserEntity();
++        user.setUserName("start-form@insight.test");
++        user.setEmail("start-form@insight.test");
++        user.setAccountType(UserAccountType.USER);
++        user = context.getBean(UserRepository.class).saveAndFlush(user);
++        authenticate(true);
++    }
++
++    @AfterEach
++    void close() {
++        try { if (context != null) { context.close(); } }
++        finally {
++            SecurityContextHolder.clearContext();
++            Authentication.setAuthenticationContext(previous);
++        }
++    }
++
++    private void authenticate(boolean jwt) {
++        Object principal = jwt ? new InsightUserDetails(user.getUserName(), user.getId(), List.of(), List.of())
++                : new InsightAppUser(user, user.getUserName(), List.of());
++        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, null, List.of()));
++    }
++
++    private ProcessInstanceServiceImpl starts() {
++        return new ProcessInstanceServiceImpl(engine.getRuntimeService(), engine.getHistoryService(), mock(UserCache.class),
++                mock(UserService.class), null, null, null, null, engine.getRepositoryService());
++    }
++
++    private FormServiceImpl forms() {
++        return new FormServiceImpl(engine.getTaskService(), engine.getRepositoryService(), engine.getRuntimeService(),
++                engine.getHistoryService(), MAPPER);
++    }
++
++    private byte[] archivedForm(String fixture, String name) throws Exception {
++        try (var input = getClass().getResourceAsStream("/scenarios/customers/" + fixture + "/app.zip");
++                var zip = new ZipInputStream(input)) {
++            java.util.zip.ZipEntry entry;
++            while ((entry = zip.getNextEntry()) != null) {
++                if (entry.getName().equals("form-models/" + name + ".json")) { return zip.readAllBytes(); }
++            }
++        }
++        throw new IllegalStateException("Missing archived form: " + name);
++    }
++
++    private ProcessDefinition carrier(String fixture, String source, String alias, String sourceAlias, String key) throws Exception {
++        byte[] bytes = archivedForm(fixture, source);
++        String hash = java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(bytes));
++        assertThat(hash).isEqualTo(source.equals("PPStart-3")
++                ? "79842ee07ace272215263d8fbe627b8be556488e90cb07bc8879871b53cae2cf"
++                : "246bead0482ed82b3ac00cf4265985cbb4ad06a28bb5ca0fdc59f89f44fa4197");
++        String formKey = fixture + "/" + MAPPER.readTree(bytes).path("name").asText();
++        String bpmn = """
++                <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
++                  xmlns:flowable="http://flowable.org/bpmn" targetNamespace="isolated-start-form-carrier">
++                  <process id="%s" isExecutable="true">
++                    <startEvent id="start" flowable:formKey="%s" flowable:initiator="initiator"/>
++                    <sequenceFlow id="begin" sourceRef="start" targetRef="wait"/>
++                    <userTask id="wait" name="Isolated start-form receipt" flowable:assignee="${initiator}"/>
++                    <sequenceFlow id="finish" sourceRef="wait" targetRef="end"/><endEvent id="end"/>
++                  </process>
++                </definitions>
++                """.formatted(key, alias);
++        var repository = engine.getRepositoryService();
++        var deployment = repository.createDeployment().addString("isolated-carrier.bpmn20.xml", bpmn)
++                .addString(ArchiveFormResources.MAPPINGS_RESOURCE,
++                        MAPPER.writeValueAsString(Map.of(alias, formKey, sourceAlias, formKey, formKey, formKey)))
++                .addBytes(ArchiveFormResources.formResource(formKey), bytes).deploy();
++        try (var resource = repository.getResourceAsStream(deployment.getId(), ArchiveFormResources.formResource(formKey))) {
++            assertThat(resource.readAllBytes()).isEqualTo(bytes);
++        }
++        return repository.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
++    }
++
++    private ProcessDefinition feedback() throws Exception {
++        return carrier("safran-feedback", "PPStart-3", "318", "3", "isolatedStartCarrier");
++    }
++
++    private Map<String, Object> values(String fixture) {
++        return fixture.equals("safran-feedback")
++                ? Map.of("submitting_site", Map.of("id", "SAESB", "name", "Spoofed label"),
++                        "submitting_date", "2026-10-08", "submitter_first_name", "Ada", "references", List.of())
++                : Map.of("manualName", "Manual", "revisionType", "normal", "publicationId", "PUB-42",
++                        "publication_url", "https://example.invalid/PUB-42", "revisionNumber", "9");
++    }
++
++    private ProcessInstanceStartRequest request(ProcessDefinition definition, Map<String, Object> values) throws Exception {
++        var request = new ProcessInstanceStartRequest();
++        request.setProcessDefinitionId(definition.getId());
++        request.setValues(values);
++        request.setVariables(Map.of("initiator", "spoofed@insight.test"));
++        // Exercise the real authoring/transport serialization boundary before the production reader.
++        return MAPPER.readValue(MAPPER.writeValueAsBytes(request), ProcessInstanceStartRequest.class);
++    }
++
++    @ParameterizedTest
++    @CsvSource({"safran-feedback,false", "safran-feedback,true", "safran-analysis,false", "safran-analysis,true"})
++    void exactArchivedFieldsStartOnlyTheIsolatedCarrier(String fixture, boolean jwt) throws Exception {
++        authenticate(jwt);
++        var definition = fixture.equals("safran-feedback") ? feedback()
++                : carrier(fixture, "AnalystStart-13", "297", "13", "isolatedAnalysisCarrier");
++        var data = forms().getFormData(null, definition.getId());
++        assertThat(data.getTaskId()).isNull();
++        assertThat(data.getProcessDefinitionId()).isEqualTo(definition.getId());
++        assertThat(data.getFormKey()).endsWith(fixture.equals("safran-feedback") ? "/PPStart" : "/AnalystStart");
++        assertThat(data.getFields()).extracting(field -> field.getId()).containsAll(values(fixture).keySet());
++        var request = request(definition, values(fixture));
++        request.setFormId(fixture.equals("safran-feedback") ? "3" : "13");
++        var response = starts().startProcessInstance(request);
++        var runtime = engine.getRuntimeService();
++        var expected = new LinkedHashMap<>(values(fixture));
++        expected.put("initiator", user.getUserName());
++        if (fixture.equals("safran-feedback")) {
++            expected.put("submitting_site", "SAESB"); expected.put("submitting_site_LABEL", "SAESB");
++        }
++        assertThat(runtime.getVariables(response.getId())).isEqualTo(expected);
++        assertThat(engine.getTaskService().createTaskQuery().singleResult().getAssignee()).isEqualTo(user.getUserName());
++        assertThat(engine.getHistoryService().createHistoricProcessInstanceQuery().singleResult().getStartUserId())
++                .isEqualTo(user.getUserName());
++        expected.forEach((name, value) -> assertThat(engine.getHistoryService().createHistoricVariableInstanceQuery()
++                .processInstanceId(response.getId()).variableName(name).singleResult().getValue()).isEqualTo(value));
++        assertOutboundAndContentUnchanged();
++        System.out.printf("ISOLATED START FORM %s JWT=%s: exact bytes, declared typed values, identity, labels, persisted history; customer journey PENDING%n", fixture, jwt);
++    }
++
++    @ParameterizedTest
++    @CsvSource({"required", "placeholder", "unknown-option", "wrong-type", "unknown-field", "upload", "raw-variable", "wrong-form", "missing-values"})
++    void invalidFeedbackFieldsRefuseBeforeAnyMutation(String failure) throws Exception {
++        var definition = feedback();
++        var values = new LinkedHashMap<>(values("safran-feedback"));
++        var request = request(definition, values);
++        switch (failure) {
++            case "required" -> values.remove("submitting_site");
++            case "placeholder" -> values.put("submitting_site", "empty");
++            case "unknown-option" -> values.put("submitting_site", "invented");
++            case "wrong-type" -> values.put("submitter_first_name", 42L);
++            case "unknown-field" -> values.put("undeclared", "value");
++            case "upload" -> values.put("feedback_document", List.of(Map.of("id", 1L)));
++            case "raw-variable" -> request.setVariables(Map.of("submitting_site", "SAESB"));
++            case "wrong-form" -> request.setFormId("319");
++            case "missing-values" -> values.clear();
++            default -> throw new IllegalStateException(failure);
++        }
++        request.setValues(values);
++        assertThatThrownBy(() -> starts().startProcessInstance(request)).isInstanceOf(BadRequestException.class);
++        assertNothingCreated();
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"anonymous", "foreign-principal", "unauthenticated-insight", "missing-user-id"})
++    void refusedActorCannotReadOrStartArchivedForm(String actor) throws Exception {
++        var definition = feedback();
++        var request = request(definition, values("safran-feedback"));
++        SecurityContextHolder.clearContext();
++        if (!actor.equals("anonymous")) {
++            Object principal = actor.equals("foreign-principal") ? "refused@foreign.test"
++                    : new InsightUserDetails(user.getUserName(), actor.equals("missing-user-id") ? null : user.getId(), List.of(), List.of());
++            var authentication = actor.equals("unauthenticated-insight")
++                    ? new UsernamePasswordAuthenticationToken(principal, null)
++                    : new UsernamePasswordAuthenticationToken(principal, null, List.of());
++            SecurityContextHolder.getContext().setAuthentication(authentication);
++        }
++        assertThatThrownBy(() -> forms().getFormData(null, definition.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> starts().startProcessInstance(request)).isInstanceOf(AccessDeniedException.class);
++        assertNothingCreated();
++    }
++
++    @Test
++    void explicitDefinitionUsesItsOwnFormEvenAfterAnotherVersionWithTheSameAlias() throws Exception {
++        var feedback = feedback();
++        var analysis = carrier("safran-analysis", "AnalystStart-13", "318", "13", feedback.getKey());
++        assertThat(analysis.getVersion()).isEqualTo(feedback.getVersion() + 1);
++        assertThat(forms().getFormData(null, feedback.getId()).getFormKey()).endsWith("/PPStart");
++        assertThat(forms().getFormData(null, analysis.getId()).getFormKey()).endsWith("/AnalystStart");
++        var old = starts().startProcessInstance(request(feedback, values("safran-feedback")));
++        assertThat(engine.getRuntimeService().createProcessInstanceQuery().processInstanceId(old.getId()).singleResult()
++                .getProcessDefinitionId()).isEqualTo(feedback.getId());
++        var latest = request(analysis, values("safran-analysis"));
++        latest.setProcessDefinitionId(null); latest.setProcessDefinitionKey(feedback.getKey());
++        var started = starts().startProcessInstance(latest);
++        assertThat(engine.getRuntimeService().createProcessInstanceQuery().processInstanceId(started.getId()).singleResult()
++                .getProcessDefinitionId()).isEqualTo(analysis.getId());
++    }
++
++    private void assertNothingCreated() {
++        assertThat(engine.getRuntimeService().createProcessInstanceQuery().count()).isZero();
++        assertThat(engine.getTaskService().createTaskQuery().count()).isZero();
++        assertThat(engine.getHistoryService().createHistoricProcessInstanceQuery().count()).isZero();
++        assertThat(engine.getHistoryService().createHistoricTaskInstanceQuery().count()).isZero();
++        assertThat(engine.getHistoryService().createHistoricVariableInstanceQuery().count()).isZero();
++        assertOutboundAndContentUnchanged();
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"manualName", "revisionType", "publicationId", "publication_url"})
++    void analysisRequiredFieldsRefuseWithoutMutation(String missing) throws Exception {
++        var definition = carrier("safran-analysis", "AnalystStart-13", "297", "13", "isolatedAnalysisCarrier");
++        var values = new LinkedHashMap<>(values("safran-analysis"));
++        values.remove(missing);
++        var request = request(definition, values);
++        assertThatThrownBy(() -> starts().startProcessInstance(request)).isInstanceOf(BadRequestException.class);
++        assertNothingCreated();
++    }
++
++    @Test
++    void optionalClearAndOmissionRemainDistinctInPersistedStartValues() throws Exception {
++        var definition = feedback();
++        var values = new LinkedHashMap<String, Object>();
++        values.put("submitting_site", "WRS");
++        values.put("submitter_first_name", null);
++        values.put("references", List.of(Map.of("displayReference", "Chapter 42")));
++        var response = starts().startProcessInstance(request(definition, values));
++        var persisted = engine.getRuntimeService().getVariables(response.getId());
++        assertThat(persisted).containsEntry("submitter_first_name", null)
++                .containsEntry("submitting_site", "WRS").containsEntry("submitting_site_LABEL", "WRS")
++                .containsEntry("references", values.get("references")).doesNotContainKey("submitter_last_name");
++    }
++
++    private void assertOutboundAndContentUnchanged() {
++        assertThat(context.getBean(WorkflowNotificationOutboxRepository.class).count()).isZero();
++        assertThat(context.getBean(CustomerMailCapture.class).messages()).isEmpty();
++        try (var em = context.getBean(EntityManagerFactory.class).createEntityManager()) {
++            assertThat(em.createQuery("select count(c) from RelatedContentEntity c", Long.class).getSingleResult()).isZero();
++        }
++    }
++}
