@@ -1,0 +1,114 @@
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java
+index 8f9bcac..e625f62 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java
+@@ -23,10 +23,18 @@ public class WorkflowNotificationOutboxService implements WorkflowNotificationOu
+     private final WorkflowMailService mail;
+     private final ObjectMapper mapper;
+     private final TransactionTemplate deliveryTransaction;
++    private final java.time.Clock clock;
+ 
++    @org.springframework.beans.factory.annotation.Autowired
+     public WorkflowNotificationOutboxService(WorkflowNotificationOutboxRepository events, WorkflowMailService mail,
+             ObjectMapper mapper, @Qualifier("insightTransactionManager") PlatformTransactionManager transactions) {
++        this(events, mail, mapper, transactions, java.time.Clock.systemUTC());
++    }
++
++    WorkflowNotificationOutboxService(WorkflowNotificationOutboxRepository events, WorkflowMailService mail,
++            ObjectMapper mapper, PlatformTransactionManager transactions, java.time.Clock clock) {
+         this.events=events; this.mail=mail;
++        this.clock=clock;
+         this.mapper=mapper.copy().enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
+         deliveryTransaction=new TransactionTemplate(transactions);
+         deliveryTransaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+@@ -61,7 +69,7 @@ public class WorkflowNotificationOutboxService implements WorkflowNotificationOu
+         try {
+             deliveryTransaction.executeWithoutResult(status -> events.lockEvent(eventKey).ifPresent(event -> {
+                 if (event.isDelivered()) { return; }
+-                event.attempted(java.time.Instant.now().plusSeconds(30));
++                event.attempted(clock.instant().plusSeconds(30));
+                 try {
+                     var request=mapper.readValue(event.getPayload(), WorkflowMailService.Request.class);
+                     mail.send(request);
+@@ -78,6 +86,6 @@ public class WorkflowNotificationOutboxService implements WorkflowNotificationOu
+     }
+ 
+     public void retryUnsent() {
+-        events.findTop50ByDeliveredFalseAndNextAttemptAtLessThanEqualOrderByNextAttemptAtAscEventKeyAsc(java.time.Instant.now()).forEach(event -> dispatch(event.getEventKey()));
++        events.findTop50ByDeliveredFalseAndNextAttemptAtLessThanEqualOrderByNextAttemptAtAscEventKeyAsc(clock.instant()).forEach(event -> dispatch(event.getEventKey()));
+     }
+ }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
+index a7f662a..c9054c9 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
+@@ -437,7 +437,8 @@ class CustomerFirstWaitScenarioTest {
+ 
+     @org.junit.jupiter.api.Test
+     void outboxRollbackLeavesNoEventAndFailedTransportRetriesWithoutStarvingLaterEvents() {
+-        try (var context=open()) {
++        var clock=java.time.Clock.fixed(java.time.Instant.now().minusSeconds(60), java.time.ZoneOffset.UTC);
++        try (var context=open(true, clock)) {
+             var outbox=context.getBean(WorkflowNotificationOutbox.class);
+             var delivery=context.getBean(WorkflowNotificationDelivery.class);
+             var events=context.getBean(WorkflowNotificationOutboxRepository.class);
+@@ -456,10 +457,10 @@ class CustomerFirstWaitScenarioTest {
+             String payload=events.findById("poison/activity/start").orElseThrow().getPayload();
+             for (int index=0;index<50;index++) {
+                 jdbc.update("insert into workflow_notification_outbox(event_key,payload,delivered,attempts,next_attempt_at) values (?,?,false,0,?)",
+-                        "a-poison/"+index,payload,java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(60)));
++                        "a-poison/"+index,payload,java.sql.Timestamp.from(clock.instant().minusSeconds(60)));
+             }
+-            jdbc.update("insert into workflow_notification_outbox(event_key,payload,delivered,attempts,next_attempt_at) values (?,?,false,0,CURRENT_TIMESTAMP)",
+-                    "z-later",payload);
++            jdbc.update("insert into workflow_notification_outbox(event_key,payload,delivered,attempts,next_attempt_at) values (?,?,false,0,?)",
++                    "z-later",payload,java.sql.Timestamp.from(clock.instant()));
+             capture.failNext(50); delivery.retryUnsent();
+             assertThat(capture.messages()).isEmpty();
+             delivery.retryUnsent();
+@@ -524,6 +525,9 @@ class CustomerFirstWaitScenarioTest {
+ 
+     static AnnotationConfigApplicationContext open() { return open(true); }
+     static AnnotationConfigApplicationContext open(boolean withTransport) {
++        return open(withTransport, java.time.Clock.systemUTC());
++    }
++    static AnnotationConfigApplicationContext open(boolean withTransport, java.time.Clock clock) {
+         var context = new AnnotationConfigApplicationContext();
+         String schema = "first_wait_" + java.util.UUID.randomUUID().toString().replace("-", "");
+         try (var connection = java.sql.DriverManager.getConnection(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
+@@ -536,6 +540,7 @@ class CustomerFirstWaitScenarioTest {
+                         "identifier.test.password", POSTGRES.getPassword(), "identifier.test.schema", schema,
+                         "insight.workflow.web-base-url", "https://insight.example.invalid/")));
+         if (withTransport) { context.registerBean(CustomerMailCapture.class, CustomerMailCapture::new); }
++        context.registerBean(java.time.Clock.class, () -> clock);
+         context.register(CustomerFirstWaitTestConfiguration.class);
+         context.refresh();
+         return context;
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+index cde4706..c93355f 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
+                 com.flatirons.insight.repository.GroupRepository.class, com.flatirons.insight.repository.ReferenceDataLookupRepository.class}), transactionManagerRef = "insightTransactionManager")
+ @Import({WorkflowIdentifierConfiguration.class, InsightSequenceService.class,
+         InsightProcessIdGenService.class, InsightSequenceListener.class, InsightProcessIdGenListener.class,
+-        WorkflowProcessNamingConfiguration.class, InsightRenameProcessListener.class, InsightSetBusinessKeyListener.class, WorkflowTaskRoutingService.class, ReferenceDataServiceImpl.class, WorkflowInitiatorIdentityService.class, WorkflowNotificationService.class, WorkflowMailServiceImpl.class, WorkflowNotificationOutboxService.class,
++        WorkflowProcessNamingConfiguration.class, InsightRenameProcessListener.class, InsightSetBusinessKeyListener.class, WorkflowTaskRoutingService.class, ReferenceDataServiceImpl.class, WorkflowInitiatorIdentityService.class, WorkflowNotificationService.class, WorkflowMailServiceImpl.class,
+         com.flatirons.insight.service.runtime.listener.InsightEmailExecutionListener.class,
+         com.flatirons.insight.service.runtime.listener.InsightLdapListener.class,
+         com.flatirons.insight.service.runtime.listener.InsightJsonUtilListener.class,
+@@ -59,6 +59,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
+         com.flatirons.insight.service.runtime.listener.InsightRoutingProcessListener.class,
+         com.flatirons.insight.service.runtime.listener.InsightRenameTaskListener.class})
+ public class CustomerFirstWaitTestConfiguration {
++    @Bean
++    WorkflowNotificationOutboxService workflowNotificationOutboxService(
++            com.flatirons.insight.repository.WorkflowNotificationOutboxRepository events,
++            WorkflowMailService mail, com.fasterxml.jackson.databind.ObjectMapper mapper,
++            PlatformTransactionManager transactions, java.time.Clock clock) {
++        return new WorkflowNotificationOutboxService(events, mail, mapper, transactions, clock);
++    }
++
+     @Bean
+     com.fasterxml.jackson.databind.ObjectMapper objectMapper() { return new com.fasterxml.jackson.databind.ObjectMapper(); }
+ 
