@@ -1,0 +1,641 @@
+diff --git a/insight-model/src/main/java/com/flatirons/insight/model/request/TaskActionRequest.java b/insight-model/src/main/java/com/flatirons/insight/model/request/TaskActionRequest.java
+index bead0d8..61d1602 100644
+--- a/insight-model/src/main/java/com/flatirons/insight/model/request/TaskActionRequest.java
++++ b/insight-model/src/main/java/com/flatirons/insight/model/request/TaskActionRequest.java
+@@ -9,6 +9,7 @@ import java.util.Map;
+ 
+ public class TaskActionRequest implements ITaskActionRequest {
+     private Integer expectedRevision;
++    @Override
+     public Integer getExpectedRevision() { return expectedRevision; }
+     public void setExpectedRevision(Integer expectedRevision) { this.expectedRevision = expectedRevision; }
+     private String action;
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java
+index ff2171a..d559799 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskActionServiceImpl.java
+@@ -49,6 +49,8 @@ import java.util.List;
+ @Service
+ public class TaskActionServiceImpl implements TaskActionService {
+ 
++    private static final String TASK_ASSIGN_TIME = "task_assign_time";
++
+     private static final Logger logger = LoggerFactory.getLogger(TaskActionServiceImpl.class);
+ 
+     protected TaskService taskService;
+@@ -128,7 +130,7 @@ public class TaskActionServiceImpl implements TaskActionService {
+                 taskService.addUserIdentityLink(taskId, previous, IdentityLinkType.PARTICIPANT);
+             }
+             taskService.addUserIdentityLink(taskId, actor.userId().toString(), IdentityLinkType.PARTICIPANT);
+-            taskService.setVariableLocal(taskId, "task_assign_time",
++            taskService.setVariableLocal(taskId, TASK_ASSIGN_TIME,
+                     org.flowable.engine.impl.util.CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime());
+             response.setAssignee(target);
+             return task;
+@@ -257,7 +259,7 @@ public class TaskActionServiceImpl implements TaskActionService {
+                     assignee = actor.userId().toString();
+                 }
+                 taskService.claim(task.getId(), assignee);
+-                taskService.setVariableLocal(taskId, "task_assign_time", Calendar.getInstance().getTime());
++                taskService.setVariableLocal(taskId, TASK_ASSIGN_TIME, Calendar.getInstance().getTime());
+                 return null;
+             });
+         } catch (AccessDeniedException | NotFoundException e) {
+@@ -356,7 +358,7 @@ public class TaskActionServiceImpl implements TaskActionService {
+ 
+         try {
+             this.taskService.unclaim(task.getId());
+-            this.taskService.setVariableLocal(taskId, "task_assign_time", (Object) null);
++            this.taskService.setVariableLocal(taskId, TASK_ASSIGN_TIME, (Object) null);
+             // this.emailService.requeueTaskWithCandidateGroup(task.getId(),
+             // this.getGroupMemberEmails(task), task.getName(),
+             // this.getEmailVariables(currentUser, task)); //TODO: implement email service
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityService.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityService.java
+index e0f0759..67c1892 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityService.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityService.java
+@@ -56,16 +56,24 @@ public class WorkflowTaskIdentityService {
+         if (user.getGroups() == null) { return result; }
+         for (var membership : user.getGroups()) {
+             if (membership.getStatus() != GroupStatus.ACTIVE || membership.getGroupType() != GroupType.GROUP) { continue; }
+-            Long next = membership.getId();
+-            Set<Long> visited = new HashSet<>();
+-            while (next != null) {
+-                if (!visited.add(next)) { throw new IllegalArgumentException("Cyclic task group hierarchy"); }
+-                var group = groups.getGroup(next);
+-                if (group == null || !"ACTIVE".equals(group.getStatus()) || group.getType() != GroupType.GROUP) { break; }
+-                result.add(group.getId());
+-                next = group.getParentGroupId();
+-            }
++            addActiveAncestors(membership.getId(), result);
+         }
+         return result;
+     }
++
++    private void addActiveAncestors(Long groupId, Set<String> result) {
++        Set<Long> visited = new HashSet<>();
++        Long next = groupId;
++        while (next != null) {
++            if (!visited.add(next)) {
++                throw new IllegalArgumentException("Cyclic task group hierarchy");
++            }
++            var group = groups.getGroup(next);
++            if (group == null || !"ACTIVE".equals(group.getStatus()) || group.getType() != GroupType.GROUP) {
++                return;
++            }
++            result.add(group.getId());
++            next = group.getParentGroupId();
++        }
++    }
+ }
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBean.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBean.java
+index d86affa..ddc4d97 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBean.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBean.java
+@@ -1,6 +1,7 @@
+ /** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
+ package com.flatirons.insight.service.runtime.listener;
+ 
++import java.math.BigDecimal;
+ import java.text.ParsePosition;
+ import java.text.SimpleDateFormat;
+ import java.util.Date;
+@@ -10,23 +11,19 @@ import org.springframework.stereotype.Service;
+ /** Observed MDCR/Analysis field helpers; unimplemented business-calendar policies fail closed. */
+ @Service("taskDueDateBean")
+ public class TaskDueDateBean {
+-    public Date calculateDueDateWithField(String field, String operation, int years, int months, int days,
+-            int hours, int minutes, int seconds, DelegateExecution execution) {
+-        return calculateDueDateWithVariable(field, operation, years, months, days, hours, minutes, seconds, execution);
++    /** The archive expression supplies six calendar offsets followed by its execution. */
++    public Date calculateDueDateWithField(String field, String operation, Object... calendarArguments) {
++        return calculateDueDateWithVariable(field, operation, calendarArguments);
+     }
+ 
+-    public Date calculateDueDateWithVariable(String field, String operation, int years, int months, int days,
+-            int hours, int minutes, int seconds, DelegateExecution execution) {
+-        if (!("critical_date".equals(field) || "analyst_due_date".equals(field)) || !"add".equalsIgnoreCase(operation)
+-                || years != 0 || months != 0 || days != 0 || hours != 0 || minutes != 0 || seconds != 0) {
+-            throw new IllegalArgumentException("Unsupported customer due-date policy");
+-        }
++    public Date calculateDueDateWithVariable(String field, String operation, Object... calendarArguments) {
++        DelegateExecution execution = supportedExecution(field, operation, calendarArguments);
+         Object value = execution.getVariable(field);
+         if (value == null) { return null; }
+         if (value instanceof Date date) { return new Date(date.getTime()); }
+         if (value instanceof String text) {
+             if (text.isEmpty()) { return null; }
+-            if (!text.matches("[0-9]{2}-[0-9]{2}-[0-9]{4}")) {
++            if (!text.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                 throw new IllegalArgumentException("Invalid customer due-date format");
+             }
+             var format = new SimpleDateFormat("dd-MM-yyyy");
+@@ -37,4 +34,18 @@ public class TaskDueDateBean {
+         }
+         throw new IllegalArgumentException("Invalid customer due-date value");
+     }
++
++    private DelegateExecution supportedExecution(String field, String operation, Object[] arguments) {
++        if (!("critical_date".equals(field) || "analyst_due_date".equals(field))
++                || !"add".equalsIgnoreCase(operation) || arguments == null || arguments.length != 7
++                || !(arguments[6] instanceof DelegateExecution execution)) {
++            throw new IllegalArgumentException("Unsupported customer due-date policy");
++        }
++        for (int index = 0; index < 6; index++) {
++            if (!(arguments[index] instanceof Number offset) || new BigDecimal(offset.toString()).signum() != 0) {
++                throw new IllegalArgumentException("Unsupported customer due-date offset");
++            }
++        }
++        return execution;
++    }
+ }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskAssignmentScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskAssignmentScenarioTest.java
+index ae743b9..085fb23 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskAssignmentScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskAssignmentScenarioTest.java
+@@ -105,6 +105,7 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+     void assigneeReassignsToActivePersistedUserWithoutChangingDueDate(boolean jwt) {
+         authenticate(actorId, jwt);
+         Task task = task("techlead@insight.test");
++        String taskId = task.getId();
+         var response = actions.assignTask(task.getId(), assign(task, "supervisor@insight.test"));
+         assertThat(response).isNotNull();
+         assertThat(response.getAssignee().getId()).isEqualTo(targetId);
+@@ -113,7 +114,8 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+         assertThat(reload(task.getId()).getDueDate()).isEqualTo(task.getDueDate());
+         assertThat(processEngine.getTaskService().getVariableLocal(task.getId(), "task_assign_time")).isInstanceOf(Date.class);
+         var before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.assignTask(task.getId(), assign(reload(task.getId()), Long.toString(actorId))))
++        var refusedReassignment = assign(reload(task.getId()), Long.toString(actorId));
++        assertThatThrownBy(() -> actions.assignTask(taskId, refusedReassignment))
+                 .isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+     }
+@@ -121,11 +123,13 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+     @ParameterizedTest @ValueSource(booleans = {false, true})
+     void namedSupervisorCannotReassignTechleadTaskDespiteOwnerOrCandidateVisibility(boolean jwt) {
+         Task task = task(Long.toString(actorId));
++        String taskId = task.getId();
+         processEngine.getTaskService().setOwner(task.getId(), Long.toString(targetId));
+         processEngine.getTaskService().addCandidateUser(task.getId(), Long.toString(targetId));
+         authenticate(targetId, jwt);
+         var before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.assignTask(task.getId(), assign(reload(task.getId()), Long.toString(targetId))))
++        var refusedReassignment = assign(reload(task.getId()), Long.toString(targetId));
++        assertThatThrownBy(() -> actions.assignTask(taskId, refusedReassignment))
+                 .isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+     }
+@@ -134,35 +138,39 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+     void unknownInactiveAndStaleTargetsRefuseWithoutAnyMutation(boolean jwt) {
+         authenticate(actorId, jwt);
+         Task task = task(Long.toString(actorId));
++        String taskId = task.getId();
+         var before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.assignTask(task.getId(), assign(task, "999999"))).isInstanceOf(com.flatirons.insight.service.exception.BadRequestException.class);
++        var unknownTarget = assign(task, "999999");
++        assertThatThrownBy(() -> actions.assignTask(taskId, unknownTarget)).isInstanceOf(com.flatirons.insight.service.exception.BadRequestException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         database.transaction(em -> em.find(UserEntity.class, targetId).setAccountStatus(UserAccountStatus.INACTIVE));
+-        assertThatThrownBy(() -> actions.assignTask(task.getId(), assign(task, Long.toString(targetId))))
++        var inactiveTarget = assign(task, Long.toString(targetId));
++        assertThatThrownBy(() -> actions.assignTask(taskId, inactiveTarget))
+                 .isInstanceOf(com.flatirons.insight.service.exception.BadRequestException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         var stale = assign(task, Long.toString(actorId));
+         processEngine.getTaskService().setPriority(task.getId(), 99);
+         before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.assignTask(task.getId(), stale)).isInstanceOf(ConflictRequestException.class);
++        assertThatThrownBy(() -> actions.assignTask(taskId, stale)).isInstanceOf(ConflictRequestException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+     }
+ 
+     @ParameterizedTest @ValueSource(booleans = {false, true})
+     void candidateClaimRequiresActualActiveMembershipAndActiveUser(boolean jwt) {
+         Task task = task(null);
++        String taskId = task.getId();
+         processEngine.getTaskService().addCandidateGroup(task.getId(), "7");
+         authenticate(targetId, jwt);
+         var before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         authenticate(actorId, jwt);
+         database.transaction(em -> em.find(GroupEntity.class, 7L).setStatus(GroupStatus.INACTIVE));
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         database.transaction(em -> em.find(GroupEntity.class, 7L).setStatus(GroupStatus.ACTIVE));
+         database.transaction(em -> em.find(UserEntity.class, actorId).setAccountStatus(UserAccountStatus.INACTIVE));
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         database.transaction(em -> em.find(UserEntity.class, actorId).setAccountStatus(UserAccountStatus.ACTIVE));
+         actions.claimTask(task.getId());
+@@ -173,16 +181,17 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+     void unknownGroupAndInactiveCandidateUserCannotAuthorizeClaim(boolean jwt) {
+         authenticate(actorId, jwt);
+         Task task = task(null);
++        String taskId = task.getId();
+         processEngine.getTaskService().addCandidateUser(task.getId(), Long.toString(actorId));
+         processEngine.getTaskService().addCandidateGroup(task.getId(), "999999");
+         var before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         processEngine.getTaskService().deleteCandidateGroup(task.getId(), "999999");
+         processEngine.getTaskService().addCandidateUser(task.getId(), Long.toString(targetId));
+         database.transaction(em -> em.find(UserEntity.class, targetId).setAccountStatus(UserAccountStatus.INACTIVE));
+         before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         processEngine.getTaskService().deleteCandidateUser(task.getId(), Long.toString(targetId));
+         actions.claimTask(task.getId());
+@@ -193,6 +202,7 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+     void concurrentWinnerCannotBeOverwrittenByPreviouslyAuthorizedReassignment(boolean jwt) {
+         authenticate(actorId, jwt);
+         Task task = task(Long.toString(actorId));
++        String taskId = task.getId();
+         var engineTasks = processEngine.getTaskService();
+         var intercepted = spy(engineTasks);
+         try (var executor = java.util.concurrent.Executors.newSingleThreadExecutor()) {
+@@ -204,7 +214,8 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+             var guarded = new TaskActionServiceImpl(intercepted, processEngine.getHistoryService(),
+                     processEngine.getRuntimeService(), mock(UserCache.class), mock(TaskRepository.class),
+                     processEngine.getManagementService(), identities);
+-            assertThatThrownBy(() -> guarded.assignTask(task.getId(), assign(task, Long.toString(actorId))))
++            var staleReassignment = assign(task, Long.toString(actorId));
++            assertThatThrownBy(() -> guarded.assignTask(taskId, staleReassignment))
+                     .isInstanceOf(org.flowable.common.engine.api.FlowableOptimisticLockingException.class);
+         }
+         assertThat(reload(task.getId()).getAssignee()).isEqualTo(Long.toString(targetId));
+@@ -223,8 +234,8 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+             """).deploy();
+         var runtime = processEngine.getRuntimeService();
+         for (String invalid : List.of("999999", "not-a-group")) {
+-            assertThatThrownBy(() -> runtime.startProcessInstanceByKey("assignmentProbe", Map.of(
+-                    "applicable_ort_group_techlead_review", invalid, "selected_user", actorId)))
++            var invalidVariables = Map.<String, Object>of("applicable_ort_group_techlead_review", invalid, "selected_user", actorId);
++            assertThatThrownBy(() -> runtime.startProcessInstanceByKey("assignmentProbe", invalidVariables))
+                     .isInstanceOf(RuntimeException.class);
+             assertThat(runtime.createProcessInstanceQuery().count()).isZero();
+             assertThat(processEngine.getTaskService().createTaskQuery().count()).isZero();
+@@ -241,18 +252,19 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+     @org.junit.jupiter.api.Test void activeParentMembershipDoesNotSurviveInactiveEdgesOrCycles() {
+         authenticate(actorId, true);
+         Task task = task(null);
++        String taskId = task.getId();
+         processEngine.getTaskService().addCandidateGroup(task.getId(), "8");
+         database.transaction(em -> em.find(GroupEntity.class,7L).setParentGroupId(8L));
+         assertThat(identities.memberships(actorId)).contains("7", "8");
+         database.transaction(em -> em.find(GroupEntity.class,7L).setStatus(GroupStatus.INACTIVE));
+         var before = snapshot(task.getId());
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+         database.transaction(em -> {
+             em.find(GroupEntity.class,7L).setStatus(GroupStatus.ACTIVE);
+             em.find(GroupEntity.class,8L).setParentGroupId(7L);
+         });
+-        assertThatThrownBy(() -> actions.claimTask(task.getId())).isInstanceOf(AccessDeniedException.class);
++        assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(snapshot(task.getId())).isEqualTo(before);
+     }
+ 
+@@ -330,7 +342,9 @@ class CustomerTaskAssignmentScenarioTest extends FlowableScenarioTestBase {
+             actions.assignTask(task.getId(), assign(task, Long.toString(targetId)));
+             assertThat(reload(task.getId()).getAssignee()).isEqualTo(Long.toString(targetId));
+         } else {
+-            assertThatThrownBy(() -> actions.assignTask(task.getId(), assign(task, Long.toString(targetId))))
++            String taskId = task.getId();
++            var refusedRequest = assign(task, Long.toString(targetId));
++            assertThatThrownBy(() -> actions.assignTask(taskId, refusedRequest))
+                     .isInstanceOf(com.flatirons.insight.service.exception.BadRequestException.class);
+             assertThat(snapshot(task.getId())).isEqualTo(before);
+         }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskDateScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskDateScenarioTest.java
+index db01a8f..d45f930 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskDateScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerTaskDateScenarioTest.java
+@@ -1,6 +1,8 @@
+ /** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
+ package com.flatirons.insight.scenario;
+ 
++import static org.mockito.Mockito.mock;
++
+ import java.util.Date;
+ import java.util.Map;
+ import java.util.Calendar;
+@@ -111,15 +113,18 @@ class CustomerTaskDateScenarioTest extends FlowableScenarioTestBase {
+ 
+     @Test void invalidDatesAndUnsupportedCalendarPoliciesRollBackStart() {
+         deployProbe("${taskDueDateBean.calculateDueDateWithField('critical_date','add',0,0,0,0,0,0, execution)}", "");
++        var runtime = processEngine.getRuntimeService();
+         for (Object value : java.util.List.of("31-02-2026", "12-01-2026 trailing", 42L)) {
+-            assertThatThrownBy(() -> processEngine.getRuntimeService().startProcessInstanceByKey("dateProbe", Map.of("critical_date",value)))
++            var invalidVariables = Map.<String, Object>of("critical_date", value);
++            assertThatThrownBy(() -> runtime.startProcessInstanceByKey("dateProbe", invalidVariables))
+                     .hasRootCauseInstanceOf(IllegalArgumentException.class);
+             assertThat(processEngine.getRuntimeService().createProcessInstanceQuery().count()).isZero();
+             assertThat(processEngine.getTaskService().createTaskQuery().count()).isZero();
+             assertThat(processEngine.getHistoryService().createHistoricProcessInstanceQuery().count()).isZero();
+         }
+-        var execution = org.mockito.Mockito.mock(org.flowable.engine.delegate.DelegateExecution.class);
+-        assertThatThrownBy(() -> new TaskDueDateBean().calculateDueDateWithField("critical_date","add",0,0,1,0,0,0,execution))
++        var execution = mock(org.flowable.engine.delegate.DelegateExecution.class);
++        var dueDates = new TaskDueDateBean();
++        assertThatThrownBy(() -> dueDates.calculateDueDateWithField("critical_date","add",0,0,1,0,0,0,execution))
+                 .isInstanceOf(IllegalArgumentException.class);
+         assertThat(new InsightIncrementTaskDateListener().incrementDate(null,48,false)).isNull();
+     }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java
+index ce66e59..5ccd20e 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppTaskActionScenarioTest.java
+@@ -5,6 +5,8 @@
+  */
+ package com.flatirons.insight.scenario;
+ 
++import static org.mockito.Mockito.doReturn;
++
+ import com.flatirons.insight.conf.security.SpringSecurityAuthenticationContext;
+ import com.flatirons.insight.domain.UserEntity;
+ import com.flatirons.insight.model.records.security.InsightUserDetails;
+@@ -243,11 +245,11 @@ class FormAppTaskActionScenarioTest extends ArchivePublicationScenarioTestBase {
+         processEngine.getTaskService().saveTask(task);
+         String taskId = task.getId();
+         processEngine.getTaskService().addCandidateGroup(taskId, "7");
+-        org.mockito.Mockito.doReturn(Set.of("8")).when(identities).memberships(99L);
++        doReturn(Set.of("8")).when(identities).memberships(99L);
+         assertThatThrownBy(() -> actions.claimTask(taskId)).isInstanceOf(AccessDeniedException.class);
+         assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee()).isNull();
+         assertThat(processEngine.getTaskService().getVariablesLocal(taskId)).isEmpty();
+-        org.mockito.Mockito.doReturn(Set.of("7", "8")).when(identities).memberships(99L);
++        doReturn(Set.of("7", "8")).when(identities).memberships(99L);
+         actions.claimTask(taskId);
+         assertThat(processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult().getAssignee())
+                 .isEqualTo("99");
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityServiceTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityServiceTest.java
+new file mode 100644
+index 0000000..f9ca4f1
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowTaskIdentityServiceTest.java
+@@ -0,0 +1,100 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import java.util.List;
++import com.flatirons.insight.domain.UserEntity;
++import com.flatirons.insight.domain.GroupEntity;
++import com.flatirons.insight.model.UserDto;
++import com.flatirons.insight.model.enums.status.UserAccountStatus;
++import com.flatirons.insight.model.enums.status.GroupStatus;
++import com.flatirons.insight.model.enums.type.GroupType;
++import com.flatirons.insight.model.response.IGroupResponse;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.*;
++
++class WorkflowTaskIdentityServiceTest {
++    private final UserService users = mock(UserService.class);
++    private final GroupService groups = mock(GroupService.class);
++    private final WorkflowTaskIdentityService identities = new WorkflowTaskIdentityService(users, groups);
++
++    @ParameterizedTest
++    @ValueSource(strings = {"", " "})
++    void blankUserRefusesWithoutIdentityLookup(String input) {
++        assertThatThrownBy(() -> identities.user(input)).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(users, groups);
++    }
++
++    @Test
++    void malformedPersistedUserRefusesInsteadOfDevelopmentFallback() {
++        UserDto dto = new UserDto();
++        when(users.findUserByUsername("broken")).thenReturn(dto);
++        assertThatThrownBy(() -> identities.user("broken")).isInstanceOf(IllegalArgumentException.class);
++        dto.setId(0L);
++        assertThatThrownBy(() -> identities.user("broken")).isInstanceOf(IllegalArgumentException.class);
++        dto.setId(3L);
++        assertThatThrownBy(() -> identities.user("broken")).isInstanceOf(IllegalArgumentException.class);
++        dto.setUserName("active"); dto.setAccountStatus(UserAccountStatus.INACTIVE);
++        assertThatThrownBy(() -> identities.user("broken")).isInstanceOf(IllegalArgumentException.class);
++        dto.setAccountStatus(UserAccountStatus.ACTIVE);
++        assertThat(identities.user("broken")).isSameAs(dto);
++        verifyNoInteractions(groups);
++    }
++
++    @Test
++    void candidateGroupMustMatchActiveFunctionalPersistedIdentity() {
++        assertThatThrownBy(() -> identities.group("not-an-id")).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(groups);
++        IGroupResponse dto = mock(IGroupResponse.class);
++        when(groups.getGroup(7L)).thenReturn(dto);
++        when(dto.getId()).thenReturn("8");
++        assertThatThrownBy(() -> identities.group("7")).isInstanceOf(IllegalArgumentException.class);
++        when(dto.getId()).thenReturn("7"); when(dto.getStatus()).thenReturn("INACTIVE");
++        assertThatThrownBy(() -> identities.group("7")).isInstanceOf(IllegalArgumentException.class);
++        when(dto.getStatus()).thenReturn("ACTIVE"); when(dto.getType()).thenReturn(GroupType.ROLE);
++        assertThatThrownBy(() -> identities.group("7")).isInstanceOf(IllegalArgumentException.class);
++        when(dto.getType()).thenReturn(GroupType.GROUP);
++        assertThat(identities.group("7")).isEqualTo("7");
++    }
++
++    @Test
++    void missingOrInactiveMembershipOwnerRefuses() {
++        assertThatThrownBy(() -> identities.memberships(1L)).isInstanceOf(IllegalArgumentException.class);
++        UserEntity user = new UserEntity(); user.setAccountStatus(UserAccountStatus.INACTIVE);
++        when(users.getUserEntity(1L, true)).thenReturn(user);
++        assertThatThrownBy(() -> identities.memberships(1L)).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(groups);
++    }
++
++    @Test
++    void absentAndNonfunctionalMembershipsGrantNothing() {
++        UserEntity user = new UserEntity(); user.setAccountStatus(UserAccountStatus.ACTIVE);
++        user.setGroups(null); when(users.getUserEntity(1L, true)).thenReturn(user);
++        assertThat(identities.memberships(1L)).isEmpty();
++        GroupEntity inactive = new GroupEntity(); inactive.setGroupType(GroupType.GROUP);
++        GroupEntity role = new GroupEntity(); role.setStatus(GroupStatus.ACTIVE); role.setGroupType(GroupType.ROLE);
++        user.setGroups(List.of(inactive, role));
++        assertThat(identities.memberships(1L)).isEmpty();
++        verifyNoInteractions(groups);
++    }
++
++    @Test
++    void inactiveOrRoleParentCannotGrantAncestorMembership() {
++        UserEntity user = new UserEntity(); user.setAccountStatus(UserAccountStatus.ACTIVE);
++        GroupEntity membership = new GroupEntity(); membership.setId(7L);
++        membership.setStatus(GroupStatus.ACTIVE); membership.setGroupType(GroupType.GROUP);
++        user.setGroups(List.of(membership)); when(users.getUserEntity(1L, true)).thenReturn(user);
++        IGroupResponse child = mock(IGroupResponse.class);
++        when(child.getId()).thenReturn("7"); when(child.getStatus()).thenReturn("ACTIVE");
++        when(child.getType()).thenReturn(GroupType.GROUP); when(child.getParentGroupId()).thenReturn(8L);
++        when(groups.getGroup(7L)).thenReturn(child);
++        IGroupResponse parent = mock(IGroupResponse.class); when(groups.getGroup(8L)).thenReturn(parent);
++        when(parent.getStatus()).thenReturn("INACTIVE");
++        assertThat(identities.memberships(1L)).containsExactly("7");
++        when(parent.getStatus()).thenReturn("ACTIVE"); when(parent.getType()).thenReturn(GroupType.ROLE);
++        assertThat(identities.memberships(1L)).containsExactly("7");
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/listener/TaskAssignmentBeanTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/listener/TaskAssignmentBeanTest.java
+new file mode 100644
+index 0000000..fe4c6be
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/listener/TaskAssignmentBeanTest.java
+@@ -0,0 +1,68 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime.listener;
++
++import java.util.List;
++import com.flatirons.insight.service.runtime.WorkflowTaskIdentityService;
++import org.flowable.engine.HistoryService;
++import org.flowable.engine.delegate.DelegateExecution;
++import org.flowable.engine.history.HistoricProcessInstance;
++import org.flowable.engine.history.HistoricProcessInstanceQuery;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.*;
++
++class TaskAssignmentBeanTest {
++    private final WorkflowTaskIdentityService identities = mock(WorkflowTaskIdentityService.class);
++    private final HistoryService history = mock(HistoryService.class);
++    private final DelegateExecution execution = mock(DelegateExecution.class);
++    private final TaskAssignmentBean bean = new TaskAssignmentBean(identities, history);
++
++    @ParameterizedTest
++    @ValueSource(strings = {"manager()", "field(broken", "broken)", ",", " "})
++    void unsupportedCandidateExpressionRefusesOrYieldsNoGroups(String expression) {
++        if (expression.isBlank()) {
++            assertThat(bean.assignTaskToCandidateGroups(expression, execution)).isEmpty();
++        } else {
++            assertThatThrownBy(() -> bean.assignTaskToCandidateGroups(expression, execution))
++                    .isInstanceOf(IllegalArgumentException.class);
++        }
++        verifyNoInteractions(identities, history);
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"", " "})
++    void emptyAssigneeFieldRefusesBeforeProcessVariableRead(String field) {
++        assertThatThrownBy(() -> bean.assignTaskToAssignee(field, execution)).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(execution, identities, history);
++    }
++
++    @Test
++    void absentCandidateFieldIsNotConvertedIntoGroupIdentity() {
++        assertThat(bean.assignTaskToCandidateGroups(null, execution)).isEmpty();
++        assertThat(bean.assignTaskToCandidateGroups("field(missing)", execution)).isEmpty();
++        verifyNoInteractions(identities, history);
++    }
++
++    @Test
++    void structuredAssignmentFieldRefusesBeforeIdentityLookup() {
++        when(execution.getVariable("assignee")).thenReturn(List.of("1"));
++        assertThatThrownBy(() -> bean.assignTaskToAssignee("assignee", execution)).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(identities, history);
++    }
++
++    @Test
++    void absentHistoricInstanceOrStarterCannotBecomeFallbackAssignee() {
++        HistoricProcessInstanceQuery query = mock(HistoricProcessInstanceQuery.class);
++        when(history.createHistoricProcessInstanceQuery()).thenReturn(query);
++        when(execution.getProcessInstanceId()).thenReturn("process");
++        when(query.processInstanceId("process")).thenReturn(query);
++        assertThatThrownBy(() -> bean.assignTaskToAssignee("assignee", execution)).isInstanceOf(IllegalArgumentException.class);
++        HistoricProcessInstance instance = mock(HistoricProcessInstance.class);
++        when(query.singleResult()).thenReturn(instance);
++        assertThatThrownBy(() -> bean.assignTaskToCandidateUsers(null, execution)).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(identities);
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBeanTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBeanTest.java
+new file mode 100644
+index 0000000..9cc25dd
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/listener/TaskDueDateBeanTest.java
+@@ -0,0 +1,77 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime.listener;
++
++import java.util.Date;
++import org.flowable.engine.delegate.DelegateExecution;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.ValueSource;
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.assertj.core.api.Assertions.assertThatThrownBy;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.when;
++import static org.mockito.Mockito.verifyNoInteractions;
++
++class TaskDueDateBeanTest {
++    private final TaskDueDateBean bean = new TaskDueDateBean();
++    private final DelegateExecution execution = mock(DelegateExecution.class);
++
++    @Test
++    void dateValueIsCopiedAndEmptyValueClearsDueDate() {
++        Date input = new Date(123456789L);
++        when(execution.getVariable("critical_date")).thenReturn(input, "", null);
++        Date result = bean.calculateDueDateWithField("critical_date", "add", 0, 0, 0, 0, 0, 0, execution);
++        assertThat(result).isEqualTo(input).isNotSameAs(input);
++        result.setTime(0);
++        assertThat(input.getTime()).isEqualTo(123456789L);
++        assertThat(bean.calculateDueDateWithField("critical_date", "add", 0, 0, 0, 0, 0, 0, execution)).isNull();
++        assertThat(bean.calculateDueDateWithField("critical_date", "add", 0, 0, 0, 0, 0, 0, execution)).isNull();
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"unknown", "", "critical_date_extra"})
++    void unsupportedFieldsRefuseBeforeReadingProcessState(String field) {
++        assertThatThrownBy(() -> bean.calculateDueDateWithField(field, "add", 0, 0, 0, 0, 0, 0, execution))
++                .isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(execution);
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"subtract", "businessDays", ""})
++    void unsupportedOperationsRefuseBeforeReadingProcessState(String operation) {
++        assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", operation, 0, 0, 0, 0, 0, 0, execution))
++                .isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(execution);
++    }
++
++    @Test
++    void eachCalendarOffsetAndMalformedArgumentListRefusesBeforeReadingProcessState() {
++        for (int index = 0; index < 6; index++) {
++            Object[] offsets = {0, 0, 0, 0, 0, 0, execution};
++            offsets[index] = 1;
++            assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", "add", offsets))
++                    .isInstanceOf(IllegalArgumentException.class);
++        }
++        assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", "add", 0, 0, 0))
++                .isInstanceOf(IllegalArgumentException.class);
++        assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", "add", (Object[]) null))
++                .isInstanceOf(IllegalArgumentException.class);
++        assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", "add", 0, 0, 0, 0, 0, 0, "execution"))
++                .isInstanceOf(IllegalArgumentException.class);
++        assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", "add", "0", 0, 0, 0, 0, 0, execution))
++                .isInstanceOf(IllegalArgumentException.class);
++        var fractionalOffset = new java.math.BigDecimal("1e-999");
++        assertThatThrownBy(() -> bean.calculateDueDateWithField("critical_date", "add",
++                fractionalOffset, 0, 0, 0, 0, 0, execution))
++                .isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(execution);
++    }
++
++    @ParameterizedTest
++    @ValueSource(strings = {"31-02-2026", "01-13-2026", "1-01-2026", "12-01-2026 trailing"})
++    void invalidCalendarDateRefuses(String value) {
++        when(execution.getVariable("analyst_due_date")).thenReturn(value);
++        assertThatThrownBy(() -> bean.calculateDueDateWithVariable("analyst_due_date", "add", 0, 0, 0, 0, 0, 0, execution))
++                .isInstanceOf(IllegalArgumentException.class);
++    }
++}
