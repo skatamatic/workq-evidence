@@ -1,0 +1,72 @@
+[
+  {
+    "label": "a",
+    "phase": "cold",
+    "workspace": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0",
+    "started": 1791495443.418637,
+    "ended": 1791495496.3286371,
+    "seconds": 52.91,
+    "exit": 0,
+    "testCount": 17,
+    "port": "59496",
+    "profile": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/karma-20084823",
+    "profileRemoved": true,
+    "reports": [
+      "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/coverage/etc-client/run-4128/lcov.info"
+    ],
+    "angularCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/.angular/cache",
+    "nxCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/.nx/cache",
+    "maxResidentBytes": 3162570752,
+    "command": [
+      "/usr/bin/arch",
+      "-arm64",
+      "/usr/bin/time",
+      "-l",
+      "npm",
+      "run",
+      "test-coverage",
+      "--",
+      "--watch=false",
+      "--skip-nx-cache",
+      "--include=src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts",
+      "--include=src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts",
+      "--include=src/testing/forms-diagnostics.spec.ts"
+    ],
+    "log": "/tmp/forms-concurrency-receipts/cold-a.log"
+  },
+  {
+    "label": "b",
+    "phase": "cold",
+    "workspace": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof",
+    "started": 1791495443.444932,
+    "ended": 1791495495.524932,
+    "seconds": 52.08,
+    "exit": 0,
+    "testCount": 17,
+    "port": "59494",
+    "profile": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/karma-14241177",
+    "profileRemoved": true,
+    "reports": [
+      "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof/coverage/etc-client/run-4121/lcov.info"
+    ],
+    "angularCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof/.angular/cache",
+    "nxCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof/.nx/cache",
+    "maxResidentBytes": 3285614592,
+    "command": [
+      "/usr/bin/arch",
+      "-arm64",
+      "/usr/bin/time",
+      "-l",
+      "npm",
+      "run",
+      "test-coverage",
+      "--",
+      "--watch=false",
+      "--skip-nx-cache",
+      "--include=src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts",
+      "--include=src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts",
+      "--include=src/testing/forms-diagnostics.spec.ts"
+    ],
+    "log": "/tmp/forms-concurrency-receipts/cold-b.log"
+  }
+]
