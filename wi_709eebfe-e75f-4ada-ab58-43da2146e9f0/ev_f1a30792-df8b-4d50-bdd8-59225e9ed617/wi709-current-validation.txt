@@ -1,0 +1,66 @@
+Verified revision: 7aab8d38f5e4d789dabca1ad81598630d87b491d
+Java 21; JAVA_TOOL_OPTIONS=-Djava.awt.headless=true
+
+Command: mvn -s /Users/kylewesley/repos/insight-next/.bootstrap/maven-settings.xml -Dmaven.repo.local=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_709eebfe-e75f-4ada-ab58-43da2146e9f0/.workq/maven-repository verify -fae
+Captured exit: 0; original command receipt: ev_970a7d68-955c-4224-9c0e-5deb01a3f900
+[INFO] BUILD SUCCESS
+[INFO] Total time:  06:53 min
+[INFO] Finished at: 2026-10-08T15:34:03-06:00
+
+Command: mvn -s /Users/kylewesley/repos/insight-next/.bootstrap/maven-settings.xml -Dmaven.repo.local=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_709eebfe-e75f-4ada-ab58-43da2146e9f0/.workq/maven-repository install -fae
+Captured exit: 0; original command receipt: ev_8a86968c-0738-4a74-aba7-fc41d28e4d5c
+[INFO] BUILD SUCCESS
+[INFO] Total time:  03:35 min
+[INFO] Finished at: 2026-10-08T15:37:45-06:00
+
+ITaskActionRequest.java covered 0 of 1 missed(lines,instructions,conditions) [(12, 2, 0)]
+ITaskResponse.java covered 0 of 0 missed(lines,instructions,conditions) []
+TaskActionRequest.java covered 2 of 2 missed(lines,instructions,conditions) []
+TaskResponse.java covered 3 of 3 missed(lines,instructions,conditions) []
+RestExceptionHandlerAdvice.java covered 0 of 0 missed(lines,instructions,conditions) []
+TaskMapper.java covered 0 of 0 missed(lines,instructions,conditions) []
+TaskActionServiceImpl.java covered 92 of 112 missed(lines,instructions,conditions) [(104, 0, 3), (105, 4, 3), (106, 5, 3), (107, 5, 0), (113, 0, 1), (114, 5, 0), (129, 0, 1), (151, 0, 3), (152, 5, 0), (158, 0, 1), (162, 0, 1), (361, 6, 0)]
+TaskServiceImpl.java covered 6 of 6 missed(lines,instructions,conditions) []
+WorkflowTaskIdentityService.java covered 85 of 87 missed(lines,instructions,conditions) [(43, 0, 1), (72, 0, 1)]
+InsightIncrementTaskDateListener.java covered 15 of 15 missed(lines,instructions,conditions) []
+TaskAssignmentBean.java covered 64 of 66 missed(lines,instructions,conditions) [(46, 0, 1), (55, 0, 1)]
+TaskDueDateBean.java covered 55 of 56 missed(lines,instructions,conditions) [(33, 0, 1)]
+LOCAL CHANGED COVERAGE ESTIMATE 322 348 92.5
+UNIQUE SUREFIRE {'tests': 1277, 'failures': 0, 'errors': 0, 'skipped': 0} SCENARIO INVOCATIONS 152
+PARITY {'DEPLOYED': 4, 'ASSERTED': 11, 'PENDING': 13}
+UNCHANGED FIXTURE insight-service/src/test/resources/scenarios/customers/mdcr/app.zip 7ffe64c62463713346cf4c610235248c72c299a47c984da8b09cb3bb7ec0bf2b
+UNCHANGED FIXTURE insight-service/src/test/resources/scenarios/customers/safran-analysis/app.zip 2a8d390d112c97303d5916ad3a1d33257a188a7cf4e481466ba4305841546019
+UNCHANGED FIXTURE insight-service/src/test/resources/scenarios/customers/safran-feedback/app.zip ce0ad91abf59caee9a714641d35ca94c193eb32e914f07e87d92998a3a0da2be
+UNCHANGED FIXTURE insight-service/src/test/resources/scenarios/customers/form-app/app.zip efbb7849ac80b1eb9a165d439b22f5a51dc57ae1b96f353cfa507b3d942eab08
+
+Fresh native correctness, pattern-conformance and tests reports: no findings.
+{
+  "ok": true,
+  "reason": "all claimed lenses backed by finished subagent reports: correctness, pattern-conformance, tests",
+  "exemption": null,
+  "proof": "subagent",
+  "claimedLenses": [
+    "correctness",
+    "pattern-conformance",
+    "tests"
+  ],
+  "matchedLenses": [
+    "correctness",
+    "pattern-conformance",
+    "tests"
+  ],
+  "missingLenses": [],
+  "unfinishedLenses": [],
+  "missingMandatory": [],
+  "silentDiscretionary": [],
+  "subagentTitles": [
+    "Lens: correctness",
+    "Lens: pattern-conformance",
+    "Lens: pattern-conformance",
+    "Lens: tests",
+    "Lens: tests"
+  ],
+  "remediation": []
+}
+
+Local JaCoCo 92.5% is an estimate only. Exact-head Jenkins and BOTH PR/branch Sonar analysis plus the complete new-code issue inventory remain required before landing.
