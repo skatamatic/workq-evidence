@@ -1,0 +1,1616 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<bpmn2:definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef" xmlns:modeler="http://activiti.com/modeler" modeler:version="1.0en" modeler:exportDateTime="20260416102243471" modeler:modelId="20" modeler:modelVersion="20" modeler:modelLastUpdated="1776349350198">
+  <signal id="end_launch_additional" name="End launch Additional task" activiti:scope="processInstance"/>
+  <bpmn2:process id="safran-analysis-workflow" name="Safran Analysis Workflow" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" expression="${insightSafranAnalysisStartListener.capture(execution)}"/>
+      <modeler:deleteallvariables xmlns:modeler="http://activiti.com/modeler" modeler:deleteallvariables=""/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="is_analyst_required" modeler:variableType="boolean" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="is_full_revision" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="action" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="package_id" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="list_of_highlights" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="document_merge_report" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="table_of_impact" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="filter_groups" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="table_of_impact_missing_group" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="docManger" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="urt01_list" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="no_capa_list" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="master_list" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="groupTest" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="group_validation" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="documents" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="errorMessage" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="analyst_required" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="disable_mail" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="disable_debug" modeler:variableType="boolean" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="missing_groups" modeler:variableType="boolean" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="hasGroupAssignmentErrors" modeler:variableType="boolean" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="groupAssignmentValidationLog" modeler:variableType="string" modeler:persist="null"/>
+      <modeler:executionvariables xmlns:modeler="http://activiti.com/modeler" modeler:variableName="finalSubject" modeler:variableType="string" modeler:persist="null"/>
+    </extensionElements>
+    <bpmn2:startEvent id="startEvent1" name="Start" activiti:initiator="initiator" activiti:formKey="297">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${insightSequenceListener.setSequence(execution,&quot;package_id&quot;,&quot;SAE-ANALYSIS&quot;)}"/>
+        <modeler:form-reference-id><![CDATA[13]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystStart]]></modeler:form-reference-name>
+        <modeler:editor-resource-id><![CDATA[startEvent1]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:outgoing>sid-633D2CBB-6841-4B60-9AA5-494681CD287F</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="end-workflow" name="End">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-14D222EC-BDF2-457C-961D-485DA993EF19]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-9249E9A9-B8EC-46A5-B4E6-B946AA314E83</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:userTask id="manage-triage-review" name="R4 - Manager Triage/ review" activiti:candidateGroups="10" activiti:formKey="298">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R4 Manager Triage/Review&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <activiti:taskListener event="complete" expression="${execution.setVariable(&quot;analysis_launch_task&quot;, task.getId())}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[15]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystManager]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-971E1EE4-0D46-48C3-ADF5-4BF24515D948]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-76102AEB-AC31-4EF6-9D90-3228308B7FAE</bpmn2:incoming>
+      <bpmn2:incoming>sid-415F8EF0-B566-4C42-ADD1-095D78A94B19</bpmn2:incoming>
+      <bpmn2:outgoing>sid-2B3F469C-C149-432C-A698-25FB25BD8C90</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="create-publishing-incremental" name="R5 - Change Symlink Target To new revision" activiti:candidateGroups="11" activiti:formKey="299">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R5 Change symlink target to new revision&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <activiti:taskListener event="complete" expression="${execution.setVariable(&quot;final_task_id&quot;,task.getId())}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[14]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystIncrementalPublish]]></modeler:form-reference-name>
+        <modeler:group-info-name-11><![CDATA[SAE R5]]></modeler:group-info-name-11>
+        <modeler:group-info-externalid-11><![CDATA[type=acm, group=SAE R5]]></modeler:group-info-externalid-11>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-9ADE3C0E-4D1E-4E57-B40F-803E30D8595D]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-F5777DAD-78F4-4B84-BCBC-FFBB3D466F64</bpmn2:incoming>
+      <bpmn2:outgoing>sid-F64195D2-105B-4DE8-9CAB-05FA74FA67C4</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="finalize" name="R4 - Finalize" activiti:candidateGroups="10" activiti:formKey="300">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R4 Finalize&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[11]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[MergePublication]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-DE21973A-AFEB-406B-9678-8E33F697143F]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-3B5E2678-CDFD-47A5-8C93-A9EAF382DA22</bpmn2:incoming>
+      <bpmn2:outgoing>sid-BFDF1477-67B9-47EF-B9F5-D58FDB07316A</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="create-publishing-full" name="R5 Create Publishing structure and symlink, open user rights to mechanics" activiti:candidateGroups="11" activiti:formKey="301">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R5 Create Publishing Structure and symlink, open user rights&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <activiti:taskListener event="complete" expression="${execution.setVariable(&quot;final_task_id&quot;,task.getId())}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[18]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystPreformFullPublish]]></modeler:form-reference-name>
+        <modeler:group-info-name-11><![CDATA[SAE R5]]></modeler:group-info-name-11>
+        <modeler:group-info-externalid-11><![CDATA[type=acm, group=SAE R5]]></modeler:group-info-externalid-11>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-93D54D10-3BFC-45CC-9EDB-8B8281896E48]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB</bpmn2:incoming>
+      <bpmn2:outgoing>sid-BFCFDB92-5374-4107-86E0-AB535AE2F68E</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:exclusiveGateway id="gate-finalize" default="sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-AA496877-1978-4BE7-8A0E-402BB4226485]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-BFDF1477-67B9-47EF-B9F5-D58FDB07316A</bpmn2:incoming>
+      <bpmn2:incoming>sid-C8EF5647-C43B-4927-BDE1-8FA43FA2E79B</bpmn2:incoming>
+      <bpmn2:outgoing>sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-F5777DAD-78F4-4B84-BCBC-FFBB3D466F64</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:userTask id="acknowledgement" name="R4 Acknowledgement" activiti:candidateGroups="10,11" activiti:formKey="302">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R4 Acknowledgement&quot;)}"/>
+        <activiti:taskListener event="complete" expression="${execution.setVariable('is_analyst_required', execution.getVariable('analyst_required'))}"/>
+        <activiti:taskListener event="create" expression="${insightRenameProcessListener.renameProcess(task)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <activiti:taskListener event="complete" expression="${insightRenameProcessListener.renameProcess(task)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[8]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystTableOfRulesDispatch]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:group-info-name-11><![CDATA[SAE R5]]></modeler:group-info-name-11>
+        <modeler:group-info-externalid-11><![CDATA[type=acm, group=SAE R5]]></modeler:group-info-externalid-11>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[true]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-E9303972-6F5F-49E3-9E64-88607F983B93]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-4356A50C-EB37-4480-BA15-857D4263E0A0</bpmn2:incoming>
+      <bpmn2:incoming>sid-A2F70185-BA3B-4295-9B5D-250FC0DDDD48</bpmn2:incoming>
+      <bpmn2:outgoing>sid-2D581CCD-09F7-4325-A004-81CAA492CF25</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="create-document-conflict-list" name="R4 Create Document Conflict list" activiti:candidateGroups="10" activiti:formKey="303">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R4 Create Document Conflict List&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <activiti:taskListener event="complete" expression="${execution.setVariable(&quot;docManager&quot;, task.getAssignee())}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[6]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalyistConflictList]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[true]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-6900D1A0-67F6-4441-811D-D13EE3589D43]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339</bpmn2:incoming>
+      <bpmn2:outgoing>sid-524EAD35-881B-4430-BAC9-04F6E8627DBA</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:exclusiveGateway id="gate-end">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-FCA29B0F-2303-4806-A86F-03F87143AE95]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-BFCFDB92-5374-4107-86E0-AB535AE2F68E</bpmn2:incoming>
+      <bpmn2:incoming>sid-F64195D2-105B-4DE8-9CAB-05FA74FA67C4</bpmn2:incoming>
+      <bpmn2:outgoing>sid-3B1FB502-2378-4F02-9EA8-9357BFF5120C</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:exclusiveGateway id="gate-re-rerun-create-table-services-gateway" default="sid-4932D2D7-AE13-4F7C-BE81-902994150884">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-ECF383A5-1350-493C-8BC0-02C569881776]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-2B3F469C-C149-432C-A698-25FB25BD8C90</bpmn2:incoming>
+      <bpmn2:outgoing>sid-06551E78-86C8-4734-AC24-FF3456F2C055</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-DA7C4A52-0ABD-4CC6-99BA-1D174EE36CC6</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-4932D2D7-AE13-4F7C-BE81-902994150884</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:endEvent id="cancel-start" name="Cancel">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-20DB7771-B1C4-47E7-BC63-E4D29CDD5D90]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-9636172E-208B-4A1C-9DD9-1BDCA389033B</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:exclusiveGateway id="gate-create-missing-group-list" default="sid-97D93E4E-58C5-4C68-B57A-54313845B213">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-8C27AE1D-6480-455D-AF3D-EEAA8AF1E830]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-DF481A56-F236-490A-B7C2-010BD0AAC0F1</bpmn2:incoming>
+      <bpmn2:incoming>sid-EF3325C8-E8FB-4DC5-B61A-32CB08D970D7</bpmn2:incoming>
+      <bpmn2:outgoing>sid-97D93E4E-58C5-4C68-B57A-54313845B213</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:userTask id="review-missing-groups" name="Review Missing Groups" activiti:candidateGroups="10" activiti:formKey="304">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Review Missing Group&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[12]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystMissingGroup]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-DA4AFC71-D042-4D5D-9027-CD1965C579D6]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-700C56B5-8CB5-480C-92F5-2771057A2A72</bpmn2:incoming>
+      <bpmn2:outgoing>sid-88E761F7-0070-4BDE-AC4B-BE626CCAC024</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:exclusiveGateway id="gate-review-missing-groups" default="sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-A226E54E-47A6-4264-B80F-CF8F38B943C3]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-88E761F7-0070-4BDE-AC4B-BE626CCAC024</bpmn2:incoming>
+      <bpmn2:outgoing>sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:exclusiveGateway id="gate-create-csvs" default="sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-8770CAAE-C4D3-46BD-8A63-F1C380A51DEE]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-5C03ED65-47D1-422F-9953-D81B45142746</bpmn2:incoming>
+      <bpmn2:incoming>sid-97D93E4E-58C5-4C68-B57A-54313845B213</bpmn2:incoming>
+      <bpmn2:outgoing>sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:userTask id="resolve-missing-groups" name="Resolve Missing Groups" activiti:candidateGroups="10" activiti:formKey="305">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Resolve Missing Group&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[9]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystMissingGroupCorrection]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-DBD14CE1-B60E-4961-9E67-E95D067EBD58]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-8C246B02-3E6C-4D9B-94A5-D25137CA360A</bpmn2:incoming>
+      <bpmn2:outgoing>sid-7D1A90CC-DCFD-4C14-93E1-80B343066F77</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:exclusiveGateway id="gate-error-create-highlights" default="sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-AC2180ED-BE92-4C5C-8170-5EA84F71E052]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7</bpmn2:incoming>
+      <bpmn2:outgoing>sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-4356A50C-EB37-4480-BA15-857D4263E0A0</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-4362FFB9-078E-412B-8219-64873AFF9FE2</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:exclusiveGateway id="gate-create-document-merge" default="sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-1150E0C9-AAA7-4E22-9ACF-A91DA876586B]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-65827AE1-FEF8-4FFE-B483-B7FF714EFACA</bpmn2:incoming>
+      <bpmn2:incoming>sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F</bpmn2:incoming>
+      <bpmn2:outgoing>sid-E5794786-47BD-4D58-A47A-A8E332170C66</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:userTask id="error-create-merge-report" name="Error Service Task: Creating Master List" activiti:candidateGroups="10" activiti:formKey="306">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Error Creating Master List&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[16]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[ErrorCreatingDocument]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-A5E64692-9F6F-4798-897F-FA3F744C6091]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-763F9DBA-90B5-4FCD-BBCC-EBED277943AD</bpmn2:incoming>
+      <bpmn2:outgoing>sid-65827AE1-FEF8-4FFE-B483-B7FF714EFACA</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="sid-9249E9A9-B8EC-46A5-B4E6-B946AA314E83" sourceRef="analysis-workflow-end" targetRef="end-workflow">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-9249E9A9-B8EC-46A5-B4E6-B946AA314E83]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="gate-acknowledgement" default="sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-F9B69D3E-FDB4-4737-AEE8-B429E2FDC66C]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-2D581CCD-09F7-4325-A004-81CAA492CF25</bpmn2:incoming>
+      <bpmn2:incoming>sid-4362FFB9-078E-412B-8219-64873AFF9FE2</bpmn2:incoming>
+      <bpmn2:outgoing>sid-9636172E-208B-4A1C-9DD9-1BDCA389033B</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-4C882CB6-370A-4FB8-81F2-4E3961C0DA2D</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:endEvent id="cancel-no-analysis" name="Cancel">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-E10848C6-19E1-4ADD-95CD-54B71EC921A3]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-06551E78-86C8-4734-AC24-FF3456F2C055</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:exclusiveGateway id="analysis-required-gateway" default="sid-3AC1D63B-6760-4270-AEAB-A14D175E1320">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-4BBFA774-B78C-43E0-8521-C45937D97440]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-633D2CBB-6841-4B60-9AA5-494681CD287F</bpmn2:incoming>
+      <bpmn2:outgoing>sid-3AC1D63B-6760-4270-AEAB-A14D175E1320</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-A2F70185-BA3B-4295-9B5D-250FC0DDDD48</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:parallelGateway id="sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75</bpmn2:incoming>
+      <bpmn2:outgoing>sid-4AF1BF8C-D2F8-4C65-B5C1-C285C9DE47F3</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-0CB668B2-189C-4705-A53E-1484F3926AC3</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-9453EAAD-3793-4384-A859-B3E833B1FBC0</bpmn2:outgoing>
+    </bpmn2:parallelGateway>
+    <bpmn2:serviceTask id="analysis_mail_notify" name="Notify Analysis" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${to}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:expression><![CDATA[${from}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression><![CDATA[${subject}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="cc">
+          <activiti:expression><![CDATA[${cc}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="bcc">
+          <activiti:expression><![CDATA[${analysisMailList}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[${htmlText}]]></activiti:expression>
+        </activiti:field>
+        <activiti:executionListener event="start" expression="${insightEmailExecutionListener.processMailTaskWithBpmnErrorHandling(execution, analysis_launch_task)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-B697EB49-C49F-4344-9424-E448B5DC7110]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-82752475-B785-4AA8-9AC5-17EA19B22427</bpmn2:incoming>
+      <bpmn2:outgoing>sid-CBDA4F98-421B-4D6E-81DE-D853F31CAC93</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.prepareLaunch(execution)}" id="mail_script" name="Mail Script" activiti:async="true" activiti:exclusive="false">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-5C1B9FBF-EC94-48B3-8C4A-EE376070B223]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-8D71946E-3BB3-4C9E-BD52-FE3F5DA64417</bpmn2:incoming>
+      <bpmn2:outgoing>sid-82752475-B785-4AA8-9AC5-17EA19B22427</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:endEvent id="end-email" name="End Email">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-560BF22A-256E-426E-BFDA-BB544AA86BDA]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-CBDA4F98-421B-4D6E-81DE-D853F31CAC93</bpmn2:incoming>
+      <bpmn2:incoming>sid-AD00269A-8926-4C8D-8424-6665168A74FA</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:userTask id="sid-E4F4B990-DFE5-46CE-97FE-9FE736FA12FA" name="AdHoc Manager" activiti:candidateGroups="9,10,11" activiti:formKey="307">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Adhoc Manager&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task, &quot;Adhoc Manager&quot;)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[10]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AdHocAnalystManager]]></modeler:form-reference-name>
+        <modeler:group-info-name-9><![CDATA[SAE R3]]></modeler:group-info-name-9>
+        <modeler:group-info-externalid-9><![CDATA[type=acm, group=SAE R3]]></modeler:group-info-externalid-9>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:group-info-name-11><![CDATA[SAE R5]]></modeler:group-info-name-11>
+        <modeler:group-info-externalid-11><![CDATA[type=acm, group=SAE R5]]></modeler:group-info-externalid-11>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-E4F4B990-DFE5-46CE-97FE-9FE736FA12FA]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-0CB668B2-189C-4705-A53E-1484F3926AC3</bpmn2:incoming>
+      <bpmn2:outgoing>sid-660BA1EB-4AF5-4E01-849B-F0900686CF8B</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:inclusiveGateway id="analysis-task-inclusion-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-47E9664B-EE17-4DB1-B545-4A76164CB1A0]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-660BA1EB-4AF5-4E01-849B-F0900686CF8B</bpmn2:incoming>
+      <bpmn2:incoming>sid-7694FB4E-8FF8-4374-89D9-83101F9E3B96</bpmn2:incoming>
+      <bpmn2:outgoing>sid-3B5E2678-CDFD-47A5-8C93-A9EAF382DA22</bpmn2:outgoing>
+    </bpmn2:inclusiveGateway>
+    <bpmn2:exclusiveGateway id="no-analysis-required-catch-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-ED30B8AC-714A-4238-BB3D-BD7320F119B0]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-4C882CB6-370A-4FB8-81F2-4E3961C0DA2D</bpmn2:incoming>
+      <bpmn2:incoming>sid-3AC1D63B-6760-4270-AEAB-A14D175E1320</bpmn2:incoming>
+      <bpmn2:outgoing>sid-C8EF5647-C43B-4927-BDE1-8FA43FA2E79B</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="sid-88E761F7-0070-4BDE-AC4B-BE626CCAC024" sourceRef="review-missing-groups" targetRef="gate-review-missing-groups">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-88E761F7-0070-4BDE-AC4B-BE626CCAC024]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-65827AE1-FEF8-4FFE-B483-B7FF714EFACA" sourceRef="error-create-merge-report" targetRef="gate-create-document-merge">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-65827AE1-FEF8-4FFE-B483-B7FF714EFACA]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="run-create-table-services-gateway" default="sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-1EA894FA-8100-4BF4-B2EC-51E0BC63F4E7]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-524EAD35-881B-4430-BAC9-04F6E8627DBA</bpmn2:incoming>
+      <bpmn2:incoming>sid-DA7C4A52-0ABD-4CC6-99BA-1D174EE36CC6</bpmn2:incoming>
+      <bpmn2:incoming>sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502</bpmn2:incoming>
+      <bpmn2:incoming>sid-E5794786-47BD-4D58-A47A-A8E332170C66</bpmn2:incoming>
+      <bpmn2:outgoing>sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="sid-763F9DBA-90B5-4FCD-BBCC-EBED277943AD" sourceRef="sid-D594D39D-CB8D-426E-B2A3-2A5ED1FF6FE9" targetRef="error-create-merge-report">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-763F9DBA-90B5-4FCD-BBCC-EBED277943AD]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-BFCFDB92-5374-4107-86E0-AB535AE2F68E" sourceRef="create-publishing-full" targetRef="gate-end">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-BFCFDB92-5374-4107-86E0-AB535AE2F68E]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-F64195D2-105B-4DE8-9CAB-05FA74FA67C4" sourceRef="create-publishing-incremental" targetRef="gate-end">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-F64195D2-105B-4DE8-9CAB-05FA74FA67C4]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-BFDF1477-67B9-47EF-B9F5-D58FDB07316A" sourceRef="finalize" targetRef="gate-finalize">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-BFDF1477-67B9-47EF-B9F5-D58FDB07316A]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-4AF1BF8C-D2F8-4C65-B5C1-C285C9DE47F3</bpmn2:incoming>
+      <bpmn2:incoming>sid-D7C3B65A-88F1-4902-A511-9D6AE3996650</bpmn2:incoming>
+      <bpmn2:outgoing>sid-8D71946E-3BB3-4C9E-BD52-FE3F5DA64417</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:userTask id="email-error-catch-task" name="Email Error Catch Task" activiti:candidateGroups="10" activiti:formKey="308">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Email Error Event&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[17]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[EmailErrorEvent]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-52FB180D-C44C-4E71-AA2A-B05400141F3A]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-1EF50AD9-29A2-4C93-BDB7-7E85C791F8B4</bpmn2:incoming>
+      <bpmn2:outgoing>sid-5437D33D-05ED-422E-A8BA-44ABEC03370E</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="sid-5437D33D-05ED-422E-A8BA-44ABEC03370E" sourceRef="email-error-catch-task" targetRef="sid-3494068F-CD31-4B58-BD92-79655C2EE5E4">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-5437D33D-05ED-422E-A8BA-44ABEC03370E]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-1EF50AD9-29A2-4C93-BDB7-7E85C791F8B4" sourceRef="error-mail-activity-catch" targetRef="email-error-catch-task">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-1EF50AD9-29A2-4C93-BDB7-7E85C791F8B4]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="sid-3494068F-CD31-4B58-BD92-79655C2EE5E4" default="sid-D7C3B65A-88F1-4902-A511-9D6AE3996650">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-3494068F-CD31-4B58-BD92-79655C2EE5E4]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-5437D33D-05ED-422E-A8BA-44ABEC03370E</bpmn2:incoming>
+      <bpmn2:outgoing>sid-D7C3B65A-88F1-4902-A511-9D6AE3996650</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-AD00269A-8926-4C8D-8424-6665168A74FA</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:subProcess id="sub-multi-per-document" name="Single Per Document Analyst">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-F49C0FD6-99C6-41DF-A8F8-CE5F8210C8CC]]></modeler:editor-resource-id>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="documents" activiti:elementVariable="document_rfus"/>
+      <bpmn2:userTask id="analyst-multi" name="Analyst Multi" activiti:candidateGroups="${analyst_group_id}" activiti:dueDate="${taskDueDateBean.calculateDueDateWithField('analyst_due_date','add',0,0,0,0,0,0, execution)}" activiti:formKey="309">
+        <extensionElements>
+          <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Analyst&quot;)}"/>
+          <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task,&quot;Analyst&quot;)}"/>
+          <modeler:allow-send-email><![CDATA[false]]></modeler:allow-send-email>
+          <modeler:form-reference-id><![CDATA[7]]></modeler:form-reference-id>
+          <modeler:form-reference-name><![CDATA[AnalystMultiConflict]]></modeler:form-reference-name>
+          <modeler:duedate-type><![CDATA[field]]></modeler:duedate-type>
+          <modeler:duedate-calculation-type><![CDATA[add]]></modeler:duedate-calculation-type>
+          <modeler:duedate-field-id><![CDATA[analyst_due_date]]></modeler:duedate-field-id>
+          <modeler:duedate-field-name><![CDATA[Due Date]]></modeler:duedate-field-name>
+          <modeler:duedate-years><![CDATA[0]]></modeler:duedate-years>
+          <modeler:duedate-months><![CDATA[0]]></modeler:duedate-months>
+          <modeler:duedate-days><![CDATA[0]]></modeler:duedate-days>
+          <modeler:duedate-hours><![CDATA[0]]></modeler:duedate-hours>
+          <modeler:duedate-minutes><![CDATA[0]]></modeler:duedate-minutes>
+          <modeler:duedate-seconds><![CDATA[0]]></modeler:duedate-seconds>
+          <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+          <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+          <modeler:editor-resource-id><![CDATA[sid-AB42565D-657C-48EF-9B4D-1E556562D181]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-C72F516E-78DD-45EE-ABC0-821BB5827FB3</bpmn2:incoming>
+        <bpmn2:incoming>sid-697AF60E-689A-48CA-A8C0-3DA9298F8360</bpmn2:incoming>
+        <bpmn2:outgoing>sid-23A6EEC5-73B8-4EBD-B004-5014688F54CE</bpmn2:outgoing>
+      </bpmn2:userTask>
+      <bpmn2:serviceTask id="intializeAnalysisVariablesSingleService" name="Initialize Variables" activiti:expression="{}">
+        <extensionElements>
+          <modeler:executionvariables modeler:variableName="analyst_document" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_title" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_hyperlink" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_coc" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_oem" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_date" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_status" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_group" modeler:variableType="group"/>
+          <modeler:executionvariables modeler:variableName="analyst_group_id" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_group_name" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_preparer" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_action" modeler:variableType="string"/>
+          <modeler:executionvariables modeler:variableName="analyst_result" modeler:variableType="string"/>
+          <modeler:editor-resource-id><![CDATA[sid-E7010923-A46A-4015-98E3-4BBEAC466C99]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-CB4A91C4-CD81-427C-8663-1D8BFE6AE9B1</bpmn2:incoming>
+        <bpmn2:outgoing>sid-C0F16642-90C3-485A-A2BA-D0C20BB3BDC0</bpmn2:outgoing>
+      </bpmn2:serviceTask>
+      <bpmn2:endEvent id="end-sub-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-C4F53E2A-53FA-460A-8EFE-C398859B9C12]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B</bpmn2:incoming>
+      </bpmn2:endEvent>
+      <bpmn2:startEvent id="sid-53DD9D7D-2294-4393-BC88-6E21B2D10B8E">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-53DD9D7D-2294-4393-BC88-6E21B2D10B8E]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:outgoing>sid-CB4A91C4-CD81-427C-8663-1D8BFE6AE9B1</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:exclusiveGateway id="gate-analysis-start-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-50C890C0-057A-4A45-8C22-5C883A64FCA9]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-30E62AF9-CB14-4171-BEC1-9CA3E260D184</bpmn2:incoming>
+        <bpmn2:incoming>sid-17C61659-DD05-4312-9EAB-9828F2C9F314</bpmn2:incoming>
+        <bpmn2:outgoing>sid-C72F516E-78DD-45EE-ABC0-821BB5827FB3</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <bpmn2:userTask id="select-group-reassignment-multi" name="Select Group Reassignment" activiti:candidateGroups="10" activiti:formKey="310">
+        <extensionElements>
+          <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;Analyst - Reassignment&quot;)}"/>
+          <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task)}"/>
+          <modeler:allow-send-email><![CDATA[false]]></modeler:allow-send-email>
+          <modeler:form-reference-id><![CDATA[19]]></modeler:form-reference-id>
+          <modeler:form-reference-name><![CDATA[AnalystGroupReassignment]]></modeler:form-reference-name>
+          <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+          <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+          <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+          <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+          <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+          <modeler:editor-resource-id><![CDATA[sid-A4018087-6B49-450C-BFEF-A71038AB8FFC]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-64707C75-29F5-4893-B728-7D8CCA4480FC</bpmn2:incoming>
+        <bpmn2:outgoing>sid-253346C5-5D72-474F-A549-64225EDBE08E</bpmn2:outgoing>
+      </bpmn2:userTask>
+      <bpmn2:exclusiveGateway id="gate-end-multi" default="sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-8F93630C-86CD-4F22-AF5E-6DAEDFACC5C7]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-23A6EEC5-73B8-4EBD-B004-5014688F54CE</bpmn2:incoming>
+        <bpmn2:outgoing>sid-64707C75-29F5-4893-B728-7D8CCA4480FC</bpmn2:outgoing>
+        <bpmn2:outgoing>sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <bpmn2:exclusiveGateway id="gate-select-group-reassign-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-9111B111-1645-4D19-B5CB-B13DB22687F5]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-253346C5-5D72-474F-A549-64225EDBE08E</bpmn2:incoming>
+        <bpmn2:outgoing>sid-697AF60E-689A-48CA-A8C0-3DA9298F8360</bpmn2:outgoing>
+        <bpmn2:outgoing>sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.reassignGroup(execution)}" id="reassign-group-script-multi" name="Reassign Group">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-7D96E2F0-480B-49CF-9053-811ED37ACC2D]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F</bpmn2:incoming>
+        <bpmn2:outgoing>sid-30E62AF9-CB14-4171-BEC1-9CA3E260D184</bpmn2:outgoing>
+        
+      </bpmn2:serviceTask>
+      <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.initializeAnalyst(execution)}" id="process-analyst-task-script" name="Process Analyst task variables">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-80B61F3F-E2C5-4A66-84A4-2AC7C52DAEE1]]></modeler:editor-resource-id>
+        </extensionElements>
+        <bpmn2:incoming>sid-C0F16642-90C3-485A-A2BA-D0C20BB3BDC0</bpmn2:incoming>
+        <bpmn2:outgoing>sid-17C61659-DD05-4312-9EAB-9828F2C9F314</bpmn2:outgoing>
+        
+      </bpmn2:serviceTask>
+      <bpmn2:sequenceFlow id="sid-253346C5-5D72-474F-A549-64225EDBE08E" sourceRef="select-group-reassignment-multi" targetRef="gate-select-group-reassign-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-253346C5-5D72-474F-A549-64225EDBE08E]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-23A6EEC5-73B8-4EBD-B004-5014688F54CE" sourceRef="analyst-multi" targetRef="gate-end-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-23A6EEC5-73B8-4EBD-B004-5014688F54CE]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-30E62AF9-CB14-4171-BEC1-9CA3E260D184" sourceRef="reassign-group-script-multi" targetRef="gate-analysis-start-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-30E62AF9-CB14-4171-BEC1-9CA3E260D184]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-CB4A91C4-CD81-427C-8663-1D8BFE6AE9B1" sourceRef="sid-53DD9D7D-2294-4393-BC88-6E21B2D10B8E" targetRef="intializeAnalysisVariablesSingleService">
+        <extensionElements>
+          <activiti:executionListener event="start" expression="${insightJsonUtilListener.getListFromGroupedList(execution,&quot;document_rfus&quot;,&quot;document_rfus&quot;)}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariable(&quot;disable_debug&quot;,true)}"/>
+          <modeler:editor-resource-id><![CDATA[sid-CB4A91C4-CD81-427C-8663-1D8BFE6AE9B1]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-17C61659-DD05-4312-9EAB-9828F2C9F314" sourceRef="process-analyst-task-script" targetRef="gate-analysis-start-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-17C61659-DD05-4312-9EAB-9828F2C9F314]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-C0F16642-90C3-485A-A2BA-D0C20BB3BDC0" sourceRef="intializeAnalysisVariablesSingleService" targetRef="process-analyst-task-script">
+        <extensionElements>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_document&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;document&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_title&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;title&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_hyperlink&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;hyperlink&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_coc&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;numCOCChanges&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_oem&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;numOEMChanges&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_date&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;date&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_status&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;, &quot;status&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_group_name&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;,&quot;group.name&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_group_id&quot;, insightJsonUtilListener.getValueFromJsonNodeArray(execution, &quot;document_rfus&quot;,&quot;group.id&quot;,0))}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;activity_log&quot;,&quot;&quot;)}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;activity_log&quot;,&quot;&quot;)}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_action&quot;,&quot;Choose one...&quot;)}"/>
+          <activiti:executionListener event="start" expression="${execution.setVariableLocal(&quot;analyst_result&quot;,&quot;Choose one...&quot;)}"/>
+          <modeler:editor-resource-id><![CDATA[sid-C0F16642-90C3-485A-A2BA-D0C20BB3BDC0]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-C72F516E-78DD-45EE-ABC0-821BB5827FB3" sourceRef="gate-analysis-start-multi" targetRef="analyst-multi">
+        <extensionElements>
+          <modeler:editor-resource-id><![CDATA[sid-C72F516E-78DD-45EE-ABC0-821BB5827FB3]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-64707C75-29F5-4893-B728-7D8CCA4480FC" sourceRef="gate-end-multi" targetRef="select-group-reassignment-multi">
+        <extensionElements>
+          <activiti:executionListener event="start" expression="${execution.setVariable(&quot;analyst_action&quot;,&quot;&quot;)}"/>
+          <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="analyst_action" modeler:rightValue="reassign" modeler:operator="=="/>
+          <modeler:editor-resource-id><![CDATA[sid-64707C75-29F5-4893-B728-7D8CCA4480FC]]></modeler:editor-resource-id>
+        </extensionElements>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'analyst_action') && analyst_action == 'reassign')}]]></conditionExpression>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B" sourceRef="gate-end-multi" targetRef="end-sub-multi">
+        <extensionElements>
+          <activiti:executionListener event="start" expression="${execution.setVariable(&quot;analyst_action&quot;,&quot;&quot;)}"/>
+          <modeler:editor-resource-id><![CDATA[sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B]]></modeler:editor-resource-id>
+        </extensionElements>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-697AF60E-689A-48CA-A8C0-3DA9298F8360" name="Reject Reassignment" sourceRef="gate-select-group-reassign-multi" targetRef="analyst-multi">
+        <extensionElements>
+          <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="group_reassignment_action" modeler:rightValue="reject" modeler:operator="=="/>
+          <modeler:editor-resource-id><![CDATA[sid-697AF60E-689A-48CA-A8C0-3DA9298F8360]]></modeler:editor-resource-id>
+        </extensionElements>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'group_reassignment_action') && group_reassignment_action == 'reject')}]]></conditionExpression>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F" name="Reassignment" sourceRef="gate-select-group-reassign-multi" targetRef="reassign-group-script-multi">
+        <extensionElements>
+          <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="group_reassignment_action" modeler:rightValue="accept" modeler:operator="=="/>
+          <modeler:editor-resource-id><![CDATA[sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F]]></modeler:editor-resource-id>
+        </extensionElements>
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'group_reassignment_action') && group_reassignment_action == 'accept')}]]></conditionExpression>
+      </bpmn2:sequenceFlow>
+    </bpmn2:subProcess>
+    <bpmn2:sequenceFlow id="sid-82752475-B785-4AA8-9AC5-17EA19B22427" sourceRef="mail_script" targetRef="analysis_mail_notify">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-82752475-B785-4AA8-9AC5-17EA19B22427]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-633D2CBB-6841-4B60-9AA5-494681CD287F" sourceRef="startEvent1" targetRef="analysis-required-gateway">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${setBusinessKeyListener.setBusinessKey(execution,&quot;publicationId&quot;)}"/>
+        <activiti:executionListener event="start" expression="${insightSafranAnalysisOperations.isAnalysisRequired(execution,execution.getVariable(&quot;manualName&quot;),execution.getVariable(&quot;revisionType&quot;))}"/>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;disable_mail&quot;,false)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-633D2CBB-6841-4B60-9AA5-494681CD287F]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.preprocess(execution)}" id="preprocess-json-files-script" name="Preprocess list of highlights and merge report">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-BA638A03-37E8-4BB3-BE56-B86AD8806BF3]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67</bpmn2:incoming>
+      <bpmn2:outgoing>sid-DF481A56-F236-490A-B7C2-010BD0AAC0F1</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.importMissingGroups(execution)}" id="check-missing-group-script" name="Clean master list">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-28D06AB5-F6ED-4CCF-ADB1-8FBE982BCE3E]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-7D1A90CC-DCFD-4C14-93E1-80B343066F77</bpmn2:incoming>
+      <bpmn2:outgoing>sid-5C03ED65-47D1-422F-9953-D81B45142746</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:boundaryEvent id="sid-D594D39D-CB8D-426E-B2A3-2A5ED1FF6FE9" attachedToRef="preprocess-json-files-script">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-D594D39D-CB8D-426E-B2A3-2A5ED1FF6FE9]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:outgoing>sid-763F9DBA-90B5-4FCD-BBCC-EBED277943AD</bpmn2:outgoing>
+      <errorEventDefinition/>
+    </bpmn2:boundaryEvent>
+    <bpmn2:sequenceFlow id="sid-7D1A90CC-DCFD-4C14-93E1-80B343066F77" sourceRef="resolve-missing-groups" targetRef="check-missing-group-script">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${insightSafranAnalysisOperations.updateGroupName(execution,&quot;table_of_impact_missing_group&quot;,&quot;LEAP&quot;)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-7D1A90CC-DCFD-4C14-93E1-80B343066F77]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.createTables(execution)}" id="create-data-tables-and-csv-script" name="Create data tables and CSVs">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-FB5AA41C-13F0-43A0-B986-AB6FC1384596]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567</bpmn2:incoming>
+      <bpmn2:outgoing>sid-76102AEB-AC31-4EF6-9D90-3228308B7FAE</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.applyOverride(execution)}" id="override-script" name="Override Dispatch">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-209B6F05-7701-44B8-95A3-FE9C7AB46338]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD</bpmn2:incoming>
+      <bpmn2:outgoing>sid-EF3325C8-E8FB-4DC5-B61A-32CB08D970D7</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="sid-CBDA4F98-421B-4D6E-81DE-D853F31CAC93" sourceRef="analysis_mail_notify" targetRef="end-email">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-CBDA4F98-421B-4D6E-81DE-D853F31CAC93]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.createMissingGroupCsv(execution)}" id="create_missing_group_master_list_script" name="Build Master List CSV">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-D98D645E-6747-402B-AD12-F0CA9C92627C]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F</bpmn2:incoming>
+      <bpmn2:outgoing>sid-700C56B5-8CB5-480C-92F5-2771057A2A72</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="sid-5C03ED65-47D1-422F-9953-D81B45142746" sourceRef="check-missing-group-script" targetRef="gate-create-csvs">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;table_of_impact_missing_group&quot;,&quot;[]&quot;)}Create"/>
+        <modeler:editor-resource-id><![CDATA[sid-5C03ED65-47D1-422F-9953-D81B45142746]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-700C56B5-8CB5-480C-92F5-2771057A2A72" sourceRef="create_missing_group_master_list_script" targetRef="review-missing-groups">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-700C56B5-8CB5-480C-92F5-2771057A2A72]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="sid-338F4115-BC8C-461D-BE2E-6552D64DED26">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-338F4115-BC8C-461D-BE2E-6552D64DED26]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2</bpmn2:incoming>
+      <bpmn2:incoming>sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B</bpmn2:incoming>
+      <bpmn2:outgoing>sid-8C246B02-3E6C-4D9B-94A5-D25137CA360A</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:userTask id="launch-analysis" name="Launch Analysis" activiti:candidateGroups="10" activiti:formKey="311">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R4 Manager Launch Analysis&quot;)}"/>
+        <activiti:taskListener event="create" expression="${insightRenameTaskListener.renameTask(task,&quot;R4 Manager Launch Analysis&quot;)}"/>
+        <modeler:allow-send-email><![CDATA[true]]></modeler:allow-send-email>
+        <modeler:form-reference-id><![CDATA[22]]></modeler:form-reference-id>
+        <modeler:form-reference-name><![CDATA[AnalystLaunch]]></modeler:form-reference-name>
+        <modeler:group-info-name-10><![CDATA[SAE R4]]></modeler:group-info-name-10>
+        <modeler:group-info-externalid-10><![CDATA[type=acm, group=SAE R4]]></modeler:group-info-externalid-10>
+        <modeler:activiti-idm-candidate-group><![CDATA[true]]></modeler:activiti-idm-candidate-group>
+        <modeler:initiator-can-complete><![CDATA[false]]></modeler:initiator-can-complete>
+        <modeler:deactivate-user-task-reassignment><![CDATA[false]]></modeler:deactivate-user-task-reassignment>
+        <modeler:editor-resource-id><![CDATA[sid-F506DDE1-02B7-40F0-B2B3-388C264B9B37]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-9201B4C4-8EB4-4D67-9A46-E1C490A3E9F8</bpmn2:incoming>
+      <bpmn2:outgoing>sid-082C212C-DA93-4BD9-80F2-D740CDD9908D</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.postprocess(execution)}" id="post-process-script" name="Post process">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-CADEAAA5-A679-4947-89D4-23BAB01D5136]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-4932D2D7-AE13-4F7C-BE81-902994150884</bpmn2:incoming>
+      <bpmn2:outgoing>sid-9201B4C4-8EB4-4D67-9A46-E1C490A3E9F8</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="sid-9201B4C4-8EB4-4D67-9A46-E1C490A3E9F8" sourceRef="post-process-script" targetRef="launch-analysis">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-9201B4C4-8EB4-4D67-9A46-E1C490A3E9F8]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-2D581CCD-09F7-4325-A004-81CAA492CF25" sourceRef="acknowledgement" targetRef="gate-acknowledgement">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-2D581CCD-09F7-4325-A004-81CAA492CF25]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-524EAD35-881B-4430-BAC9-04F6E8627DBA" sourceRef="create-document-conflict-list" targetRef="run-create-table-services-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-524EAD35-881B-4430-BAC9-04F6E8627DBA]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-DF481A56-F236-490A-B7C2-010BD0AAC0F1" sourceRef="preprocess-json-files-script" targetRef="gate-create-missing-group-list">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-DF481A56-F236-490A-B7C2-010BD0AAC0F1]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-76102AEB-AC31-4EF6-9D90-3228308B7FAE" sourceRef="create-data-tables-and-csv-script" targetRef="manage-triage-review">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-76102AEB-AC31-4EF6-9D90-3228308B7FAE]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-2B3F469C-C149-432C-A698-25FB25BD8C90" sourceRef="manage-triage-review" targetRef="gate-re-rerun-create-table-services-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-2B3F469C-C149-432C-A698-25FB25BD8C90]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:exclusiveGateway id="sid-78E927EB-09BA-4AD8-A58D-816AB263BC66" default="sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-78E927EB-09BA-4AD8-A58D-816AB263BC66]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-082C212C-DA93-4BD9-80F2-D740CDD9908D</bpmn2:incoming>
+      <bpmn2:outgoing>sid-415F8EF0-B566-4C42-ADD1-095D78A94B19</bpmn2:outgoing>
+      <bpmn2:outgoing>sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="sid-EF3325C8-E8FB-4DC5-B61A-32CB08D970D7" sourceRef="override-script" targetRef="gate-create-missing-group-list">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-EF3325C8-E8FB-4DC5-B61A-32CB08D970D7]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:serviceTask activiti:expression="${insightSafranAnalysisOperations.prepareFinished(execution)}" id="analysis-workflow-end-script" name="Build Distribution List and Subject">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-8E6631C6-33C1-4B07-A7A2-24C17CBA8080]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-3B1FB502-2378-4F02-9EA8-9357BFF5120C</bpmn2:incoming>
+      <bpmn2:outgoing>sid-792CD16E-FFD2-4801-829B-DBCD5BBB6FBD</bpmn2:outgoing>
+      
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="analysis-workflow-end" name="End Notify" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${to}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:expression><![CDATA[${from}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression><![CDATA[${finalSubject}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="cc">
+          <activiti:expression><![CDATA[${cc}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="bcc">
+          <activiti:expression><![CDATA[${finalEmailList}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[${htmlText}]]></activiti:expression>
+        </activiti:field>
+        <activiti:executionListener event="start" expression="${insightEmailExecutionListener.processMailTaskWithBpmnErrorHandling(execution, final_task_id)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-9769218B-2AB5-4C8C-931A-47E6CCDE4990]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:incoming>sid-792CD16E-FFD2-4801-829B-DBCD5BBB6FBD</bpmn2:incoming>
+      <bpmn2:outgoing>sid-9249E9A9-B8EC-46A5-B4E6-B946AA314E83</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="sid-792CD16E-FFD2-4801-829B-DBCD5BBB6FBD" sourceRef="analysis-workflow-end-script" targetRef="analysis-workflow-end">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-792CD16E-FFD2-4801-829B-DBCD5BBB6FBD]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:boundaryEvent id="error-mail-activity-catch" attachedToRef="analysis_mail_notify">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-49E60412-4977-4510-B5EF-D2C976DBF542]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:outgoing>sid-1EF50AD9-29A2-4C93-BDB7-7E85C791F8B4</bpmn2:outgoing>
+      <errorEventDefinition/>
+    </bpmn2:boundaryEvent>
+    <bpmn2:sequenceFlow id="sid-082C212C-DA93-4BD9-80F2-D740CDD9908D" sourceRef="launch-analysis" targetRef="sid-78E927EB-09BA-4AD8-A58D-816AB263BC66">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-082C212C-DA93-4BD9-80F2-D740CDD9908D]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-660BA1EB-4AF5-4E01-849B-F0900686CF8B" sourceRef="sid-E4F4B990-DFE5-46CE-97FE-9FE736FA12FA" targetRef="analysis-task-inclusion-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-660BA1EB-4AF5-4E01-849B-F0900686CF8B]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-7694FB4E-8FF8-4374-89D9-83101F9E3B96" sourceRef="sub-multi-per-document" targetRef="analysis-task-inclusion-gateway">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;analyst_document&quot;,&quot;&quot;)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-7694FB4E-8FF8-4374-89D9-83101F9E3B96]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB" name="Full" sourceRef="gate-finalize" targetRef="create-publishing-full">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-F5777DAD-78F4-4B84-BCBC-FFBB3D466F64" name="Incremental" sourceRef="gate-finalize" targetRef="create-publishing-incremental">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="revisionType" modeler:rightValue="IC" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-F5777DAD-78F4-4B84-BCBC-FFBB3D466F64]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'revisionType') && revisionType == 'IC')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-3B1FB502-2378-4F02-9EA8-9357BFF5120C" sourceRef="gate-end" targetRef="analysis-workflow-end-script">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-3B1FB502-2378-4F02-9EA8-9357BFF5120C]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-06551E78-86C8-4734-AC24-FF3456F2C055" sourceRef="gate-re-rerun-create-table-services-gateway" targetRef="cancel-no-analysis">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="manager_action" modeler:rightValue="stop_workflow" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-06551E78-86C8-4734-AC24-FF3456F2C055]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'manager_action') && manager_action == 'stop_workflow')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-DA7C4A52-0ABD-4CC6-99BA-1D174EE36CC6" sourceRef="gate-re-rerun-create-table-services-gateway" targetRef="run-create-table-services-gateway">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="manager_action" modeler:rightValue="Run group assignment again" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-DA7C4A52-0ABD-4CC6-99BA-1D174EE36CC6]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'manager_action') && manager_action == 'Run group assignment again')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-4932D2D7-AE13-4F7C-BE81-902994150884" sourceRef="gate-re-rerun-create-table-services-gateway" targetRef="post-process-script">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-4932D2D7-AE13-4F7C-BE81-902994150884]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD" sourceRef="gate-re-rerun-create-table-services-gateway" targetRef="override-script">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="manager_action_LABEL" modeler:rightValue="Update Distribution" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'manager_action_LABEL') && manager_action_LABEL == 'Update Distribution')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-97D93E4E-58C5-4C68-B57A-54313845B213" sourceRef="gate-create-missing-group-list" targetRef="gate-create-csvs">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-97D93E4E-58C5-4C68-B57A-54313845B213]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F" sourceRef="gate-create-missing-group-list" targetRef="create_missing_group_master_list_script">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftRestResponseId="hasGroupAssignmentErrors" modeler:rightValue="true" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'hasGroupAssignmentErrors') && hasGroupAssignmentErrors == true)}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2" sourceRef="gate-review-missing-groups" targetRef="sid-338F4115-BC8C-461D-BE2E-6552D64DED26">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="missing_group_action" modeler:rightValue="manual" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'missing_group_action') && missing_group_action == 'manual')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F" sourceRef="gate-review-missing-groups" targetRef="gate-create-document-merge">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B" sourceRef="gate-create-csvs" targetRef="sid-338F4115-BC8C-461D-BE2E-6552D64DED26">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftRestResponseId="hasGroupAssignmentErrors" modeler:rightValue="true" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'hasGroupAssignmentErrors') && hasGroupAssignmentErrors == true)}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567" sourceRef="gate-create-csvs" targetRef="create-data-tables-and-csv-script">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502" sourceRef="gate-error-create-highlights" targetRef="run-create-table-services-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-4356A50C-EB37-4480-BA15-857D4263E0A0" sourceRef="gate-error-create-highlights" targetRef="acknowledgement">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="error_action" modeler:rightValue="send_to_acknowledgement" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-4356A50C-EB37-4480-BA15-857D4263E0A0]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'error_action') && error_action == 'send_to_acknowledgement')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-4362FFB9-078E-412B-8219-64873AFF9FE2" sourceRef="gate-error-create-highlights" targetRef="gate-acknowledgement">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="error_action" modeler:rightValue="send_to_merge_report" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-4362FFB9-078E-412B-8219-64873AFF9FE2]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'error_action') && error_action == 'send_to_merge_report')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-E5794786-47BD-4D58-A47A-A8E332170C66" sourceRef="gate-create-document-merge" targetRef="run-create-table-services-gateway">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="error_action" modeler:rightValue="re-run-service" modeler:operator="==" modeler:nextConditionOperator="or"/>
+        <modeler:conditionDefinition modeler:index="1" modeler:leftFormFieldId="missing_group_action" modeler:rightValue="corrected" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-E5794786-47BD-4D58-A47A-A8E332170C66]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'error_action') && error_action == 're-run-service')or(activiti_flowConditionsBean.exists(execution, 'missing_group_action') && missing_group_action == 'corrected')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7" sourceRef="gate-create-document-merge" targetRef="gate-error-create-highlights">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-9636172E-208B-4A1C-9DD9-1BDCA389033B" sourceRef="gate-acknowledgement" targetRef="cancel-start">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="acknowledgement_action" modeler:rightValue="cancel" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-9636172E-208B-4A1C-9DD9-1BDCA389033B]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'acknowledgement_action') && acknowledgement_action == 'cancel')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-4C882CB6-370A-4FB8-81F2-4E3961C0DA2D" sourceRef="gate-acknowledgement" targetRef="no-analysis-required-catch-gateway">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="analyst_required" modeler:rightValue="false" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-4C882CB6-370A-4FB8-81F2-4E3961C0DA2D]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'analyst_required') && analyst_required == false)}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339" sourceRef="gate-acknowledgement" targetRef="create-document-conflict-list">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-3AC1D63B-6760-4270-AEAB-A14D175E1320" name="SB, ES/OMP, TDS/CMM Full," sourceRef="analysis-required-gateway" targetRef="no-analysis-required-catch-gateway">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-3AC1D63B-6760-4270-AEAB-A14D175E1320]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-A2F70185-BA3B-4295-9B5D-250FC0DDDD48" sourceRef="analysis-required-gateway" targetRef="acknowledgement">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftRestResponseId="analyst_required" modeler:rightValue="true" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-A2F70185-BA3B-4295-9B5D-250FC0DDDD48]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'analyst_required') && analyst_required == true)}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-4AF1BF8C-D2F8-4C65-B5C1-C285C9DE47F3" sourceRef="sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF" targetRef="sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftRestResponseId="disable_mail" modeler:rightValue="true" modeler:operator="!="/>
+        <modeler:editor-resource-id><![CDATA[sid-4AF1BF8C-D2F8-4C65-B5C1-C285C9DE47F3]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'disable_mail') && disable_mail != true)}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-0CB668B2-189C-4705-A53E-1484F3926AC3" sourceRef="sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF" targetRef="sid-E4F4B990-DFE5-46CE-97FE-9FE736FA12FA">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-0CB668B2-189C-4705-A53E-1484F3926AC3]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-9453EAAD-3793-4384-A859-B3E833B1FBC0" sourceRef="sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF" targetRef="sub-multi-per-document">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${insightJsonUtilListener.converter(execution,&quot;table_of_impact&quot;,&quot;documents&quot;,&quot;document,groupName&quot;)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-9453EAAD-3793-4384-A859-B3E833B1FBC0]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-3B5E2678-CDFD-47A5-8C93-A9EAF382DA22" sourceRef="analysis-task-inclusion-gateway" targetRef="finalize">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable(&quot;taskname&quot;,&quot;R4 Finalize&quot;)}"/>
+        <modeler:editor-resource-id><![CDATA[sid-3B5E2678-CDFD-47A5-8C93-A9EAF382DA22]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-C8EF5647-C43B-4927-BDE1-8FA43FA2E79B" name="No Analysis Required" sourceRef="no-analysis-required-catch-gateway" targetRef="gate-finalize">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-C8EF5647-C43B-4927-BDE1-8FA43FA2E79B]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67" sourceRef="run-create-table-services-gateway" targetRef="preprocess-json-files-script">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-8D71946E-3BB3-4C9E-BD52-FE3F5DA64417" sourceRef="sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F" targetRef="mail_script">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-8D71946E-3BB3-4C9E-BD52-FE3F5DA64417]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-D7C3B65A-88F1-4902-A511-9D6AE3996650" sourceRef="sid-3494068F-CD31-4B58-BD92-79655C2EE5E4" targetRef="sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-D7C3B65A-88F1-4902-A511-9D6AE3996650]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-AD00269A-8926-4C8D-8424-6665168A74FA" sourceRef="sid-3494068F-CD31-4B58-BD92-79655C2EE5E4" targetRef="end-email">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="action-email-error" modeler:rightValue="Do not attempt to resend email" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-AD00269A-8926-4C8D-8424-6665168A74FA]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'action-email-error') && action-email-error == 'Do not attempt to resend email')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-8C246B02-3E6C-4D9B-94A5-D25137CA360A" sourceRef="sid-338F4115-BC8C-461D-BE2E-6552D64DED26" targetRef="resolve-missing-groups">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-8C246B02-3E6C-4D9B-94A5-D25137CA360A]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-415F8EF0-B566-4C42-ADD1-095D78A94B19" sourceRef="sid-78E927EB-09BA-4AD8-A58D-816AB263BC66" targetRef="manage-triage-review">
+      <extensionElements>
+        <modeler:conditionDefinition modeler:index="0" modeler:leftFormFieldId="analyst_start_action" modeler:rightValue="Reject to triage" modeler:operator="=="/>
+        <modeler:editor-resource-id><![CDATA[sid-415F8EF0-B566-4C42-ADD1-095D78A94B19]]></modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${(activiti_flowConditionsBean.exists(execution, 'analyst_start_action') && analyst_start_action == 'Reject to triage')}]]></conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75" sourceRef="sid-78E927EB-09BA-4AD8-A58D-816AB263BC66" targetRef="sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:textAnnotation id="sid-2E5F0929-3776-49FC-B229-B4DF00AF103F">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-2E5F0929-3776-49FC-B229-B4DF00AF103F]]></modeler:editor-resource-id>
+      </extensionElements>
+      <bpmn2:text>Important: Do Not Modify task name with out communicating with pinpoint. This is hard coded in a service
+
+Current Name: Create Document Conflict list</bpmn2:text>
+    </bpmn2:textAnnotation>
+    <bpmn2:association id="sid-7E1C9864-50D3-46B1-BFF7-10428A962204" sourceRef="create-document-conflict-list" targetRef="sid-2E5F0929-3776-49FC-B229-B4DF00AF103F" associationDirection="None">
+      <extensionElements>
+        <modeler:editor-resource-id><![CDATA[sid-7E1C9864-50D3-46B1-BFF7-10428A962204]]></modeler:editor-resource-id>
+      </extensionElements>
+    </bpmn2:association>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_safran-analysis-workflow">
+    <bpmndi:BPMNPlane bpmnElement="safran-analysis-workflow" id="BPMNPlane_safran-analysis-workflow">
+      <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+        <omgdc:Bounds height="30.0" width="29.999999999999996" x="14.999999776482586" y="185.00000506639472"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end-workflow" id="BPMNShape_end-workflow">
+        <omgdc:Bounds height="28.0" width="28.0" x="959.9999856948855" y="929.3331000846614"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="manage-triage-review" id="BPMNShape_manage-triage-review">
+        <omgdc:Bounds height="80.0" width="100.0" x="698.333248001015" y="645.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="create-publishing-incremental" id="BPMNShape_create-publishing-incremental">
+        <omgdc:Bounds height="80.0" width="99.99999999999955" x="1694.9999747425322" y="1004.9999850243332"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="finalize" id="BPMNShape_finalize">
+        <omgdc:Bounds height="80.0" width="100.0" x="1725.0" y="798.3331655578694"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="create-publishing-full" id="BPMNShape_create-publishing-full">
+        <omgdc:Bounds height="80.00000000000068" width="100.0" x="1709.9999490380299" y="903.3331816237971"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-finalize" id="BPMNShape_gate-finalize">
+        <omgdc:Bounds height="40.0" width="40.0" x="1872.5000006407445" y="923.3330728652145"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="acknowledgement" id="BPMNShape_acknowledgement">
+        <omgdc:Bounds height="80.0" width="100.0" x="64.9999981373548" y="336.6666326431782"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="create-document-conflict-list" id="BPMNShape_create-document-conflict-list">
+        <omgdc:Bounds height="80.0" width="100.00000000000011" x="420.00000291441756" y="336.6666437197074"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-end" id="BPMNShape_gate-end">
+        <omgdc:Bounds height="40.0" width="40.0" x="1454.6394818440551" y="923.3331950845109"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-re-rerun-create-table-services-gateway" id="BPMNShape_gate-re-rerun-create-table-services-gateway">
+        <omgdc:Bounds height="40.00000000000006" width="40.0" x="728.333249118602" y="499.9999632438043"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="cancel-start" id="BPMNShape_cancel-start">
+        <omgdc:Bounds height="28.0" width="28.0" x="305.9999994536237" y="436.6666367062288"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-create-missing-group-list" id="BPMNShape_gate-create-missing-group-list">
+        <omgdc:Bounds height="40.0" width="40.0" x="449.9999895033728" y="799.9999648332606"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="review-missing-groups" id="BPMNShape_review-missing-groups">
+        <omgdc:Bounds height="80.0" width="100.0" x="179.9999892711644" y="779.9999415874508"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-review-missing-groups" id="BPMNShape_gate-review-missing-groups">
+        <omgdc:Bounds height="40.0" width="40.0" x="94.99999769031993" y="799.9999648332607"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-create-csvs" id="BPMNShape_gate-create-csvs">
+        <omgdc:Bounds height="40.0" width="40.0" x="449.99999620889514" y="923.3331950845109"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="resolve-missing-groups" id="BPMNShape_resolve-missing-groups">
+        <omgdc:Bounds height="80.0" width="99.99999999999997" x="179.99998658895558" y="903.3331819218207"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-error-create-highlights" id="BPMNShape_gate-error-create-highlights">
+        <omgdc:Bounds height="40.0" width="40.0" x="94.99999398986517" y="499.9999635418276"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-create-document-merge" id="BPMNShape_gate-create-document-merge">
+        <omgdc:Bounds height="40.0" width="40.000000000000014" x="94.99999659756826" y="681.1110705697444"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="error-create-merge-report" id="BPMNShape_error-create-merge-report">
+        <omgdc:Bounds height="80.0" width="99.99999999999969" x="248.3333079434121" y="661.1110307670912"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-acknowledgement" id="BPMNShape_gate-acknowledgement">
+        <omgdc:Bounds height="40.0" width="40.0" x="300.0000056227037" y="356.666637659902"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="cancel-no-analysis" id="BPMNShape_cancel-no-analysis">
+        <omgdc:Bounds height="28.0" width="28.0" x="674.9999899417163" y="434.999993517995"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="analysis-required-gateway" id="BPMNShape_analysis-required-gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="94.99999910593021" y="179.999997317791"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF" id="BPMNShape_sid-F0B3A032-8C54-4E22-86C5-E43C9A57B1BF">
+        <omgdc:Bounds height="40.00000000000006" width="40.0" x="1192.4999352917098" y="499.9999706943842"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="analysis_mail_notify" id="BPMNShape_analysis_mail_notify">
+        <omgdc:Bounds height="80.0" width="100.0" x="890.8209213513616" y="327.74996265024294"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mail_script" id="BPMNShape_mail_script">
+        <omgdc:Bounds height="80.0" width="100.0" x="1034.9999691545968" y="327.74996265024294"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end-email" id="BPMNShape_end-email">
+        <omgdc:Bounds height="28.0" width="28.0" x="839.9999874830248" y="353.74996226281274"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-E4F4B990-DFE5-46CE-97FE-9FE736FA12FA" id="BPMNShape_sid-E4F4B990-DFE5-46CE-97FE-9FE736FA12FA">
+        <omgdc:Bounds height="80.0" width="100.0" x="1162.4999352917098" y="798.3331652598462"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="analysis-task-inclusion-gateway" id="BPMNShape_analysis-task-inclusion-gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="1632.4999579340222" y="818.3331652598462"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="no-analysis-required-catch-gateway" id="BPMNShape_no-analysis-required-catch-gateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="299.9999955296517" y="179.999997317791"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="run-create-table-services-gateway" id="BPMNShape_run-create-table-services-gateway">
+        <omgdc:Bounds height="40.00000000000006" width="40.0" x="449.99999620889514" y="499.9999560912474"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F" id="BPMNShape_sid-3ECED06F-4BF9-493A-9825-DA11CAFC163F">
+        <omgdc:Bounds height="40.0" width="40.0" x="1192.4999727308755" y="347.74996734038297"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="email-error-catch-task" id="BPMNShape_email-error-catch-task">
+        <omgdc:Bounds height="79.99999999999989" width="100.0" x="890.8209080770956" y="217.4999721199287"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-3494068F-CD31-4B58-BD92-79655C2EE5E4" id="BPMNShape_sid-3494068F-CD31-4B58-BD92-79655C2EE5E4">
+        <omgdc:Bounds height="40.0" width="40.0" x="1192.4999530613436" y="237.49997821450285"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sub-multi-per-document" id="BPMNShape_sub-multi-per-document">
+        <omgdc:Bounds height="355.000015199184" width="755.0000025182951" x="1274.9999810010197" y="374.99997138977204"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="analyst-multi" id="BPMNShape_analyst-multi">
+        <omgdc:Bounds height="80.0" width="100.0" x="1563.4181610267979" y="414.99994273980917"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="intializeAnalysisVariablesSingleService" id="BPMNShape_intializeAnalysisVariablesSingleService">
+        <omgdc:Bounds height="80.00000000000011" width="100.0" x="1293.499921168301" y="604.9999518990539"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end-sub-multi" id="BPMNShape_end-sub-multi">
+        <omgdc:Bounds height="28.0" width="28.0" x="1878.5000285431688" y="389.9999709427373"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-53DD9D7D-2294-4393-BC88-6E21B2D10B8E" id="BPMNShape_sid-53DD9D7D-2294-4393-BC88-6E21B2D10B8E">
+        <omgdc:Bounds height="30.0" width="30.0" x="1328.4999427199402" y="419.99997004866765"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-analysis-start-multi" id="BPMNShape_gate-analysis-start-multi">
+        <omgdc:Bounds height="40.0" width="40.0" x="1593.4181059396467" y="624.9999527186183"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="select-group-reassignment-multi" id="BPMNShape_select-group-reassignment-multi">
+        <omgdc:Bounds height="80.00000000000017" width="100.0" x="1908.4999996423717" y="604.9999620318433"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-end-multi" id="BPMNShape_gate-end-multi">
+        <omgdc:Bounds height="40.0" width="40.0" x="1938.4999991953368" y="434.9999628729312"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gate-select-group-reassign-multi" id="BPMNShape_gate-select-group-reassign-multi">
+        <omgdc:Bounds height="40.0" width="40.0" x="1833.5000007599588" y="624.999952718618"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reassign-group-script-multi" id="BPMNShape_reassign-group-script-multi">
+        <omgdc:Bounds height="79.99999999999983" width="100.0" x="1665.0000323727706" y="604.9999346882146"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="process-analyst-task-script" id="BPMNShape_process-analyst-task-script">
+        <omgdc:Bounds height="80.0" width="100.0" x="1439.9999876692893" y="604.9999530166415"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="preprocess-json-files-script" id="BPMNShape_preprocess-json-files-script">
+        <omgdc:Bounds height="80.0" width="100.00000000000017" x="419.9999966559299" y="659.9999803304676"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="check-missing-group-script" id="BPMNShape_check-missing-group-script">
+        <omgdc:Bounds height="80.0" width="100.0" x="314.99997183680676" y="903.3331273935161"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-D594D39D-CB8D-426E-B2A3-2A5ED1FF6FE9" id="BPMNShape_sid-D594D39D-CB8D-426E-B2A3-2A5ED1FF6FE9">
+        <omgdc:Bounds height="30.0" width="30.0" x="316.77845017563624" y="635.1782333694026"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="create-data-tables-and-csv-script" id="BPMNShape_create-data-tables-and-csv-script">
+        <omgdc:Bounds height="79.99999999999977" width="100.0" x="698.333248001015" y="903.3331819218208"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="override-script" id="BPMNShape_override-script">
+        <omgdc:Bounds height="79.99999999999977" width="100.0" x="554.9999669194233" y="659.9999409914047"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="create_missing_group_master_list_script" id="BPMNShape_create_missing_group_master_list_script">
+        <omgdc:Bounds height="80.0" width="100.0" x="314.9999671429415" y="779.9999299645461"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-338F4115-BC8C-461D-BE2E-6552D64DED26" id="BPMNShape_sid-338F4115-BC8C-461D-BE2E-6552D64DED26">
+        <omgdc:Bounds height="40.0" width="40.0" x="94.99999257425497" y="923.3331950845109"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="launch-analysis" id="BPMNShape_launch-analysis">
+        <omgdc:Bounds height="80.0" width="100.0" x="975.0" y="480.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="post-process-script" id="BPMNShape_post-process-script">
+        <omgdc:Bounds height="79.99999999999989" width="100.0" x="839.9999874830248" y="479.99999284744274"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-78E927EB-09BA-4AD8-A58D-816AB263BC66" id="BPMNShape_sid-78E927EB-09BA-4AD8-A58D-816AB263BC66">
+        <omgdc:Bounds height="40.0" width="40.0" x="1124.9999832361939" y="499.99998539686226"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="analysis-workflow-end-script" id="BPMNShape_analysis-workflow-end-script">
+        <omgdc:Bounds height="80.0" width="100.0" x="1304.9999805539849" y="903.3331139328037"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="analysis-workflow-end" id="BPMNShape_analysis-workflow-end">
+        <omgdc:Bounds height="80.0" width="100.0" x="1094.9999673664577" y="903.3331816237975"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="error-mail-activity-catch" id="BPMNShape_error-mail-activity-catch">
+        <omgdc:Bounds height="30.0" width="30.0" x="931.0710520039887" y="281.05954399271457"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-2E5F0929-3776-49FC-B229-B4DF00AF103F" id="BPMNShape_sid-2E5F0929-3776-49FC-B229-B4DF00AF103F">
+        <omgdc:Bounds height="75.00000025331977" width="268.000000104308" x="569.9999745190149" y="219.99997480958788"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-7E1C9864-50D3-46B1-BFF7-10428A962204" id="BPMNShape_sid-7E1C9864-50D3-46B1-BFF7-10428A962204">
+        <omgdc:Bounds height="78.83358933797916" width="66.15404102309367" x="503.84593349592126" y="257.4999749362478"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-633D2CBB-6841-4B60-9AA5-494681CD287F" id="BPMNEdge_sid-633D2CBB-6841-4B60-9AA5-494681CD287F">
+        <omgdi:waypoint x="44.99999977648252" y="200.00000369899405"/>
+        <omgdi:waypoint x="95.00000092913093" y="199.99999914099175"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-0CB668B2-189C-4705-A53E-1484F3926AC3" id="BPMNEdge_sid-0CB668B2-189C-4705-A53E-1484F3926AC3">
+        <omgdi:waypoint x="1212.4999352917098" y="539.9999706943843"/>
+        <omgdi:waypoint x="1212.4999352917098" y="798.3331652598462"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2D581CCD-09F7-4325-A004-81CAA492CF25" id="BPMNEdge_sid-2D581CCD-09F7-4325-A004-81CAA492CF25">
+        <omgdi:waypoint x="164.9999981373548" y="376.66663386676936"/>
+        <omgdi:waypoint x="300.00000611214017" y="376.66663717046555"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-DA7C4A52-0ABD-4CC6-99BA-1D174EE36CC6" id="BPMNEdge_sid-DA7C4A52-0ABD-4CC6-99BA-1D174EE36CC6">
+        <omgdi:waypoint x="728.3332496325584" y="519.999962729848"/>
+        <omgdi:waypoint x="489.99999569493883" y="519.9999566052038"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3AC1D63B-6760-4270-AEAB-A14D175E1320" id="BPMNEdge_sid-3AC1D63B-6760-4270-AEAB-A14D175E1320">
+        <omgdi:waypoint x="134.99999910593021" y="199.999997317791"/>
+        <omgdi:waypoint x="299.9999955296517" y="199.999997317791"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-763F9DBA-90B5-4FCD-BBCC-EBED277943AD" id="BPMNEdge_sid-763F9DBA-90B5-4FCD-BBCC-EBED277943AD">
+        <omgdi:waypoint x="323.54507747101445" y="662.7166373311032"/>
+        <omgdi:waypoint x="324.5994028300377" y="661.1110307670912"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C8EF5647-C43B-4927-BDE1-8FA43FA2E79B" id="BPMNEdge_sid-C8EF5647-C43B-4927-BDE1-8FA43FA2E79B">
+        <omgdi:waypoint x="339.9999955296517" y="199.999997317791"/>
+        <omgdi:waypoint x="2227.3125013262033" y="199.999997317791"/>
+        <omgdi:waypoint x="2227.3125013262033" y="943.3330728652145"/>
+        <omgdi:waypoint x="1912.5000006407445" y="943.3330728652145"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-23A6EEC5-73B8-4EBD-B004-5014688F54CE" id="BPMNEdge_sid-23A6EEC5-73B8-4EBD-B004-5014688F54CE">
+        <omgdi:waypoint x="1663.4181610267979" y="454.99994565696096"/>
+        <omgdi:waypoint x="1938.5000003621974" y="454.9999617060705"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B" id="BPMNEdge_sid-952DA6F2-80E1-4B1B-B82F-A7F39B1C082B">
+        <omgdi:waypoint x="1947.2179493219094" y="446.2820127463587"/>
+        <omgdi:waypoint x="1903.5780173763387" y="412.56023749303597"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-F5777DAD-78F4-4B84-BCBC-FFBB3D466F64" id="BPMNEdge_sid-F5777DAD-78F4-4B84-BCBC-FFBB3D466F64">
+        <omgdi:waypoint x="1892.5000006407445" y="963.3330728652145"/>
+        <omgdi:waypoint x="1892.5000006407445" y="1044.9999850243332"/>
+        <omgdi:waypoint x="1794.9999747425318" y="1044.9999850243332"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-17C61659-DD05-4312-9EAB-9828F2C9F314" id="BPMNEdge_sid-17C61659-DD05-4312-9EAB-9828F2C9F314">
+        <omgdi:waypoint x="1539.9999876692893" y="644.9999528959042"/>
+        <omgdi:waypoint x="1593.4181059879415" y="644.9999527669131"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-1EF50AD9-29A2-4C93-BDB7-7E85C791F8B4" id="BPMNEdge_sid-1EF50AD9-29A2-4C93-BDB7-7E85C791F8B4">
+        <omgdi:waypoint x="944.047373543984" y="281.1966800193576"/>
+        <omgdi:waypoint x="940.8209080770956" y="257.49997211992866"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-CBDA4F98-421B-4D6E-81DE-D853F31CAC93" id="BPMNEdge_sid-CBDA4F98-421B-4D6E-81DE-D853F31CAC93">
+        <omgdi:waypoint x="890.8209213513616" y="367.7499624271227"/>
+        <omgdi:waypoint x="867.9999874830248" y="367.74996232528645"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-8D71946E-3BB3-4C9E-BD52-FE3F5DA64417" id="BPMNEdge_sid-8D71946E-3BB3-4C9E-BD52-FE3F5DA64417">
+        <omgdi:waypoint x="1192.4999734665837" y="367.7499666046748"/>
+        <omgdi:waypoint x="1134.9999691545968" y="367.7499644895135"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-BFDF1477-67B9-47EF-B9F5-D58FDB07316A" id="BPMNEdge_sid-BFDF1477-67B9-47EF-B9F5-D58FDB07316A">
+        <omgdi:waypoint x="1825.0" y="838.3331655578694"/>
+        <omgdi:waypoint x="1892.5000006407445" y="838.3331655578694"/>
+        <omgdi:waypoint x="1892.5000006407445" y="923.3330728652145"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-9636172E-208B-4A1C-9DD9-1BDCA389033B" id="BPMNEdge_sid-9636172E-208B-4A1C-9DD9-1BDCA389033B">
+        <omgdi:waypoint x="320.0000039553849" y="396.66663599258317"/>
+        <omgdi:waypoint x="320.00000062074696" y="436.66663670622887"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2B3F469C-C149-432C-A698-25FB25BD8C90" id="BPMNEdge_sid-2B3F469C-C149-432C-A698-25FB25BD8C90">
+        <omgdi:waypoint x="748.3332482719452" y="645.0"/>
+        <omgdi:waypoint x="748.333248983137" y="539.9999631083393"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-CB4A91C4-CD81-427C-8663-1D8BFE6AE9B1" id="BPMNEdge_sid-CB4A91C4-CD81-427C-8663-1D8BFE6AE9B1">
+        <omgdi:waypoint x="1343.4999411805372" y="449.9999700486676"/>
+        <omgdi:waypoint x="1343.4999252733755" y="604.9999518990539"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-9453EAAD-3793-4384-A859-B3E833B1FBC0" id="BPMNEdge_sid-9453EAAD-3793-4384-A859-B3E833B1FBC0">
+        <omgdi:waypoint x="1231.124273725835" y="521.375632260259"/>
+        <omgdi:waypoint x="1274.9999810010197" y="524.6164520288391"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-82752475-B785-4AA8-9AC5-17EA19B22427" id="BPMNEdge_sid-82752475-B785-4AA8-9AC5-17EA19B22427">
+        <omgdi:waypoint x="1034.9999691545968" y="367.74996265024294"/>
+        <omgdi:waypoint x="990.8209213513616" y="367.74996265024294"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-8C246B02-3E6C-4D9B-94A5-D25137CA360A" id="BPMNEdge_sid-8C246B02-3E6C-4D9B-94A5-D25137CA360A">
+        <omgdi:waypoint x="134.9999902850916" y="943.3331927953475"/>
+        <omgdi:waypoint x="179.99998658895558" y="943.3331876447298"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4AF1BF8C-D2F8-4C65-B5C1-C285C9DE47F3" id="BPMNEdge_sid-4AF1BF8C-D2F8-4C65-B5C1-C285C9DE47F3">
+        <omgdi:waypoint x="1212.4999402098256" y="499.9999756124999"/>
+        <omgdi:waypoint x="1212.4999678127597" y="387.7499624222673"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7E1C9864-50D3-46B1-BFF7-10428A962204" id="BPMNEdge_sid-7E1C9864-50D3-46B1-BFF7-10428A962204">
+        <omgdi:waypoint x="503.5664263532768" y="336.6666437197074"/>
+        <omgdi:waypoint x="569.9999745190149" y="257.4999749362478"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-F64195D2-105B-4DE8-9CAB-05FA74FA67C4" id="BPMNEdge_sid-F64195D2-105B-4DE8-9CAB-05FA74FA67C4">
+        <omgdi:waypoint x="1694.9999747425322" y="1044.9999850243332"/>
+        <omgdi:waypoint x="1622.7516848826613" y="1044.9999850243332"/>
+        <omgdi:waypoint x="1486.4989421831715" y="951.4737347453944"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F" id="BPMNEdge_sid-6ECC86E7-F4EA-42CE-9C01-E8994B786D1F">
+        <omgdi:waypoint x="1833.5000033636275" y="644.9999501149493"/>
+        <omgdi:waypoint x="1765.0000323727706" y="644.9999411973869"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-30E62AF9-CB14-4171-BEC1-9CA3E260D184" id="BPMNEdge_sid-30E62AF9-CB14-4171-BEC1-9CA3E260D184">
+        <omgdi:waypoint x="1665.0000323727706" y="644.9999435630234"/>
+        <omgdi:waypoint x="1633.4181023897238" y="644.9999491686954"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75" id="BPMNEdge_sid-E24E1159-5E69-48C8-B2E7-46635A6FAD75">
+        <omgdi:waypoint x="1164.999978879902" y="519.9999810405703"/>
+        <omgdi:waypoint x="1192.4999396480016" y="519.9999750506762"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-AD00269A-8926-4C8D-8424-6665168A74FA" id="BPMNEdge_sid-AD00269A-8926-4C8D-8424-6665168A74FA">
+        <omgdi:waypoint x="1212.4999530613436" y="237.49997821450285"/>
+        <omgdi:waypoint x="1212.4999530613436" y="209.9999968707562"/>
+        <omgdi:waypoint x="853.9999874830248" y="209.9999968707562"/>
+        <omgdi:waypoint x="853.9999874830248" y="353.74996226281274"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-9249E9A9-B8EC-46A5-B4E6-B946AA314E83" id="BPMNEdge_sid-9249E9A9-B8EC-46A5-B4E6-B946AA314E83">
+        <omgdi:waypoint x="1094.9999673664577" y="943.3331577819423"/>
+        <omgdi:waypoint x="987.9999856948839" y="943.3331067603808"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-DF481A56-F236-490A-B7C2-010BD0AAC0F1" id="BPMNEdge_sid-DF481A56-F236-490A-B7C2-010BD0AAC0F1">
+        <omgdi:waypoint x="469.99999427174396" y="739.9999803304676"/>
+        <omgdi:waypoint x="469.9999906954657" y="799.9999660253535"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-EF3325C8-E8FB-4DC5-B61A-32CB08D970D7" id="BPMNEdge_sid-EF3325C8-E8FB-4DC5-B61A-32CB08D970D7">
+        <omgdi:waypoint x="559.9999833880993" y="739.9999409914045"/>
+        <omgdi:waypoint x="480.58822297396887" y="810.5881983038566"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-792CD16E-FFD2-4801-829B-DBCD5BBB6FBD" id="BPMNEdge_sid-792CD16E-FFD2-4801-829B-DBCD5BBB6FBD">
+        <omgdi:waypoint x="1304.9999805539849" y="943.333130049706"/>
+        <omgdi:waypoint x="1194.9999673664577" y="943.3331655068952"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C0F16642-90C3-485A-A2BA-D0C20BB3BDC0" id="BPMNEdge_sid-C0F16642-90C3-485A-A2BA-D0C20BB3BDC0">
+        <omgdi:waypoint x="1393.499921168301" y="644.999952280483"/>
+        <omgdi:waypoint x="1439.9999876692893" y="644.9999526352125"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F" id="BPMNEdge_sid-916F4BC1-5D52-4B0E-9DB9-361CDD24C84F">
+        <omgdi:waypoint x="114.99999750649256" y="799.9999650170881"/>
+        <omgdi:waypoint x="114.99999678139564" y="721.111070385917"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F" id="BPMNEdge_sid-07B0E341-EE40-4F6D-8EFF-6D5E84E4935F">
+        <omgdi:waypoint x="449.99999614502906" y="819.9999581916044"/>
+        <omgdi:waypoint x="414.9999671429415" y="819.9999465686924"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67" id="BPMNEdge_sid-FA9B3A9E-04D8-4122-9321-B057DDC35B67">
+        <omgdi:waypoint x="469.99999625856566" y="539.9999560415769"/>
+        <omgdi:waypoint x="469.99999655658894" y="659.9999803304676"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-9201B4C4-8EB4-4D67-9A46-E1C490A3E9F8" id="BPMNEdge_sid-9201B4C4-8EB4-4D67-9A46-E1C490A3E9F8">
+        <omgdi:waypoint x="939.9999874830248" y="519.9999954965377"/>
+        <omgdi:waypoint x="975.0" y="519.9999973509049"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-5C03ED65-47D1-422F-9953-D81B45142746" id="BPMNEdge_sid-5C03ED65-47D1-422F-9953-D81B45142746">
+        <omgdi:waypoint x="414.99997183680676" y="943.3331596273156"/>
+        <omgdi:waypoint x="450.00000910240664" y="943.3331821909993"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2" id="BPMNEdge_sid-C5D86195-AB9D-4BEB-9A0F-78AA445DBCC2">
+        <omgdi:waypoint x="114.99999686068712" y="839.999964003628"/>
+        <omgdi:waypoint x="114.99999340388779" y="923.3331959141436"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-65827AE1-FEF8-4FFE-B483-B7FF714EFACA" id="BPMNEdge_sid-65827AE1-FEF8-4FFE-B483-B7FF714EFACA">
+        <omgdi:waypoint x="248.3333079434121" y="701.1110416223615"/>
+        <omgdi:waypoint x="134.99999225546108" y="701.1110662276371"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-082C212C-DA93-4BD9-80F2-D740CDD9908D" id="BPMNEdge_sid-082C212C-DA93-4BD9-80F2-D740CDD9908D">
+        <omgdi:waypoint x="1075.0" y="519.9999939153585"/>
+        <omgdi:waypoint x="1124.9999856700501" y="519.9999878307186"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-524EAD35-881B-4430-BAC9-04F6E8627DBA" id="BPMNEdge_sid-524EAD35-881B-4430-BAC9-04F6E8627DBA">
+        <omgdi:waypoint x="470.00000104310874" y="416.6666437197074"/>
+        <omgdi:waypoint x="469.9999971445495" y="499.99995702690177"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B" id="BPMNEdge_sid-BCCAC119-806F-444D-8D47-C4555B1A9B2B">
+        <omgdi:waypoint x="470.1216998561589" y="963.2114914372471"/>
+        <omgdi:waypoint x="470.49999620889514" y="1025.000001296401"/>
+        <omgdi:waypoint x="114.99999257425497" y="1025.000001296401"/>
+        <omgdi:waypoint x="114.99999257425497" y="963.3331950845109"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-97D93E4E-58C5-4C68-B57A-54313845B213" id="BPMNEdge_sid-97D93E4E-58C5-4C68-B57A-54313845B213">
+        <omgdi:waypoint x="469.9999905907556" y="839.9999637458777"/>
+        <omgdi:waypoint x="469.99999512151226" y="923.3331961718937"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4932D2D7-AE13-4F7C-BE81-902994150884" id="BPMNEdge_sid-4932D2D7-AE13-4F7C-BE81-902994150884">
+        <omgdi:waypoint x="768.3332449392678" y="519.9999674231385"/>
+        <omgdi:waypoint x="839.9999874830248" y="519.999982399105"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4356A50C-EB37-4480-BA15-857D4263E0A0" id="BPMNEdge_sid-4356A50C-EB37-4480-BA15-857D4263E0A0">
+        <omgdi:waypoint x="114.99999456858465" y="499.9999641205471"/>
+        <omgdi:waypoint x="114.9999969799158" y="416.6666326431782"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339" id="BPMNEdge_sid-A0EC3B9A-7FD7-4A51-B4D7-75AC8B548339">
+        <omgdi:waypoint x="340.00000481472966" y="376.66663846787606"/>
+        <omgdi:waypoint x="420.00000291441756" y="376.66664169977224"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-A2F70185-BA3B-4295-9B5D-250FC0DDDD48" id="BPMNEdge_sid-A2F70185-BA3B-4295-9B5D-250FC0DDDD48">
+        <omgdi:waypoint x="114.99999899628015" y="219.99999720814094"/>
+        <omgdi:waypoint x="114.99999835665491" y="336.6666326431782"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-76102AEB-AC31-4EF6-9D90-3228308B7FAE" id="BPMNEdge_sid-76102AEB-AC31-4EF6-9D90-3228308B7FAE">
+        <omgdi:waypoint x="748.333248001015" y="903.3331819218208"/>
+        <omgdi:waypoint x="748.333248001015" y="725.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3B1FB502-2378-4F02-9EA8-9357BFF5120C" id="BPMNEdge_sid-3B1FB502-2378-4F02-9EA8-9357BFF5120C">
+        <omgdi:waypoint x="1454.639495410085" y="943.3331815184811"/>
+        <omgdi:waypoint x="1404.9999805539849" y="943.3331478479013"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D7C3B65A-88F1-4902-A511-9D6AE3996650" id="BPMNEdge_sid-D7C3B65A-88F1-4902-A511-9D6AE3996650">
+        <omgdi:waypoint x="1212.4999566295123" y="277.49997464633407"/>
+        <omgdi:waypoint x="1212.4999691627067" y="347.74997090855175"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-253346C5-5D72-474F-A549-64225EDBE08E" id="BPMNEdge_sid-253346C5-5D72-474F-A549-64225EDBE08E">
+        <omgdi:waypoint x="1908.4999996423717" y="644.9999575969741"/>
+        <omgdi:waypoint x="1873.4999989860112" y="644.9999544925656"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-415F8EF0-B566-4C42-ADD1-095D78A94B19" id="BPMNEdge_sid-415F8EF0-B566-4C42-ADD1-095D78A94B19">
+        <omgdi:waypoint x="1145.0604061915874" y="539.9395624414686"/>
+        <omgdi:waypoint x="1145.4999832361939" y="685.0"/>
+        <omgdi:waypoint x="798.333248001015" y="685.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-5437D33D-05ED-422E-A8BA-44ABEC03370E" id="BPMNEdge_sid-5437D33D-05ED-422E-A8BA-44ABEC03370E">
+        <omgdi:waypoint x="990.8209080770956" y="257.49997324157835"/>
+        <omgdi:waypoint x="1192.4999535100035" y="257.49997776584297"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7694FB4E-8FF8-4374-89D9-83101F9E3B96" id="BPMNEdge_sid-7694FB4E-8FF8-4374-89D9-83101F9E3B96">
+        <omgdi:waypoint x="1652.4999671538355" y="729.9999865889561"/>
+        <omgdi:waypoint x="1652.4999596361438" y="818.3331669619678"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4362FFB9-078E-412B-8219-64873AFF9FE2" id="BPMNEdge_sid-4362FFB9-078E-412B-8219-64873AFF9FE2">
+        <omgdi:waypoint x="126.77032944471664" y="511.77029899667906"/>
+        <omgdi:waypoint x="308.22967016785225" y="384.8963022050505"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD" id="BPMNEdge_sid-EE68FF54-0F3F-4293-A7A4-8CC74E1172FD">
+        <omgdi:waypoint x="739.4672708877963" y="531.1339850129987"/>
+        <omgdi:waypoint x="636.851811345796" y="659.9999409914047"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-660BA1EB-4AF5-4E01-849B-F0900686CF8B" id="BPMNEdge_sid-660BA1EB-4AF5-4E01-849B-F0900686CF8B">
+        <omgdi:waypoint x="1262.4999352917098" y="838.3331652598462"/>
+        <omgdi:waypoint x="1632.4999579340222" y="838.3331652598462"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C72F516E-78DD-45EE-ABC0-821BB5827FB3" id="BPMNEdge_sid-C72F516E-78DD-45EE-ABC0-821BB5827FB3">
+        <omgdi:waypoint x="1613.4181117382923" y="624.9999585172637"/>
+        <omgdi:waypoint x="1613.4181494295035" y="494.99994273980917"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-E5794786-47BD-4D58-A47A-A8E332170C66" id="BPMNEdge_sid-E5794786-47BD-4D58-A47A-A8E332170C66">
+        <omgdi:waypoint x="128.24351982554774" y="694.3545937977239"/>
+        <omgdi:waypoint x="456.75647298091565" y="526.756432863268"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-06551E78-86C8-4734-AC24-FF3456F2C055" id="BPMNEdge_sid-06551E78-86C8-4734-AC24-FF3456F2C055">
+        <omgdi:waypoint x="739.2283938677307" y="509.10481849467567"/>
+        <omgdi:waypoint x="697.9774411049444" y="459.7426826883961"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502" id="BPMNEdge_sid-381F9E6C-E3DC-4FCF-B56D-A52E64788502">
+        <omgdi:waypoint x="134.99999357011419" y="519.9999631220766"/>
+        <omgdi:waypoint x="449.9999966286461" y="519.9999565109985"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7D1A90CC-DCFD-4C14-93E1-80B343066F77" id="BPMNEdge_sid-7D1A90CC-DCFD-4C14-93E1-80B343066F77">
+        <omgdi:waypoint x="279.99998658895555" y="943.3331617261501"/>
+        <omgdi:waypoint x="314.99997183680676" y="943.3331475891866"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB" id="BPMNEdge_sid-8DA5697B-5CD2-4BAC-8C79-3B95E3CBC2BB">
+        <omgdi:waypoint x="1872.5000170571145" y="943.3330892815845"/>
+        <omgdi:waypoint x="1809.9999490380299" y="943.3331405828387"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567" id="BPMNEdge_sid-518A1657-ECD1-4E30-BAFF-2BCFA8197567">
+        <omgdi:waypoint x="489.99999526307283" y="943.3331941386886"/>
+        <omgdi:waypoint x="698.333248001015" y="943.3331842863765"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-88E761F7-0070-4BDE-AC4B-BE626CCAC024" id="BPMNEdge_sid-88E761F7-0070-4BDE-AC4B-BE626CCAC024">
+        <omgdi:waypoint x="179.9999892711644" y="819.9999516943254"/>
+        <omgdi:waypoint x="134.9999936475709" y="819.9999607905118"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4C882CB6-370A-4FB8-81F2-4E3961C0DA2D" id="BPMNEdge_sid-4C882CB6-370A-4FB8-81F2-4E3961C0DA2D">
+        <omgdi:waypoint x="320.00000448009393" y="356.6666388025118"/>
+        <omgdi:waypoint x="319.9999966722615" y="219.99999617518125"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7" id="BPMNEdge_sid-2ABA6C2F-D5B2-4BFC-91FA-FD7E8F6447F7">
+        <omgdi:waypoint x="114.99999630960106" y="681.1110708577115"/>
+        <omgdi:waypoint x="114.99999427783239" y="539.9999632538604"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3B5E2678-CDFD-47A5-8C93-A9EAF382DA22" id="BPMNEdge_sid-3B5E2678-CDFD-47A5-8C93-A9EAF382DA22">
+        <omgdi:waypoint x="1672.4999578853653" y="838.333165308503"/>
+        <omgdi:waypoint x="1725.0" y="838.3331654362273"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-697AF60E-689A-48CA-A8C0-3DA9298F8360" id="BPMNEdge_sid-697AF60E-689A-48CA-A8C0-3DA9298F8360">
+        <omgdi:waypoint x="1842.335528699864" y="636.1644247787129"/>
+        <omgdi:waypoint x="1663.4181610267979" y="494.5697848798862"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-700C56B5-8CB5-480C-92F5-2771057A2A72" id="BPMNEdge_sid-700C56B5-8CB5-480C-92F5-2771057A2A72">
+        <omgdi:waypoint x="314.9999671429415" y="819.9999342693263"/>
+        <omgdi:waypoint x="279.9999892711644" y="819.9999372826707"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-BFCFDB92-5374-4107-86E0-AB535AE2F68E" id="BPMNEdge_sid-BFCFDB92-5374-4107-86E0-AB535AE2F68E">
+        <omgdi:waypoint x="1709.9999490380299" y="943.333183982343"/>
+        <omgdi:waypoint x="1494.639480900637" y="943.3331941410927"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-64707C75-29F5-4893-B728-7D8CCA4480FC" id="BPMNEdge_sid-64707C75-29F5-4893-B728-7D8CCA4480FC">
+        <omgdi:waypoint x="1958.4999992423932" y="474.9999628258749"/>
+        <omgdi:waypoint x="1958.499999548259" y="604.9999620318433"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
