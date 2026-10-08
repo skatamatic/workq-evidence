@@ -1,0 +1,1511 @@
+diff --git a/docs/workflow-scenario-seams.md b/docs/workflow-scenario-seams.md
+index 04ed1ec..b072c46 100644
+--- a/docs/workflow-scenario-seams.md
++++ b/docs/workflow-scenario-seams.md
+@@ -106,21 +106,37 @@ The listener stages an immutable request in Flowable's command context and place
+ a random, one-use capability in transient local `htmlText`. Native Flowable still
+ executes its unchanged mail behavior and field evaluation. The provider consumes
+ the capability only in that command, validates tenant and all native envelope
+-fields (rejecting attachments, headers and plain-text modes), then invokes the
+-existing WorkflowMailService/JavaMailSender template rendering and delivery
+-boundary. The token is never mail content. Unrelated/unconfigured native mail,
+-forged projections, replay and asynchronous delivery outside the staging command
++fields (rejecting attachments, headers and plain-text modes), then enqueues the validated request in the workflow transaction. Rendering and
++transport preflight use the existing WorkflowMailService/JavaMailSender boundary;
++actual delivery occurs only after commit. The token is never mail content. Unrelated/unconfigured native mail,
++forged projections, replay and native enqueue outside the staging command
+ fail closed; there is no engine SMTP fallback. Missing rule, identity/email,
+ template, or transport refuses before any send. The production template is the
+ preserved `pp-feedback-received.ftl`; trusted `insight.workflow.web-base-url`
+ supplies links, and only bounded text display fields enter its model.
+ 
+-Delivery is synchronous, as in WorkflowMailService: rendering/delivery failure
+-aborts engine/JPA state. A successfully delivered email cannot be rolled back if
+-a later operation or commit fails, and a retried start can send again. This slice
+-does not implement an outbox, retries, after-commit suppression, or other mail
+-modes. Tests capture delivery rather than connect to SMTP and retain the original
+-red Feedback evidence alongside passing acceptance.
++A PostgreSQL notification outbox uses the stable process-instance/activity/task
++identity as its primary key. Enqueue joins `insightTransactionManager`; routing
++failure or rollback leaves neither a committed event nor external delivery.
++Rendering, address, template and transport availability are checked before
++commit. After commit, a separate transaction locks the event, sends through
++WorkflowMailService and records delivery. Repeated submissions with identical
++payloads and repeated dispatch of a committed delivered event are idempotent;
++conflicting payloads refuse. Failed sends remain durable and retry on the
++configured scheduler (`insight.workflow.mail.retry-delay-ms`, default 30 seconds).
++Retry scheduling uses its own managed scheduler and registers only this task;
++it does not enable unrelated `@Scheduled` user-cache jobs. The due selector orders by persisted next-attempt time, with batches of 50;
++failed attempts move 30 seconds into the future so poison rows cannot monopolize
++the next batch. Dispatchers serialize on the event row. Distinct successfully
++committed process starts are distinct events, not client-request deduplication.
++
++SMTP/JavaMailSender provides no transactional acknowledgement or idempotency key.
++A crash after SMTP acceptance but before the delivered flag commits can cause a
++retry to send again. Delivery is **at least once**, never claimed exactly once.
++Storage/transport failures after commit leave the process committed and the event
++pending; they do not tell callers to repeat a committed start. Other mail modes
++remain unsupported. Tests replace only the transport, preserve archive bytes,
++and retain red regression evidence alongside passing acceptance.
+ 
+ `insightLdapListener.setLdapProcessVariables(task)` supports MDCR's
+ `originate-mdcr` task only. It resolves the persisted Insight user by the
+@@ -145,24 +161,21 @@ recognizes Boolean false as present; dotted-variable paths are unsupported.
+ 
+ Feedback's `local-review-feedback` task uses a persisted exact-key contract:
+ 
+-- A non-deleted `ReferenceDataLookup` of type `workflow-task-routing`, key
+-  `SafranFeedbackWorkflow/local-review-feedback`, contains textual metadata
+-  `processKey`, `taskKey`, `lookupVariable`, `lookupType`, and `taskName`.
+-- Both process/task keys must match the deployed task. The supported lookup
+-  variable is `submitting_site`; its nonblank String value selects an exact
+-  key from the configured lookupType, distinct from `workflow-task-routing`.
+-- That non-deleted lookup row contains `candidateGroup`, the stable name of an
+-  active functional Insight group. Group resolution is separate from lookup.
+-  The resolved numeric Insight group ID replaces the archive candidate IDs,
+-  is exposed as `candidate_group`, and is added as a task and process participant
+-  when the archive invokes `assignCandidateGroupAndInvolveGroup`.
+-- `insightRenameTaskListener.renameTask` uses the explicit persisted `taskName`
+-  (maximum 255 characters). This is a supported display-name subset, not the
+-  legacy arbitrary variable-formatting grammar. No bundled legacy JSON supplies
+-  production rules or customer names.
++- Private typed `workflow_task_routing_rule` rows are uniquely keyed by process
++  definition key, task key and exact `submitting_site` value. Each row contains
++  an explicit task name, enabled flag and persisted candidate-group ID.
++- Only controlled database migration/configuration provisions these rows. There
++  is no public mutation endpoint and no role inferred from the unauthenticated
++  user or reference-data APIs. Generic reference-data metadata is never read as
++  assignment authority, including forged SYSTEM-account writes.
++- The selected group must exist, be active and be a functional group. Its ID
++  replaces archive candidates, is exposed as `candidate_group` and is added as
++  task/process participant where the archive requests it.
++- `insightRenameTaskListener.renameTask` uses the typed nonblank name (maximum
++  255 characters), not the legacy arbitrary formatting grammar.
+ 
+ Only this first Feedback task and the default tenant are supported. Missing rule,
+-lookup match, group, inactive/deleted data, or mismatched keys fails closed in the
++site match, group, disabled/invalid data, or mismatched keys fails closed in the
+ same engine/JPA transaction. No default group fallback hides configuration errors.
+ The broader Administration PDC-005 configured-table/dropdown/query contract
+ remains **Discovery required**, and other routing methods/tasks remain unsupported.
+diff --git a/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailService.java b/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailService.java
+index 035f3c6..d1f3b62 100644
+--- a/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailService.java
++++ b/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailService.java
+@@ -8,6 +8,11 @@ import java.util.Map;
+ public interface WorkflowMailService {
+     void send(Request request);
+ 
++    /** Validate/render without transport delivery. Unsupported implementations fail closed. */
++    default void validate(Request request) {
++        throw new IllegalStateException("Workflow transport does not support preflight validation");
++    }
++
+     record Request(String template, String from, List<String> to, List<String> cc,
+                    List<String> bcc, String subject, Map<String, Object> variables) {
+         public Request {
+diff --git a/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutbox.java b/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutbox.java
+new file mode 100644
+index 0000000..3731194
+--- /dev/null
++++ b/insight-api/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutbox.java
+@@ -0,0 +1,6 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++/** Durable notification submission; delivery is forbidden before the workflow commits. */
++public interface WorkflowNotificationOutbox {
++    void enqueue(String eventKey, WorkflowMailService.Request request);
++}
+diff --git a/insight-config/src/main/java/com/flatirons/insight/conf/FlowableConfig.java b/insight-config/src/main/java/com/flatirons/insight/conf/FlowableConfig.java
+index f871785..b292e30 100644
+--- a/insight-config/src/main/java/com/flatirons/insight/conf/FlowableConfig.java
++++ b/insight-config/src/main/java/com/flatirons/insight/conf/FlowableConfig.java
+@@ -59,7 +59,7 @@ public class FlowableConfig {
+             DataSource dataSource,
+             @Qualifier("insightTransactionManager") PlatformTransactionManager txManager,
+             SpringLiquibase liquibase,
+-            @Lazy com.flatirons.insight.service.runtime.WorkflowMailService workflowMailService,
++            @Lazy com.flatirons.insight.service.runtime.WorkflowNotificationOutbox notificationOutbox,
+             SpringIdmEngineConfigurator idmEngineConfigurator,
+             @Lazy @Qualifier("insightEventListener") FlowableEventListener insightEventListener,
+             @Lazy @Qualifier("searchEventListener") FlowableEventListener searchEventListener) {
+@@ -70,7 +70,7 @@ public class FlowableConfig {
+         config.setDatabaseSchemaUpdate(dbSchemaUpdate);
+         config.setDatabaseSchema(databaseSchema);
+         config.setHistory(historyLevel);
+-        config.setMailClientProvider(new WorkflowMailClientProvider(workflowMailService));
++        config.setMailClientProvider(new WorkflowMailClientProvider(notificationOutbox));
+         config.setPreBpmnParseHandlers(List.of(new LegacyInitiatorAssignmentParseHandler()));
+         config.setAsyncExecutorActivate(asyncExecutorActivate);
+         config.addConfigurator(idmEngineConfigurator);
+diff --git a/insight-config/src/main/java/com/flatirons/insight/conf/WorkflowMailClientProvider.java b/insight-config/src/main/java/com/flatirons/insight/conf/WorkflowMailClientProvider.java
+index 985fc45..357355f 100644
+--- a/insight-config/src/main/java/com/flatirons/insight/conf/WorkflowMailClientProvider.java
++++ b/insight-config/src/main/java/com/flatirons/insight/conf/WorkflowMailClientProvider.java
+@@ -18,11 +18,11 @@ import org.flowable.mail.common.impl.SimpleMailResponse;
+ /** Native mail consumes authority staged by the notification listener in this engine command only. */
+ public class WorkflowMailClientProvider implements MailClientProvider {
+     private static final String GRANTS = WorkflowMailClientProvider.class.getName();
+-    private final WorkflowMailService mail;
++    private final com.flatirons.insight.service.runtime.WorkflowNotificationOutbox outbox;
+ 
+-    public WorkflowMailClientProvider(WorkflowMailService mail) { this.mail = mail; }
++    public WorkflowMailClientProvider(com.flatirons.insight.service.runtime.WorkflowNotificationOutbox outbox) { this.outbox = outbox; }
+ 
+-    private record Grant(String tenant, WorkflowMailService.Request request) {}
++    private record Grant(String tenant, String eventKey, WorkflowMailService.Request request) {}
+ 
+     @SuppressWarnings("unchecked")
+     private static Map<String, Grant> grants() {
+@@ -36,9 +36,9 @@ public class WorkflowMailClientProvider implements MailClientProvider {
+         return grants;
+     }
+ 
+-    public static String stage(String tenant, WorkflowMailService.Request request) {
++    public static String stage(String tenant, String eventKey, WorkflowMailService.Request request) {
+         String token = "insight-notification:" + UUID.randomUUID();
+-        grants().put(token, new Grant(normalize(tenant), request));
++        grants().put(token, new Grant(normalize(tenant), eventKey, request));
+         return token;
+     }
+ 
+@@ -72,8 +72,8 @@ public class WorkflowMailClientProvider implements MailClientProvider {
+             if (Context.getCommandContext() != stagingCommand || !sent.compareAndSet(false, true)) {
+                 throw new IllegalStateException("Native notification is valid once in its staging command");
+             }
+-            // Synchronous send: errors abort the engine transaction; external delivery cannot be rolled back.
+-            mail.send(request);
++            // Persist in the engine transaction; transport delivery is deferred until commit.
++            outbox.enqueue(grant.eventKey(), request);
+             return new SimpleMailResponse(null);
+         };
+     }
+diff --git a/insight-config/src/test/java/com/flatirons/insight/conf/LegacyInitiatorAssignmentParseHandlerTest.java b/insight-config/src/test/java/com/flatirons/insight/conf/LegacyInitiatorAssignmentParseHandlerTest.java
+index 5b1bf9f..7e494ce 100644
+--- a/insight-config/src/test/java/com/flatirons/insight/conf/LegacyInitiatorAssignmentParseHandlerTest.java
++++ b/insight-config/src/test/java/com/flatirons/insight/conf/LegacyInitiatorAssignmentParseHandlerTest.java
+@@ -34,7 +34,7 @@ class LegacyInitiatorAssignmentParseHandlerTest {
+     void productionEngineConfigurationRegistersCompatibilityHandler() {
+         FlowableConfig factory = new FlowableConfig();
+         org.flowable.spring.SpringProcessEngineConfiguration config = factory.processEngineConfiguration(
+-                null, null, null, mock(com.flatirons.insight.service.runtime.WorkflowMailService.class), mock(org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator.class),
++                null, null, null, mock(com.flatirons.insight.service.runtime.WorkflowNotificationOutbox.class), mock(org.flowable.idm.spring.configurator.SpringIdmEngineConfigurator.class),
+                 mock(org.flowable.common.engine.api.delegate.event.FlowableEventListener.class),
+                 mock(org.flowable.common.engine.api.delegate.event.FlowableEventListener.class));
+         assertThat(config.getMailClientProvider()).isInstanceOf(WorkflowMailClientProvider.class);
+diff --git a/insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowNotificationOutboxEntity.java b/insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowNotificationOutboxEntity.java
+new file mode 100644
+index 0000000..2f59772
+--- /dev/null
++++ b/insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowNotificationOutboxEntity.java
+@@ -0,0 +1,19 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.domain;
++import jakarta.persistence.*;
++@Entity
++@Table(name="workflow_notification_outbox")
++public class WorkflowNotificationOutboxEntity {
++    @Id @Column(name="event_key", length=255) private String eventKey;
++    @Column(nullable=false, columnDefinition="text") private String payload;
++    @Column(nullable=false) private boolean delivered;
++    @Column(nullable=false) private int attempts;
++    @Column(name="next_attempt_at", nullable=false) private java.time.Instant nextAttemptAt;
++    public String getEventKey() { return eventKey; }
++    public String getPayload() { return payload; }
++    public boolean isDelivered() { return delivered; }
++    public int getAttempts() { return attempts; }
++    public java.time.Instant getNextAttemptAt() { return nextAttemptAt; }
++    public void attempted(java.time.Instant next) { attempts++; nextAttemptAt=next; }
++    public void delivered() { delivered=true; }
++}
+diff --git a/insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowTaskRoutingRuleEntity.java b/insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowTaskRoutingRuleEntity.java
+new file mode 100644
+index 0000000..abc4bf1
+--- /dev/null
++++ b/insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowTaskRoutingRuleEntity.java
+@@ -0,0 +1,30 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.domain;
++import jakarta.persistence.*;
++/** Assignment authority provisioned by controlled configuration only; no public mutation API. */
++@Entity
++@Table(name="workflow_task_routing_rule", uniqueConstraints=@UniqueConstraint(name="uc_workflow_routing_scope", columnNames={"process_definition_key","task_key","site_key"}))
++public class WorkflowTaskRoutingRuleEntity {
++ @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="workflow_routing_rule_seq")
++ @SequenceGenerator(name="workflow_routing_rule_seq", sequenceName="workflow_routing_rule_seq", allocationSize=1)
++ private Long id;
++ public Long getId() { return id; }
++ @Column(name="process_definition_key", nullable=false) private String processDefinitionKey;
++ public String getProcessDefinitionKey() { return processDefinitionKey; }
++ public void setProcessDefinitionKey(String value) { processDefinitionKey=value; }
++ @Column(name="task_key", nullable=false) private String taskKey;
++ public String getTaskKey() { return taskKey; }
++ public void setTaskKey(String value) { taskKey=value; }
++ @Column(name="site_key", nullable=false) private String siteKey;
++ public String getSiteKey() { return siteKey; }
++ public void setSiteKey(String value) { siteKey=value; }
++ @Column(name="task_name", nullable=false) private String taskName;
++ public String getTaskName() { return taskName; }
++ public void setTaskName(String value) { taskName=value; }
++ @Column(name="candidate_group_id", nullable=false) private Long candidateGroupId;
++ public Long getCandidateGroupId() { return candidateGroupId; }
++ public void setCandidateGroupId(Long value) { candidateGroupId=value; }
++ @Column(name="enabled", nullable=false) private Boolean enabled = true;
++ public Boolean getEnabled() { return enabled; }
++ public void setEnabled(Boolean value) { enabled=value; }
++}
+diff --git a/insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowNotificationOutboxRepository.java b/insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowNotificationOutboxRepository.java
+new file mode 100644
+index 0000000..6d122aa
+--- /dev/null
++++ b/insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowNotificationOutboxRepository.java
+@@ -0,0 +1,17 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.repository;
++import java.util.List;
++import java.util.Optional;
++import com.flatirons.insight.domain.WorkflowNotificationOutboxEntity;
++import jakarta.persistence.LockModeType;
++import org.springframework.data.jpa.repository.*;
++import org.springframework.data.repository.query.Param;
++public interface WorkflowNotificationOutboxRepository extends JpaRepository<WorkflowNotificationOutboxEntity,String> {
++    @Modifying
++    @Query(value="insert into workflow_notification_outbox(event_key,payload,delivered,attempts,next_attempt_at) values (:eventKey,:payload,false,0,CURRENT_TIMESTAMP) on conflict (event_key) do nothing", nativeQuery=true)
++    int insertIfAbsent(@Param("eventKey") String eventKey, @Param("payload") String payload);
++    @Lock(LockModeType.PESSIMISTIC_WRITE)
++    @Query("select e from WorkflowNotificationOutboxEntity e where e.eventKey=:eventKey")
++    Optional<WorkflowNotificationOutboxEntity> lockEvent(@Param("eventKey") String eventKey);
++    List<WorkflowNotificationOutboxEntity> findTop50ByDeliveredFalseAndNextAttemptAtLessThanEqualOrderByNextAttemptAtAscEventKeyAsc(java.time.Instant due);
++}
+diff --git a/insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowTaskRoutingRuleRepository.java b/insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowTaskRoutingRuleRepository.java
+new file mode 100644
+index 0000000..c0b012c
+--- /dev/null
++++ b/insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowTaskRoutingRuleRepository.java
+@@ -0,0 +1,8 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.repository;
++import java.util.Optional;
++import com.flatirons.insight.domain.WorkflowTaskRoutingRuleEntity;
++import org.springframework.data.jpa.repository.JpaRepository;
++public interface WorkflowTaskRoutingRuleRepository extends JpaRepository<WorkflowTaskRoutingRuleEntity,Long> {
++ Optional<WorkflowTaskRoutingRuleEntity> findByProcessDefinitionKeyAndTaskKeyAndSiteKey(String process, String task, String site);
++}
+diff --git a/insight-dao/src/main/resources/changelog/master.xml b/insight-dao/src/main/resources/changelog/master.xml
+index c7f748b..8b95f67 100644
+--- a/insight-dao/src/main/resources/changelog/master.xml
++++ b/insight-dao/src/main/resources/changelog/master.xml
+@@ -26,4 +26,5 @@
+     <include file="changelog/postgresql/process/workflow-identifiers-001.xml"/>
+     <include file="changelog/postgresql/process/archive-publication-001.xml"/>
+     <include file="changelog/postgresql/process/workflow-notification-rule-001.xml"/>
++    <include file="changelog/postgresql/process/workflow-durable-boundaries-001.xml"/>
+ </databaseChangeLog>
+diff --git a/insight-dao/src/main/resources/changelog/postgresql/process/workflow-durable-boundaries-001.xml b/insight-dao/src/main/resources/changelog/postgresql/process/workflow-durable-boundaries-001.xml
+new file mode 100644
+index 0000000..f6b46d6
+--- /dev/null
++++ b/insight-dao/src/main/resources/changelog/postgresql/process/workflow-durable-boundaries-001.xml
+@@ -0,0 +1,24 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
++<changeSet id="001-workflow-private-routing-outbox" author="Flatirons">
++<createSequence sequenceName="workflow_routing_rule_seq"/>
++<createTable tableName="workflow_task_routing_rule">
++<column name="id" type="BIGINT"><constraints primaryKey="true" nullable="false"/></column>
++<column name="process_definition_key" type="VARCHAR(255)"><constraints nullable="false"/></column>
++<column name="task_key" type="VARCHAR(255)"><constraints nullable="false"/></column>
++<column name="site_key" type="VARCHAR(255)"><constraints nullable="false"/></column>
++<column name="task_name" type="VARCHAR(255)"><constraints nullable="false"/></column>
++<column name="candidate_group_id" type="BIGINT"><constraints nullable="false"/></column>
++<column name="enabled" type="BOOLEAN"><constraints nullable="false"/></column>
++</createTable>
++<addUniqueConstraint tableName="workflow_task_routing_rule" columnNames="process_definition_key,task_key,site_key" constraintName="uc_workflow_routing_scope"/>
++<createTable tableName="workflow_notification_outbox">
++<column name="event_key" type="VARCHAR(255)"><constraints primaryKey="true" nullable="false"/></column>
++<column name="payload" type="TEXT"><constraints nullable="false"/></column>
++<column name="delivered" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
++<column name="attempts" type="INT" defaultValueNumeric="0"><constraints nullable="false"/></column>
++<column name="next_attempt_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
++</createTable>
++<createIndex tableName="workflow_notification_outbox" indexName="idx_workflow_notification_due"><column name="delivered"/><column name="next_attempt_at"/></createIndex>
++<rollback><dropTable tableName="workflow_notification_outbox"/><dropTable tableName="workflow_task_routing_rule"/><dropSequence sequenceName="workflow_routing_rule_seq"/></rollback>
++</changeSet></databaseChangeLog>
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/ReferenceDataRoutingIsolationTest.java b/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/ReferenceDataRoutingIsolationTest.java
+new file mode 100644
+index 0000000..e78d723
+--- /dev/null
++++ b/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/ReferenceDataRoutingIsolationTest.java
+@@ -0,0 +1,64 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.rest.internal.form;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.domain.*;
++import com.flatirons.insight.model.enums.status.GroupStatus;
++import com.flatirons.insight.model.enums.type.GroupType;
++import com.flatirons.insight.repository.*;
++import com.flatirons.insight.service.runtime.*;
++import org.flowable.engine.RepositoryService;
++import org.flowable.engine.RuntimeService;
++import org.flowable.engine.repository.ProcessDefinition;
++import org.flowable.task.service.delegate.DelegateTask;
++import org.junit.jupiter.api.Test;
++import org.springframework.http.MediaType;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.springframework.test.web.servlet.setup.MockMvcBuilders;
++import java.util.Optional;
++import java.util.Set;
++import static org.mockito.Mockito.*;
++import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
++import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
++import static org.assertj.core.api.Assertions.assertThat;
++
++class ReferenceDataRoutingIsolationTest {
++    @Test void anonymousHttpPostPutDeleteCannotReplacePrivateRoutingAuthority() throws Exception {
++        SecurityContextHolder.clearContext();
++        var generic=mock(ReferenceDataLookupRepository.class);
++        when(generic.save(any())).thenAnswer(invocation -> {
++            ReferenceDataLookupEntity entity=invocation.getArgument(0); entity.setId(1L); return entity;
++        });
++        var existing=new ReferenceDataLookupEntity(); existing.setId(1L); existing.setLookupType("feedback-sites");
++        existing.setKeyValue("Paris"); existing.setMetadata("{}");
++        when(generic.findById(1L)).thenReturn(Optional.of(existing));
++        var controller=new ReferenceDataController(new ReferenceDataServiceImpl(generic,new ObjectMapper()),
++                mock(IReferenceDataLookupDefinitionService.class),new ObjectMapper());
++        var mvc=MockMvcBuilders.standaloneSetup(controller).build();
++        var trusted=mock(WorkflowTaskRoutingRuleRepository.class);
++        var rule=new WorkflowTaskRoutingRuleEntity(); rule.setTaskName("Review"); rule.setCandidateGroupId(42L);
++        when(trusted.findByProcessDefinitionKeyAndTaskKeyAndSiteKey("SafranFeedbackWorkflow","local-review-feedback","Paris"))
++                .thenReturn(Optional.of(rule));
++        var groups=mock(GroupRepository.class);
++        var group=new GroupEntity(); group.setId(42L); group.setGroupType(GroupType.GROUP); group.setStatus(GroupStatus.ACTIVE);
++        when(groups.findById(42L)).thenReturn(Optional.of(group));
++        var definitions=mock(RepositoryService.class); var definition=mock(ProcessDefinition.class);
++        when(definitions.getProcessDefinition("definition")).thenReturn(definition);
++        when(definition.getKey()).thenReturn("SafranFeedbackWorkflow");
++        var routing=new WorkflowTaskRoutingService(trusted,groups,definitions,mock(RuntimeService.class));
++        String payload="""
++                {"type":"feedback-sites","recordKey":"Paris","createdBy":"SYSTEM",
++                 "referenceDataLookupValues":[{"field":"candidateGroup","value":"Attacker"}]}
++                """;
++        mvc.perform(post("/api/internal/reference-data").contentType(MediaType.APPLICATION_JSON).content(payload)).andExpect(status().isCreated());
++        mvc.perform(put("/api/internal/reference-data/1").contentType(MediaType.APPLICATION_JSON).content(payload)).andExpect(status().isOk());
++        mvc.perform(delete("/api/internal/reference-data/1")).andExpect(status().isNoContent());
++        var task=mock(DelegateTask.class); when(task.getProcessDefinitionId()).thenReturn("definition");
++        when(task.getTaskDefinitionKey()).thenReturn("local-review-feedback"); when(task.getVariable("submitting_site")).thenReturn("Paris");
++        when(task.getCandidates()).thenReturn(Set.of()); routing.assign(task,false);
++        verify(task).addCandidateGroup("42"); verify(task).setVariable("candidate_group","42");
++        verify(trusted,never()).save(any()); verify(trusted,never()).delete(any());
++        assertThat(rule.getCandidateGroupId()).isEqualTo(42L);
++        assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailServiceImpl.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailServiceImpl.java
+index 4be0eeb..8e3136b 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailServiceImpl.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowMailServiceImpl.java
+@@ -42,8 +42,19 @@ public class WorkflowMailServiceImpl implements WorkflowMailService {
+         templates.setAPIBuiltinEnabled(false);
+     }
+ 
++    @Override
++    public void validate(Request request) { render(request); }
++
+     @Override
+     public void send(Request request) {
++        MimeMessage message=render(request);
++        try { senders.getObject().send(message); }
++        catch (RuntimeException failure) {
++            throw new InternalServerErrorException("Unable to render or deliver workflow mail '" + request.template() + "'", failure);
++        }
++    }
++
++    private MimeMessage render(Request request) {
+         if (request.template() == null || !request.template().matches("[A-Za-z0-9_-]+\\.ftl")) {
+             throw new IllegalArgumentException("Mail template must be a simple .ftl filename");
+         }
+@@ -68,7 +79,7 @@ public class WorkflowMailServiceImpl implements WorkflowMailService {
+             helper.setBcc(request.bcc().toArray(String[]::new));
+             helper.setSubject(request.subject());
+             helper.setText(html.toString(), true);
+-            sender.send(message);
++            return message;
+         } catch (Exception failure) {
+             throw new InternalServerErrorException("Unable to render or deliver workflow mail '" + request.template() + "'", failure);
+         }
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationDelivery.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationDelivery.java
+new file mode 100644
+index 0000000..2b8b4ea
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationDelivery.java
+@@ -0,0 +1,7 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++/** Internal delivery/recovery operations; intentionally no public HTTP endpoint. */
++public interface WorkflowNotificationDelivery {
++    void dispatch(String eventKey);
++    void retryUnsent();
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationDeliveryConfiguration.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationDeliveryConfiguration.java
+new file mode 100644
+index 0000000..0f30970
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationDeliveryConfiguration.java
+@@ -0,0 +1,36 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import java.time.Duration;
++import java.time.Instant;
++import org.springframework.beans.factory.SmartInitializingSingleton;
++import org.springframework.beans.factory.annotation.Qualifier;
++import org.springframework.beans.factory.annotation.Value;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
++
++/** Registers only outbox retries; does not enable annotation scheduling for unrelated jobs. */
++@Configuration(proxyBeanMethods=false)
++public class WorkflowNotificationDeliveryConfiguration {
++    private WorkflowNotificationDeliveryConfiguration() { }
++
++    @Bean(name="workflowNotificationRetryScheduler", destroyMethod="shutdown")
++    ThreadPoolTaskScheduler workflowNotificationRetryScheduler() {
++        var scheduler=new ThreadPoolTaskScheduler();
++        scheduler.setPoolSize(1);
++        scheduler.setThreadNamePrefix("workflow-notification-retry-");
++        scheduler.setRemoveOnCancelPolicy(true);
++        return scheduler;
++    }
++
++    @Bean
++    SmartInitializingSingleton workflowNotificationRetryRegistration(
++            @Qualifier("workflowNotificationRetryScheduler") ThreadPoolTaskScheduler scheduler,
++            WorkflowNotificationDelivery delivery,
++            @Value("${insight.workflow.mail.retry-delay-ms:30000}") long delayMillis) {
++        if (delayMillis<=0) { throw new IllegalArgumentException("Notification retry delay must be positive"); }
++        return () -> scheduler.scheduleWithFixedDelay(delivery::retryUnsent,
++                Instant.now().plusMillis(delayMillis), Duration.ofMillis(delayMillis));
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java
+new file mode 100644
+index 0000000..8f9bcac
+--- /dev/null
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxService.java
+@@ -0,0 +1,83 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.fasterxml.jackson.databind.SerializationFeature;
++import com.flatirons.insight.repository.WorkflowNotificationOutboxRepository;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Qualifier;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.PlatformTransactionManager;
++import org.springframework.transaction.TransactionDefinition;
++import org.springframework.transaction.annotation.Transactional;
++import org.springframework.transaction.support.TransactionSynchronization;
++import org.springframework.transaction.support.TransactionSynchronizationManager;
++import org.springframework.transaction.support.TransactionTemplate;
++
++/** PostgreSQL durable at-least-once delivery. SMTP acceptance followed by a crash can duplicate delivery. */
++@Service
++public class WorkflowNotificationOutboxService implements WorkflowNotificationOutbox, WorkflowNotificationDelivery {
++    private static final Logger LOG = LoggerFactory.getLogger(WorkflowNotificationOutboxService.class);
++    private final WorkflowNotificationOutboxRepository events;
++    private final WorkflowMailService mail;
++    private final ObjectMapper mapper;
++    private final TransactionTemplate deliveryTransaction;
++
++    public WorkflowNotificationOutboxService(WorkflowNotificationOutboxRepository events, WorkflowMailService mail,
++            ObjectMapper mapper, @Qualifier("insightTransactionManager") PlatformTransactionManager transactions) {
++        this.events=events; this.mail=mail;
++        this.mapper=mapper.copy().enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
++        deliveryTransaction=new TransactionTemplate(transactions);
++        deliveryTransaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
++    }
++
++    @Override
++    @Transactional(transactionManager="insightTransactionManager", propagation=org.springframework.transaction.annotation.Propagation.MANDATORY)
++    public void enqueue(String eventKey, WorkflowMailService.Request request) {
++        if (eventKey == null || eventKey.isBlank() || eventKey.length()>255) {
++            throw new IllegalArgumentException("Invalid notification event identity");
++        }
++        if (!TransactionSynchronizationManager.isActualTransactionActive()
++                || !TransactionSynchronizationManager.isSynchronizationActive()) {
++            throw new IllegalStateException("Notification enqueue requires the workflow transaction");
++        }
++        mail.validate(request);
++        String payload;
++        try { payload=mapper.writeValueAsString(request); }
++        catch (com.fasterxml.jackson.core.JsonProcessingException failure) {
++            throw new IllegalArgumentException("Invalid notification payload", failure);
++        }
++        events.insertIfAbsent(eventKey, payload);
++        var event=events.findById(eventKey).orElseThrow();
++        if (!payload.equals(event.getPayload())) { throw new IllegalArgumentException("Conflicting notification event payload"); }
++        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
++            @Override public void afterCommit() { dispatch(eventKey); }
++        });
++    }
++
++    /** Independent transaction and row lock serialize dispatchers; committed sent rows never send again. */
++    public void dispatch(String eventKey) {
++        try {
++            deliveryTransaction.executeWithoutResult(status -> events.lockEvent(eventKey).ifPresent(event -> {
++                if (event.isDelivered()) { return; }
++                event.attempted(java.time.Instant.now().plusSeconds(30));
++                try {
++                    var request=mapper.readValue(event.getPayload(), WorkflowMailService.Request.class);
++                    mail.send(request);
++                    event.delivered();
++                } catch (Exception failure) {
++                    // Keep this durable row pending. Do not tell a caller to retry a committed process start.
++                    LOG.warn("Workflow notification {} remains pending after attempt {}", eventKey, event.getAttempts(), failure);
++                }
++            }));
++        } catch (RuntimeException failure) {
++            // Transaction/storage failure also leaves the committed event eligible for retry.
++            LOG.warn("Workflow notification dispatch transaction failed for {}", eventKey, failure);
++        }
++    }
++
++    public void retryUnsent() {
++        events.findTop50ByDeliveredFalseAndNextAttemptAtLessThanEqualOrderByNextAttemptAtAscEventKeyAsc(java.time.Instant.now()).forEach(event -> dispatch(event.getEventKey()));
++    }
++}
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationService.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationService.java
+index ac06079..95a645d 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationService.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowNotificationService.java
+@@ -26,12 +26,13 @@ public class WorkflowNotificationService {
+     private final RepositoryService repository;
+     private final RuntimeService runtime;
+     private final String webBaseUrl;
++    private final WorkflowMailService mail;
+ 
+     public WorkflowNotificationService(WorkflowNotificationRuleRepository rules, WorkflowInitiatorIdentityService identities,
+             @Lazy RepositoryService repository, @Lazy RuntimeService runtime,
+-            @Value("${insight.workflow.web-base-url:}") String webBaseUrl) {
++            @Value("${insight.workflow.web-base-url:}") String webBaseUrl, WorkflowMailService mail) {
+         this.rules = rules; this.identities = identities; this.repository = repository; this.runtime = runtime;
+-        this.webBaseUrl = webBaseUrl;
++        this.webBaseUrl = webBaseUrl; this.mail=mail;
+     }
+ 
+     private static void scope(String process, String activity, String task) {
+@@ -100,7 +101,9 @@ public class WorkflowNotificationService {
+         model.put("processDirectUrl", home + "process/" + execution.getProcessInstanceId());
+         var request = new WorkflowMailService.Request(rule.getTemplateName(), rule.getFrom(), List.of(recipient),
+                 List.of(), List.of(), rule.getSubject(), model);
+-        String token = WorkflowMailClientProvider.stage(execution.getTenantId(), request);
++        mail.validate(request);
++        String eventKey=execution.getProcessInstanceId() + "/" + activity + "/" + taskKey;
++        String token = WorkflowMailClientProvider.stage(execution.getTenantId(), eventKey, request);
+         execution.setVariable("submitter_email", recipient);
+         // Native archive fields read transient local projections; caller-supplied variables never confer send authority.
+         execution.setTransientVariableLocal("from", request.from());
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java
+index dcda33c..41b4e21 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowTaskRoutingService.java
+@@ -6,13 +6,11 @@
+ package com.flatirons.insight.service.runtime;
+ 
+ import java.util.Set;
+-import com.fasterxml.jackson.databind.JsonNode;
+-import com.fasterxml.jackson.databind.ObjectMapper;
+-import com.flatirons.insight.domain.ReferenceDataLookupEntity;
++import com.flatirons.insight.domain.WorkflowTaskRoutingRuleEntity;
+ import com.flatirons.insight.domain.GroupEntity;
+ import com.flatirons.insight.model.enums.status.GroupStatus;
+ import com.flatirons.insight.model.enums.type.GroupType;
+-import com.flatirons.insight.repository.ReferenceDataLookupRepository;
++import com.flatirons.insight.repository.WorkflowTaskRoutingRuleRepository;
+ import com.flatirons.insight.repository.GroupRepository;
+ import org.flowable.engine.RepositoryService;
+ import org.flowable.engine.RuntimeService;
+@@ -22,67 +20,59 @@ import org.springframework.context.annotation.Lazy;
+ import org.springframework.stereotype.Service;
+ import org.springframework.transaction.annotation.Transactional;
+ 
+-/** Bounded persisted exact-key lookup, distinct from group resolution. No Administration table emulation. */
++/** Reads only private typed configuration, never publicly writable reference-data metadata. */
+ @Service
+ public class WorkflowTaskRoutingService {
+-    private static final String RULE_TYPE = "workflow-task-routing";
+-    private final ReferenceDataLookupRepository lookups;
++    private final WorkflowTaskRoutingRuleRepository lookups;
+     private final GroupRepository groups;
+     private final RepositoryService repository;
+     private final RuntimeService runtime;
+-    private final ObjectMapper mapper;
+ 
+-    public WorkflowTaskRoutingService(ReferenceDataLookupRepository lookups, GroupRepository groups,
+-            @Lazy RepositoryService repository, @Lazy RuntimeService runtime, ObjectMapper mapper) {
++    public WorkflowTaskRoutingService(WorkflowTaskRoutingRuleRepository lookups, GroupRepository groups,
++            @Lazy RepositoryService repository, @Lazy RuntimeService runtime) {
+         this.lookups = lookups;
+         this.groups = groups;
+         this.repository = repository;
+         this.runtime = runtime;
+-        this.mapper = mapper;
+     }
+ 
+-    private JsonNode rule(DelegateTask task) {
++    private WorkflowTaskRoutingRuleEntity rule(DelegateTask task) {
+         if (task.getTenantId() != null && !task.getTenantId().isEmpty()) {
+-            throw new IllegalArgumentException("Tenant routing is not supported at " + task.getTaskDefinitionKey());
++            throw new IllegalArgumentException("Tenant routing is not supported");
+         }
+         String process = repository.getProcessDefinition(task.getProcessDefinitionId()).getKey();
+         String taskKey = task.getTaskDefinitionKey();
+         if (!"SafranFeedbackWorkflow".equals(process) || !"local-review-feedback".equals(taskKey)) {
+             throw new IllegalArgumentException("Unsupported routing at " + process + "/" + taskKey);
+         }
+-        JsonNode rule = lookupRecord(RULE_TYPE, process + "/" + taskKey);
+-        if (!process.equals(text(rule, "processKey")) || !taskKey.equals(text(rule, "taskKey"))) {
+-            throw new IllegalArgumentException("Routing rule process/task mismatch at " + taskKey);
++        Object value = task.getVariable("submitting_site");
++        if (!(value instanceof String site) || site.isBlank() || site.length() > 255) {
++            throw new IllegalArgumentException("Missing routing lookup value");
++        }
++        var rule = lookups.findByProcessDefinitionKeyAndTaskKeyAndSiteKey(process, taskKey, site)
++                .orElseThrow(() -> new IllegalArgumentException("Missing trusted routing rule"));
++        if (!Boolean.TRUE.equals(rule.getEnabled())) { throw new IllegalArgumentException("Disabled routing rule"); }
++        if (rule.getTaskName() == null || rule.getTaskName().isBlank() || rule.getTaskName().length() > 255
++                || rule.getCandidateGroupId() == null || rule.getCandidateGroupId() <= 0) {
++            throw new IllegalArgumentException("Invalid typed routing rule");
+         }
+         return rule;
+     }
+ 
+     @Transactional(transactionManager = "insightTransactionManager")
+     public void rename(DelegateTask task) {
+-        // Administration supplies the display name explicitly; no bundled customer naming configuration.
+-        String name = text(rule(task), "taskName");
++        // Only controlled configuration supplies this name.
++        String name = rule(task).getTaskName();
+         task.setName(name);
+     }
+ 
+     @Transactional(transactionManager = "insightTransactionManager")
+     public void assign(DelegateTask task, boolean involve) {
+-        JsonNode rule = rule(task);
+-        String variable = text(rule, "lookupVariable");
+-        if (!"submitting_site".equals(variable)) {
+-            throw new IllegalArgumentException("Unsupported routing variable " + variable);
+-        }
+-        Object value = task.getVariable(variable);
+-        if (!(value instanceof String key) || key.isBlank() || key.length() > 255) {
+-            throw new IllegalArgumentException("Missing routing lookup value at " + task.getTaskDefinitionKey());
+-        }
+-        String lookupType = text(rule, "lookupType");
+-        if (RULE_TYPE.equals(lookupType)) { throw new IllegalArgumentException("Routing lookup cannot select a rule"); }
+-        JsonNode match = lookupRecord(lookupType, key);
+-        String groupName = text(match, "candidateGroup");
+-        GroupEntity group = groups.findByNameAndGroupType(groupName, GroupType.GROUP)
+-                .orElseThrow(() -> new IllegalArgumentException("Unresolved routing group " + groupName));
+-        if (group.getId() == null || group.getStatus() != GroupStatus.ACTIVE) {
+-            throw new IllegalArgumentException("Inactive routing group " + groupName);
++        var rule = rule(task);
++        GroupEntity group = groups.findById(rule.getCandidateGroupId())
++                .orElseThrow(() -> new IllegalArgumentException("Unresolved routing group"));
++        if (group.getId() == null || group.getStatus() != GroupStatus.ACTIVE || group.getGroupType() != GroupType.GROUP) {
++            throw new IllegalArgumentException("Inactive routing group");
+         }
+         String groupId = group.getId().toString();
+         // Resolve everything before touching assignment. The Flowable command and JPA share one transaction.
+@@ -98,26 +88,4 @@ public class WorkflowTaskRoutingService {
+         }
+     }
+ 
+-    private JsonNode lookupRecord(String type, String key) {
+-        ReferenceDataLookupEntity entity = lookups.findByLookupTypeAndKeyValue(type, key)
+-                .orElseThrow(() -> new IllegalArgumentException("Missing routing lookup " + type + "/" + key));
+-        if (!Boolean.FALSE.equals(entity.getIsDeleted())) {
+-            throw new IllegalArgumentException("Deleted routing lookup " + type + "/" + key);
+-        }
+-        try {
+-            JsonNode metadata = mapper.readTree(entity.getMetadata());
+-            if (metadata == null || !metadata.isObject()) { throw new IllegalArgumentException("Routing metadata must be an object"); }
+-            return metadata;
+-        } catch (java.io.IOException e) {
+-            throw new IllegalArgumentException("Malformed routing metadata " + type + "/" + key, e);
+-        }
+-    }
+-
+-    private static String text(JsonNode node, String field) {
+-        JsonNode value = node.get(field);
+-        if (value == null || !value.isTextual() || value.textValue().isBlank() || value.textValue().length() > 255) {
+-            throw new IllegalArgumentException("Invalid routing field " + field);
+-        }
+-        return value.textValue();
+-    }
+ }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
+index 812074e..1eb0278 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerFirstWaitScenarioTest.java
+@@ -15,7 +15,9 @@ import java.util.zip.ZipInputStream;
+ import com.flatirons.insight.conf.security.SpringSecurityAuthenticationContext;
+ import com.flatirons.insight.domain.UserEntity;
+ import com.flatirons.insight.domain.GroupEntity;
+-import com.flatirons.insight.domain.ReferenceDataLookupEntity;
++import com.flatirons.insight.domain.WorkflowTaskRoutingRuleEntity;
++import com.flatirons.insight.repository.WorkflowTaskRoutingRuleRepository;
++import com.flatirons.insight.repository.WorkflowNotificationOutboxRepository;
+ import com.flatirons.insight.model.enums.type.UserAccountType;
+ import com.flatirons.insight.model.enums.type.GroupType;
+ import com.flatirons.insight.model.enums.status.GroupStatus;
+@@ -23,7 +25,6 @@ import com.flatirons.insight.model.records.security.InsightUserDetails;
+ import com.flatirons.insight.model.request.ProcessInstanceStartRequest;
+ import com.flatirons.insight.repository.UserRepository;
+ import com.flatirons.insight.repository.GroupRepository;
+-import com.flatirons.insight.repository.ReferenceDataLookupRepository;
+ import com.flatirons.insight.repository.TaskRepository;
+ import com.flatirons.insight.security.InsightAppUser;
+ import org.flowable.common.engine.api.identity.AuthenticationContext;
+@@ -168,6 +169,44 @@ class CustomerFirstWaitScenarioTest {
+         authenticatedArchiveReachesFirstWaitAndRefusesWrongUser("safran-feedback", jwt);
+     }
+ 
++
++    @ParameterizedTest
++    @org.junit.jupiter.params.provider.ValueSource(booleans = {false, true})
++    void anonymousAndForgedSystemReferenceDataWritesCannotRedirectRouting(boolean forgedSystem) throws Exception {
++        try (var context = open()) {
++            var engine=context.getBean(ProcessEngine.class);
++            String key=deploy(engine, "safran-feedback");
++            routing(context, key); notification(context, key);
++            var trusted=context.getBean(WorkflowTaskRoutingRuleRepository.class).findAll().getFirst();
++            Long trustedGroup=trusted.getCandidateGroupId();
++            var user=new UserEntity(); user.setUserName("admin@app.insight.com"); user.setEmail("starter@example.invalid");
++            user.setAccountType(forgedSystem ? UserAccountType.SYSTEM : UserAccountType.USER);
++            user=context.getBean(UserRepository.class).saveAndFlush(user);
++            if (forgedSystem) { authenticate(user,true); } else { SecurityContextHolder.clearContext(); }
++            var service=context.getBean(IReferenceDataService.class);
++            for (String type : List.of("workflow-task-routing", "feedback-sites")) {
++                var request=new com.flatirons.insight.model.dto.ReferenceDataLookupDto();
++                request.setLookupType(type); request.setKeyValue(type.equals("feedback-sites") ? "Paris" : key+"/local-review-feedback");
++                request.setMetadata("{\"candidateGroup\":\"Attacker Group\"}");
++                var saved=service.saveReferenceData(request);
++                request.setMetadata("{\"candidateGroup\":\"Another Attacker\"}");
++                service.updateReferenceData(saved.getId(), request);
++                service.deleteReferenceData(saved.getId());
++            }
++            assertThat(context.getBean(WorkflowTaskRoutingRuleRepository.class).findAll())
++                    .singleElement().extracting(WorkflowTaskRoutingRuleEntity::getCandidateGroupId).isEqualTo(trustedGroup);
++            authenticate(user,true);
++            var starter=new ProcessInstanceServiceImpl(engine.getRuntimeService(),engine.getHistoryService(),mock(UserCache.class),
++                    mock(UserService.class),null,null,null,null,engine.getRepositoryService());
++            var request=new ProcessInstanceStartRequest(); request.setProcessDefinitionKey(key);
++            request.setVariables(Map.of("submitting_site","Paris")); starter.startProcessInstance(request);
++            var task=engine.getTaskService().createTaskQuery().singleResult();
++            assertThat(engine.getTaskService().getIdentityLinksForTask(task.getId())).filteredOn(link -> link.getGroupId()!=null)
++                    .extracting(link -> link.getGroupId()).containsOnly(trustedGroup.toString());
++            assertThat(context.getBean(CustomerMailCapture.class).messages()).hasSize(1);
++        }
++    }
++
+     @ParameterizedTest
+     @CsvSource({"missing-identity", "missing-rule", "wrong-process", "missing-match", "missing-group", "deleted-rule", "wrong-task", "missing-value", "inactive-group", "malformed-rule"})
+     void unavailableIdentityOrRoutingRollsBackArchiveStart(String fault) throws Exception {
+@@ -184,7 +223,7 @@ class CustomerFirstWaitScenarioTest {
+             authenticate(user, true);
+             if (!mdcr && !fault.equals("missing-rule")) {
+                 routing(context, key);
+-                var lookups = context.getBean(ReferenceDataLookupRepository.class);
++                var lookups = context.getBean(WorkflowTaskRoutingRuleRepository.class);
+                 if (fault.equals("inactive-group")) {
+                     var group = context.getBean(GroupRepository.class).findByName("Feedback Admin").orElseThrow();
+                     group.setStatus(GroupStatus.INACTIVE);
+@@ -192,15 +231,15 @@ class CustomerFirstWaitScenarioTest {
+                 } else if (fault.equals("missing-value")) {
+                     // Checked below via the actual start request.
+                 } else if (fault.equals("missing-match")) {
+-                    lookups.delete(lookups.findByLookupTypeAndKeyValue("feedback-sites", "Paris").orElseThrow());
++                    lookups.deleteAll();
+                 } else if (fault.equals("missing-group")) {
+                     context.getBean(GroupRepository.class).deleteAll();
+                 } else {
+-                    var rule = lookups.findByLookupTypeAndKeyValue("workflow-task-routing", key + "/local-review-feedback").orElseThrow();
+-                    if (fault.equals("deleted-rule")) { rule.setIsDeleted(true); }
+-                    else if (fault.equals("wrong-task")) { rule.setMetadata(rule.getMetadata().replace("local-review-feedback", "wrong-task")); }
+-                    else if (fault.equals("malformed-rule")) { rule.setMetadata("[]"); }
+-                    else { rule.setMetadata(rule.getMetadata().replace(key, "wrong-process")); }
++                    var rule = lookups.findAll().getFirst();
++                    if (fault.equals("deleted-rule")) { rule.setEnabled(false); }
++                    else if (fault.equals("wrong-task")) { rule.setTaskKey("wrong-task"); }
++                    else if (fault.equals("malformed-rule")) { rule.setTaskName(""); }
++                    else { rule.setProcessDefinitionKey("wrong-process"); }
+                     lookups.saveAndFlush(rule);
+                 }
+             }
+@@ -211,14 +250,12 @@ class CustomerFirstWaitScenarioTest {
+             request.setVariables(fault.equals("missing-value") ? Map.of() : Map.of("submitting_site", "Paris"));
+             String expected = switch (fault) {
+                 case "missing-identity" -> "ACM identity not found";
+-                case "missing-rule" -> "Missing routing lookup workflow-task-routing";
+-                case "wrong-process", "wrong-task" -> "Routing rule process/task mismatch";
+-                case "missing-match" -> "Missing routing lookup feedback-sites/Paris";
++                case "missing-rule", "wrong-process", "wrong-task", "missing-match" -> "Missing trusted routing rule";
+                 case "missing-group" -> "Unresolved routing group";
+-                case "deleted-rule" -> "Deleted routing lookup";
++                case "deleted-rule" -> "Disabled routing rule";
+                 case "missing-value" -> "Missing routing lookup value";
+                 case "inactive-group" -> "Inactive routing group";
+-                case "malformed-rule" -> "Routing metadata must be an object";
++                case "malformed-rule" -> "Invalid typed routing rule";
+                 default -> throw new IllegalArgumentException(fault);
+             };
+             assertThatThrownBy(() -> service.startProcessInstance(request)).isInstanceOf(RuntimeException.class)
+@@ -228,6 +265,17 @@ class CustomerFirstWaitScenarioTest {
+             assertThat(engine.getHistoryService().createHistoricProcessInstanceQuery().count()).isZero();
+             assertThat(context.getBean(com.flatirons.insight.repository.InsightSequenceRepository.class).count()).isZero();
+             assertThat(context.getBean(com.flatirons.insight.repository.InsightProcessIdRepository.class).count()).isZero();
++            if (!mdcr) {
++                assertThat(context.getBean(CustomerMailCapture.class).messages()).isEmpty();
++                assertThat(context.getBean(WorkflowNotificationOutboxRepository.class).count()).isZero();
++                if (fault.equals("missing-rule")) {
++                    routing(context,key);
++                    service.startProcessInstance(request);
++                    assertThat(engine.getTaskService().createTaskQuery().singleResult().getTaskDefinitionKey()).isEqualTo("local-review-feedback");
++                    assertThat(context.getBean(WorkflowNotificationOutboxRepository.class).count()).isEqualTo(1);
++                    assertThat(context.getBean(CustomerMailCapture.class).messages()).hasSize(1);
++                }
++            }
+         }
+     }
+ 
+@@ -280,6 +328,110 @@ class CustomerFirstWaitScenarioTest {
+         }
+     }
+ 
++    private static WorkflowMailService.Request outboxRequest(String subject) {
++        return new WorkflowMailService.Request("pp-feedback-received.ftl", "insight@example.invalid",
++                List.of("starter@example.invalid"), List.of(), List.of(), subject,
++                Map.of("homeUrl","https://insight.example.invalid/","processDirectUrl","https://insight.example.invalid/process/1"));
++    }
++
++    @org.junit.jupiter.api.Test
++    void outboxCommitsBeforeDeliveryAndDeduplicatesReplayAndConcurrentDispatch() throws Exception {
++        try (var context=open()) {
++            var outbox=context.getBean(WorkflowNotificationOutbox.class);
++            var delivery=context.getBean(WorkflowNotificationDelivery.class);
++            var events=context.getBean(WorkflowNotificationOutboxRepository.class);
++            var capture=context.getBean(CustomerMailCapture.class);
++            var transaction=new org.springframework.transaction.support.TransactionTemplate(context.getBean(org.springframework.transaction.PlatformTransactionManager.class));
++            capture.beforeDelivery(() -> assertThat(events.count()).isEqualTo(1));
++            transaction.executeWithoutResult(status -> {
++                outbox.enqueue("process/activity/start",outboxRequest("Received"));
++                outbox.enqueue("process/activity/start",outboxRequest("Received"));
++                assertThat(capture.messages()).isEmpty();
++            });
++            assertThat(capture.messages()).hasSize(1);
++            transaction.executeWithoutResult(status -> outbox.enqueue("process/activity/start",outboxRequest("Received")));
++            var workers=java.util.concurrent.Executors.newFixedThreadPool(2);
++            try {
++                var first=workers.submit(() -> delivery.dispatch("process/activity/start"));
++                var second=workers.submit(() -> delivery.dispatch("process/activity/start"));
++                first.get(10,java.util.concurrent.TimeUnit.SECONDS); second.get(10,java.util.concurrent.TimeUnit.SECONDS);
++            } finally { workers.shutdownNow(); }
++            assertThat(events.findAll()).singleElement().satisfies(event -> {
++                assertThat(event.isDelivered()).isTrue(); assertThat(event.getAttempts()).isEqualTo(1);
++            });
++            assertThat(capture.messages()).hasSize(1);
++            assertThatThrownBy(() -> transaction.executeWithoutResult(status -> outbox.enqueue("process/activity/start",outboxRequest("Changed"))))
++                    .hasMessageContaining("Conflicting");
++            assertThat(capture.messages()).hasSize(1);
++        }
++    }
++
++    @org.junit.jupiter.api.Test
++    void concurrentRetryOfUnsentEventSendsOnceAndPreservesAttemptState() throws Exception {
++        try (var context=open()) {
++            var outbox=context.getBean(WorkflowNotificationOutbox.class);
++            var delivery=context.getBean(WorkflowNotificationDelivery.class);
++            var events=context.getBean(WorkflowNotificationOutboxRepository.class);
++            var capture=context.getBean(CustomerMailCapture.class);
++            capture.failNext(1);
++            var transaction=new org.springframework.transaction.support.TransactionTemplate(context.getBean(org.springframework.transaction.PlatformTransactionManager.class));
++            transaction.executeWithoutResult(status -> outbox.enqueue("concurrent/activity/start",outboxRequest("Pending")));
++            assertThat(capture.messages()).isEmpty();
++            assertThat(events.findById("concurrent/activity/start").orElseThrow().getNextAttemptAt()).isAfter(java.time.Instant.now());
++            var workers=java.util.concurrent.Executors.newFixedThreadPool(2);
++            var start=new java.util.concurrent.CountDownLatch(1);
++            try {
++                java.util.concurrent.Callable<Void> attempt=() -> {
++                    if (!start.await(10,java.util.concurrent.TimeUnit.SECONDS)) { throw new IllegalStateException("Retry start timed out"); }
++                    delivery.dispatch("concurrent/activity/start"); return null;
++                };
++                var first=workers.submit(attempt); var second=workers.submit(attempt); start.countDown();
++                first.get(10,java.util.concurrent.TimeUnit.SECONDS); second.get(10,java.util.concurrent.TimeUnit.SECONDS);
++            } finally { workers.shutdownNow(); }
++            assertThat(capture.messages()).hasSize(1);
++            assertThat(events.findById("concurrent/activity/start").orElseThrow()).satisfies(event -> {
++                assertThat(event.isDelivered()).isTrue(); assertThat(event.getAttempts()).isEqualTo(2);
++            });
++        }
++    }
++
++    @org.junit.jupiter.api.Test
++    void outboxRollbackLeavesNoEventAndFailedTransportRetriesWithoutStarvingLaterEvents() {
++        try (var context=open()) {
++            var outbox=context.getBean(WorkflowNotificationOutbox.class);
++            var delivery=context.getBean(WorkflowNotificationDelivery.class);
++            var events=context.getBean(WorkflowNotificationOutboxRepository.class);
++            var capture=context.getBean(CustomerMailCapture.class);
++            var transaction=new org.springframework.transaction.support.TransactionTemplate(context.getBean(org.springframework.transaction.PlatformTransactionManager.class));
++            transaction.executeWithoutResult(status -> {
++                outbox.enqueue("rolled-back/activity/start",outboxRequest("Rolled back")); status.setRollbackOnly();
++            });
++            assertThat(events.count()).isZero(); assertThat(capture.messages()).isEmpty();
++            capture.failNext(1);
++            transaction.executeWithoutResult(status -> outbox.enqueue("poison/activity/start",outboxRequest("Pending")));
++            assertThat(events.findById("poison/activity/start").orElseThrow().isDelivered()).isFalse();
++            assertThat(capture.messages()).isEmpty();
++            // More than a batch of poison events must rotate out of the due set after attempts.
++            var jdbc=new org.springframework.jdbc.core.JdbcTemplate(context.getBean(javax.sql.DataSource.class));
++            String payload=events.findById("poison/activity/start").orElseThrow().getPayload();
++            for (int index=0;index<50;index++) {
++                jdbc.update("insert into workflow_notification_outbox(event_key,payload,delivered,attempts,next_attempt_at) values (?,?,false,0,?)",
++                        "a-poison/"+index,payload,java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(60)));
++            }
++            jdbc.update("insert into workflow_notification_outbox(event_key,payload,delivered,attempts,next_attempt_at) values (?,?,false,0,CURRENT_TIMESTAMP)",
++                    "z-later",payload);
++            capture.failNext(50); delivery.retryUnsent();
++            assertThat(capture.messages()).isEmpty();
++            delivery.retryUnsent();
++            assertThat(events.findById("z-later").orElseThrow().isDelivered()).isTrue();
++            assertThat(capture.messages()).hasSize(1);
++            jdbc.update("update workflow_notification_outbox set next_attempt_at=CURRENT_TIMESTAMP where event_key='poison/activity/start'");
++            delivery.retryUnsent(); delivery.retryUnsent();
++            assertThat(events.findById("poison/activity/start").orElseThrow().isDelivered()).isTrue();
++            assertThat(capture.messages()).hasSize(2);
++        }
++    }
++
+     @org.junit.jupiter.api.Test
+     void productionMigrationPersistsTypedRulesAndRejectsDuplicateScope() throws Exception {
+         try (var context = open()) {
+@@ -291,6 +443,16 @@ class CustomerFirstWaitScenarioTest {
+             migration.setDataSource(source);
+             migration.setChangeLog("classpath:changelog/postgresql/process/workflow-notification-rule-001.xml");
+             migration.afterPropertiesSet();
++            jdbc.execute("drop table workflow_task_routing_rule");
++            jdbc.execute("drop sequence workflow_routing_rule_seq");
++            jdbc.execute("drop table workflow_notification_outbox");
++            var boundaries=new liquibase.integration.spring.SpringLiquibase();
++            boundaries.setDataSource(source);
++            boundaries.setChangeLog("classpath:changelog/postgresql/process/workflow-durable-boundaries-001.xml");
++            boundaries.afterPropertiesSet();
++            routing(context,"SafranFeedbackWorkflow");
++            assertThat(context.getBean(WorkflowTaskRoutingRuleRepository.class).findAll()).singleElement()
++                    .satisfies(rule -> { assertThat(rule.getId()).isPositive(); assertThat(rule.getSiteKey()).isEqualTo("Paris"); });
+             notification(context, "SafranFeedbackWorkflow");
+             var repository = context.getBean(com.flatirons.insight.repository.WorkflowNotificationRuleRepository.class);
+             var saved = repository.findByProcessDefinitionKeyAndActivityIdAndTaskKey(
+@@ -367,6 +529,8 @@ class CustomerFirstWaitScenarioTest {
+         assertThat(message.getRecipients(jakarta.mail.Message.RecipientType.CC)).isNull();
+         assertThat(message.getRecipients(jakarta.mail.Message.RecipientType.BCC)).isNull();
+         assertThat(capture.networkAttempts()).isZero();
++        assertThat(context.getBean(WorkflowNotificationOutboxRepository.class).findAll()).singleElement()
++                .satisfies(event -> { assertThat(event.isDelivered()).isTrue(); assertThat(event.getAttempts()).isEqualTo(1); });
+     }
+     static void routing(AnnotationConfigApplicationContext context, String key) {
+         GroupEntity group = new GroupEntity();
+@@ -374,17 +538,10 @@ class CustomerFirstWaitScenarioTest {
+         group.setGroupType(GroupType.GROUP);
+         group.setStatus(GroupStatus.ACTIVE);
+         context.getBean(GroupRepository.class).saveAndFlush(group);
+-        save(context, "workflow-task-routing", key + "/local-review-feedback", "{\"processKey\":\"" + key
+-                + "\",\"taskKey\":\"local-review-feedback\",\"lookupVariable\":\"submitting_site\","
+-                + "\"lookupType\":\"feedback-sites\",\"taskName\":\"Paris: Local Support Feedback\"}");
+-        save(context, "feedback-sites", "Paris", "{\"candidateGroup\":\"Feedback Admin\"}");
+-    }
+-    static void save(AnnotationConfigApplicationContext context, String type, String key, String metadata) {
+-        var lookup = new ReferenceDataLookupEntity();
+-        lookup.setLookupType(type);
+-        lookup.setKeyValue(key);
+-        lookup.setMetadata(metadata);
+-        context.getBean(ReferenceDataLookupRepository.class).saveAndFlush(lookup);
++        var rule=new WorkflowTaskRoutingRuleEntity();
++        rule.setProcessDefinitionKey(key); rule.setTaskKey("local-review-feedback"); rule.setSiteKey("Paris");
++        rule.setTaskName("Paris: Local Support Feedback"); rule.setCandidateGroupId(group.getId());
++        context.getBean(WorkflowTaskRoutingRuleRepository.class).saveAndFlush(rule);
+     }
+     static String deploy(ProcessEngine engine, String fixture) throws Exception {
+         try (InputStream input = CustomerFirstWaitScenarioTest.class.getClassLoader().getResourceAsStream("scenarios/customers/" + fixture + "/app.zip");
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerMailCapture.java b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerMailCapture.java
+index b9cc539..db11609 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerMailCapture.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerMailCapture.java
+@@ -13,9 +13,15 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
+ final class CustomerMailCapture extends JavaMailSenderImpl {
+     private final List<byte[]> messages = new ArrayList<>();
+     private int networkAttempts;
++    private int failuresRemaining;
++    private Runnable beforeDelivery = () -> { /* No extra assertion unless requested by a scenario. */ };
++    synchronized void failNext(int count) { failuresRemaining=count; }
++    synchronized void beforeDelivery(Runnable assertion) { beforeDelivery=assertion; }
+ 
+     @Override
+     protected synchronized void doSend(MimeMessage[] mimeMessages, Object[] originals) {
++        beforeDelivery.run();
++        if (failuresRemaining>0) { failuresRemaining--; throw new org.springframework.mail.MailSendException("Captured transport failure"); }
+         for (MimeMessage message : mimeMessages) {
+             try {
+                 message.saveChanges();
+diff --git a/insight-service/src/test/java/com/flatirons/insight/scenario/NativeNotificationBridgeScenarioTest.java b/insight-service/src/test/java/com/flatirons/insight/scenario/NativeNotificationBridgeScenarioTest.java
+index 77b7326..06b97bc 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/scenario/NativeNotificationBridgeScenarioTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/scenario/NativeNotificationBridgeScenarioTest.java
+@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.*;
+ 
+ /** Provider denies unrelated native modes, forged projections, replay and stale command authorization. */
+ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+-    private final AtomicInteger deliveries = new AtomicInteger();
+-    private final WorkflowMailClientProvider provider = new WorkflowMailClientProvider(delivery -> deliveries.incrementAndGet());
++    private final AtomicInteger enqueues = new AtomicInteger();
++    private final WorkflowMailClientProvider provider = new WorkflowMailClientProvider((eventKey, submission) -> enqueues.incrementAndGet());
+     private final WorkflowMailService.Request request = new WorkflowMailService.Request("pp-feedback-received.ftl",
+             "insight@example.invalid", List.of("starter@example.invalid"), List.of(), List.of(), "Received", Map.of());
+ 
+@@ -50,7 +50,7 @@ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+         assertThatThrownBy(() -> startProcess("unrelated")).hasStackTraceContaining("no typed notification authorization");
+         assertThat(processEngine.getRuntimeService().createProcessInstanceQuery().count()).isZero();
+         assertThat(processEngine.getHistoryService().createHistoricProcessInstanceQuery().count()).isZero();
+-        assertThat(deliveries).hasValue(0);
++        assertThat(enqueues).hasValue(0);
+     }
+ 
+ 
+@@ -58,7 +58,7 @@ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+     @org.junit.jupiter.params.provider.ValueSource(strings={"from", "cc", "bcc", "subject", "charset", "plain", "attachment", "header"})
+     void nativeMailCannotAlterAuthorizedEnvelopeOrAddUnsupportedModes(String fault) {
+         processEngine.getManagementService().executeCommand(command -> {
+-            String token = WorkflowMailClientProvider.stage("", request);
++            String token = WorkflowMailClientProvider.stage("", "process/start", request);
+             var nativeRequest = nativeMessage(token);
+             var message = nativeRequest.message();
+             switch (fault) {
+@@ -79,42 +79,42 @@ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+                     .hasMessageContaining("no typed notification authorization");
+             return null;
+         });
+-        assertThat(deliveries).hasValue(0);
++        assertThat(enqueues).hasValue(0);
+     }
+ 
+     @Test void forgedRecipientAndTenantConsumeTheirGrantAndNeverDeliver() {
+         processEngine.getManagementService().executeCommand(command -> {
+-            String token = WorkflowMailClientProvider.stage("", request);
++            String token = WorkflowMailClientProvider.stage("", "process/start", request);
+             var forged = nativeMessage(token);
+             forged.message().setTo(List.of("intruder@example.invalid"));
+             assertThatThrownBy(() -> provider.getMailClient("").prepareRequest(forged)).hasMessageContaining("differs");
+             assertThatThrownBy(() -> provider.getMailClient("").prepareRequest(nativeMessage(token)))
+                     .hasMessageContaining("no typed notification authorization");
+-            String tenantToken = WorkflowMailClientProvider.stage("tenant-a", request);
++            String tenantToken = WorkflowMailClientProvider.stage("tenant-a", "process/start", request);
+             assertThatThrownBy(() -> provider.getMailClient("tenant-b").prepareRequest(nativeMessage(tenantToken)))
+                     .hasMessageContaining("differs");
+             return null;
+         });
+-        assertThat(deliveries).hasValue(0);
++        assertThat(enqueues).hasValue(0);
+     }
+ 
+-    @Test void successfulSendIsOneUseAndAStaleCommandCannotSend() {
++    @Test void successfulEnqueueIsOneUseAndAStaleCommandCannotEnqueue() {
+         ExecutableSendMailRequest stale = processEngine.getManagementService().executeCommand(command -> {
+-            String token = WorkflowMailClientProvider.stage("", request);
++            String token = WorkflowMailClientProvider.stage("", "process/start", request);
+             var executable = provider.getMailClient("").prepareRequest(nativeMessage(token));
+             executable.send();
+             assertThatThrownBy(executable::send).hasMessageContaining("valid once");
+-            String another = WorkflowMailClientProvider.stage("", request);
++            String another = WorkflowMailClientProvider.stage("", "process/start", request);
+             return provider.getMailClient("").prepareRequest(nativeMessage(another));
+         });
+         assertThatThrownBy(stale::send).hasMessageContaining("staging command");
+         processEngine.getManagementService().executeCommand(command -> {
+             assertThatThrownBy(stale::send).hasMessageContaining("staging command");
+-            String fresh = WorkflowMailClientProvider.stage("", request);
++            String fresh = WorkflowMailClientProvider.stage("", "process/start", request);
+             provider.getMailClient("").prepareRequest(nativeMessage(fresh)).send();
+             return null;
+         });
+-        assertThat(deliveries).hasValue(2);
++        assertThat(enqueues).hasValue(2);
+     }
+ 
+     @Test void twoCallersRaceOneGrantAndCannotPoisonTheNextCommand() throws Exception {
+@@ -122,7 +122,7 @@ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+         try {
+             processEngine.getManagementService().executeCommand(command -> {
+                 var executable = provider.getMailClient("").prepareRequest(
+-                        nativeMessage(WorkflowMailClientProvider.stage("", request)));
++                        nativeMessage(WorkflowMailClientProvider.stage("", "process/start", request)));
+                 var ready = new java.util.concurrent.CountDownLatch(2);
+                 var release = new java.util.concurrent.CountDownLatch(1);
+                 java.util.concurrent.Callable<Boolean> caller = () -> {
+@@ -153,12 +153,12 @@ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+                 } catch (java.util.concurrent.ExecutionException | java.util.concurrent.TimeoutException failure) {
+                     throw new AssertionError("Race did not complete", failure);
+                 } finally { release.countDown(); }
+-                assertThat(deliveries).hasValue(1);
++                assertThat(enqueues).hasValue(1);
+                 return null;
+             });
+             processEngine.getManagementService().executeCommand(command -> {
+                 var executable = provider.getMailClient("").prepareRequest(
+-                        nativeMessage(WorkflowMailClientProvider.stage("", request)));
++                        nativeMessage(WorkflowMailClientProvider.stage("", "process/start", request)));
+                 var refused = workers.submit(() -> assertThatThrownBy(executable::send).hasMessageContaining("staging command"));
+                 try { refused.get(5, java.util.concurrent.TimeUnit.SECONDS); }
+                 catch (InterruptedException failure) {
+@@ -170,7 +170,7 @@ class NativeNotificationBridgeScenarioTest extends FlowableScenarioTestBase {
+                 executable.send();
+                 return null;
+             });
+-            assertThat(deliveries).hasValue(2);
++            assertThat(enqueues).hasValue(2);
+         } finally {
+             workers.shutdownNow();
+             assertThat(workers.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)).isTrue();
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+index e6d0065..cde4706 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+@@ -46,11 +46,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
+ @EnableJpaRepositories(basePackages = "com.flatirons.insight.repository",
+         includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+                 InsightSequenceRepository.class, InsightProcessIdRepository.class,
+-                WorkflowIdentifierLockRepository.class, com.flatirons.insight.repository.WorkflowNotificationRuleRepository.class, com.flatirons.insight.repository.UserRepository.class,
++                WorkflowIdentifierLockRepository.class, com.flatirons.insight.repository.WorkflowTaskRoutingRuleRepository.class, com.flatirons.insight.repository.WorkflowNotificationOutboxRepository.class, com.flatirons.insight.repository.WorkflowNotificationRuleRepository.class, com.flatirons.insight.repository.UserRepository.class,
+                 com.flatirons.insight.repository.GroupRepository.class, com.flatirons.insight.repository.ReferenceDataLookupRepository.class}), transactionManagerRef = "insightTransactionManager")
+ @Import({WorkflowIdentifierConfiguration.class, InsightSequenceService.class,
+         InsightProcessIdGenService.class, InsightSequenceListener.class, InsightProcessIdGenListener.class,
+-        WorkflowProcessNamingConfiguration.class, InsightRenameProcessListener.class, InsightSetBusinessKeyListener.class, WorkflowTaskRoutingService.class, WorkflowInitiatorIdentityService.class, WorkflowNotificationService.class, WorkflowMailServiceImpl.class,
++        WorkflowProcessNamingConfiguration.class, InsightRenameProcessListener.class, InsightSetBusinessKeyListener.class, WorkflowTaskRoutingService.class, ReferenceDataServiceImpl.class, WorkflowInitiatorIdentityService.class, WorkflowNotificationService.class, WorkflowMailServiceImpl.class, WorkflowNotificationOutboxService.class,
+         com.flatirons.insight.service.runtime.listener.InsightEmailExecutionListener.class,
+         com.flatirons.insight.service.runtime.listener.InsightLdapListener.class,
+         com.flatirons.insight.service.runtime.listener.InsightJsonUtilListener.class,
+@@ -77,6 +77,8 @@ public class CustomerFirstWaitTestConfiguration {
+                 com.flatirons.insight.domain.UserEntity.class.getName(), com.flatirons.insight.domain.GroupEntity.class.getName(),
+                 com.flatirons.insight.domain.ReferenceDataLookupEntity.class.getName(),
+                 com.flatirons.insight.domain.WorkflowNotificationRuleEntity.class.getName(),
++                com.flatirons.insight.domain.WorkflowTaskRoutingRuleEntity.class.getName(),
++                com.flatirons.insight.domain.WorkflowNotificationOutboxEntity.class.getName(),
+                 com.flatirons.insight.domain.UserGroupEntity.class.getName(),
+                 com.flatirons.insight.domain.GroupPrivilegeEntity.class.getName()));
+         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+@@ -102,13 +104,13 @@ public class CustomerFirstWaitTestConfiguration {
+     @Bean
+     @DependsOn("identifierFixture")
+     SpringProcessEngineConfiguration processEngineConfiguration(DataSource source,
+-            PlatformTransactionManager transactionManager, Environment environment, WorkflowMailService mail) {
++            PlatformTransactionManager transactionManager, Environment environment, WorkflowNotificationOutbox outbox) {
+         SpringProcessEngineConfiguration configuration = new SpringProcessEngineConfiguration();
+         configuration.setDataSource(source);
+         configuration.setTransactionManager(transactionManager);
+         configuration.setDatabaseSchema(environment.getRequiredProperty("identifier.test.schema"));
+         configuration.setDatabaseSchemaUpdate("true");
+-        configuration.setMailClientProvider(new com.flatirons.insight.conf.WorkflowMailClientProvider(mail));
++        configuration.setMailClientProvider(new com.flatirons.insight.conf.WorkflowMailClientProvider(outbox));
+         configuration.setDisableIdmEngine(true);
+         configuration.setDisableEventRegistry(true);
+         configuration.setAsyncExecutorActivate(false);
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowNotificationDeliveryConfigurationTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowNotificationDeliveryConfigurationTest.java
+new file mode 100644
+index 0000000..fea4c7b
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowNotificationDeliveryConfigurationTest.java
+@@ -0,0 +1,48 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import java.util.Map;
++import java.util.concurrent.CountDownLatch;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicInteger;
++import org.junit.jupiter.api.Test;
++import org.springframework.context.annotation.AnnotationConfigApplicationContext;
++import org.springframework.core.env.MapPropertySource;
++import org.springframework.scheduling.annotation.Scheduled;
++import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
++import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
++import static org.assertj.core.api.Assertions.*;
++import static org.mockito.Mockito.mock;
++
++class WorkflowNotificationDeliveryConfigurationTest {
++    static class UnrelatedJob {
++        final AtomicInteger calls=new AtomicInteger();
++        @Scheduled(fixedDelay=1) public void run() { calls.incrementAndGet(); }
++    }
++    @Test void isolatedRetryRunsAndShutsDownWithoutActivatingUnrelatedScheduledJobs() throws Exception {
++        var retry=new CountDownLatch(1); var unrelated=new UnrelatedJob();
++        ThreadPoolTaskScheduler scheduler;
++        try (var context=new AnnotationConfigApplicationContext()) {
++            context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("test",Map.of("insight.workflow.mail.retry-delay-ms",10)));
++            context.registerBean(UnrelatedJob.class,() -> unrelated);
++            context.registerBean(WorkflowNotificationDelivery.class,() -> new WorkflowNotificationDelivery() {
++                @Override public void dispatch(String eventKey) { throw new AssertionError("Retry registration calls only retryUnsent"); }
++                @Override public void retryUnsent() { retry.countDown(); }
++            });
++            context.register(WorkflowNotificationDeliveryConfiguration.class); context.refresh();
++            scheduler=context.getBean("workflowNotificationRetryScheduler",ThreadPoolTaskScheduler.class);
++            assertThat(retry.await(2,TimeUnit.SECONDS)).isTrue();
++            assertThat(context.getBeansOfType(ScheduledAnnotationBeanPostProcessor.class)).isEmpty();
++            assertThat(unrelated.calls).hasValue(0);
++        }
++        assertThat(scheduler.getScheduledThreadPoolExecutor().isShutdown()).isTrue();
++    }
++    @Test void invalidDelayFailsBeforeScheduling() {
++        try (var context=new AnnotationConfigApplicationContext()) {
++            context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("test",Map.of("insight.workflow.mail.retry-delay-ms",0)));
++            context.registerBean(WorkflowNotificationDelivery.class,() -> mock(WorkflowNotificationDelivery.class));
++            context.register(WorkflowNotificationDeliveryConfiguration.class);
++            assertThatThrownBy(context::refresh).hasStackTraceContaining("retry delay must be positive");
++        }
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxServiceTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxServiceTest.java
+new file mode 100644
+index 0000000..dd90b0a
+--- /dev/null
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowNotificationOutboxServiceTest.java
+@@ -0,0 +1,73 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.service.runtime;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.insight.domain.WorkflowNotificationOutboxEntity;
++import com.flatirons.insight.repository.WorkflowNotificationOutboxRepository;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.NullAndEmptySource;
++import org.junit.jupiter.params.provider.ValueSource;
++import org.springframework.transaction.PlatformTransactionManager;
++import org.springframework.transaction.TransactionStatus;
++import org.springframework.transaction.support.TransactionSynchronizationManager;
++import java.util.List;
++import java.util.Map;
++import java.util.Optional;
++import static org.mockito.Mockito.*;
++import static org.assertj.core.api.Assertions.*;
++
++class WorkflowNotificationOutboxServiceTest {
++    private final WorkflowNotificationOutboxRepository events=mock(WorkflowNotificationOutboxRepository.class);
++    private final WorkflowMailService mail=mock(WorkflowMailService.class);
++    private final PlatformTransactionManager transactions=mock(PlatformTransactionManager.class);
++    private final WorkflowNotificationOutboxService service=new WorkflowNotificationOutboxService(events,mail,new ObjectMapper(),transactions);
++    private WorkflowMailService.Request request(Map<String,Object> variables) {
++        return new WorkflowMailService.Request("template.ftl","from@example.invalid",List.of("to@example.invalid"),
++                List.of(),List.of(),"Received",variables);
++    }
++    @AfterEach void clearTransaction() {
++        if (TransactionSynchronizationManager.isSynchronizationActive()) { TransactionSynchronizationManager.clearSynchronization(); }
++        TransactionSynchronizationManager.setActualTransactionActive(false);
++    }
++    @ParameterizedTest @NullAndEmptySource @ValueSource(strings={" ","overlong"})
++    void invalidEventIdentityCannotPersist(String key) {
++        String eventKey="overlong".equals(key) ? "x".repeat(256) : key;
++        var payload=request(Map.of());
++        assertThatThrownBy(() -> service.enqueue(eventKey,payload)).isInstanceOf(IllegalArgumentException.class);
++        verifyNoInteractions(events,mail);
++    }
++    @Test void enqueueRequiresActiveWorkflowTransactionAndSynchronization() {
++        var payload=request(Map.of());
++        assertThatThrownBy(() -> service.enqueue("process/activity/start",payload)).hasMessageContaining("workflow transaction");
++        TransactionSynchronizationManager.setActualTransactionActive(true);
++        assertThatThrownBy(() -> service.enqueue("process/activity/start",payload)).hasMessageContaining("workflow transaction");
++        verifyNoInteractions(events,mail);
++    }
++    @Test void unserializablePayloadRefusesBeforePersistence() {
++        TransactionSynchronizationManager.setActualTransactionActive(true);
++        TransactionSynchronizationManager.initSynchronization();
++        var payload=request(Map.of("unsupported",new Object()));
++        assertThatThrownBy(() -> service.enqueue("process/activity/start",payload)).hasMessageContaining("Invalid notification payload");
++        verifyNoInteractions(events);
++    }
++    @Test void storageFailureDuringDispatchNeverCallsTransport() {
++        when(transactions.getTransaction(any())).thenThrow(new IllegalStateException("Unavailable database"));
++        service.dispatch("process/activity/start");
++        verifyNoInteractions(events,mail);
++    }
++    @Test void absentAndCorruptRowsCannotDeliver() {
++        when(transactions.getTransaction(any())).thenReturn(mock(TransactionStatus.class));
++        when(events.lockEvent("absent")).thenReturn(Optional.empty());
++        var corrupt=mock(WorkflowNotificationOutboxEntity.class);
++        when(corrupt.getPayload()).thenReturn("{broken"); when(events.lockEvent("corrupt")).thenReturn(Optional.of(corrupt));
++        service.dispatch("absent"); service.dispatch("corrupt");
++        verify(corrupt).attempted(any()); verify(corrupt,never()).delivered(); verifyNoInteractions(mail);
++    }
++    @Test void unsupportedTransportPreflightFailsClosed() {
++        WorkflowMailService unsupported=delivery -> { throw new AssertionError("Must not send"); };
++        var payload=request(Map.of());
++        assertThatThrownBy(() -> unsupported.validate(payload)).hasMessageContaining("preflight validation");
++    }
++}
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowReachedBoundaryTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowReachedBoundaryTest.java
+index 0a12c95..9d433cb 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowReachedBoundaryTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowReachedBoundaryTest.java
+@@ -4,9 +4,8 @@ package com.flatirons.insight.service.runtime;
+ import java.util.List;
+ import java.util.Optional;
+ import java.util.Set;
+-import com.fasterxml.jackson.databind.ObjectMapper;
+ import com.flatirons.insight.domain.WorkflowNotificationRuleEntity;
+-import com.flatirons.insight.domain.ReferenceDataLookupEntity;
++import com.flatirons.insight.domain.WorkflowTaskRoutingRuleEntity;
+ import com.flatirons.insight.domain.GroupEntity;
+ import com.flatirons.insight.domain.UserEntity;
+ import com.flatirons.insight.repository.*;
+@@ -58,7 +57,7 @@ class WorkflowReachedBoundaryTest {
+             case "subject" -> rule.setSubject("Injected\r\nheader");
+             default -> throw new IllegalArgumentException(fault);
+         }
+-        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/");
++        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/", mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.saveRule(rule)).isInstanceOf(IllegalArgumentException.class);
+         verifyNoInteractions(rules, runtime);
+     }
+@@ -67,7 +66,7 @@ class WorkflowReachedBoundaryTest {
+     void invalidSenderRefusesPersistence(String sender) {
+         var rule = rule();
+         rule.setFrom(sender);
+-        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/");
++        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/", mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.saveRule(rule)).isInstanceOf(IllegalArgumentException.class);
+         verifyNoInteractions(rules);
+     }
+@@ -88,7 +87,7 @@ class WorkflowReachedBoundaryTest {
+         when(identities.require(null)).thenReturn(user);
+         if (fault.equals("display")) { when(execution.getVariable("reviewcomment")).thenReturn(List.of("not text")); }
+         var service = new WorkflowNotificationService(rules, identities, repository, runtime,
+-                fault.equals("url") ? "https://attacker@example.invalid/" : "https://example.invalid/");
++                fault.equals("url") ? "https://attacker@example.invalid/" : "https://example.invalid/", mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.prepare(execution, "start")).isInstanceOf(IllegalArgumentException.class);
+         verify(execution, never()).setVariable(anyString(), any());
+         verify(execution, never()).setTransientVariableLocal(anyString(), any());
+@@ -99,7 +98,7 @@ class WorkflowReachedBoundaryTest {
+     @ParameterizedTest @NullAndEmptySource @ValueSource(strings={"../secret.ftl"})
+     void missingOrUnsafeTemplateRefusesBeforePersistence(String template) {
+         var rule = rule(); rule.setTemplateName(template);
+-        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/");
++        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/", mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.saveRule(rule)).isInstanceOf(IllegalArgumentException.class);
+         verifyNoInteractions(rules);
+     }
+@@ -107,14 +106,14 @@ class WorkflowReachedBoundaryTest {
+     @ParameterizedTest @NullAndEmptySource @ValueSource(strings={" ", "Injected\nheader"})
+     void missingOrHeaderSubjectRefusesBeforePersistence(String subject) {
+         var rule = rule(); rule.setSubject(subject);
+-        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/");
++        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/", mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.saveRule(rule)).isInstanceOf(IllegalArgumentException.class);
+         verifyNoInteractions(rules);
+     }
+ 
+     @Test void overlongSubjectRefusesBeforePersistence() {
+         var rule = rule(); rule.setSubject("s".repeat(256));
+-        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/");
++        var service = new WorkflowNotificationService(rules, identities, repository, runtime, "https://example.invalid/", mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.saveRule(rule)).isInstanceOf(IllegalArgumentException.class);
+         verifyNoInteractions(rules);
+     }
+@@ -132,7 +131,7 @@ class WorkflowReachedBoundaryTest {
+                 .thenReturn(Optional.of(rule()));
+         var user = new UserEntity(); user.setEmail("starter@example.invalid");
+         when(identities.require(null)).thenReturn(user);
+-        var service = new WorkflowNotificationService(rules, identities, repository, runtime, url);
++        var service = new WorkflowNotificationService(rules, identities, repository, runtime, url, mock(WorkflowMailService.class));
+         assertThatThrownBy(() -> service.prepare(execution, "start")).hasMessageContaining("web base URL");
+         verify(execution, never()).setVariable(anyString(), any());
+         verify(execution, never()).setTransientVariableLocal(anyString(), any());
+@@ -205,9 +204,9 @@ class WorkflowReachedBoundaryTest {
+         verify(task, never()).setAssignee(anyString());
+     }
+ 
+-    @ParameterizedTest @ValueSource(strings={"tenant", "scope", "json", "variable", "rule-lookup", "invalid-field"})
++    @ParameterizedTest @ValueSource(strings={"tenant", "scope", "disabled", "missing-site", "invalid-group", "invalid-name"})
+     void routingRejectsUnsupportedOrMalformedConfigurationBeforeAssignment(String fault) {
+-        var lookups = mock(ReferenceDataLookupRepository.class);
++        var lookups = mock(WorkflowTaskRoutingRuleRepository.class);
+         var groups = mock(GroupRepository.class);
+         var task = mock(DelegateTask.class);
+         when(task.getTenantId()).thenReturn(fault.equals("tenant") ? "tenant" : "");
+@@ -215,20 +214,14 @@ class WorkflowReachedBoundaryTest {
+         var definition = mock(ProcessDefinition.class);
+         when(repository.getProcessDefinition(null)).thenReturn(definition);
+         when(definition.getKey()).thenReturn(fault.equals("scope") ? "other" : "SafranFeedbackWorkflow");
+-        var routingRule = new ReferenceDataLookupEntity();
+-        routingRule.setIsDeleted(false);
+-        routingRule.setMetadata("{\"processKey\":\"SafranFeedbackWorkflow\",\"taskKey\":\"local-review-feedback\","
+-                + "\"lookupVariable\":\"submitting_site\",\"lookupType\":\"feedback-sites\",\"taskName\":\"Review\"}");
+-        switch (fault) {
+-            case "json" -> routingRule.setMetadata("{broken");
+-            case "variable" -> routingRule.setMetadata(routingRule.getMetadata().replace("submitting_site", "untrusted"));
+-            case "rule-lookup" -> routingRule.setMetadata(routingRule.getMetadata().replace("feedback-sites", "workflow-task-routing"));
+-            case "invalid-field" -> routingRule.setMetadata(routingRule.getMetadata().replace("feedback-sites", ""));
+-            default -> { /* Tenant and process scope refusals use the valid rule unchanged. */ }
+-        }
+-        when(task.getVariable("submitting_site")).thenReturn("Paris");
+-        when(lookups.findByLookupTypeAndKeyValue(anyString(), anyString())).thenReturn(Optional.of(routingRule));
+-        var service = new WorkflowTaskRoutingService(lookups, groups, repository, runtime, new ObjectMapper());
++        var routingRule = new WorkflowTaskRoutingRuleEntity();
++        routingRule.setEnabled(!fault.equals("disabled"));
++        routingRule.setTaskName(fault.equals("invalid-name") ? "" : "Review");
++        routingRule.setCandidateGroupId(fault.equals("invalid-group") ? 0L : 42L);
++        when(task.getVariable("submitting_site")).thenReturn(fault.equals("missing-site") ? null : "Paris");
++        when(lookups.findByProcessDefinitionKeyAndTaskKeyAndSiteKey(anyString(), anyString(), anyString()))
++                .thenReturn(Optional.of(routingRule));
++        var service = new WorkflowTaskRoutingService(lookups, groups, repository, runtime);
+         assertThatThrownBy(() -> service.assign(task, false)).isInstanceOf(IllegalArgumentException.class);
+         verify(task, never()).addCandidateGroup(anyString());
+         verify(task, never()).setVariable(anyString(), any());
+@@ -236,7 +229,7 @@ class WorkflowReachedBoundaryTest {
+     }
+ 
+     @Test void routingReplacesUserAndGroupCandidatesWithoutInvolvingWhenNotRequested() {
+-        var lookups = mock(ReferenceDataLookupRepository.class);
++        var lookups = mock(WorkflowTaskRoutingRuleRepository.class);
+         var groups = mock(GroupRepository.class);
+         var task = mock(DelegateTask.class);
+         when(task.getTenantId()).thenReturn("");
+@@ -244,20 +237,17 @@ class WorkflowReachedBoundaryTest {
+         var definition = mock(ProcessDefinition.class);
+         when(repository.getProcessDefinition(null)).thenReturn(definition);
+         when(definition.getKey()).thenReturn("SafranFeedbackWorkflow");
+-        var routingRule = new ReferenceDataLookupEntity(); routingRule.setIsDeleted(false);
+-        routingRule.setMetadata("{\"processKey\":\"SafranFeedbackWorkflow\",\"taskKey\":\"local-review-feedback\","
+-                + "\"lookupVariable\":\"submitting_site\",\"lookupType\":\"feedback-sites\"}");
+-        var match = new ReferenceDataLookupEntity(); match.setIsDeleted(false); match.setMetadata("{\"candidateGroup\":\"Reviewers\"}");
+-        when(lookups.findByLookupTypeAndKeyValue("workflow-task-routing", "SafranFeedbackWorkflow/local-review-feedback"))
++        var routingRule = new WorkflowTaskRoutingRuleEntity();
++        routingRule.setTaskName("Review"); routingRule.setCandidateGroupId(42L);
++        when(lookups.findByProcessDefinitionKeyAndTaskKeyAndSiteKey("SafranFeedbackWorkflow", "local-review-feedback", "Paris"))
+                 .thenReturn(Optional.of(routingRule));
+-        when(lookups.findByLookupTypeAndKeyValue("feedback-sites", "Paris")).thenReturn(Optional.of(match));
+         when(task.getVariable("submitting_site")).thenReturn("Paris");
+-        var group = new GroupEntity(); group.setId(42L); group.setStatus(GroupStatus.ACTIVE);
+-        when(groups.findByNameAndGroupType("Reviewers", GroupType.GROUP)).thenReturn(Optional.of(group));
++        var group = new GroupEntity(); group.setId(42L); group.setStatus(GroupStatus.ACTIVE); group.setGroupType(GroupType.GROUP);
++        when(groups.findById(42L)).thenReturn(Optional.of(group));
+         var userLink = mock(IdentityLink.class); when(userLink.getUserId()).thenReturn("old-user");
+         var groupLink = mock(IdentityLink.class); when(groupLink.getGroupId()).thenReturn("old-group");
+         when(task.getCandidates()).thenReturn(Set.of(userLink, groupLink));
+-        var service = new WorkflowTaskRoutingService(lookups, groups, repository, runtime, new ObjectMapper());
++        var service = new WorkflowTaskRoutingService(lookups, groups, repository, runtime);
+         new InsightRoutingProcessListener(service).assignCandidateGroup(task);
+         verify(task).deleteCandidateUser("old-user");
+         verify(task).deleteCandidateGroup("old-group");
