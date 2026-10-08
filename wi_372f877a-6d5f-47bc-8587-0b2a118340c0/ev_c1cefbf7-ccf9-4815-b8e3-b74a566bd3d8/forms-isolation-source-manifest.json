@@ -1,0 +1,13 @@
+{
+  "base": "5ec0cfa4881e3ea16e9f13e3e1dc4b5cf1c0218c",
+  "description": "Actual unchanged proof checkout test/config snapshot used for cold and warm receipts. Final source later adds only a disabled-by-default exception canary branch; final full unit/build receipt uses separately attached final manifest.",
+  "files": {
+    "karma.conf.js": "0f44e9874875fca83bb1b2989e22e907584495f30286687ba9ac9ca71c24f10b",
+    "project.json": "cb631b0a5650b70322d731dae1d0d131bc020159f1f10fad1bbec960cbcee91b",
+    "src/test.ts": "601c155c1c6183f945c71d7c6926fbf3a239a645523ca96d671923d38c7980fb",
+    "src/testing/forms-diagnostics.ts": "db61daa4a6edd6e5bb78e392cd54cafe1d2a35572f7ebbfd1087764236e6fd2c",
+    "src/testing/forms-diagnostics.spec.ts": "9c1c197989e6c70c8f77ada29827e89b81f7fce629ae4bac04b7a1ab343774da",
+    "src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts": "d71497febf06387ef1721ed7693755882669f77f945bf891ce8bb1f63e69aa0d",
+    "src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts": "7c84bde396c501d29314d41b624a690700c42e960a9355e71d5d570c2047ba60"
+  }
+}
