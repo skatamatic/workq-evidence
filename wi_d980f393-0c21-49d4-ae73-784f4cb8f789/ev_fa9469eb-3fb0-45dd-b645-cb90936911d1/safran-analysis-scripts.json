@@ -1,0 +1,139 @@
+{
+  "archiveSHA256": "2a8d390d112c97303d5916ad3a1d33257a188a7cf4e481466ba4305841546019",
+  "bpmnSHA256": "7cdf3d79b584db1caadcea08557efcc536c6934d13f822ff0be0d08757922f6c",
+  "member": "bpmn-models/Safran Analysis workflow-20.bpmn20.xml",
+  "scripts": [
+    {
+      "id": "mail_script",
+      "name": "Mail Script",
+      "sha256": "e5dfaaf46fd6e587080c18289a59009b479f9fd74e849e85d953c185f6141ac4",
+      "xmlLine": 352,
+      "script": "// Retrieve the JSON array from the process variable \"table_of_impact\"\nvar jsonString = execution.getVariable(\"table_of_impact\");\n\nif (jsonString !== null && typeof jsonString === \"string\") {\n    // Parse the JSON string into a JavaScript array\n    var jsonArray = JSON.parse(jsonString);\n\n    // Check if the parsed JSON is an array\n    if (Array.isArray(jsonArray)) { \n        // Step 1: Group keys by groupName (preparer data removed)\n        var groupMap = {}; // groupName => [ key, key, ... ]\n\n        // Iterate through the JSON array using a traditional for loop\n        for (var i = 0; i < jsonArray.length; i++) {\n            var item = jsonArray[i];\n            var groupName = item.groupName;\n            var key = item.key;\n            \n            // Initialize the group if not already present\n            if (!groupMap[groupName]) {\n                groupMap[groupName] = [];\n            }\n            \n            // Check if key already exists in the group before adding\n            if (groupMap[groupName].indexOf(key) === -1) {\n                groupMap[groupName].push(key);\n            }\n        }\n\n        // Generate the groupMapString for display/logging purposes\n        var groupMapString = \"\";\n        for (var groupName in groupMap) {\n            if (groupMap.hasOwnProperty(groupName)) {\n                groupMapString += \"<strong>\" + groupName + \":</strong><br>\";\n                for (var k = 0; k < groupMap[groupName].length; k++) {\n                    groupMapString += \"&nbsp;&nbsp;&nbsp;&nbsp;- \" + groupMap[groupName][k] + \"<br>\";\n                }\n                groupMapString += \"<br>\";\n            }\n        }\n\n        // Step 2: Iterate over groupMap and, using the new method with groupName,\n        // retrieve each group's email distribution list, collecting only unique emails.\n        var uniqueEmails = {};\n        for (var groupName in groupMap) {\n            if (groupMap.hasOwnProperty(groupName)) {\n                // Use the new method to get the email distribution list for this group\n                var mailList = insightSafranDispatchListener.getEmailDistributionListForGroup(execution, groupName);\n                if (mailList) {\n                    // Split the returned string into individual emails and add to the unique set\n                    var emails = mailList.split(\",\");\n                    for (var j = 0; j < emails.length; j++) {\n                        var email = emails[j].trim();\n                        if (email) {\n                            uniqueEmails[email] = true;\n                        }\n                    }\n                }\n            }\n        }\n        \n        // Convert the unique email addresses into a comma-delimited string\n        var finalEmailList = Object.keys(uniqueEmails).join(\", \");\n\n        // Save the results into process variables\n        execution.setVariable(\"groupMapString\", groupMapString);\n        execution.setVariable(\"analysisMailList\", finalEmailList);\n\n        // Optional: log the results for debugging purposes\n        // java.lang.System.out.println(\"Group Map String:\\n\" + groupMapString);\n        // java.lang.System.out.println(\"Unique Email List: \" + finalEmailList);\n    }\n}",
+      "attributes": {
+        "id": "mail_script",
+        "name": "Mail Script",
+        "{http://activiti.org/bpmn}async": "true",
+        "{http://activiti.org/bpmn}exclusive": "false",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "reassign-group-script-multi",
+      "name": "Reassign Group",
+      "sha256": "fc0ad32d4a9c178492cfccbba5a9f1a96a22472d0131a16b87fd3283ba507a40",
+      "xmlLine": 662,
+      "script": "var groupId = execution.getVariable('assign_to_group');\nif(groupId !== null || groupId !== '') {\n    var groupIdAsString = insightVariableUtilsListener.stringValueOf(groupId);\n    var group = groupServiceImpl.getGroup(groupId);\n    execution.setVariable('analyst_group_id',groupIdAsString);\n    execution.setVariable('analyst_group_name',group.getName());\n}\ninsightJsonUtilListener.inspect(execution,\"assign_to_group\")",
+      "attributes": {
+        "id": "reassign-group-script-multi",
+        "name": "Reassign Group",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "process-analyst-task-script",
+      "name": "Process Analyst task variables",
+      "sha256": "bdc6ad8fc68d728447d2d8a5c5d85e82ec335f011664f6faaf77733fc4fd3f60",
+      "xmlLine": 677,
+      "script": "execution.setVariableLocal(\"analyst_document\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"document\",0));\nexecution.setVariableLocal(\"analyst_title\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"title\",0));\nexecution.setVariableLocal(\"analyst_hyperlink\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"hyperlink\",0));\nexecution.setVariableLocal(\"analyst_coc\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"numCOCChanges\",0));\nexecution.setVariableLocal(\"analyst_oem\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"numOEMChanges\",0));\nexecution.setVariableLocal(\"analyst_date\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"date\",0));\nexecution.setVariableLocal(\"analyst_status\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\", \"status\",0));\nexecution.setVariableLocal(\"analyst_group_name\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\",\"group.name\",0));\nexecution.setVariableLocal(\"analyst_group_id\", insightJsonUtilListener.getValueFromJsonNodeArray(execution, \"document_rfus\",\"group.id\",0));\nexecution.setVariableLocal(\"activity_log\",\"\");\nexecution.setVariableLocal(\"activity_log\",\"\");\nexecution.setVariableLocal(\"analyst_action\",\"Choose one...\");\nexecution.setVariableLocal(\"analyst_result\",\"Choose one...\");",
+      "attributes": {
+        "id": "process-analyst-task-script",
+        "name": "Process Analyst task variables",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "preprocess-json-files-script",
+      "name": "Preprocess list of highlights and merge report",
+      "sha256": "52d928ac9311442623d95c3b3698fac6b33dd331984f57161b562613287808e2",
+      "xmlLine": 789,
+      "script": "// Convert Highlights to dynamic table\ninsightJsonUtilListener.createTableFromJsonFile(execution,\"listOfHighlights\",\"highlights\",\"list_of_highlights\");\n\n// Convert Merge report to dynamic talbe\ninsightJsonUtilListener.createTableFromJsonFile(execution,\"documentMergeReport\",\"document_merge_report\");\n\n// Merge the two tables together\ninsightJsonUtilListener.mergeAndCopyTable(execution,\"list_of_highlights\",\"document_merge_report\",\"key\",\"document\",\"document\",\"master_list\");\n\n// Dispatch the prelimnary group assignments to DMC entry\ninsightSafranDispatchListener.dispatchToConfiguredGroupAssignment(execution,\"master_list\",\"LEAP\",\"C,I,T,B,R,M,E,S,CI\");\ninsightSafranDispatchListener.validateGroupAssignment(execution, \"master_list\");\n\n// Original Method to get missing groups\n//insightJsonUtilListener.filterTableByColumnValue(execution, \"master_list\", \"groupName\",\"\",\"table_of_impact_missing_group\", false);",
+      "attributes": {
+        "id": "preprocess-json-files-script",
+        "name": "Preprocess list of highlights and merge report",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "check-missing-group-script",
+      "name": "Clean master list",
+      "sha256": "5aa4a1e57659b07e8e5ec96a2f18d409b3b8df419b520d8e1556c2264fe0bd1c",
+      "xmlLine": 811,
+      "script": "// Process CSV file into table\nvar headerMap = {\n  \"Data Module Code\": \"key\",\n  \"Title\": \"title\",\n  \"Issue Number\": \"issueNumber\",\n  \"Publication Date\": \"date\",\n  \"Status\": \"status\",\n  \"Filter ID\": \"filterId\",\n  \"Filter Text\": \"filterText\",\n  \"IC Status\": \"icStatus\",\n  \"RFU Type\": \"rfu_type\",\n  \"RFU Label\": \"rfu_label\",\n  \"RFU Reference\": \"rfu_text\",\n  \"Document\": \"document\",\n  \"ICV\": \"icv\",\n  \"ATA Code\": \"ataCode\",\n  \"Group\": \"groupName\",\n  \"Analysis Required\":\"analysis_required\"\n};\n\nvar headerJsonMapString = JSON.stringify(headerMap);\n\ninsightJsonUtilListener.createTableFieldFromCsvFile(execution,\"upload_override_csv\",headerJsonMapString,\"master_list\");\ninsightSafranDispatchListener.validateGroupAssignment(execution, \"master_list\");",
+      "attributes": {
+        "id": "check-missing-group-script",
+        "name": "Clean master list",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "create-data-tables-and-csv-script",
+      "name": "Create data tables and CSVs",
+      "sha256": "ca772c25546e0287e9f7a18bf25f4a807a5ddcd745cdfdbb6e8fd2b7433a06b9",
+      "xmlLine": 855,
+      "script": "// Define table variable names\nvar masterListTable = \"master_list\";\nvar tableOfImpact = \"table_of_impact\";\nvar urt01List = \"urt01_list\";\nvar noCapaList = \"no_capa_list\";\nvar noAnalystRequired = \"no_analyst_required\";\n\n// Define CSV column fields and headers\nvar titleMap = {\n  \"key\": \"Data Module Code\",\n  \"title\": \"Title\",\n  \"issueNumber\": \"Issue Number\",\n  \"date\": \"Publication Date\",\n  \"status\": \"Status\",\n  \"filterId\": \"Filter ID\",\n  \"filterText\": \"Filter Text\",\n  \"icStatus\": \"IC Status\",\n  \"rfu_type\": \"RFU Type\",\n  \"rfu_label\": \"RFU Label\",\n  \"rfu_text\": \"RFU Reference\",\n  \"document\": \"Document\",\n  \"icv\": \"ICV\",\n  \"ataCode\": \"ATA Code\",\n  \"groupName\": \"Group\",\n  \"analysis_required\": \"Analysis Required\"\n};\n\nvar headerJsonMapString = JSON.stringify(titleMap);\n\n// Define CSV file names and corresponding process variable names\nvar masterListCsvFileName = \"master_list.csv\";\nvar masterListCsvVar = \"master_list_csv\";\n\nvar tableOfImpactCsvFileName = \"table_of_impact.csv\";\nvar tableOfImpactCsvVar = \"table_of_impact_csv\";\n\nvar noAnalystRequiredCsvFileName = \"no_analyst_required.csv\";\nvar noAnalystRequiredCsvVar = \"no_analyst_required_csv\";\n\n// Create Master list CSV from full data set\ninsightJsonUtilListener.createCsvFileFromTableField(execution, masterListTable, headerJsonMapString, masterListCsvFileName, \"docManager\", masterListCsvVar);\n\n\n// Create table_of_impact CSV\n// Filter table_of_impact from master list\n//insightJsonUtilListener.filterTableByColumnValue(execution, masterListTable, \"rfu_type\", \"urt01\", tableOfImpact, true);\n//insightJsonUtilListener.filterTableByColumnValue(execution, tableOfImpact, \"groupName\", \"Hors_Capa\", tableOfImpact, true);\ninsightJsonUtilListener.filterTableByColumnValue(execution, masterListTable, \"analysis_required\", \"yes\", tableOfImpact, false);\ninsightJsonUtilListener.createCsvFileFromTableField(execution, tableOfImpact, headerJsonMapString, tableOfImpactCsvFileName, \"docManager\", tableOfImpactCsvVar);\n\n\n// Create CSV for No Analyst Required\n// Filter for No Analyst Required list: all except urt01 and HorsCapa\n//insightJsonUtilListener.filterTableByColumnValue(execution, masterListTable, \"rfu_type\", \"urt01\", urt01List, false);\n//insightJsonUtilListener.filterTableByColumnValue(execution, masterListTable, \"groupName\", \"Hors_Capa\", noCapaList, false);\n//insightJsonUtilListener.appendTable(execution, urt01List, noCapaList, noAnalystRequired);\ninsightJsonUtilListener.filterTableByColumnValue(execution, masterListTable, \"analysis_required\", \"no\", noAnalystRequired, false);\ninsightJsonUtilListener.createCsvFileFromTableField(execution, noAnalystRequired, headerJsonMapString, noAnalystRequiredCsvFileName, \"docManager\", noAnalystRequiredCsvVar);\n",
+      "attributes": {
+        "id": "create-data-tables-and-csv-script",
+        "name": "Create data tables and CSVs",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "override-script",
+      "name": "Override Dispatch",
+      "sha256": "755a9b076704a08420c22a29915a75352e6992b337ea20563b0aa40babdde5a2",
+      "xmlLine": 921,
+      "script": "// Define table variable names\nvar masterListTable = \"master_list\";\nvar tableOfImpact = \"table_of_impact\";\nvar urt01List = \"urt01_list\";\nvar noCapaList = \"no_capa_list\";\nvar noAnalystRequired = \"no_analyst_required\";\n\n// Define CSV column fields and headers\nvar titleMap = {\n  \"key\": \"Data Module Code\",\n  \"title\": \"Title\",\n  \"issueNumber\": \"Issue Number\",\n  \"date\": \"Publication Date\",\n  \"status\": \"Status\",\n  \"filterId\": \"Filter ID\",\n  \"filterText\": \"Filter Text\",\n  \"icStatus\": \"IC Status\",\n  \"rfu_type\": \"RFU Type\",\n  \"rfu_label\": \"RFU Label\",\n  \"rfu_text\": \"RFU Reference\",\n  \"document\": \"Document\",\n  \"icv\": \"ICV\",\n  \"ataCode\": \"ATA Code\",\n  \"groupName\": \"Group\",\n  \"analysis_required\": \"Analysis Required\"\n};\n\nvar headerTitleMap = JSON.stringify(titleMap);\n\n// Define CSV file names and corresponding process variable names\nvar masterListCsvFileName = \"master_list.csv\";\nvar masterListCsvVar = \"master_list_csv\";\n\nvar tableOfImpactCsvFileName = \"table_of_impact.csv\";\nvar tableOfImpactCsvVar = \"table_of_impact_csv\";\n\nvar noAnalystRequiredCsvFileName = \"no_analyst_required.csv\";\nvar noAnalystRequiredCsvVar = \"no_analyst_required_csv\";\n\n\n// Process CSV file into table\nvar headerMap = {\n  \"Data Module Code\": \"key\",\n  \"Title\": \"title\",\n  \"Issue Number\": \"issueNumber\",\n  \"Publication Date\": \"date\",\n  \"Status\": \"status\",\n  \"Filter ID\": \"filterId\",\n  \"Filter Text\": \"filterText\",\n  \"IC Status\": \"icStatus\",\n  \"RFU Type\": \"rfu_type\",\n  \"RFU Label\": \"rfu_label\",\n  \"RFU Reference\": \"rfu_text\",\n  \"Document\": \"document\",\n  \"ICV\": \"icv\",\n  \"ATA Code\": \"ataCode\",\n  \"Group\": \"groupName\",\n  \"Analysis Required\":\"analysis_required\"\n};\n\nvar headerJsonMapString = JSON.stringify(headerMap);\n\n// Override Table\ninsightJsonUtilListener.createTableFieldFromCsvFile(execution,\"manager_override_master_list_csv\",headerJsonMapString,\"master_list\");\ninsightSafranDispatchListener.validateGroupAssignment(execution, \"master_list\");\ninsightSafranDispatchListener.removeCSVDocument(execution,\"manager_override_master_list_csv\");\nexecution.setVariable(\"override_master_distribution\",false);\nexecution.setVariable(\"manager_action\",\"Choose one...\")\n\n",
+      "attributes": {
+        "id": "override-script",
+        "name": "Override Dispatch",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "create_missing_group_master_list_script",
+      "name": "Build Master List CSV",
+      "sha256": "6cc0f83abaa5dffdfc014570e0d2524ad0b4a646f625b4b6e83d70278269ab60",
+      "xmlLine": 1003,
+      "script": "var masterListTable = \"master_list\";\nmasterListCsvFileName = \"master_list_missing.csv\"\nvar masterListCsvVar = \"master_list_mising_csv\";\n\n// Define CSV column fields and headers\nvar titleMap = {\n  \"key\": \"Data Module Code\",\n  \"title\": \"Title\",\n  \"issueNumber\": \"Issue Number\",\n  \"date\": \"Publication Date\",\n  \"status\": \"Status\",\n  \"filterId\": \"Filter ID\",\n  \"filterText\": \"Filter Text\",\n  \"icStatus\": \"IC Status\",\n  \"rfu_type\": \"RFU Type\",\n  \"rfu_label\": \"RFU Label\",\n  \"rfu_text\": \"RFU Reference\",\n  \"document\": \"Document\",\n  \"icv\": \"ICV\",\n  \"ataCode\": \"ATA Code\",\n  \"groupName\": \"Group\",\n  \"analysis_required\":\"Analysis Required\"\n};\n\nvar headerJsonMapString = JSON.stringify(titleMap);\n\n// Create Master list CSV from full data set\ninsightJsonUtilListener.createCsvFileFromTableField(execution, masterListTable, headerJsonMapString, masterListCsvFileName, \"docManager\", masterListCsvVar);",
+      "attributes": {
+        "id": "create_missing_group_master_list_script",
+        "name": "Build Master List CSV",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "post-process-script",
+      "name": "Post process",
+      "sha256": "572fb28c98d0fdb9d0e3665e2387569a177664e31a575a79bcc34261460e65ab",
+      "xmlLine": 1074,
+      "script": "// Insert Document Urls\ninsightSafranDispatchListener.insertDocumentUrlNodes(execution,\"table_of_impact\", \"publication_url\",\"document\",\"document_url\",\"hyperlink\",\"document\");\n\n// And Group object to table\ninsightSafranDispatchListener.addGroupsToTable(execution,\"table_of_impact\");",
+      "attributes": {
+        "id": "post-process-script",
+        "name": "Post process",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    },
+    {
+      "id": "analysis-workflow-end-script",
+      "name": "Build Distribution List and Subject",
+      "sha256": "c945414dce1d17e9ad821c4cb3898999463c2779b595531f505c50a5a08d9d2a",
+      "xmlLine": 1129,
+      "script": "// Predefined list of groups\nvar groupsList = [\"SAE R1\", \"SAE R2\", \"SAE R3\", \"SAE R4\", \"SAE R5\"];\n\n// To store unique emails\nvar uniqueEmails = {};\n\n// Loop through each group\nfor (var i = 0; i < groupsList.length; i++) {\n    var groupName = groupsList[i];\n    \n    // Get distribution list\n    var mailList = insightSafranDispatchListener.getEmailDistributionListForGroup(execution, groupName);\n    \n    if (mailList) {\n        var emails = mailList.split(\",\");\n        for (var j = 0; j < emails.length; j++) {\n            var email = emails[j].trim();\n            if (email) {\n                uniqueEmails[email] = true; // Add to map to ensure uniqueness\n            }\n        }\n    }\n}\n\n// Join unique emails into a string\nvar finalEmailList = Object.keys(uniqueEmails).join(\", \");\nexecution.setVariable(\"finalEmailList\", finalEmailList);\n\n// Prepare subject\nvar manualName = execution.getVariable(\"manualName\");\nvar subject = 'Update of doc ' + manualName;\nexecution.setVariable(\"finalSubject\", subject);\n",
+      "attributes": {
+        "id": "analysis-workflow-end-script",
+        "name": "Build Distribution List and Subject",
+        "scriptFormat": "JavaScript",
+        "{http://activiti.org/bpmn}autoStoreVariables": "false"
+      }
+    }
+  ]
+}
