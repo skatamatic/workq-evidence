@@ -1,0 +1,4 @@
+Server-fetched PR65 Sonar task e8d2f9e6-6840-4cef-a2dc-bc4945ddf131: quality gate ERROR; new_violations=6. Head 54216daeaf438358d020f93e58a71e03f7ae691e.
+java:S5961 at CustomerFirstWaitScenarioTest.java:441: reduce assertions from 26 to less than 25.
+java:S8924 at lines 443, 444, 479, 485, 497: use static imports for mock/when.
+Jenkins PR65 #1 reached completed analysis and aborted on quality gate ERROR. No Sonar suppression or gate changes authorized.
