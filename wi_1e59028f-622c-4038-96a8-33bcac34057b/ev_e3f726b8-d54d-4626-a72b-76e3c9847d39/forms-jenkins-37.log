@@ -1,0 +1,606 @@
+Branch event
+Obtained Jenkinsfile from 620aa6a083712620c17ab6bb24cb785992bc8a13
+Loading library devops-jenkins-lib@master
+Attempting to resolve master from remote references...
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git ls-remote -h -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+Found match: refs/heads/master revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+The recommended git tool is: NONE
+using credential bitbucket-builder
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git init /var/jenkins_home/workspace/sley_concise-form-field-delivery@libs/424505265d8fda4cdcfb4be805f1cbd894f70b00b7a9e466eda3768f9a2ae303 # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c # timeout=10
+Commit message: "PDO-222 Avoid error if env.BRANCH_NAME is not set."
+First time build. Skipping changelog.
+[Bitbucket] Notifying commit build result
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+[Pipeline] Start of Pipeline
+[Pipeline] milestone
+Trying to pass milestone 1
+[Pipeline] readTrusted
+Obtained extra-containers.yaml from 620aa6a083712620c17ab6bb24cb785992bc8a13
+[Pipeline] podTemplate
+[Pipeline] {
+[Pipeline] node
+Created Pod: k8s jenkins/rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30
+[PodInfo] jenkins/rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30
+	Container [builder] waiting [ContainerCreating] No message
+	Container [dind] waiting [ContainerCreating] No message
+	Container [git] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [maven] waiting [ContainerCreating] No message
+	Container [node] waiting [ContainerCreating] No message
+	Container [scanner] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [builder scanner node git dind maven jnlp]
+Agent rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30 is provisioned from template RDCA_etc-client_kwesley_2Fconcise-form-field-delivery_1-wsmpp-9fjtt
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    kubernetes.jenkins.io/last-refresh: "1791494676008"
+    buildUrl: "http://jenkins:8080/job/RDCA/job/etc-client/job/kwesley%252Fconcise-form-field-delivery/1/"
+    runUrl: "job/RDCA/job/etc-client/job/kwesley%252Fconcise-form-field-delivery/1/"
+  labels:
+    jenkins: "slave"
+    jenkins/label-digest: "b52e012af89c0777d880de7a321736f61075fd43"
+    jenkins/label: "xetc-client_kwesley_2Fconcise-form-field-delivery_1-wsmpp"
+    kubernetes.jenkins.io/controller: "http___jenkins_8080x"
+  name: "rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30"
+  namespace: "jenkins"
+spec:
+  containers:
+  - args:
+    - "dockerd-entrypoint.sh dockerd && cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/builder:no-cache-npm-jdk21-node18"
+    imagePullPolicy: "Always"
+    name: "builder"
+    resources:
+      requests:
+        cpu: "1000m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - args:
+    - "dockerd-entrypoint.sh dockerd && cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/builder:no-cache-temurin21-go124"
+    imagePullPolicy: "Always"
+    name: "scanner"
+    resources:
+      requests:
+        cpu: "1000m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/node:10"
+    imagePullPolicy: "IfNotPresent"
+    name: "node"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/git-cache:latest"
+    imagePullPolicy: "Always"
+    name: "git"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "dockerd-entrypoint.sh"
+    - "dockerd"
+    - "&&"
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/dind-builder:latest"
+    imagePullPolicy: "Always"
+    name: "dind"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "200m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/maven:3-jdk-8"
+    imagePullPolicy: "Always"
+    name: "maven"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_TUNNEL"
+      value: "jenkins-agent:50000"
+    - name: "JENKINS_AGENT_NAME"
+      value: "rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30"
+    - name: "REMOTING_OPTS"
+      value: "-noReconnectAfter 1d"
+    - name: "JENKINS_NAME"
+      value: "rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://jenkins:8080/"
+    image: "hub.flatirons.cloud/docker/jenkins/inbound-agent:3355.v388858a_47b_33-3-jdk21"
+    name: "jnlp"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  nodeSelector:
+    builder: "true"
+  restartPolicy: "Never"
+  serviceAccountName: "jenkins"
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on rdca-etc-client-kwesley-2fconcise-form-field-delivery-1-w-plf30 in /home/jenkins/agent/workspace/sley_concise-form-field-delivery
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential bitbucket-api
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://bitbucket.org/flatironssolutions/etc-client.git
+ > git init /home/jenkins/agent/workspace/sley_concise-form-field-delivery # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/etc-client.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials User API token for bitbucket-api
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/etc-client.git +refs/heads/kwesley/concise-form-field-delivery:refs/remotes/origin/kwesley/concise-form-field-delivery # timeout=10
+Avoid second fetch
+Checking out Revision 620aa6a083712620c17ab6bb24cb785992bc8a13 (kwesley/concise-form-field-delivery)
+Commit message: "docs(forms): adopt concise field delivery skill"
+First time build. Skipping changelog.
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+fatal: bad object a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Angular Slave)
+[Pipeline] node
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/etc-client.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/kwesley/concise-form-field-delivery:refs/remotes/origin/kwesley/concise-form-field-delivery # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 620aa6a083712620c17ab6bb24cb785992bc8a13 # timeout=10
+Still waiting to schedule task
+‘EC2 (AWS EC2 Builders) - Angular-Linux (i-008fc7df9757dcbc4)’ is offline
+Running on EC2 (AWS EC2 Builders) - Angular-Linux (sir-ndezqibk) in /jenkins/workspace/sley_concise-form-field-delivery
+[Pipeline] {
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential bitbucket-api
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://bitbucket.org/flatironssolutions/etc-client.git
+ > git init /jenkins/workspace/sley_concise-form-field-delivery # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/etc-client.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.40.1'
+using GIT_ASKPASS to set credentials User API token for bitbucket-api
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/etc-client.git +refs/heads/kwesley/concise-form-field-delivery:refs/remotes/origin/kwesley/concise-form-field-delivery # timeout=10
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/etc-client.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/kwesley/concise-form-field-delivery:refs/remotes/origin/kwesley/concise-form-field-delivery # timeout=10
+Avoid second fetch
+Checking out Revision 620aa6a083712620c17ab6bb24cb785992bc8a13 (kwesley/concise-form-field-delivery)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 620aa6a083712620c17ab6bb24cb785992bc8a13 # timeout=10
+Commit message: "docs(forms): adopt concise field delivery skill"
+ > git --version # timeout=10
+ > git --version # 'git version 2.40.1'
+fatal: bad object a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare)
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $NPM_PASS
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [NPM_PASS]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ echo -n ****
++ base64
+Did you forget the `def` keyword? WorkflowScript seems to be setting a field named auth (to a value of type String) which could lead to memory leaks or other issues.
+[Pipeline] writeFile
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Apps)
+[Pipeline] withMaven
+$ /bin/sh -c "which mvn"
+$ /usr/local/bin/mvn --version
+[withMaven] WARNING: You are running an old version of Maven (3.6.3), you should update to at least 3.8.x
+[Pipeline] {
+[Pipeline] sh
++ mvn -B clean install
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/jenkins/workspace/sley_concise-form-field-delivery@tmp/withMaven44d511dd/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/jenkins/workspace/sley_concise-form-field-delivery@tmp/withMaven44d511dd" 
+[INFO] [jenkins-event-spy] Generate /jenkins/workspace/sley_concise-form-field-delivery@tmp/withMaven44d511dd/maven-spy-20261008-212659-426571412114191687006.log.tmp ...
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< com.flatirons.mono.repo:etc-client >-----------------
+[INFO] Building etc-client 999.999-master-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ etc-client ---
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.15.1:install-node-and-npm (install-node-and-npm) @ etc-client ---
+[INFO] Installing node version v24.12.0
+[INFO] Downloading https://nodejs.org/dist/v24.12.0/node-v24.12.0-linux-x64.tar.gz to /jenkins/workspace/sley_concise-form-field-delivery/com/github/eirslett/node/24.12.0/node-24.12.0-linux-x64.tar.gz
+[INFO] No proxies configured
+[INFO] No proxy was configured, downloading directly
+[INFO] Unpacking /jenkins/workspace/sley_concise-form-field-delivery/com/github/eirslett/node/24.12.0/node-24.12.0-linux-x64.tar.gz into /jenkins/workspace/sley_concise-form-field-delivery/node/node/tmp
+[INFO] Copying node binary from /jenkins/workspace/sley_concise-form-field-delivery/node/node/tmp/node-v24.12.0-linux-x64/bin/node to /jenkins/workspace/sley_concise-form-field-delivery/node/node/node
+[INFO] Installed node locally.
+[INFO] Installing npm version 11.6.2
+[INFO] Downloading https://registry.npmjs.org/npm/-/npm-11.6.2.tgz to /jenkins/workspace/sley_concise-form-field-delivery/com/github/eirslett/npm/11.6.2/npm-11.6.2.tar.gz
+[INFO] No proxies configured
+[INFO] No proxy was configured, downloading directly
+Oct 08, 2026 9:27:15 PM org.apache.http.client.protocol.ResponseProcessCookies processCookies
+WARNING: Invalid cookie header: "set-cookie: __cf_bm=F2xbBkzeFbvjyyME.eK1j2qUMMXr4xvYvIgE5XJobP8-1791494835.8289077-1.0.1.1-dfOXK011vZIWGlWJPDYYJ8_1C8KLsTsSBtkK7OlXoOkojhFTwCwZg.aRZ6pwYXmfDMjM37hxvdZhIN7WJX6h5UFdf2v14jESNlR_ezEdGVQEpIYfAFGLkBvLhqRdz78m; HttpOnly; SameSite=None; Secure; Path=/; Domain=npmjs.org; Expires=Thu, 08 Oct 2026 21:57:15 GMT". Invalid 'expires' attribute: Thu, 08 Oct 2026 21:57:15 GMT
+[INFO] Unpacking /jenkins/workspace/sley_concise-form-field-delivery/com/github/eirslett/npm/11.6.2/npm-11.6.2.tar.gz into /jenkins/workspace/sley_concise-form-field-delivery/node/node/node_modules
+[INFO] Installed npm locally.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.15.1:npm (npm-install) @ etc-client ---
+[INFO] Running 'npm install --force' in /jenkins/workspace/sley_concise-form-field-delivery
+[INFO] npm warn Unknown project config "email". This will stop working in the next major version of npm.
+[INFO] npm warn Unknown project config "always-auth". This will stop working in the next major version of npm.
+[INFO] npm warn using --force Recommended protections disabled.
+[INFO] npm warn ERESOLVE overriding peer dependency
+[INFO] npm warn While resolving: @module-federation/sdk@2.3.2
+[INFO] npm warn Found: node-fetch@2.7.0
+[INFO] npm warn node_modules/node-fetch
+[INFO] npm warn   node-fetch@"2.7.0" from @module-federation/node@2.7.40
+[INFO] npm warn   node_modules/@module-federation/node
+[INFO] npm warn     @module-federation/node@"^2.7.11" from @nx/module-federation@21.6.10
+[INFO] npm warn     node_modules/@nx/module-federation
+[INFO] npm warn     1 more (@nx/rspack)
+[INFO] npm warn   1 more (@nuxtjs/opencollective)
+[INFO] npm warn
+[INFO] npm warn Could not resolve dependency:
+[INFO] npm warn peerOptional node-fetch@"^3.3.2" from @module-federation/sdk@2.3.2
+[INFO] npm warn node_modules/@module-federation/node/node_modules/@module-federation/sdk
+[INFO] npm warn   @module-federation/sdk@"2.3.2" from @module-federation/node@2.7.40
+[INFO] npm warn   node_modules/@module-federation/node
+[INFO] npm warn   11 more (@module-federation/bridge-react-webpack-plugin, ...)
+[INFO] npm warn
+[INFO] npm warn Conflicting peer dependency: node-fetch@3.3.2
+[INFO] npm warn node_modules/node-fetch
+[INFO] npm warn   peerOptional node-fetch@"^3.3.2" from @module-federation/sdk@2.3.2
+[INFO] npm warn   node_modules/@module-federation/node/node_modules/@module-federation/sdk
+[INFO] npm warn     @module-federation/sdk@"2.3.2" from @module-federation/node@2.7.40
+[INFO] npm warn     node_modules/@module-federation/node
+[INFO] npm warn     11 more (@module-federation/bridge-react-webpack-plugin, ...)
+[INFO] npm warn ERESOLVE overriding peer dependency
+[INFO] npm warn While resolving: @swc-node/core@1.14.1
+[INFO] npm warn Found: @swc/core@1.7.36
+[INFO] npm warn node_modules/@swc/core
+[INFO] npm warn   dev @swc/core@"1.7.36" from the root project
+[INFO] npm warn   4 more (@swc-node/register, @swc/cli, nx, ts-node)
+[INFO] npm warn
+[INFO] npm warn Could not resolve dependency:
+[INFO] npm warn peer @swc/core@">= 1.13.3" from @swc-node/core@1.14.1
+[INFO] npm warn node_modules/@swc-node/register/node_modules/@swc-node/core
+[INFO] npm warn   @swc-node/core@"^1.13.3" from @swc-node/register@1.10.9
+[INFO] npm warn   node_modules/@swc-node/register
+[INFO] npm warn
+[INFO] npm warn Conflicting peer dependency: @swc/core@1.16.13
+[INFO] npm warn node_modules/@swc/core
+[INFO] npm warn   peer @swc/core@">= 1.13.3" from @swc-node/core@1.14.1
+[INFO] npm warn   node_modules/@swc-node/register/node_modules/@swc-node/core
+[INFO] npm warn     @swc-node/core@"^1.13.3" from @swc-node/register@1.10.9
+[INFO] npm warn     node_modules/@swc-node/register
+[INFO] 
+[INFO] > etc-client@0.0.0 postinstall
+[INFO] > node ./decorate-angular-cli.js
+[INFO] 
+[INFO] 
+[INFO]  NX   Decoration of the Angular CLI is deprecated and will be removed in Nx v22
+[INFO] 
+[INFO] Please replace usage of "ng <command>" in any scripts, particularly for CI, with "nx <command>"
+[INFO] 
+[INFO] 
+[INFO]  NX   Angular CLI has been decorated to enable computation caching.
+[INFO] 
+[INFO] 
+[INFO] > etc-client@0.0.0 prepare
+[INFO] > husky install
+[INFO] 
+[INFO] husky - install command is DEPRECATED
+[INFO] 
+[INFO] added 2713 packages, and audited 2714 packages in 3m
+[INFO] 
+[INFO] 365 packages are looking for funding
+[INFO]   run `npm fund` for details
+[INFO] 
+[INFO] 166 vulnerabilities (7 low, 36 moderate, 113 high, 10 critical)
+[INFO] 
+[INFO] To address issues that do not require attention, run:
+[INFO]   npm audit fix
+[INFO] 
+[INFO] To address all issues possible (including breaking changes), run:
+[INFO]   npm audit fix --force
+[INFO] 
+[INFO] Some issues need review, and may require choosing
+[INFO] a different dependency.
+[INFO] 
+[INFO] Run `npm audit` for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ etc-client ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ etc-client ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 4 source files to /jenkins/workspace/sley_concise-form-field-delivery/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ etc-client ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ etc-client ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ etc-client ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.15.1:npm (angular-test-with-coverage) @ etc-client ---
+[INFO] Running 'npm run test-coverage' in /jenkins/workspace/sley_concise-form-field-delivery
+[INFO] npm warn Unknown project config "email". This will stop working in the next major version of npm.
+[INFO] npm warn Unknown project config "always-auth". This will stop working in the next major version of npm.
+[INFO] 
+[INFO] > etc-client@0.0.0 test-coverage
+[INFO] > nx run etc-client:test-coverage
+[INFO] 
+[INFO] 
+[INFO] > nx run etc-client:test-coverage
+[INFO] 
+[INFO] - Generating browser application bundles (phase: setup)...
+[INFO] ✔ Browser application bundle generation complete.
+[INFO] 08 10 2026 21:34:23.409:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9878/
+[INFO] 08 10 2026 21:34:23.443:INFO [launcher]: Launching browsers ChromeHeadlessNoSandbox with concurrency unlimited
+[INFO] 08 10 2026 21:34:23.573:INFO [launcher]: Starting browser ChromeHeadless
+[INFO] 08 10 2026 21:35:23.575:WARN [launcher]: ChromeHeadless has not captured in 60000 ms, killing.
+[INFO] 08 10 2026 21:35:23.996:INFO [launcher]: Trying to start ChromeHeadless again (1/2).
+[INFO] 08 10 2026 21:35:34.097:INFO [Chrome Headless 131.0.0.0 (Linux 0.0.0)]: Connected on socket 0M48qCRDMlqnmkg8AAAB with id 20498820
+[INFO] 08 10 2026 21:36:05.339:WARN [Chrome Headless 131.0.0.0 (Linux 0.0.0)]: Disconnected (0 times) reconnect failed before timeout of 2000ms (ping timeout)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) ERROR
+[INFO]   Disconnected reconnect failed before timeout of 2000ms (ping timeout)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) ERROR
+[INFO]   Disconnected reconnect failed before timeout of 2000ms (ping timeout)
+[INFO] ✔ Browser application bundle generation complete.
+[INFO] ✔ Browser application bundle generation complete.
+[INFO] 
+[INFO] 
+[INFO] 
+[INFO]  NX   Running target test-coverage for project etc-client failed
+[INFO] 
+[INFO] Failed tasks:
+[INFO] 
+[INFO] - etc-client:test-coverage
+[INFO] 
+[INFO] Hint: run the command with --verbose for more details.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  09:07 min
+[INFO] Finished at: 2026-10-08T21:36:07Z
+[INFO] ------------------------------------------------------------------------
+[INFO] [jenkins-event-spy] Generated /jenkins/workspace/sley_concise-form-field-delivery@tmp/withMaven44d511dd/maven-spy-20261008-212659-426571412114191687006.log
+[ERROR] Failed to execute goal com.github.eirslett:frontend-maven-plugin:1.15.1:npm (angular-test-with-coverage) on project etc-client: Failed to run task: 'npm run test-coverage' failed. org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[Pipeline] }
+[withMaven] JacocoPublisher is no longer implicitly used with `withMaven` step.
+[withMaven] Jacoco plugin has been deprecated and should not be used anymore.
+[withMaven] CoveragePublisher will be used instead.
+
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.mono.repo:etc-client:war:999.999-master-SNAPSHOT generated by maven-surefire-plugin:test (default-test): target/surefire-reports/*.xml
+[withMaven] junitPublisher - Jenkins JUnit Attachments Plugin not found, can't publish test attachments.
+[withMaven] junitPublisher - Jenkins JUnit Flaky Test Handler Plugin not found, can't publish JUnit flaky tests reports.
+Recording test results
+None of the test reports contained any result
+[Checks API] No suitable checks publisher found.
+[withMaven] Publishers: Junit Publisher: 716 ms
+[Pipeline] // withMaven
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Static Analysis)
+Stage "Static Analysis" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] parallel
+[Pipeline] { (Branch: Mainline)
+[Pipeline] { (Branch: Branches)
+[Pipeline] { (Branch: Pull Requests)
+[Pipeline] stage
+[Pipeline] { (Mainline)
+[Pipeline] stage
+[Pipeline] { (Branches)
+[Pipeline] stage
+[Pipeline] { (Pull Requests)
+Stage "Mainline" skipped due to earlier failure(s)
+[Pipeline] getContext
+No test report files were found. Configuration error?
+[Pipeline] }
+Stage "Branches" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Pull Requests" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch Mainline
+[Pipeline] }
+Failed in branch Branches
+[Pipeline] }
+Failed in branch Pull Requests
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Client)
+Stage "Deploy Client" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] stage
+[Pipeline] { (Deploy Client war)
+Stage "Deploy Client" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Container)
+Stage "Deploy Container" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ git log -1 --format=%aE
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] emailext
+Sending email to: kyle.wesley@scopeapp.com
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // podTemplate
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+[Bitbucket] Notifying commit build result
+[Bitbucket] Build result notified
+Finished: FAILURE
+
