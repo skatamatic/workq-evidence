@@ -1,0 +1,85 @@
+$ env CHROME_BIN=/Users/kylewesley/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell python3 /tmp/forms-concurrency-proof.py /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0 /Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof
+[
+  {
+    "label": "a",
+    "phase": "cold",
+    "workspace": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0",
+    "started": 1791495169.48279,
+    "ended": 1791495275.5966048,
+    "seconds": 106.11381483078003,
+    "exit": -15,
+    "testCount": 0,
+    "port": null,
+    "profile": null,
+    "profileRemoved": false,
+    "reports": [],
+    "angularCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/.angular/cache",
+    "nxCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0/.nx/cache",
+    "maxResidentBytes": null,
+    "command": [
+      "/usr/bin/time",
+      "-l",
+      "npm",
+      "run",
+      "test:etc-client",
+      "--",
+      "--watch=false",
+      "--skip-nx-cache",
+      "--code-coverage",
+      "--karma-config=/tmp/forms-concurrency-receipts/cold-a.karma.cjs",
+      "--include=src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts",
+      "--include=src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts",
+      "--include=src/testing/forms-diagnostics.spec.ts"
+    ],
+    "log": "/tmp/forms-concurrency-receipts/cold-a.log"
+  },
+  {
+    "label": "b",
+    "phase": "cold",
+    "workspace": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof",
+    "started": 1791495169.494231,
+    "ended": 1791495275.5991411,
+    "seconds": 106.10491013526917,
+    "exit": -15,
+    "testCount": 0,
+    "port": null,
+    "profile": null,
+    "profileRemoved": false,
+    "reports": [],
+    "angularCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof/.angular/cache",
+    "nxCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_372f877a-6d5f-47bc-8587-0b2a118340c0-forms-karma-proof/.nx/cache",
+    "maxResidentBytes": null,
+    "command": [
+      "/usr/bin/time",
+      "-l",
+      "npm",
+      "run",
+      "test:etc-client",
+      "--",
+      "--watch=false",
+      "--skip-nx-cache",
+      "--code-coverage",
+      "--karma-config=/tmp/forms-concurrency-receipts/cold-b.karma.cjs",
+      "--include=src/app/main/components/forms/components/embedded-rich-text-field-host.component.spec.ts",
+      "--include=src/app/main/components/forms/components/rich-text-runtime-field.component.spec.ts",
+      "--include=src/testing/forms-diagnostics.spec.ts"
+    ],
+    "log": "/tmp/forms-concurrency-receipts/cold-b.log"
+  }
+]
+Traceback (most recent call last):
+  File "/tmp/forms-concurrency-proof.py", line 33, in <module>
+    assert all(r['exit']==0 and r['testCount']==17 and r['reports'] and r['profileRemoved'] for r in results), 'Each run must execute 17 tests, write own report and release browser profile'
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Each run must execute 17 tests, write own report and release browser profile
+
+[exit 1]
+That command exited 1, so it did not verify anything.
+
+Attaching it under a verification step would tell a reviewer the change
+works while showing them that it does not. Fix the failure and re-run.
+
+If the failure is unrelated and you can say why, pass --anyway and put
+the reason in --desc.
+
+Nothing was attached.
