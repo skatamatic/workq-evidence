@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "cacheHit": false,
+  "whichSide": "ok",
+  "baseSha": "d2bdd0b8ad5e5208cbf3da99b5a880f1a914daf6",
+  "baseRef": "origin/kwesley/workflow-scenario-port",
+  "headSha": "",
+  "reason": "Base origin/kwesley/workflow-scenario-port still at validated d2bdd0b — safe to merge.",
+  "remediation": []
+}
+merge-pr: ok (merge_command_ok; forge=bitbucket; strategy=merge_commit; prState=MERGED; remoteDeleted=true)
+merge-pr: cleanup: skipped remote delete of workq/wi_d3638df2-24ef-49f4-9c05-6b4ea84f0ba9 (merged base ref unknown)
+merge-pr: cleanup: skipped local delete of kwesley/formapp-archive-product-journey (held_by_worktree)
+{
+  "ok": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "phase": "lock",
+      "baseOnlyStatus": 0,
+      "baseCacheHit": false,
+      "fullStatus": 0,
+      "validatedBaseSha": "d2bdd0b8ad5e5208cbf3da99b5a880f1a914daf6",
+      "lockExitCode": 0,
+      "ok": true,
+      "stage": "merged"
+    }
+  ],
+  "exitCode": 0,
+  "validatedBaseSha": "d2bdd0b8ad5e5208cbf3da99b5a880f1a914daf6"
+}
