@@ -1,0 +1,261 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "actions": [
+    {
+      "_class": "hudson.model.CauseAction",
+      "causes": [
+        {
+          "_class": "jenkins.branch.BranchEventCause",
+          "shortDescription": "Branch event"
+        }
+      ]
+    },
+    {
+      "_class": "jenkins.metrics.impl.TimeInQueueAction",
+      "blockedDurationMillis": 0,
+      "blockedTimeMillis": 0,
+      "buildableDurationMillis": 0,
+      "buildableTimeMillis": 0,
+      "buildingDurationMillis": 1638018,
+      "executingTimeMillis": 3136976,
+      "executorUtilization": 1.92,
+      "subTaskCount": 2,
+      "waitingDurationMillis": 7568,
+      "waitingTimeMillis": 7568
+    },
+    {
+      "_class": "jenkins.scm.api.SCMRevisionAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.libs.LibrariesAction"
+    },
+    {},
+    {
+      "_class": "hudson.plugins.git.util.BuildData",
+      "buildsByBranchName": {
+        "master": {
+          "_class": "hudson.plugins.git.util.Build",
+          "buildNumber": 2,
+          "buildResult": null,
+          "marked": {
+            "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+            "branch": [
+              {
+                "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+                "name": "master"
+              }
+            ]
+          },
+          "revision": {
+            "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+            "branch": [
+              {
+                "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+                "name": "master"
+              }
+            ]
+          }
+        }
+      },
+      "lastBuiltRevision": {
+        "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+        "branch": [
+          {
+            "SHA1": "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+            "name": "master"
+          }
+        ]
+      },
+      "remoteUrls": [
+        "https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git"
+      ],
+      "scmName": ""
+    },
+    {},
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.EnvActionImpl"
+    },
+    {
+      "_class": "hudson.plugins.git.util.BuildData",
+      "buildsByBranchName": {
+        "PR-40": {
+          "_class": "hudson.plugins.git.util.Build",
+          "buildNumber": 2,
+          "buildResult": null,
+          "marked": {
+            "SHA1": "447b6fff5aae9f739901e8d9615b09e55a110979",
+            "branch": [
+              {
+                "SHA1": "447b6fff5aae9f739901e8d9615b09e55a110979",
+                "name": "PR-40"
+              }
+            ]
+          },
+          "revision": {
+            "SHA1": "447b6fff5aae9f739901e8d9615b09e55a110979",
+            "branch": [
+              {
+                "SHA1": "447b6fff5aae9f739901e8d9615b09e55a110979",
+                "name": "PR-40"
+              }
+            ]
+          }
+        }
+      },
+      "lastBuiltRevision": {
+        "SHA1": "447b6fff5aae9f739901e8d9615b09e55a110979",
+        "branch": [
+          {
+            "SHA1": "447b6fff5aae9f739901e8d9615b09e55a110979",
+            "name": "PR-40"
+          }
+        ]
+      },
+      "remoteUrls": [
+        "https://bitbucket.org/flatironssolutions/etc-client.git"
+      ],
+      "scmName": ""
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.view.InterpolatedSecretsAction"
+    },
+    {},
+    {},
+    {},
+    {
+      "_class": "hudson.plugins.sonar.action.SonarAnalysisAction",
+      "ceTaskId": "24580020-565d-4ef1-aa95-2d69d087f0aa",
+      "credentialsId": null,
+      "installationName": "Devops Sonarqube",
+      "installationUrl": "https://sonar.flatirons.cloud",
+      "new": true,
+      "serverUrl": "https://sonar.flatirons.cloud",
+      "skipped": false,
+      "sonarqubeDashboardUrl": "https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&pullRequest=40"
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "_class": "hudson.plugins.sonar.action.SonarBuildBadgeAction",
+      "url": "https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&pullRequest=40"
+    },
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.pipeline.modeldefinition.actions.RestartDeclarativePipelineAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.views.FlowGraphAction"
+    },
+    {},
+    {},
+    {}
+  ],
+  "artifacts": [],
+  "building": false,
+  "description": null,
+  "displayName": "#2",
+  "duration": 1638018,
+  "estimatedDuration": 1515424,
+  "executor": null,
+  "fullDisplayName": "Research & Development Client Apps » etc-client » Fail unexpected forms diagnostics and isolate Karma runs (#40) #2",
+  "id": "2",
+  "keepLog": false,
+  "number": 2,
+  "queueId": 38036,
+  "result": "SUCCESS",
+  "timestamp": 1791510720055,
+  "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-40/2/",
+  "changeSets": [
+    {
+      "_class": "hudson.plugins.git.GitChangeSetList",
+      "items": [
+        {
+          "_class": "hudson.plugins.git.GitChangeSet",
+          "affectedPaths": [
+            "tools/verification/browser-preflight.cjs",
+            "tools/verification/bounded-process.test.cjs",
+            "tools/verification/preflight.cjs",
+            "tools/verification/bounded-process.cjs",
+            "tools/verification/diagnostic-canaries.cjs",
+            "tools/verification/diagnostic-result.test.cjs",
+            "package.json",
+            "docs/design/form-builder/forms-test-diagnostics.md",
+            "pom.xml"
+          ],
+          "commitId": "447b6fff5aae9f739901e8d9615b09e55a110979",
+          "timestamp": 1791510388000,
+          "author": {
+            "absoluteUrl": "https://build.flatirons.cloud/user/kwesley",
+            "fullName": "Kyle Wesley"
+          },
+          "authorEmail": "kyle.wesley@scopeapp.com",
+          "comment": "Bound preflight startup and verify diagnostic negatives in CI\n",
+          "date": "2026-10-08 19:46:28 -0600",
+          "id": "447b6fff5aae9f739901e8d9615b09e55a110979",
+          "msg": "Bound preflight startup and verify diagnostic negatives in CI",
+          "paths": [
+            {
+              "editType": "edit",
+              "file": "package.json"
+            },
+            {
+              "editType": "edit",
+              "file": "tools/verification/preflight.cjs"
+            },
+            {
+              "editType": "add",
+              "file": "tools/verification/browser-preflight.cjs"
+            },
+            {
+              "editType": "add",
+              "file": "tools/verification/bounded-process.test.cjs"
+            },
+            {
+              "editType": "add",
+              "file": "tools/verification/diagnostic-canaries.cjs"
+            },
+            {
+              "editType": "add",
+              "file": "tools/verification/diagnostic-result.test.cjs"
+            },
+            {
+              "editType": "edit",
+              "file": "pom.xml"
+            },
+            {
+              "editType": "add",
+              "file": "tools/verification/bounded-process.cjs"
+            },
+            {
+              "editType": "edit",
+              "file": "docs/design/form-builder/forms-test-diagnostics.md"
+            }
+          ]
+        }
+      ],
+      "kind": "git"
+    }
+  ],
+  "culprits": [
+    {
+      "absoluteUrl": "https://build.flatirons.cloud/user/kwesley",
+      "fullName": "Kyle Wesley"
+    }
+  ],
+  "inProgress": false,
+  "nextBuild": null,
+  "previousBuild": {
+    "number": 1,
+    "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-40/1/"
+  }
+}
