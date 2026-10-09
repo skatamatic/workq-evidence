@@ -1,0 +1,313 @@
+{
+  "head": "00a02c079861e2bd6bc050d6b6027a032ed10c44",
+  "mergedTarget": "b429288a7b3efd97bc377e3041934a9669edf613",
+  "capturedAt": "2026-10-09T11:10:23.555Z",
+  "builds": [
+    {
+      "name": "Research & Development Client Apps » etc-client » kwesley/source-backed-form-fixtures #11",
+      "key": "a95043a9f96a9ee39b2255af9092d6b6",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/11/",
+      "proof": [
+        "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+        "Checking out Revision 00a02c079861e2bd6bc050d6b6027a032ed10c44 (kwesley/source-backed-form-fixtures)",
+        "Checking out Revision 00a02c079861e2bd6bc050d6b6027a032ed10c44 (kwesley/source-backed-form-fixtures)",
+        "Lock acquired on [Resource: etc-client-angular-build]",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic binding canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic console canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] etc-client: TOTAL: 1722 SUCCESS",
+        "[INFO] Forms counts: {\"required\":14,\"selected\":14,\"executed\":14,\"skipped\":0,\"excluded\":0,\"assertions\":70,\"supportingAssertions\":26}; 193036ms; COMPLETE",
+        "[INFO] Receipt: /jenkins/workspace/sley_source-backed-form-fixtures/test-results/forms-verify/run-Hac6Ri/receipt.json",
+        "Lock released on resource [Resource: etc-client-angular-build]",
+        "Stage \"Pull Requests\" skipped due to when conditional",
+        "Stage \"Mainline\" skipped due to when conditional",
+        "Lock acquired on [Resource: etc-client-angular-build]",
+        "[INFO] 11:07:41.722 SCM revision ID '00a02c079861e2bd6bc050d6b6027a032ed10c44'",
+        "[INFO] 11:07:44.985 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&branch=kwesley%2Fsource-backed-form-fixtures",
+        "[INFO] 11:07:44.988 More about the report processing at https://sonar.flatirons.cloud/api/ce/task?id=fe7a2070-9097-4bcc-acf2-2210066fba5c",
+        "[Pipeline] waitForQualityGate",
+        "Checking status of SonarQube task 'fe7a2070-9097-4bcc-acf2-2210066fba5c' on server 'Devops Sonarqube'",
+        "SonarQube task 'fe7a2070-9097-4bcc-acf2-2210066fba5c' status is 'IN_PROGRESS'",
+        "SonarQube task 'fe7a2070-9097-4bcc-acf2-2210066fba5c' status is 'SUCCESS'",
+        "SonarQube task 'fe7a2070-9097-4bcc-acf2-2210066fba5c' completed. Quality gate is 'OK'",
+        "Lock released on resource [Resource: etc-client-angular-build]",
+        "[Pipeline] { (Deploy Client)",
+        "Stage \"Deploy Client\" skipped due to when conditional",
+        "[Pipeline] { (Deploy Client war)",
+        "Stage \"Deploy Client\" skipped due to when conditional",
+        "[Pipeline] { (Deploy Container)",
+        "Stage \"Deploy Container\" skipped due to when conditional",
+        "Finished: SUCCESS"
+      ],
+      "publishing": {
+        "allowedRefs": [
+          "master",
+          "release/*"
+        ],
+        "changeRequests": false,
+        "tags": false,
+        "deployClientSkipped": true,
+        "deployContainerSkipped": true,
+        "publishingCommandsObserved": false
+      },
+      "unit": {
+        "artifactUrl": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/11/artifact/test-results/ci/unit-specs.xml",
+        "tests": 1722,
+        "failures": 0
+      },
+      "forms": {
+        "artifactUrl": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/11/artifact/test-results/forms-verify/run-Hac6Ri/receipt.json",
+        "head": "00a02c079861e2bd6bc050d6b6027a032ed10c44",
+        "complete": true,
+        "counts": {
+          "required": 14,
+          "selected": 14,
+          "executed": 14,
+          "skipped": 0,
+          "excluded": 0,
+          "assertions": 70,
+          "supportingAssertions": 26
+        },
+        "browserStats": {
+          "startTime": "2026-10-09T10:50:44.621Z",
+          "duration": 57551.466,
+          "expected": 17,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "base": {
+          "baseRef": null,
+          "baseSha": null,
+          "mergeBase": null,
+          "changed": [],
+          "reason": "full mode is independent of diff; supply --base to record caller target"
+        },
+        "phases": [
+          {
+            "name": "tooling",
+            "exitCode": 0
+          },
+          {
+            "name": "catalog",
+            "exitCode": 0
+          },
+          {
+            "name": "angular",
+            "exitCode": 0
+          },
+          {
+            "name": "browser",
+            "exitCode": 0
+          }
+        ]
+      },
+      "sonar": {
+        "taskId": "fe7a2070-9097-4bcc-acf2-2210066fba5c",
+        "analysisId": "e29b6454-5d2c-400e-9098-d2b8a7eb6795",
+        "status": "SUCCESS",
+        "qualityGate": {
+          "status": "OK",
+          "conditions": [
+            {
+              "status": "OK",
+              "metricKey": "new_reliability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_security_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_maintainability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_coverage",
+              "comparator": "LT",
+              "errorThreshold": "90",
+              "actualValue": "90.3"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_duplicated_lines_density",
+              "comparator": "GT",
+              "errorThreshold": "3",
+              "actualValue": "0.0"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_violations",
+              "comparator": "GT",
+              "errorThreshold": "0",
+              "actualValue": "0"
+            }
+          ],
+          "ignoredConditions": false,
+          "period": {
+            "mode": "PREVIOUS_VERSION",
+            "date": "2026-10-09T04:55:45+0000"
+          },
+          "caycStatus": "over-compliant"
+        }
+      }
+    },
+    {
+      "name": "Research & Development Client Apps » etc-client » Add source-backed Feedback Action form fixtures (#42) #11",
+      "key": "7b96d6c5cd362ef457b9485be7a360b5",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/11/",
+      "proof": [
+        "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+        "Checking out Revision 00a02c079861e2bd6bc050d6b6027a032ed10c44 (PR-42)",
+        "Checking out Revision 00a02c079861e2bd6bc050d6b6027a032ed10c44 (PR-42)",
+        "Lock acquired on [Resource: etc-client-angular-build]",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic binding canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic console canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] etc-client: TOTAL: 1722 SUCCESS",
+        "[INFO] Forms counts: {\"required\":14,\"selected\":14,\"executed\":14,\"skipped\":0,\"excluded\":0,\"assertions\":70,\"supportingAssertions\":26}; 193472ms; COMPLETE",
+        "[INFO] Receipt: /jenkins/workspace/RDCA_etc-client_PR-42/test-results/forms-verify/run-U5neqU/receipt.json",
+        "Lock released on resource [Resource: etc-client-angular-build]",
+        "Stage \"Mainline\" skipped due to when conditional",
+        "Stage \"Branches\" skipped due to when conditional",
+        "Lock acquired on [Resource: etc-client-angular-build]",
+        "[WARNING] 11:08:34.676 Could not find ref 'kwesley/insight-next' in refs/heads, refs/remotes, refs/remotes/upstream or refs/remotes/origin",
+        "[INFO] 11:09:34.726 SCM revision ID '00a02c079861e2bd6bc050d6b6027a032ed10c44'",
+        "[WARNING] 11:09:35.023 Could not find ref 'kwesley/insight-next' in refs/heads, refs/remotes, refs/remotes/upstream or refs/remotes/origin",
+        "[INFO] 11:09:35.546 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&pullRequest=42",
+        "[INFO] 11:09:35.547 More about the report processing at https://sonar.flatirons.cloud/api/ce/task?id=a70ffd32-6b2e-4d4c-ad6a-4cbba6cc7440",
+        "[Pipeline] waitForQualityGate",
+        "Checking status of SonarQube task 'a70ffd32-6b2e-4d4c-ad6a-4cbba6cc7440' on server 'Devops Sonarqube'",
+        "SonarQube task 'a70ffd32-6b2e-4d4c-ad6a-4cbba6cc7440' status is 'IN_PROGRESS'",
+        "SonarQube task 'a70ffd32-6b2e-4d4c-ad6a-4cbba6cc7440' status is 'SUCCESS'",
+        "SonarQube task 'a70ffd32-6b2e-4d4c-ad6a-4cbba6cc7440' completed. Quality gate is 'OK'",
+        "Lock released on resource [Resource: etc-client-angular-build]",
+        "[Pipeline] { (Deploy Client)",
+        "Stage \"Deploy Client\" skipped due to when conditional",
+        "[Pipeline] { (Deploy Client war)",
+        "Stage \"Deploy Client\" skipped due to when conditional",
+        "[Pipeline] { (Deploy Container)",
+        "Stage \"Deploy Container\" skipped due to when conditional",
+        "Finished: SUCCESS"
+      ],
+      "publishing": {
+        "allowedRefs": [
+          "master",
+          "release/*"
+        ],
+        "changeRequests": false,
+        "tags": false,
+        "deployClientSkipped": true,
+        "deployContainerSkipped": true,
+        "publishingCommandsObserved": false
+      },
+      "unit": {
+        "artifactUrl": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/11/artifact/test-results/ci/unit-specs.xml",
+        "tests": 1722,
+        "failures": 0
+      },
+      "forms": {
+        "artifactUrl": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/11/artifact/test-results/forms-verify/run-U5neqU/receipt.json",
+        "head": "00a02c079861e2bd6bc050d6b6027a032ed10c44",
+        "complete": true,
+        "counts": {
+          "required": 14,
+          "selected": 14,
+          "executed": 14,
+          "skipped": 0,
+          "excluded": 0,
+          "assertions": 70,
+          "supportingAssertions": 26
+        },
+        "browserStats": {
+          "startTime": "2026-10-09T11:01:59.001Z",
+          "duration": 57182.444,
+          "expected": 17,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "base": {
+          "baseRef": null,
+          "baseSha": null,
+          "mergeBase": null,
+          "changed": [],
+          "reason": "full mode is independent of diff; supply --base to record caller target"
+        },
+        "phases": [
+          {
+            "name": "tooling",
+            "exitCode": 0
+          },
+          {
+            "name": "catalog",
+            "exitCode": 0
+          },
+          {
+            "name": "angular",
+            "exitCode": 0
+          },
+          {
+            "name": "browser",
+            "exitCode": 0
+          }
+        ]
+      },
+      "sonar": {
+        "taskId": "a70ffd32-6b2e-4d4c-ad6a-4cbba6cc7440",
+        "analysisId": "957961df-6181-4256-b297-7080b9f273cc",
+        "status": "SUCCESS",
+        "qualityGate": {
+          "status": "OK",
+          "conditions": [
+            {
+              "status": "OK",
+              "metricKey": "new_reliability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_security_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_maintainability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_violations",
+              "comparator": "GT",
+              "errorThreshold": "0",
+              "actualValue": "0"
+            }
+          ],
+          "ignoredConditions": false,
+          "caycStatus": "over-compliant"
+        }
+      }
+    }
+  ],
+  "privateSourceLocator": "not included",
+  "scope": "Both feature/PR deployment stages skipped, no publishing commands observed; allowed publishing refs master/release only and tags/PRs excluded. Exact source revision,1722 full units,configured Jenkins scans and reported Sonar quality gates. Two intentional binding/console diagnostic canaries each require1FAILED/2SUCCESS and exit1; verifier confirms their expected failures. SCM target-ref warnings retained."
+}
