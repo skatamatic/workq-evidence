@@ -1,0 +1,34 @@
+form-app / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+form-app / authenticated-start = ASSERTED (observed=2) — JWT and legacy authenticated starter owns all ten tasks despite spoofing
+form-app / form-refusal = ASSERTED (observed=1) — Required field refused before writes; task/local-variable invariants also asserted
+form-app / task-refusal = ASSERTED (observed=4) — Named non-assignee refused on claim and complete under both principals
+form-app / first-wait = ASSERTED (observed=1) — Product start reaches ten assigned tasks
+form-app / customer-path = ASSERTED (observed=1) — Unchanged general archive publication and stable forms; all ten product submissions join with historic fields
+form-app / full-journey = PENDING — Start forms attachments mail and identity metadata application are outside implemented boundary
+mdcr / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+mdcr / authenticated-start = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Unchanged archive starts under JWT and legacy persisted ACM identity; initiator spoof ignored
+mdcr / form-refusal = PENDING — Numeric archived formKey publication/submission and subsequent listeners remain unsupported; first wait is separately asserted
+mdcr / task-refusal = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Named non-assignee refuses claim and complete with task variables links and mail count unchanged
+mdcr / first-wait = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: First customer task assignment and visible variables asserted; Feedback typed start notification captured
+mdcr / customer-path = PENDING — Numeric archived formKey publication/submission and subsequent listeners remain unsupported; first wait is separately asserted
+mdcr / full-journey = PENDING — Numeric archived formKey publication/submission and subsequent listeners remain unsupported; first wait is separately asserted
+safran-analysis / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+safran-analysis / authenticated-start = PENDING — Bounded Analysis decision and document projection are tested; Analysis task naming/routing forms and missing-group correction journeys remain unsupported; start effects roll back
+safran-analysis / form-refusal = PENDING — Bounded Analysis decision and document projection are tested; Analysis task naming/routing forms and missing-group correction journeys remain unsupported; start effects roll back
+safran-analysis / task-refusal = PENDING — Bounded Analysis decision and document projection are tested; Analysis task naming/routing forms and missing-group correction journeys remain unsupported; start effects roll back
+safran-analysis / first-wait = PENDING — Bounded Analysis decision and document projection are tested; Analysis task naming/routing forms and missing-group correction journeys remain unsupported; start effects roll back
+safran-analysis / customer-path = PENDING — Bounded Analysis decision and document projection are tested; Analysis task naming/routing forms and missing-group correction journeys remain unsupported; start effects roll back
+safran-analysis / full-journey = PENDING — Bounded Analysis decision and document projection are tested; Analysis task naming/routing forms and missing-group correction journeys remain unsupported; start effects roll back
+safran-feedback / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+safran-feedback / authenticated-start = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Unchanged archive starts under JWT and legacy persisted ACM identity; initiator spoof ignored
+safran-feedback / form-refusal = PENDING — Archive published but not runnable; validated form submission, downstream routing and customer journeys remain unproved. Direct-BPMN first wait is separately asserted
+safran-feedback / task-refusal = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Named non-assignee refuses claim and complete with task variables links and mail count unchanged
+safran-feedback / first-wait = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: First customer task assignment and visible variables asserted; Feedback typed start notification captured
+safran-feedback / customer-path = PENDING — Archive published but not runnable; validated form submission, downstream routing and customer journeys remain unproved. Direct-BPMN first wait is separately asserted
+safran-feedback / full-journey = PENDING — Archive published but not runnable; validated form submission, downstream routing and customer journeys remain unproved. Direct-BPMN first wait is separately asserted
+form-app / archive-publication = ASSERTED (observed=1) — Unchanged app and form publication; runnable authenticated customer path is separately asserted
+mdcr / archive-publication = PENDING — Original listener binding has trailing semicolon after expression; malformed publication refused atomically. Existing first-wait proofs deploy BPMN directly and do not establish published availability
+safran-analysis / archive-publication = PENDING — Original listener binding ends with Create and service expression is {}; malformed publication refused atomically. Scripts and missing adapters remain unsupported
+safran-feedback / archive-publication = ASSERTED (observed=1) — Unchanged source publication and stable numeric aliases; published process suspended and product/native starts refused without mutation. Existing first-wait proofs use direct BPMN deployment
+Customer parity: fixtures=4 deployed=4 asserted=13 pending-or-waived=15 observed-claim-invocations=27 (shared test invocations counted per dimension; not complete legacy parity)
+Surefire scenario invocations: tests=288 failures-or-errors=0 skipped=0
