@@ -1,0 +1,755 @@
+Branch event
+Obtained Jenkinsfile from ba75320ae3eb2c551b46f94e9acb314f926cf5ff
+Loading library devops-jenkins-lib@master
+Attempting to resolve master from remote references...
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git ls-remote -h -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+Found match: refs/heads/master revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+The recommended git tool is: NONE
+using credential bitbucket-builder
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git init /var/jenkins_home/workspace/rd_insight-server_PR-81@libs/424505265d8fda4cdcfb4be805f1cbd894f70b00b7a9e466eda3768f9a2ae303 # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c # timeout=10
+Commit message: "PDO-222 Avoid error if env.BRANCH_NAME is not set."
+First time build. Skipping changelog.
+[Bitbucket] Notifying pull request build result
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+[Pipeline] Start of Pipeline
+[Pipeline] milestone
+Trying to pass milestone 1
+[Pipeline] readTrusted
+Obtained jenkins-containers.yaml from ba75320ae3eb2c551b46f94e9acb314f926cf5ff
+[Pipeline] podTemplate
+[Pipeline] {
+[Pipeline] node
+Created Pod: k8s jenkins/rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2
+[PodInfo] jenkins/rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2
+	Container [builder] waiting [ContainerCreating] No message
+	Container [dind] waiting [ContainerCreating] No message
+	Container [git] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [maven] waiting [ContainerCreating] No message
+	Container [node] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [builder node git dind maven jnlp]
+Agent rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2 is provisioned from template rd_insight-server_PR-81_1-qzp70-x4llh
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    kubernetes.jenkins.io/last-refresh: "1791535397667"
+    buildUrl: "http://jenkins:8080/job/rd/job/insight-server/job/PR-81/1/"
+    runUrl: "job/rd/job/insight-server/job/PR-81/1/"
+  labels:
+    jenkins: "slave"
+    jenkins/label-digest: "c8fc284672f527e9d9f0b5955d3023037b6a3d6e"
+    jenkins/label: "rd_insight-server_PR-81_1-qzp70"
+    kubernetes.jenkins.io/controller: "http___jenkins_8080x"
+  name: "rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2"
+  namespace: "jenkins"
+spec:
+  containers:
+  - args:
+    - "dockerd-entrypoint.sh dockerd && cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/builder:no-cache-temurin21-m399"
+    imagePullPolicy: "Always"
+    name: "builder"
+    resources:
+      limits:
+        cpu: "2000m"
+      requests:
+        cpu: "1000m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/node:10"
+    imagePullPolicy: "IfNotPresent"
+    name: "node"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/git-cache:latest"
+    imagePullPolicy: "Always"
+    name: "git"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "dockerd-entrypoint.sh"
+    - "dockerd"
+    - "&&"
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/dind-builder:latest"
+    imagePullPolicy: "Always"
+    name: "dind"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "200m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/maven:3-jdk-8"
+    imagePullPolicy: "Always"
+    name: "maven"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_TUNNEL"
+      value: "jenkins-agent:50000"
+    - name: "JENKINS_AGENT_NAME"
+      value: "rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2"
+    - name: "REMOTING_OPTS"
+      value: "-noReconnectAfter 1d"
+    - name: "JENKINS_NAME"
+      value: "rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://jenkins:8080/"
+    image: "hub.flatirons.cloud/docker/jenkins/inbound-agent:3355.v388858a_47b_33-3-jdk21"
+    name: "jnlp"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  nodeSelector:
+    builder: "true"
+  restartPolicy: "Never"
+  serviceAccountName: "jenkins"
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2 in /home/jenkins/agent/workspace/rd_insight-server_PR-81
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential bitbucket-api
+Cloning the remote Git repository
+Cloning repository https://bitbucket.org/flatironssolutions/insight-server.git
+ > git init /home/jenkins/agent/workspace/rd_insight-server_PR-81 # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/insight-server.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials User API token for bitbucket-api
+ > git fetch --tags --force --progress -- https://bitbucket.org/flatironssolutions/insight-server.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision ba75320ae3eb2c551b46f94e9acb314f926cf5ff (PR-81)
+Commit message: "Bind refusal receipts to observed HTTP status"
+First time build. Skipping changelog.
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+fatal: bad object a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Compile)
+[Pipeline] container
+[Pipeline] {
+[Pipeline] withMaven
+Executing sh script inside container builder of pod rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2
+Executing command: "/bin/sh" "-c" "which mvn" 
+exit
+/usr/local/bin/mvn
+Executing sh script inside container builder of pod rd-insight-server-pr-81-1-qzp70-x4llh-jzvd2
+Executing command: "/usr/local/bin/mvn" "--version" 
+exit
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e" 
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/insight-server.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f ba75320ae3eb2c551b46f94e9acb314f926cf5ff # timeout=10
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /usr/local/apache-maven-3.9.9
+Java version: 21.0.9, vendor: Eclipse Adoptium, runtime: /usr/lib/jvm/temurin-21-jdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.12.79-101.147.amzn2023.x86_64", arch: "amd64", family: "unix"
+[Pipeline] {
+[Pipeline] sh
++ pwd
+/home/jenkins/agent/workspace/rd_insight-server_PR-81
++ mvn clean install -DskipTests -Dskip.tests=true -Dcustomer.parity.skip=true
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e" 
+[INFO] [jenkins-event-spy] Generate /home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e/maven-spy-20261009-084353-1945867683474135770082.log.tmp ...
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------- maven-git-versioning-extension:5.2.0 -----------------
+[INFO] Adjusting project models...
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-root @ branch kwesley/workflow-scenario-port-target ---
+[INFO] project version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] properties:
+[INFO]   flatirons.versionRange: [0-${flatirons.parentBranch}-SNAPSHOT, 0-${flatirons.parentBranch}-Z-SNAPSHOT),[999.999-kwesley-workflow-scenario-port-target-SNAPSHOT,999.999-kwesley-workflow-scenario-port-target-Z-SNAPSHOT)
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-config @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-model @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-dao @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-rest @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-service @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] properties:
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-api @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-package @ branch kwesley/workflow-scenario-port-target ---
+[INFO] parent version: 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Insight Server                                                     [pom]
+[INFO] Insight - API                                                      [jar]
+[INFO] Insight - Spring Configuration                                     [jar]
+[INFO] Insight - Model                                                    [jar]
+[INFO] Insight - Entity and Repository                                    [jar]
+[INFO] Insight - Service                                                  [jar]
+[INFO] Insight - REST                                                     [jar]
+[INFO] Insight - Spring Application                                       [war]
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-root >-----------------
+[INFO] Building Insight Server 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-root ---
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-root ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-root ---
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-root ---
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-root/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-root-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.pom
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-api >------------------
+[INFO] Building Insight - API 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [2/8]
+[INFO]   from insight-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-api ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-api ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/rd_insight-server_PR-81/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-api ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-api ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-api ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 201 source files with javac [debug optimize deprecation release 21] to target/classes
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/src/main/java/com/flatirons/insight/model/enums/ProcessState.java:[31,25] isEmpty(java.lang.Object) in org.springframework.util.StringUtils has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/src/main/java/com/flatirons/insight/model/enums/ProcessSort.java:[32,25] isEmpty(java.lang.Object) in org.springframework.util.StringUtils has been deprecated
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-api ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-api ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 4 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-api ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-api ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/target/insight-api-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-api ---
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-api ---
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-api/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-api-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-api/target/insight-api-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-api/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-api-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-config >----------------
+[INFO] Building Insight - Spring Configuration 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [3/8]
+[INFO]   from insight-config/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-config ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-config ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/rd_insight-server_PR-81/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-config/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-config ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-config ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-config/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-config ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 25 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-config ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-config/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-config ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 13 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-config ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-config ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-config/target/insight-config-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-config ---
+[INFO] Analyzed bundle 'insight-api' with 56 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-config ---
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-config/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-config/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-config-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-config/target/insight-config-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-config/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-config-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-model >-----------------
+[INFO] Building Insight - Model 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [4/8]
+[INFO]   from insight-model/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-model ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-model ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/rd_insight-server_PR-81/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-model/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-model ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-model ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-model/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-model ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 99 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-model ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-model/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-model ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-model ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-model ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-model/target/insight-model-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-model ---
+[INFO] Analyzed bundle 'insight-api' with 56 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-model ---
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-model/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-model/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-model-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-model/target/insight-model-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-model/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-model-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-dao >------------------
+[INFO] Building Insight - Entity and Repository 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [5/8]
+[INFO]   from insight-dao/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-dao ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-dao ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/rd_insight-server_PR-81/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-dao ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-dao ---
+[INFO] Copying 28 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-dao ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 93 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] Hibernate compile-time tooling 6.6.40.Final
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/src/main/java/com/flatirons/insight/repository/ReferenceDataLookupRepositoryImpl.java: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/src/main/java/com/flatirons/insight/repository/ReferenceDataLookupRepositoryImpl.java uses unchecked or unsafe operations.
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/src/main/java/com/flatirons/insight/repository/ReferenceDataLookupRepositoryImpl.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-dao ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-dao ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] Hibernate compile-time tooling 6.6.40.Final
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-dao ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-dao ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/target/insight-dao-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-dao ---
+[INFO] Analyzed bundle 'insight-api' with 56 classes
+[INFO] Analyzed bundle 'insight-model' with 99 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-dao ---
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-dao/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-dao-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-dao/target/insight-dao-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-dao/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-dao-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------< com.flatirons.insight:insight-service >----------------
+[INFO] Building Insight - Service 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [6/8]
+[INFO]   from insight-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-service ---
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clear-customer-parity-results) @ insight-service ---
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-service ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/rd_insight-server_PR-81/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-service ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-generated) @ insight-service ---
+[INFO] Source directory: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/generated-sources/annotations added.
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-service ---
+[INFO] Copying 9 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-service ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 156 source files with javac [debug optimize deprecation release 21] to target/classes
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/ReferenceDataLookupDefinitionMapper.java:[29,54] Unmapped target properties: "createdBy, updatedBy".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserMapper.java:[22,16] Unmapped target property: "groups".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserMapper.java:[36,13] Unmapped target properties: "company, deactivationOrigin, externalOriginalSrc, lastSyncTimestamp, lastSyncTimestampEpoch".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/TaskMapper.java:[35,18] Unmapped target properties: "endDate, processInstanceName, processDefinitionName, processDefinitionDescription, processDefinitionKey, processDefinitionCategory, processDefinitionVersion, processDefinitionDeploymentId".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/RelatedContentMapper.java:[30,10] Unmapped target properties: "storeId, updatedBy, status, createdDate, updatedDate".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/RelatedContentMapper.java:[37,10] Unmapped target properties: "createdDate, updatedDate, id, created, createdBy, taskId, processId, contentSource, storeId, mimeType, fieldId, updated, updatedBy, contentSize, status".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/GroupMapper.java:[19,17] Unmapped target properties: "parentGroupId, parent, children, relatedGroups, status, externalId, lastSyncDate, lastSyncTimeStampEpoch".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/ProcessDefinitionModelMapper.java:[49,34] Unmapped target property: "tenantId".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/ProcessDefinitionModelMapper.java:[64,10] Unmapped target property: "tenantId".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserPreferencesMapper.java:[25,27] Unmapped target properties: "createdDate, updatedDate".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserPreferencesMapper.java:[29,17] Unmapped target property: "id".
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,52] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[205,41] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[205,103] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[207,28] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[222,48] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[229,23] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[INFO] 
+[INFO] --- resources:3.3.0:copy-resources (copy-test-resources) @ insight-service ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/../etc-package/src/test/resources
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-service ---
+[INFO] Copying 46 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-service ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 100 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] The following options were not recognized by any processor: '[mapstruct.defaultComponentModel]'
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivePublicationScenarioTestBase.java:[116,36] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivePublicationScenarioTestBase.java:[127,31] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java:[170,20] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/RelatedContentAuthorizationScenarioTest.java:[73,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFullJourneyScenarioTest.java:[81,27] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/SafranFeedbackJourneyScenarioTest.java:[131,22] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[311,31] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[316,35] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[337,30] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedTaskFormScenarioTest.java:[118,29] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedTaskFormScenarioTest.java:[135,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/service/rmq/RmqEventListenerImplTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/src/test/java/com/flatirons/insight/service/rmq/RmqEventListenerImplTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- jar:3.3.0:test-jar (shared-scenario-test-support) @ insight-service ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-service ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] --- antrun:3.1.0:run (customer-parity-gate) @ insight-service ---
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-service ---
+[INFO] Analyzed bundle 'insight-api' with 56 classes
+[INFO] Analyzed bundle 'insight-config' with 29 classes
+[INFO] Analyzed bundle 'insight-dao' with 101 classes
+[INFO] Analyzed bundle 'insight-model' with 99 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-service ---
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-service/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-service/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] Installing /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-service/target/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT-tests.jar to /home/jenkins/agent/workspace/rd_insight-server_PR-81/com/flatirons/insight/insight-service/999.999-kwesley-workflow-scenario-port-target-SNAPSHOT/insight-service-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-rest >-----------------
+[INFO] Building Insight - REST 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT [7/8]
+[INFO]   from insight-rest/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-rest ---
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clear-customer-http-results) @ insight-rest ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-rest ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/rd_insight-server_PR-81/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-rest ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-rest ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-rest ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 24 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/main/java/com/flatirons/insight/rest/internal/form/ReferenceDataController.java: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/main/java/com/flatirons/insight/rest/internal/form/ReferenceDataController.java uses unchecked or unsafe operations.
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/main/java/com/flatirons/insight/rest/internal/form/ReferenceDataController.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.0:copy-resources (copy-test-resources) @ insight-rest ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/../etc-package/src/test/resources
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-rest ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-rest ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 26 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/FormAppFormControllerTest.java:[40,36] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpSmokeTest.java:[428,24] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/test/java/com/flatirons/insight/rest/internal/repository/ProcessDefinitionControllerTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/src/test/java/com/flatirons/insight/rest/internal/repository/ProcessDefinitionControllerTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-rest ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-rest ---
+[INFO] Building jar: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/target/insight-rest-999.999-kwesley-workflow-scenario-port-target-SNAPSHOT.jar
+[INFO] 
+[INFO] --- antrun:3.1.0:run (customer-http-gate) @ insight-rest ---
+[INFO] Executing tasks
+[INFO]      [java] Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e" 
+[INFO]      [java] Exception in thread "main" java.lang.IllegalStateException: Missing HTTP smoke result: /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest.xml
+[INFO]      [java] 	at com.flatirons.insight.scenario.CustomerWorkflowHttpGate.verify(CustomerWorkflowHttpGate.java:29)
+[INFO]      [java] 	at com.flatirons.insight.scenario.CustomerWorkflowHttpGate.main(CustomerWorkflowHttpGate.java:23)
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Insight Server 999.999-kwesley-workflow-scenario-port-target-SNAPSHOT:
+[INFO] 
+[INFO] Insight Server ..................................... SUCCESS [  1.002 s]
+[INFO] Insight - API ...................................... SUCCESS [ 13.877 s]
+[INFO] Insight - Spring Configuration ..................... SUCCESS [  2.489 s]
+[INFO] Insight - Model .................................... SUCCESS [  1.009 s]
+[INFO] Insight - Entity and Repository .................... SUCCESS [  2.230 s]
+[INFO] Insight - Service .................................. SUCCESS [  8.043 s]
+[INFO] Insight - REST ..................................... FAILURE [  1.439 s]
+[INFO] Insight - Spring Application ....................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  31.193 s
+[INFO] Finished at: 2026-10-09T08:44:24Z
+[INFO] ------------------------------------------------------------------------
+[INFO] [jenkins-event-spy] Generated /home/jenkins/agent/workspace/rd_insight-server_PR-81@tmp/withMaven41b2ec3e/maven-spy-20261009-084353-1945867683474135770082.log
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-antrun-plugin:3.1.0:run (customer-http-gate) on project insight-rest: An Ant BuildException has occured: Java returned: 1
+[ERROR] around Ant part ...<java fork="true" classname="com.flatirons.insight.scenario.CustomerWorkflowHttpGate" failonerror="true">... @ 4:110 in /home/jenkins/agent/workspace/rd_insight-server_PR-81/insight-rest/target/antrun/build-main.xml
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :insight-rest
+[Pipeline] }
+[withMaven] JacocoPublisher is no longer implicitly used with `withMaven` step.
+[withMaven] Jacoco plugin has been deprecated and should not be used anymore.
+[withMaven] CoveragePublisher will be used instead.
+
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-api:jar:999.999-kwesley-workflow-scenario-port-target-SNAPSHOT generated by maven-surefire-plugin:test (default-test): insight-api/target/surefire-reports/*.xml
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-config:jar:999.999-kwesley-workflow-scenario-port-target-SNAPSHOT generated by maven-surefire-plugin:test (default-test): insight-config/target/surefire-reports/*.xml
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-model:jar:999.999-kwesley-workflow-scenario-port-target-SNAPSHOT generated by maven-surefire-plugin:test (default-test): insight-model/target/surefire-reports/*.xml
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-dao:jar:999.999-kwesley-workflow-scenario-port-target-SNAPSHOT generated by maven-surefire-plugin:test (default-test): insight-dao/target/surefire-reports/*.xml
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-service:jar:999.999-kwesley-workflow-scenario-port-target-SNAPSHOT generated by maven-surefire-plugin:test (default-test): insight-service/target/surefire-reports/*.xml
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-rest:jar:999.999-kwesley-workflow-scenario-port-target-SNAPSHOT generated by maven-surefire-plugin:test (default-test): insight-rest/target/surefire-reports/*.xml
+[withMaven] junitPublisher - Jenkins JUnit Attachments Plugin not found, can't publish test attachments.
+[withMaven] junitPublisher - Jenkins JUnit Flaky Test Handler Plugin not found, can't publish JUnit flaky tests reports.
+Recording test results
+None of the test reports contained any result
+[Checks API] No suitable checks publisher found.
+[withMaven] Publishers: Pipeline Graph Publisher: 413 ms, Junit Publisher: 164 ms, Dependencies Fingerprint Publisher: 555 ms
+[Pipeline] // withMaven
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify)
+Stage "Verify" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Static Analysis)
+No test report files were found. Configuration error?
+Stage "Static Analysis" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] parallel
+[Pipeline] { (Branch: Mainline)
+[Pipeline] { (Branch: Branches)
+[Pipeline] { (Branch: Pull Requests)
+[Pipeline] stage
+[Pipeline] { (Mainline)
+[Pipeline] stage
+[Pipeline] { (Branches)
+[Pipeline] stage
+[Pipeline] { (Pull Requests)
+Stage "Mainline" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Branches" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Pull Requests" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch Mainline
+[Pipeline] }
+Failed in branch Branches
+[Pipeline] }
+Failed in branch Pull Requests
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+Stage "Deploy" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // podTemplate
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+[Bitbucket] Notifying pull request build result
+[Bitbucket] Build result notified
+Finished: FAILURE
+
