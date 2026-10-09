@@ -1,0 +1,44 @@
+{
+  "head": "4715327f13afa8b14bdaa1650a8cce7bb53016a7",
+  "base": "67bbdaf5d83a35feb9dbbf8261670b99ba8dd491",
+  "command": "Full Maven verify -fae",
+  "sourceReport": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowDocumentPersistenceTest.xml",
+  "sourceReportSha256": "ea55057bac09205f491bdcf9f2d2f7062244add2d40005ccbbfe38a8c45b52d4",
+  "suite": {
+    "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd",
+    "version": "3.0",
+    "name": "com.flatirons.insight.service.runtime.WorkflowDocumentPersistenceTest",
+    "time": "139.537",
+    "tests": "53",
+    "errors": "0",
+    "skipped": "0",
+    "failures": "0"
+  },
+  "pairedH2AndPostgreSQLCases": [
+    {
+      "name": "staleRefreshAndTwoDispatchersCannotReplaceNewerDocument(boolean)[1]",
+      "passed": true
+    },
+    {
+      "name": "staleRefreshAndTwoDispatchersCannotReplaceNewerDocument(boolean)[2]",
+      "passed": true
+    },
+    {
+      "name": "slowReportingCannotBlockAnotherProcessFirstPdf(boolean)[1]",
+      "passed": true
+    },
+    {
+      "name": "slowReportingCannotBlockAnotherProcessFirstPdf(boolean)[2]",
+      "passed": true
+    },
+    {
+      "name": "sequentialTasksRetainBothProcessTaskAndDistinctFormEntries(boolean)[1]",
+      "passed": true
+    },
+    {
+      "name": "sequentialTasksRetainBothProcessTaskAndDistinctFormEntries(boolean)[2]",
+      "passed": true
+    }
+  ],
+  "archiveSha256": "7ffe64c62463713346cf4c610235248c72c299a47c984da8b09cb3bb7ec0bf2b"
+}
