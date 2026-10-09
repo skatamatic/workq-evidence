@@ -1,0 +1,163 @@
+{
+  "head": "56f4e3caafbc6b44dcf1cd39c919d3b0af004111",
+  "capturedAt": "2026-10-09T06:37:18.505Z",
+  "builds": [
+    {
+      "name": "Research & Development Client Apps » etc-client » kwesley/source-backed-form-fixtures #4",
+      "state": "FAILED",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/4/",
+      "proof": [
+        "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+        "Checking out Revision 56f4e3caafbc6b44dcf1cd39c919d3b0af004111 (kwesley/source-backed-form-fixtures)",
+        "Checking out Revision 56f4e3caafbc6b44dcf1cd39c919d3b0af004111 (kwesley/source-backed-form-fixtures)",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic binding canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic console canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1705 SUCCESS",
+        "[INFO] 06:24:48.197 SCM revision ID '56f4e3caafbc6b44dcf1cd39c919d3b0af004111'",
+        "[INFO] 06:24:53.345 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&branch=kwesley%2Fsource-backed-form-fixtures",
+        "[INFO] 06:24:53.346 More about the report processing at https://sonar.flatirons.cloud/api/ce/task?id=23a07cd8-49ab-465b-93b5-6336e64e5a8a",
+        "[Pipeline] waitForQualityGate",
+        "Checking status of SonarQube task '23a07cd8-49ab-465b-93b5-6336e64e5a8a' on server 'Devops Sonarqube'",
+        "SonarQube task '23a07cd8-49ab-465b-93b5-6336e64e5a8a' status is 'PENDING'",
+        "SonarQube task '23a07cd8-49ab-465b-93b5-6336e64e5a8a' status is 'SUCCESS'",
+        "SonarQube task '23a07cd8-49ab-465b-93b5-6336e64e5a8a' completed. Quality gate is 'ERROR'",
+        "ERROR: Pipeline aborted due to quality gate failure: ERROR",
+        "Finished: FAILURE"
+      ]
+    },
+    {
+      "name": "Research & Development Client Apps » etc-client » Add source-backed Feedback Action form fixtures (#42) #4",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/4/",
+      "proof": [
+        "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+        "Checking out Revision 56f4e3caafbc6b44dcf1cd39c919d3b0af004111 (PR-42)",
+        "Checking out Revision 56f4e3caafbc6b44dcf1cd39c919d3b0af004111 (PR-42)",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic binding canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic console canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1705 SUCCESS",
+        "[INFO] TOTAL: 1705 SUCCESS✔ Browser application bundle generation complete.",
+        "[WARNING] 06:13:18.103 Could not find ref 'kwesley/insight-next' in refs/heads, refs/remotes, refs/remotes/upstream or refs/remotes/origin",
+        "[INFO] 06:14:59.524 SCM revision ID '56f4e3caafbc6b44dcf1cd39c919d3b0af004111'",
+        "[WARNING] 06:14:59.975 Could not find ref 'kwesley/insight-next' in refs/heads, refs/remotes, refs/remotes/upstream or refs/remotes/origin",
+        "[INFO] 06:15:01.508 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&pullRequest=42",
+        "[INFO] 06:15:01.510 More about the report processing at https://sonar.flatirons.cloud/api/ce/task?id=59235cb5-58d5-4a08-8506-0cbc996d1718",
+        "[Pipeline] waitForQualityGate",
+        "Checking status of SonarQube task '59235cb5-58d5-4a08-8506-0cbc996d1718' on server 'Devops Sonarqube'",
+        "SonarQube task '59235cb5-58d5-4a08-8506-0cbc996d1718' status is 'PENDING'",
+        "SonarQube task '59235cb5-58d5-4a08-8506-0cbc996d1718' status is 'SUCCESS'",
+        "SonarQube task '59235cb5-58d5-4a08-8506-0cbc996d1718' completed. Quality gate is 'OK'",
+        "Finished: SUCCESS"
+      ]
+    }
+  ],
+  "sonar": [
+    {
+      "taskId": "59235cb5-58d5-4a08-8506-0cbc996d1718",
+      "analysisId": "3066effd-387e-4c04-a10a-24025149989b",
+      "status": "SUCCESS",
+      "submittedAt": "2026-10-09T06:15:01+0000",
+      "executedAt": "2026-10-09T06:31:02+0000",
+      "projectStatus": {
+        "status": "OK",
+        "conditions": [
+          {
+            "status": "OK",
+            "metricKey": "new_reliability_rating",
+            "comparator": "GT",
+            "errorThreshold": "1",
+            "actualValue": "1"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_security_rating",
+            "comparator": "GT",
+            "errorThreshold": "1",
+            "actualValue": "1"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_maintainability_rating",
+            "comparator": "GT",
+            "errorThreshold": "1",
+            "actualValue": "1"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_violations",
+            "comparator": "GT",
+            "errorThreshold": "0",
+            "actualValue": "0"
+          }
+        ],
+        "ignoredConditions": false,
+        "caycStatus": "over-compliant"
+      }
+    },
+    {
+      "taskId": "23a07cd8-49ab-465b-93b5-6336e64e5a8a",
+      "analysisId": "e0dcdbf5-7b46-4a6a-a240-779b4cce7294",
+      "status": "SUCCESS",
+      "submittedAt": "2026-10-09T06:24:53+0000",
+      "executedAt": "2026-10-09T06:32:00+0000",
+      "projectStatus": {
+        "status": "ERROR",
+        "conditions": [
+          {
+            "status": "ERROR",
+            "metricKey": "new_reliability_rating",
+            "comparator": "GT",
+            "errorThreshold": "1",
+            "actualValue": "4"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_security_rating",
+            "comparator": "GT",
+            "errorThreshold": "1",
+            "actualValue": "1"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_maintainability_rating",
+            "comparator": "GT",
+            "errorThreshold": "1",
+            "actualValue": "1"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_coverage",
+            "comparator": "LT",
+            "errorThreshold": "90",
+            "actualValue": "100.0"
+          },
+          {
+            "status": "OK",
+            "metricKey": "new_duplicated_lines_density",
+            "comparator": "GT",
+            "errorThreshold": "3",
+            "actualValue": "0.0"
+          },
+          {
+            "status": "ERROR",
+            "metricKey": "new_violations",
+            "comparator": "GT",
+            "errorThreshold": "0",
+            "actualValue": "7"
+          }
+        ],
+        "ignoredConditions": false,
+        "period": {
+          "mode": "PREVIOUS_VERSION",
+          "date": "2026-10-09T04:55:45+0000"
+        },
+        "caycStatus": "over-compliant"
+      }
+    }
+  ],
+  "scope": "PR gate OK,branch gate ERROR; seven owned issues. TOTAL1FAILED2SUCCESS footers are intentional template/console canaries confirmed by verifier, not failures of full1705-test suite. Private locator and archive bytes excluded."
+}
