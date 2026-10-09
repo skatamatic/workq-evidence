@@ -1,0 +1,884 @@
+{
+  "dispatch": "prepared-only; broader dispatch contingent on captain acceptance and human PR review",
+  "sharedOwners": {
+    "harness-component-registration-owner": [
+      "tools/forms-verify/selection.cjs",
+      "tools/forms-browser/result-receipt.cjs",
+      "tools/forms-browser/host/main.ts",
+      "tools/forms-browser/tests/pilots.spec.ts",
+      "tools/forms-browser/tests/matrix.spec.ts"
+    ],
+    "generated-integration-owner": [
+      "src/testing/form-fixtures/registry.generated.ts",
+      "src/testing/form-fixtures/showcase.generated.json"
+    ],
+    "shared-production-owners": [
+      "form-container renderer",
+      "config-adapters.registry",
+      "field configuration modal",
+      "save/reader utilities",
+      "rule catalog/registry/engine",
+      "TinyMCE bridge",
+      "component-library source/artifact"
+    ],
+    "lifecycle-serial-tickets": [
+      "FB-039 validation selection",
+      "FB-041 actions",
+      "FB-045 tabs",
+      "FB-046 container rules"
+    ]
+  },
+  "rules": [
+    "No concurrent shared-file edits; declare owner/dependency then rebase and run full matrix.",
+    "One integration owner regenerates catalog/showcase after component fixtures merge.",
+    "Component-specific browser scenario registration must enforce authoring outcome; fixture mount alone is insufficient.",
+    "Justin UX and unrelated library/work-order UI excluded.",
+    "No tickets dispatched or created by this assessment."
+  ],
+  "tickets": [
+    {
+      "id": "cert-checkbox",
+      "title": "FB-009 completed checkbox certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing checkbox configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-checkbox/cert-checkbox.fixture.ts",
+        "src/testing/form-fixtures/components/cert-checkbox/cert-checkbox.spec.ts",
+        "tools/forms-browser/tests/cert-checkbox.spec.ts",
+        "src/app/main/components/forms/modals/editors/checkbox-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-date",
+      "title": "FB-010 completed date certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing date configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-date/cert-date.fixture.ts",
+        "src/testing/form-fixtures/components/cert-date/cert-date.spec.ts",
+        "tools/forms-browser/tests/cert-date.spec.ts",
+        "src/app/main/components/forms/modals/editors/date-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-number",
+      "title": "FB-011 completed number certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing number configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-number/cert-number.fixture.ts",
+        "src/testing/form-fixtures/components/cert-number/cert-number.spec.ts",
+        "tools/forms-browser/tests/cert-number.spec.ts",
+        "src/app/main/components/forms/modals/editors/number-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-textarea",
+      "title": "FB-012 completed textarea certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing textarea configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-textarea/cert-textarea.fixture.ts",
+        "src/testing/form-fixtures/components/cert-textarea/cert-textarea.spec.ts",
+        "tools/forms-browser/tests/cert-textarea.spec.ts",
+        "src/app/main/components/forms/modals/editors/textarea-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-radio",
+      "title": "FB-014 completed radio certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing radio configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-radio/cert-radio.fixture.ts",
+        "src/testing/form-fixtures/components/cert-radio/cert-radio.spec.ts",
+        "tools/forms-browser/tests/cert-radio.spec.ts",
+        "src/app/main/components/forms/modals/editors/radio-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-people-group",
+      "title": "FB-015 completed people-group certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing people-group configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-people-group/cert-people-group.fixture.ts",
+        "src/testing/form-fixtures/components/cert-people-group/cert-people-group.spec.ts",
+        "tools/forms-browser/tests/cert-people-group.spec.ts",
+        "src/app/main/components/forms/modals/editors/people-group-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-people-user",
+      "title": "FB-016 completed people-user certification",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "certification",
+      "sourceContract": "Completed activity and existing people-user configuration/runtime contract; certify current code before changing behavior. Number masks excluded.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-people-user/cert-people-user.fixture.ts",
+        "src/testing/form-fixtures/components/cert-people-user/cert-people-user.spec.ts",
+        "tools/forms-browser/tests/cert-people-user.spec.ts",
+        "src/app/main/components/forms/modals/editors/people-user-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "cert-amount",
+      "title": "Existing amount certification",
+      "status": "contract-check-first",
+      "kind": "certification",
+      "sourceContract": "Existing amount editor/runtime data shape; no completed activity status asserted.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/cert-amount/cert-amount.fixture.ts",
+        "src/testing/form-fixtures/components/cert-amount/cert-amount.spec.ts",
+        "tools/forms-browser/tests/cert-amount.spec.ts",
+        "src/app/main/components/forms/modals/editors/amount-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "display-text",
+      "title": "FB-017 display text",
+      "status": "ready-after-review-and-harness-owner",
+      "kind": "implementation",
+      "sourceContract": "Existing display-only value, validation applicability, hide/remount and no editable submission.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/display-text/display-text.fixture.ts",
+        "src/testing/form-fixtures/components/display-text/display-text.spec.ts",
+        "tools/forms-browser/tests/display-text.spec.ts",
+        "src/app/main/components/forms/modals/editors/display-text-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "display-value",
+      "title": "FB-018 display value",
+      "status": "blocked-source-context-contract",
+      "kind": "implementation",
+      "sourceContract": "Approve source selector, context/missing-source resolution and persisted shape.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/display-value/display-value.fixture.ts",
+        "src/testing/form-fixtures/components/display-value/display-value.spec.ts",
+        "tools/forms-browser/tests/display-value.spec.ts",
+        "src/app/main/components/forms/modals/editors/display-value-config-editor.component.*"
+      ],
+      "dependencies": [
+        "form-data-source-context-owner",
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "file",
+      "title": "FB-019 file",
+      "status": "ready-after-source-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Existing upload service, upload lifecycle and persisted reference; no fabricated database behavior.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/file/file.fixture.ts",
+        "src/testing/form-fixtures/components/file/file.spec.ts",
+        "tools/forms-browser/tests/file.spec.ts",
+        "src/app/main/components/forms/modals/editors/file-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "image",
+      "title": "FB-020 image",
+      "status": "ready-after-source-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Approve link versus upload choice, canonical saved value and load failure.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/image/image.fixture.ts",
+        "src/testing/form-fixtures/components/image/image.spec.ts",
+        "tools/forms-browser/tests/image.spec.ts",
+        "src/app/main/components/forms/modals/editors/image-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "link",
+      "title": "FB-021 link",
+      "status": "ready-after-source-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Approve href/target/navigation and readonly submission semantics.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/link/link.fixture.ts",
+        "src/testing/form-fixtures/components/link/link.spec.ts",
+        "tools/forms-browser/tests/link.spec.ts",
+        "src/app/main/components/forms/modals/editors/link-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "password",
+      "title": "FB-023 password",
+      "status": "ready-after-source-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Existing password value contract; safe masking, required/disabled/clear/save and no secret artifacts.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/password/password.fixture.ts",
+        "src/testing/form-fixtures/components/password/password.spec.ts",
+        "tools/forms-browser/tests/password.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ],
+      "ownershipNotes": [
+        "No dedicated existing editor for password-config-editor.component.*; identify existing adapter/widget seam before dispatch. New file reservation only after contract review; shared modal/host edits require owner."
+      ]
+    },
+    {
+      "id": "audit-events",
+      "title": "FB-026 audit-events",
+      "status": "ready-after-host-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Existing specialized widget columns/source/readonly contract; not generic Table.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/audit-events/audit-events.fixture.ts",
+        "src/testing/form-fixtures/components/audit-events/audit-events.spec.ts",
+        "tools/forms-browser/tests/audit-events.spec.ts",
+        "src/app/main/components/forms/modals/editors/audit-event-table-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "barcode",
+      "title": "FB-027 barcode",
+      "status": "ready-after-host-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Existing host source selector and canonical resolved value; missing source refusal.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/barcode/barcode.fixture.ts",
+        "src/testing/form-fixtures/components/barcode/barcode.spec.ts",
+        "tools/forms-browser/tests/barcode.spec.ts",
+        "src/app/main/components/forms/modals/editors/barcode-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "form-data",
+      "title": "FB-028 form-data",
+      "status": "ready-after-host-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Approve source context and canonical resolution shared with Display Value.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/form-data/form-data.fixture.ts",
+        "src/testing/form-fixtures/components/form-data/form-data.spec.ts",
+        "tools/forms-browser/tests/form-data.spec.ts",
+        "src/app/main/components/forms/modals/editors/form-data-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "form-save",
+      "title": "FB-029 form-save",
+      "status": "ready-after-host-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Host action/save boundary; duplicate-click and reset/in-flight refused mutation.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/form-save/form-save.fixture.ts",
+        "src/testing/form-fixtures/components/form-save/form-save.spec.ts",
+        "tools/forms-browser/tests/form-save.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ],
+      "ownershipNotes": [
+        "No dedicated existing editor for form-save-config-editor.component.*; identify existing adapter/widget seam before dispatch. New file reservation only after contract review; shared modal/host edits require owner."
+      ]
+    },
+    {
+      "id": "pinpoint",
+      "title": "FB-032 pinpoint",
+      "status": "ready-after-host-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Existing reference selection/navigation and host mapping contract.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/pinpoint/pinpoint.fixture.ts",
+        "src/testing/form-fixtures/components/pinpoint/pinpoint.spec.ts",
+        "tools/forms-browser/tests/pinpoint.spec.ts",
+        "src/app/main/components/forms/modals/editors/pinpoint-reference-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "related-documents",
+      "title": "FB-033 related-documents",
+      "status": "ready-after-host-contract-review",
+      "kind": "implementation",
+      "sourceContract": "Existing specialized document widget/source contract; not generic Table.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/related-documents/related-documents.fixture.ts",
+        "src/testing/form-fixtures/components/related-documents/related-documents.spec.ts",
+        "tools/forms-browser/tests/related-documents.spec.ts",
+        "src/app/main/components/forms/modals/editors/related-doc-table-config-editor.component.*"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "single-signature",
+      "title": "FB-035 single-signature",
+      "status": "blocked-signature-contract-and-shared-owner",
+      "kind": "implementation",
+      "sourceContract": "Approved qualifications/credentials/sign/unsign/print permissions, source shape and in-flight semantics; fixture transport does not prove signing.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/single-signature/single-signature.fixture.ts",
+        "src/testing/form-fixtures/components/single-signature/single-signature.spec.ts",
+        "tools/forms-browser/tests/single-signature.spec.ts"
+      ],
+      "dependencies": [
+        "shared-signature-owner",
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ],
+      "ownershipNotes": [
+        "No dedicated existing editor for single-signature-config-editor.component.*; identify existing adapter/widget seam before dispatch. New file reservation only after contract review; shared modal/host edits require owner."
+      ]
+    },
+    {
+      "id": "signature-table",
+      "title": "FB-034 signature-table",
+      "status": "blocked-signature-contract-and-shared-owner",
+      "kind": "implementation",
+      "sourceContract": "Approved qualifications/credentials/sign/unsign/print permissions, source shape and in-flight semantics; fixture transport does not prove signing.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/signature-table/signature-table.fixture.ts",
+        "src/testing/form-fixtures/components/signature-table/signature-table.spec.ts",
+        "tools/forms-browser/tests/signature-table.spec.ts",
+        "src/app/main/components/forms/modals/editors/signature-table-config-editor.component.*"
+      ],
+      "dependencies": [
+        "shared-signature-owner",
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "sign-off",
+      "title": "FB-031 sign-off",
+      "status": "blocked-signature-contract-and-shared-owner",
+      "kind": "implementation",
+      "sourceContract": "Approved qualifications/credentials/sign/unsign/print permissions, source shape and in-flight semantics; fixture transport does not prove signing.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/sign-off/sign-off.fixture.ts",
+        "src/testing/form-fixtures/components/sign-off/sign-off.spec.ts",
+        "tools/forms-browser/tests/sign-off.spec.ts"
+      ],
+      "dependencies": [
+        "shared-signature-owner",
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ],
+      "ownershipNotes": [
+        "No dedicated existing editor for sign-off-config-editor.component.*; identify existing adapter/widget seam before dispatch. New file reservation only after contract review; shared modal/host edits require owner."
+      ]
+    },
+    {
+      "id": "rich-text",
+      "title": "FB-030 rich-text certification and remaining behavior",
+      "status": "ready-sequential-owner",
+      "kind": "implementation",
+      "sourceContract": "FB-003/004/006 current approved contracts; own TinyMCE authoring, immediate production bridge save, metadata/scope/remount and preview sanitation.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/rich-text/rich-text.fixture.ts",
+        "src/testing/form-fixtures/components/rich-text/rich-text.spec.ts",
+        "tools/forms-browser/tests/rich-text.spec.ts",
+        "src/app/main/components/forms/modals/editors/rich-text-config-editor.component.*"
+      ],
+      "dependencies": [
+        "tinymce-bridge-owner",
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "step-table",
+      "title": "FB-036 step table",
+      "status": "blocked-scoped-nested-contract",
+      "kind": "implementation",
+      "sourceContract": "Approved nested step data/rule scope, restrictions and standalone refused path.",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/step-table/step-table.fixture.ts",
+        "src/testing/form-fixtures/components/step-table/step-table.spec.ts",
+        "tools/forms-browser/tests/step-table.spec.ts"
+      ],
+      "dependencies": [
+        "shared-rule-scope-owner",
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "contract-part",
+      "title": "FB-022 Part",
+      "status": "hold-undefined-contract",
+      "kind": "contract-definition",
+      "sourceContract": "Composite versus independently persisted inputs",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/contract-part/contract-part.fixture.ts",
+        "src/testing/form-fixtures/components/contract-part/contract-part.spec.ts",
+        "tools/forms-browser/tests/contract-part.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "contract-table",
+      "title": "FB-024 Table",
+      "status": "hold-undefined-contract",
+      "kind": "contract-definition",
+      "sourceContract": "Row data, editing, sorting, visibility, validation",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/contract-table/contract-table.fixture.ts",
+        "src/testing/form-fixtures/components/contract-table/contract-table.spec.ts",
+        "tools/forms-browser/tests/contract-table.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "contract-button",
+      "title": "FB-025 Button",
+      "status": "hold-undefined-contract",
+      "kind": "contract-definition",
+      "sourceContract": "Action and runtime output; current handler no-op",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/contract-button/contract-button.fixture.ts",
+        "src/testing/form-fixtures/components/contract-button/contract-button.spec.ts",
+        "tools/forms-browser/tests/contract-button.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "contract-value-sets",
+      "title": "FB-037 value sets",
+      "status": "hold-undefined-contract",
+      "kind": "contract-definition",
+      "sourceContract": "Server API/authz, stable selections, edits/removal, version/cache",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/contract-value-sets/contract-value-sets.fixture.ts",
+        "src/testing/form-fixtures/components/contract-value-sets/contract-value-sets.spec.ts",
+        "tools/forms-browser/tests/contract-value-sets.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "contract-notification",
+      "title": "FB-043 Notification authoring",
+      "status": "hold-undefined-contract",
+      "kind": "contract-definition",
+      "sourceContract": "Canonical role/version/approval lifecycle; FB-042 runtime is separate",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/contract-notification/contract-notification.fixture.ts",
+        "src/testing/form-fixtures/components/contract-notification/contract-notification.spec.ts",
+        "tools/forms-browser/tests/contract-notification.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    },
+    {
+      "id": "contract-mask",
+      "title": "FB-047 Number mask",
+      "status": "hold-undefined-contract",
+      "kind": "contract-definition",
+      "sourceContract": "Syntax, typed value and migration of stored values",
+      "exclusiveOwnership": [
+        "src/testing/form-fixtures/components/contract-mask/contract-mask.fixture.ts",
+        "src/testing/form-fixtures/components/contract-mask/contract-mask.spec.ts",
+        "tools/forms-browser/tests/contract-mask.spec.ts"
+      ],
+      "dependencies": [
+        "harness-component-registration-owner"
+      ],
+      "verification": [
+        "full forms matrix on final rebased head",
+        "focused component iteration with exclusions disclosed",
+        "production authoring -> save/reader -> actual controls -> immediate save/reload/remount",
+        "scoped new/changed coverage >=80%; configured lint/full units/build retained"
+      ],
+      "evidence": [
+        "literal reviewed source/config contract; original/derived hashes if source-backed",
+        "unique required case IDs; strict receipt; screenshot/model/trace; source/lock/library/browser identity",
+        "explicit pending dimensions; no fixture-to-DB claim"
+      ]
+    }
+  ]
+}
