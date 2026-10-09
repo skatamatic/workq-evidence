@@ -1,0 +1,58 @@
+{
+  "proof": "in-memory JSON serialization and rendering; not database persistence",
+  "head": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+  "node": "v22.17.0",
+  "library": "20.3.16-feature-etc-insight.1791070420",
+  "playwright": "1.59.1",
+  "baseURL": "http://127.0.0.1:51498",
+  "buildMs": 14552,
+  "sourceHashes": {
+    "package-lock.json": "fd4c7d0694c7ddf4d7c667963ff3bec6289b0033bec1dbab0f5037137d2bf530",
+    "tools/forms-browser/host/main.ts": "cb762d592b504a3f6b7379e603aca79eeec3734b2c120ee822fe4c0beb74666b",
+    "tools/forms-browser/tests/pilots.spec.ts": "45db69acff4020fd9e4c7aded244b430c4147f00efee39265955ae9de6e3dc05",
+    "src/testing/form-fixtures/components/dropdown.fixture.ts": "eba6e11f58861992a2cd21dacf8cebc79092c9061290521571f110817847ace2",
+    "src/testing/form-fixtures/components/embedded.fixture.ts": "2b43034d39fe4545617944d7f2d9cfa3bc482f6e5b96a09589530ff844735cad",
+    "src/testing/form-fixtures/components/source-feedback/source-feedback.fixture.ts": "7a01ede1933dbf1e2412ddd1835877f058f5d15938c84ecc3c3612d583439788",
+    "src/testing/form-fixtures/source-backed-contract.ts": "3ef98686c1e1a8650d13bae3b4e517d3042e0cfc313b235fff84e40fcea921f8"
+  },
+  "selection": [],
+  "canary": null,
+  "complete": true,
+  "stats": {
+    "startTime": "2026-10-09T04:33:43.395Z",
+    "duration": 16246.154,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "caseIds": [
+    "source-feedback/supported-selection",
+    "source-feedback/explicit-clear",
+    "dropdown/default",
+    "dropdown/explicit-null-clear",
+    "dropdown/required",
+    "dropdown/configured-disabled",
+    "dropdown/readonly",
+    "embedded/hide",
+    "embedded/remount-populated",
+    "embedded/remount-clear"
+  ],
+  "excludedCaseIds": [
+    "dropdown/multiple-empty-clear",
+    "dropdown/selection",
+    "embedded/disable",
+    "embedded/enable"
+  ],
+  "browserVersion": "147.0.7727.15",
+  "elapsedMs": 32090,
+  "browserExitCode": 0,
+  "exitCode": 0,
+  "timedOut": false,
+  "interrupted": false,
+  "peakOrchestratorRssBytes": 66813952,
+  "memoryScope": "session Node process only; excludes compiler/browser descendants",
+  "tinymce": "6.8.6",
+  "iconFont": "4.1.4",
+  "dirty": "M AGENTS.md\n M docs/design/form-builder/form-fixture-catalog.md\n M src/testing/form-fixtures/catalog.spec.ts\n M src/testing/form-fixtures/fixture-contract.ts\n M src/testing/form-fixtures/registry.generated.ts\n M src/testing/form-fixtures/showcase.generated.json\n M tools/form-fixtures/catalog.mjs\n M tools/forms-browser/host/main.ts\n M tools/forms-browser/result-receipt.cjs\n M tools/forms-browser/result-receipt.test.cjs\n M tools/forms-browser/session.cjs\n M tools/forms-browser/tests/pilots.spec.ts"
+}
