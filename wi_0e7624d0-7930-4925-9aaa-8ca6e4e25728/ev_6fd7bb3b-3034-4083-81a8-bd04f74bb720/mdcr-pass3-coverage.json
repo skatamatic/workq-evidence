@@ -1,0 +1,46 @@
+{
+  "head": "59b8ef6ef8aebb0cbb820b2b45dae0c9642ea9f2",
+  "base": "af9a93faae2c97c31635cf238e22350073d912d7",
+  "report": "target/site/jacoco/jacoco.xml",
+  "method": "Changed executable lines plus JaCoCo branches; local estimate, not a Sonar quality-gate receipt.",
+  "covered": 0,
+  "total": 1,
+  "coverage": 0.0,
+  "rows": [
+    {
+      "path": "insight-api/src/main/java/com/flatirons/insight/service/runtime/ContentStorageService.java",
+      "linesCovered": 0,
+      "linesTotal": 1,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": [
+        25
+      ]
+    }
+  ],
+  "unreportedPaths": [
+    "insight-dao/src/main/java/com/flatirons/insight/domain/InsightFormPdfEntity.java",
+    "insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowDocumentJobEntity.java",
+    "insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowDocumentProcessEntity.java",
+    "insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowDocumentResourceEntity.java",
+    "insight-dao/src/main/java/com/flatirons/insight/repository/InsightFormPdfRepository.java",
+    "insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowDocumentJobRepository.java",
+    "insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowDocumentProcessRepository.java",
+    "insight-dao/src/main/java/com/flatirons/insight/repository/WorkflowDocumentResourceRepository.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/ContentStorageServiceImpl.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/HttpWorkflowAnalyticsTransport.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/NodeWorkflowPdfRenderer.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskPrintSnapshot.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalyticsTransport.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentCapture.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentChildOrder.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentDeliveryConfiguration.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentResourceLedger.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentService.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowHttpTransport.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowPdfBytes.java",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowPdfRenderer.java"
+  ]
+}
