@@ -1,0 +1,837 @@
+From 22ee3a1a0646a0bfd5008d6632a9f7fd853432dd Mon Sep 17 00:00:00 2001
+From: Kyle Wesley <kyle.wesley@scopeapp.com>
+Date: Thu, 8 Oct 2026 18:06:52 -0600
+Subject: [PATCH] feat: add preload-only completed task print view
+
+---
+ docs/fixtures/task-print-preloads.json        |  55 ++++++
+ docs/task-print-preload.md                    |  56 ++++++
+ .../components/print/task-print-preload.ts    |  99 ++++++++++
+ .../print/task-print.component.html           |  61 +++++++
+ .../print/task-print.component.scss           |  72 ++++++++
+ .../print/task-print.component.spec.ts        | 169 ++++++++++++++++++
+ .../components/print/task-print.component.ts  |  87 +++++++++
+ .../components/print/task-print.routes.ts     |  12 ++
+ src/main.ts                                   | 140 ++++++++-------
+ 9 files changed, 689 insertions(+), 62 deletions(-)
+ create mode 100644 docs/fixtures/task-print-preloads.json
+ create mode 100644 docs/task-print-preload.md
+ create mode 100644 src/app/main/components/print/task-print-preload.ts
+ create mode 100644 src/app/main/components/print/task-print.component.html
+ create mode 100644 src/app/main/components/print/task-print.component.scss
+ create mode 100644 src/app/main/components/print/task-print.component.spec.ts
+ create mode 100644 src/app/main/components/print/task-print.component.ts
+ create mode 100644 src/app/main/components/print/task-print.routes.ts
+
+diff --git a/docs/fixtures/task-print-preloads.json b/docs/fixtures/task-print-preloads.json
+new file mode 100644
+index 0000000..62d19bc
+--- /dev/null
++++ b/docs/fixtures/task-print-preloads.json
+@@ -0,0 +1,55 @@
++[
++  {
++    "version": 1,
++    "task": {
++      "id": "synthetic-parent-1",
++      "processInstanceId": "synthetic-process-1",
++      "parentTaskId": null,
++      "title": "MDCR \u00b7 Main inspection",
++      "state": "completed",
++      "completedAt": "2026-10-08T12:00:00Z"
++    },
++    "fields": [
++      {
++        "label": "Equipment",
++        "kind": "text",
++        "value": "Synthetic turbine assembly \u00b7 Unit 042"
++      },
++      {
++        "label": "Inspection result",
++        "kind": "text",
++        "value": "Passed\nNo discrepancies found."
++      },
++      {
++        "label": "Technician notes",
++        "kind": "richText",
++        "value": "<p>Checked clearances against the <strong>approved limits</strong>.</p><ul><li>Housing secure</li><li>All fasteners accounted for</li></ul>"
++      }
++    ],
++    "attachments": [
++      {
++        "name": "Synthetic inspection record.pdf",
++        "mediaType": "application/pdf"
++      }
++    ]
++  },
++  {
++    "version": 1,
++    "task": {
++      "id": "synthetic-child-1",
++      "processInstanceId": "synthetic-process-1",
++      "parentTaskId": "synthetic-parent-1",
++      "title": "MDCR \u00b7 Child verification",
++      "state": "completed",
++      "completedAt": "2026-10-08T12:15:00Z"
++    },
++    "fields": [
++      {
++        "label": "Verification",
++        "kind": "text",
++        "value": "Accepted independently"
++      }
++    ],
++    "attachments": []
++  }
++]
+diff --git a/docs/task-print-preload.md b/docs/task-print-preload.md
+new file mode 100644
+index 0000000..535f48f
+--- /dev/null
++++ b/docs/task-print-preload.md
+@@ -0,0 +1,56 @@
++# Completed task print contract v1
++
++Insight Server authorizes and constructs the **whole** snapshot before calling the Node PDF renderer.
++Inject it as `window.__PRINT_PRELOAD` before client JavaScript runs; navigate without browser credentials
++to `/insightclient/print/task/<URL-encoded task ID>` (or `/print/task/<ID>` when hosted at root).
++The client does not authorize a task: possession of a route ID alone displays nothing.
++It makes no task, content, identity, configuration, translation or form API requests in print mode.
++Only bundled application resources/static fonts load. No user/tenant/content selector is accepted.
++
++The exact TypeScript DTO and runtime validator are in
++`src/app/main/components/print/task-print-preload.ts`. Every property is required except
++`attachments[].imageDataUrl`; unknown properties/versions/kinds are refused.
++
++```typescript
++interface TaskPrintPreload {
++  version: 1;
++  task: {
++    id: string; // exact decoded route task ID
++    processInstanceId: string; // server's exact process instance ID
++    parentTaskId: string | null;
++    title: string;
++    state: 'completed';
++    completedAt: string; // ISO UTC timestamp ending in Z
++  };
++  fields: { label: string; kind: 'text' | 'richText'; value: string }[];
++  attachments: { name: string; mediaType: string; imageDataUrl?: string }[];
++}
++```
++
++Fields are display values, not form definitions or executable archives. Server maps labels, dates,
++booleans, selections and repeated values to explicit strings in its authorized snapshot. Empty string
++is displayed as empty, not a default. `richText` permits only p/br/b/strong/i/em/u/ul/ol/li/blockquote,
++without any attributes; other elements and their content are removed, then Angular sanitizes the result.
++Text/title/labels/names use interpolation. No scripts, rules, controls, external resources or hyperlinks execute.
++
++Attachments are **only those visible to the authorized actor**. Server embeds PNG/JPEG bytes as a
++matching base64 data URL. No external/relative/blob/SVG URL is accepted. Other attachment types display
++name and media type only; the page never downloads them. Non-image attachment content is not printed.
++
++`window.__PRINT_READY__` resets to false at bootstrap, on route changes and on teardown. It becomes
++true only after rendering the complete accepted snapshot, all images decode successfully,
++`document.fonts.ready` resolves with loaded status, and two animation frames complete. A failed image,
++malformed/missing snapshot, wrong task ID or unknown family/version leaves it false. Node must wait for
++**strict equality to true**, impose its own bounded timeout, and refuse capture/persistence on timeout.
++Do not replace a preload during capture; use a fresh page per task. The client copies the accepted
++snapshot so later global mutation cannot alter the displayed data. No fallback fetch exists.
++
++`fixtures/task-print-preloads.json` contains separate synthetic parent and child snapshots. Inject
++one object, navigate to its own task ID, await readiness, capture; repeat for the child. The fixture
++array is not a preload. Server owns ordering, merging, archival provenance and PDF persistence.
++
++Unsupported: interactive form rendering/submission, arbitrary archive scripts/rules, specialized
++ETC/MDCR form families, signature widgets, embedded documents, SVG, and automatic child traversal.
++This static display contract is not full MDCR parity. The missing server MDCR contract document was
++not available in this client checkout; the PDF worker must implement the DTO above rather than infer
++an eTaskCard model.
+diff --git a/src/app/main/components/print/task-print-preload.ts b/src/app/main/components/print/task-print-preload.ts
+new file mode 100644
+index 0000000..a13d392
+--- /dev/null
++++ b/src/app/main/components/print/task-print-preload.ts
+@@ -0,0 +1,99 @@
++/** Display-only snapshot, assembled and authorized by Insight Server. */
++export interface ITaskPrintPreload {
++  version: 1;
++  task: {
++    id: string;
++    processInstanceId: string;
++    parentTaskId: string | null;
++    title: string;
++    state: 'completed';
++    completedAt: string;
++  };
++  fields: { label: string; kind: 'text' | 'richText'; value: string }[];
++  attachments: { name: string; mediaType: string; imageDataUrl?: string }[];
++}
++
++declare global {
++  // Browser global declaration must retain the platform interface name.
++  // eslint-disable-next-line @typescript-eslint/naming-convention
++  interface Window {
++    __PRINT_PRELOAD?: unknown;
++    __PRINT_READY__?: boolean;
++  }
++}
++
++function record(value: unknown): value is Record<string, unknown> {
++  return typeof value === 'object' && value !== null && !Array.isArray(value);
++}
++
++function exactKeys(value: Record<string, unknown>, required: string[], optional: string[] = []): boolean {
++  return (
++    required.every((key) => Object.hasOwn(value, key)) &&
++    Object.keys(value).every((key) => required.includes(key) || optional.includes(key))
++  );
++}
++
++function nonempty(value: unknown): value is string {
++  return typeof value === 'string' && value.trim().length > 0;
++}
++
++/** Fail closed, including unknown versions/families and external attachment URLs. */
++export function readTaskPrintPreload(value: unknown, taskId: string | null): ITaskPrintPreload | null {
++  if (!record(value) || !exactKeys(value, ['version', 'task', 'fields', 'attachments']) || value['version'] !== 1) {
++    return null;
++  }
++  const task = value['task'];
++  if (
++    !record(task) ||
++    !exactKeys(task, ['id', 'processInstanceId', 'parentTaskId', 'title', 'state', 'completedAt']) ||
++    !nonempty(taskId) ||
++    task['id'] !== taskId ||
++    !nonempty(task['processInstanceId']) ||
++    !(task['parentTaskId'] === null || nonempty(task['parentTaskId'])) ||
++    !nonempty(task['title']) ||
++    task['state'] !== 'completed' ||
++    !nonempty(task['completedAt']) ||
++    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(task['completedAt']) ||
++    !Number.isFinite(Date.parse(task['completedAt']))
++  ) {
++    return null;
++  }
++  if (
++    !Array.isArray(value['fields']) ||
++    !value['fields'].every(
++      (field: unknown) =>
++        record(field) &&
++        exactKeys(field, ['label', 'kind', 'value']) &&
++        nonempty(field['label']) &&
++        ['text', 'richText'].includes(field['kind'] as string) &&
++        typeof field['value'] === 'string'
++    )
++  ) {
++    return null;
++  }
++  if (
++    !Array.isArray(value['attachments']) ||
++    !value['attachments'].every((attachment: unknown) => {
++      if (
++        !record(attachment) ||
++        !exactKeys(attachment, ['name', 'mediaType'], ['imageDataUrl']) ||
++        !nonempty(attachment['name']) ||
++        !nonempty(attachment['mediaType'])
++      ) {
++        return false;
++      }
++      if (!Object.hasOwn(attachment, 'imageDataUrl')) {
++        return true;
++      }
++      return (
++        ['image/png', 'image/jpeg'].includes(attachment['mediaType']) &&
++        typeof attachment['imageDataUrl'] === 'string' &&
++        new RegExp(`^data:${attachment['mediaType']};base64,[A-Za-z0-9+/]+={0,2}$`).test(attachment['imageDataUrl'])
++      );
++    })
++  ) {
++    return null;
++  }
++  // Detach from the renderer's mutable global before displaying anything.
++  return JSON.parse(JSON.stringify(value)) as ITaskPrintPreload;
++}
+diff --git a/src/app/main/components/print/task-print.component.html b/src/app/main/components/print/task-print.component.html
+new file mode 100644
+index 0000000..e6cd37a
+--- /dev/null
++++ b/src/app/main/components/print/task-print.component.html
+@@ -0,0 +1,61 @@
++@if (snapshot; as data) {
++  <main class="task-print">
++    <header>
++      <p
++        i18n
++        class="eyebrow"
++      >
++        Completed task record
++      </p>
++      <h1>{{ data.task.title }}</h1>
++      <dl class="identity">
++        <dt i18n>Task</dt>
++        <dd>{{ data.task.id }}</dd>
++        <dt i18n>Process</dt>
++        <dd>{{ data.task.processInstanceId }}</dd>
++        @if (data.task.parentTaskId) {
++          <dt i18n>Parent task</dt>
++          <dd>{{ data.task.parentTaskId }}</dd>
++        }
++        <dt i18n>Completed</dt>
++        <dd>{{ data.task.completedAt }}</dd>
++      </dl>
++    </header>
++    <section aria-label="Form values">
++      @for (field of data.fields; track $index) {
++        <article class="field">
++          <h2>{{ field.label }}</h2>
++          @if (field.kind === 'richText') {
++            <div [innerHTML]="field.value"></div>
++          } @else {
++            <p class="text-value">{{ field.value }}</p>
++          }
++        </article>
++      }
++    </section>
++    @if (data.attachments.length) {
++      <section aria-label="Visible attachments">
++        <h2 i18n>Attachments</h2>
++        @for (attachment of data.attachments; track $index) {
++          <figure>
++            @if (attachment.imageDataUrl) {
++              <img
++                [src]="attachment.imageDataUrl"
++                [alt]="attachment.name"
++              />
++            }
++            <figcaption>{{ attachment.name }} · {{ attachment.mediaType }}</figcaption>
++          </figure>
++        }
++      </section>
++    }
++  </main>
++} @else {
++  <main
++    class="refusal"
++    role="alert"
++  >
++    <h1 i18n>Task print unavailable</h1>
++    <p i18n>A valid completed-task snapshot was not provided. No task data has been loaded.</p>
++  </main>
++}
+diff --git a/src/app/main/components/print/task-print.component.scss b/src/app/main/components/print/task-print.component.scss
+new file mode 100644
+index 0000000..4667e6f
+--- /dev/null
++++ b/src/app/main/components/print/task-print.component.scss
+@@ -0,0 +1,72 @@
++:host {
++  display: block;
++  color: #18283a;
++  background: white;
++  font:
++    14px/1.5 Arial,
++    sans-serif;
++}
++
++.task-print,
++.refusal {
++  max-width: 800px;
++  margin: 0 auto;
++  padding: 40px;
++  overflow-wrap: anywhere;
++}
++
++header {
++  border-bottom: 2px solid #294966;
++  padding-bottom: 20px;
++}
++
++.eyebrow {
++  text-transform: uppercase;
++  letter-spacing: 0.1em;
++  color: #52677b;
++}
++
++h1 {
++  font-size: 28px;
++}
++h2 {
++  font-size: 16px;
++}
++
++.identity {
++  display: grid;
++  grid-template-columns: 120px 1fr;
++  gap: 6px;
++}
++
++dt {
++  font-weight: bold;
++}
++dd {
++  margin: 0;
++}
++.field {
++  padding: 12px 0;
++  border-bottom: 1px solid #d8dfe5;
++}
++.text-value {
++  white-space: pre-wrap;
++}
++figure {
++  margin: 16px 0;
++  break-inside: avoid;
++}
++img {
++  max-width: 100%;
++  max-height: 400px;
++}
++figcaption {
++  color: #52677b;
++}
++
++@media print {
++  .task-print {
++    max-width: none;
++    padding: 0;
++  }
++}
+diff --git a/src/app/main/components/print/task-print.component.spec.ts b/src/app/main/components/print/task-print.component.spec.ts
+new file mode 100644
+index 0000000..4b0a46c
+--- /dev/null
++++ b/src/app/main/components/print/task-print.component.spec.ts
+@@ -0,0 +1,169 @@
++import { provideHttpClient } from '@angular/common/http';
++import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
++import { fakeAsync, flush, TestBed } from '@angular/core/testing';
++import { provideRouter, Router } from '@angular/router';
++import { RouterTestingHarness } from '@angular/router/testing';
++import { TaskPrintComponent } from './task-print.component';
++import type { ITaskPrintPreload } from './task-print-preload';
++import { isTaskPrintPath, taskPrintRoutes } from './task-print.routes';
++
++const snapshot = (): ITaskPrintPreload => ({
++  version: 1,
++  task: {
++    id: 'parent-1',
++    processInstanceId: 'process-1',
++    parentTaskId: null,
++    title: 'Synthetic inspection',
++    state: 'completed',
++    completedAt: '2026-10-08T12:00:00Z',
++  },
++  fields: [{ label: 'Result', kind: 'text', value: 'Passed' }],
++  attachments: [{ name: 'Record.pdf', mediaType: 'application/pdf' }],
++});
++
++describe('Preload-only task print route', () => {
++  beforeEach(() => {
++    window.__PRINT_READY__ = true;
++    delete window.__PRINT_PRELOAD;
++    TestBed.configureTestingModule({
++      providers: [provideRouter(taskPrintRoutes), provideHttpClient(), provideHttpClientTesting()],
++    });
++  });
++
++  afterEach(() => {
++    TestBed.inject(HttpTestingController).verify();
++    delete window.__PRINT_PRELOAD;
++    window.__PRINT_READY__ = false;
++  });
++
++  it('renders the complete valid snapshot without services or editable controls', async () => {
++    window.__PRINT_PRELOAD = snapshot();
++    const harness = await RouterTestingHarness.create();
++    await harness.navigateByUrl('/print/task/parent-1', TaskPrintComponent);
++    const element = harness.routeNativeElement!;
++    expect(element.textContent).toContain('Synthetic inspection');
++    expect(element.textContent).toContain('process-1');
++    expect(element.textContent).toContain('Passed');
++    expect(element.textContent).toContain('Record.pdf');
++    expect(element.querySelector('input, textarea, select, button, form, a, [contenteditable]')).toBeNull();
++    TestBed.inject(HttpTestingController).expectNone(() => true);
++  });
++
++  for (const [name, preload] of [
++    ['absent', undefined],
++    ['wrong task', { ...snapshot(), task: { ...snapshot().task, id: 'other' } }],
++    ['wrong version', { ...snapshot(), version: 2 }],
++    ['incomplete', { version: 1 }],
++    ['active task', { ...snapshot(), task: { ...snapshot().task, state: 'active' } }],
++    [
++      'external image',
++      {
++        ...snapshot(),
++        attachments: [{ name: 'secret', mediaType: 'image/png', imageDataUrl: 'https://example.com/private' }],
++      },
++    ],
++    ['caller identity', { ...snapshot(), userId: 'other-user' }],
++    ['unknown form family', { ...snapshot(), fields: [{ label: 'secret', kind: 'archiveScript', value: 'secret' }] }],
++  ] as const) {
++    it(`refuses ${name} preload without customer data or requests`, async () => {
++      window.__PRINT_PRELOAD = preload;
++      const harness = await RouterTestingHarness.create();
++      await harness.navigateByUrl('/print/task/parent-1', TaskPrintComponent);
++      expect(harness.routeNativeElement!.textContent).toContain('Task print unavailable');
++      expect(harness.routeNativeElement!.textContent).not.toContain('Synthetic inspection');
++      expect(harness.routeNativeElement!.querySelector('.task-print')).toBeNull();
++      expect(window.__PRINT_READY__).toBeFalse();
++      TestBed.inject(HttpTestingController).expectNone(() => true);
++    });
++  }
++
++  it('keeps safe formatting but removes executable markup, URLs and controls', async () => {
++    const data = snapshot();
++    data.fields = [
++      {
++        label: 'Notes',
++        kind: 'richText',
++        value:
++          '<p onclick="alert(1)">Safe <strong>bold</strong></p><script>alert(1)</script>' +
++          '<img src="https://example.com/tracker"><iframe src="https://example.com"></iframe>' +
++          '<a href="javascript:alert(1)">link</a><input value="secret"><style>body{display:none}</style>',
++      },
++    ];
++    window.__PRINT_PRELOAD = data;
++    const harness = await RouterTestingHarness.create();
++    await harness.navigateByUrl('/print/task/parent-1', TaskPrintComponent);
++    const element = harness.routeNativeElement!;
++    expect(element.querySelector('strong')!.textContent).toBe('bold');
++    expect(element.querySelector('script, img, iframe, input, a, style, [onclick]')).toBeNull();
++  });
++
++  it('isolates print URLs including invalid ones from normal application bootstrap', () => {
++    expect(isTaskPrintPath('/insightclient/print/task/parent-1')).toBeTrue();
++    expect(isTaskPrintPath('/print/task/parent-1')).toBeTrue();
++    expect(isTaskPrintPath('/insightclient/print/bad')).toBeTrue();
++    expect(isTaskPrintPath('/insightclient/task/parent-1')).toBeFalse();
++    expect(taskPrintRoutes.every((route) => !route.canActivate && !route.resolve)).toBeTrue();
++  });
++
++  it('waits for images, fonts and two frames before signaling readiness', fakeAsync(() => {
++    let resolveImage!: () => void;
++    let resolveFont!: (value: FontFaceSet) => void;
++    spyOnProperty(document.fonts, 'ready', 'get').and.returnValue(new Promise((resolve) => (resolveFont = resolve)));
++    spyOn(HTMLImageElement.prototype, 'decode').and.returnValue(new Promise((resolve) => (resolveImage = resolve)));
++    const frames: FrameRequestCallback[] = [];
++    spyOn(window, 'requestAnimationFrame').and.callFake((callback) => {
++      frames.push(callback);
++      return frames.length;
++    });
++    const data = snapshot();
++    data.attachments = [{ name: 'image', mediaType: 'image/png', imageDataUrl: 'data:image/png;base64,AAAA' }];
++    window.__PRINT_PRELOAD = data;
++    let component!: TaskPrintComponent;
++    void RouterTestingHarness.create()
++      .then((harness) => harness.navigateByUrl('/print/task/parent-1', TaskPrintComponent))
++      .then((value) => (component = value));
++    flush();
++    expect(window.__PRINT_READY__).toBeFalse();
++    resolveImage();
++    flush();
++    expect(window.__PRINT_READY__).toBeFalse();
++    resolveFont(document.fonts);
++    flush();
++    expect(frames.length).toBe(1);
++    frames.shift()!(0);
++    flush();
++    expect(window.__PRINT_READY__).toBeFalse();
++    frames.shift()!(0);
++    flush();
++    expect(window.__PRINT_READY__).toBeTrue();
++    component.ngOnDestroy();
++    expect(window.__PRINT_READY__).toBeFalse();
++  }));
++
++  it('does not let stale asset completion mark a mismatched replacement ready', fakeAsync(() => {
++    let resolveFont!: (value: FontFaceSet) => void;
++    spyOnProperty(document.fonts, 'ready', 'get').and.returnValue(new Promise((resolve) => (resolveFont = resolve)));
++    window.__PRINT_PRELOAD = snapshot();
++    void RouterTestingHarness.create().then((harness) =>
++      harness.navigateByUrl('/print/task/parent-1', TaskPrintComponent)
++    );
++    flush();
++    void TestBed.inject(Router).navigateByUrl('/print/task/child-1');
++    flush();
++    resolveFont(document.fonts);
++    flush();
++    expect(window.__PRINT_READY__).toBeFalse();
++  }));
++
++  it('keeps readiness false after an image decode failure', fakeAsync(() => {
++    spyOn(HTMLImageElement.prototype, 'decode').and.returnValue(Promise.reject(new Error('invalid image')));
++    const data = snapshot();
++    data.attachments = [{ name: 'image', mediaType: 'image/png', imageDataUrl: 'data:image/png;base64,AAAA' }];
++    window.__PRINT_PRELOAD = data;
++    void RouterTestingHarness.create().then((harness) =>
++      harness.navigateByUrl('/print/task/parent-1', TaskPrintComponent)
++    );
++    flush();
++    expect(window.__PRINT_READY__).toBeFalse();
++  }));
++});
+diff --git a/src/app/main/components/print/task-print.component.ts b/src/app/main/components/print/task-print.component.ts
+new file mode 100644
+index 0000000..1064718
+--- /dev/null
++++ b/src/app/main/components/print/task-print.component.ts
+@@ -0,0 +1,87 @@
++import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
++import { ActivatedRoute } from '@angular/router';
++import { Subscription } from 'rxjs';
++import { readTaskPrintPreload, ITaskPrintPreload } from './task-print-preload';
++
++/** Only inert formatting survives; no resource URLs, styles, scripts or controls. */
++export function printRichText(value: string): string {
++  const template = document.createElement('template');
++  template.innerHTML = value;
++  const allowed = new Set(['P', 'BR', 'B', 'STRONG', 'I', 'EM', 'U', 'UL', 'OL', 'LI', 'BLOCKQUOTE']);
++  function copy(node: Node): Node {
++    if (node.nodeType === Node.TEXT_NODE) {
++      return document.createTextNode(node.textContent ?? '');
++    }
++    if (!(node instanceof Element) || !allowed.has(node.tagName)) {
++      return document.createTextNode('');
++    }
++    const result = document.createElement(node.tagName.toLowerCase());
++    node.childNodes.forEach((child) => result.appendChild(copy(child)));
++    return result;
++  }
++  const container = document.createElement('div');
++  template.content.childNodes.forEach((child) => container.appendChild(copy(child)));
++  return container.innerHTML;
++}
++
++@Component({
++  selector: 'insight-task-print',
++  standalone: true,
++  templateUrl: './task-print.component.html',
++  styleUrl: './task-print.component.scss',
++})
++export class TaskPrintComponent implements OnInit, AfterViewChecked, OnDestroy {
++  private readonly route = inject(ActivatedRoute);
++  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
++  private subscription?: Subscription;
++  private generation = 0;
++  private pending = false;
++  snapshot: ITaskPrintPreload | null = null;
++
++  ngOnInit(): void {
++    this.subscription = this.route.paramMap.subscribe((params) => {
++      this.generation++;
++      this.pending = false;
++      window.__PRINT_READY__ = false;
++      this.snapshot = readTaskPrintPreload(window.__PRINT_PRELOAD, params.get('taskId'));
++      if (this.snapshot) {
++        this.snapshot.fields = this.snapshot.fields.map((field) => ({
++          ...field,
++          value: field.kind === 'richText' ? printRichText(field.value) : field.value,
++        }));
++      }
++    });
++  }
++
++  ngAfterViewChecked(): void {
++    if (!this.snapshot || this.pending) {
++      return;
++    }
++    this.pending = true;
++    const generation = this.generation;
++    const images = Array.from(this.host.nativeElement.querySelectorAll('img'));
++    void this.finish(images, generation);
++  }
++
++  private async finish(images: HTMLImageElement[], generation: number): Promise<void> {
++    try {
++      await Promise.all([document.fonts.ready, ...images.map((image) => image.decode())]);
++      // Two frames allow layout and paint after fonts/image decoding.
++      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
++      if (generation === this.generation && document.fonts.status === 'loaded') {
++        window.__PRINT_READY__ = true;
++      }
++    } catch {
++      // A failed asset is an incomplete snapshot: renderer must refuse PDF capture.
++      if (generation === this.generation) {
++        window.__PRINT_READY__ = false;
++      }
++    }
++  }
++
++  ngOnDestroy(): void {
++    this.generation++;
++    this.subscription?.unsubscribe();
++    window.__PRINT_READY__ = false;
++  }
++}
+diff --git a/src/app/main/components/print/task-print.routes.ts b/src/app/main/components/print/task-print.routes.ts
+new file mode 100644
+index 0000000..96cd372
+--- /dev/null
++++ b/src/app/main/components/print/task-print.routes.ts
+@@ -0,0 +1,12 @@
++import type { Routes } from '@angular/router';
++import { TaskPrintComponent } from './task-print.component';
++
++/** Also isolates malformed print URLs from authenticated app startup. */
++export function isTaskPrintPath(pathname: string): boolean {
++  return /^\/(?:insightclient\/)?print(?:\/|$)/.test(pathname);
++}
++
++export const taskPrintRoutes: Routes = [
++  { path: 'print/task/:taskId', component: TaskPrintComponent },
++  { path: '**', component: TaskPrintComponent },
++];
+diff --git a/src/main.ts b/src/main.ts
+index dd5e1a5..318fd40 100644
+--- a/src/main.ts
++++ b/src/main.ts
+@@ -32,67 +32,83 @@ import {
+ } from '@flatirons/component-library';
+ import { routes } from './app/routes';
+ import * as appStore from './app/app-store';
++import { isTaskPrintPath, taskPrintRoutes } from './app/main/components/print/task-print.routes';
+ 
+-bootstrapApplication(AppComponent, {
+-  providers: [
+-    provideRouter(
+-      routes,
+-      withEnabledBlockingInitialNavigation(),
+-      withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+-      withComponentInputBinding()
+-    ),
+-    provideHttpClient(withInterceptorsFromDi()),
+-    {
+-      provide: ApiConfiguration,
+-      useFactory: apiConfigFactory,
+-    },
+-    provideAppInitializer(() =>
+-      appConfigFactory(inject(HttpClient), inject(Store), inject(ApiConfiguration), inject(AppInitializationService))()
+-    ),
+-    provideAppInitializer(() => {
+-      const translate = inject(TranslateService);
+-      const lang = environment.localization.defaultLanguage || 'en';
+-      translate.setDefaultLang(lang);
+-      return firstValueFrom(translate.use(lang));
+-    }),
+-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+-    { provide: HTTP_INTERCEPTORS, useClass: FlowableAuthInterceptor, multi: true },
+-    { provide: HTTP_INTERCEPTORS, useClass: NoCacheInterceptor, multi: true },
+-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+-    WindowService,
+-    FsFontLoadService,
+-    FsModalService,
+-    { provide: FS_VIEW_TYPE, useValue: 'WebView' },
+-    importProvidersFrom(
+-      FsSnackBarModule,
+-      AppStoreModule,
+-      StoreModule.forRoot(appStore.reducer, {
+-        runtimeChecks: {
+-          strictActionImmutability: true,
+-          strictActionSerializability: false,
+-          strictActionTypeUniqueness: true,
+-          strictActionWithinNgZone: true,
+-          strictStateImmutability: true,
+-          strictStateSerializability: true,
+-        },
+-      }),
+-      ...(environment.production
+-        ? []
+-        : [
+-            StoreDevtoolsModule.instrument({
+-              name: 'Insight',
+-              maxAge: 25,
+-              logOnly: false,
++window.__PRINT_READY__ = false;
++
++bootstrapApplication(
++  AppComponent,
++  isTaskPrintPath(window.location.pathname)
++    ? {
++        providers: [provideRouter(taskPrintRoutes, withEnabledBlockingInitialNavigation())],
++      }
++    : {
++        providers: [
++          provideRouter(
++            routes,
++            withEnabledBlockingInitialNavigation(),
++            withRouterConfig({ paramsInheritanceStrategy: 'always' }),
++            withComponentInputBinding()
++          ),
++          provideHttpClient(withInterceptorsFromDi()),
++          {
++            provide: ApiConfiguration,
++            useFactory: apiConfigFactory,
++          },
++          provideAppInitializer(() =>
++            appConfigFactory(
++              inject(HttpClient),
++              inject(Store),
++              inject(ApiConfiguration),
++              inject(AppInitializationService)
++            )()
++          ),
++          provideAppInitializer(() => {
++            const translate = inject(TranslateService);
++            const lang = environment.localization.defaultLanguage || 'en';
++            translate.setDefaultLang(lang);
++            return firstValueFrom(translate.use(lang));
++          }),
++          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
++          { provide: HTTP_INTERCEPTORS, useClass: FlowableAuthInterceptor, multi: true },
++          { provide: HTTP_INTERCEPTORS, useClass: NoCacheInterceptor, multi: true },
++          { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
++          WindowService,
++          FsFontLoadService,
++          FsModalService,
++          { provide: FS_VIEW_TYPE, useValue: 'WebView' },
++          importProvidersFrom(
++            FsSnackBarModule,
++            AppStoreModule,
++            StoreModule.forRoot(appStore.reducer, {
++              runtimeChecks: {
++                strictActionImmutability: true,
++                strictActionSerializability: false,
++                strictActionTypeUniqueness: true,
++                strictActionWithinNgZone: true,
++                strictStateImmutability: true,
++                strictStateSerializability: true,
++              },
+             }),
+-          ]),
+-      TranslateModule.forRoot({
+-        defaultLanguage: environment.localization.defaultLanguage,
+-        loader: {
+-          provide: TranslateLoader,
+-          useFactory: (http: HttpClient) => translateLoaderFactory(http, environment.localization.translationFiles),
+-          deps: [HttpClient],
+-        },
+-      })
+-    ),
+-  ],
+-}).catch((err) => console.error(err));
++            ...(environment.production
++              ? []
++              : [
++                  StoreDevtoolsModule.instrument({
++                    name: 'Insight',
++                    maxAge: 25,
++                    logOnly: false,
++                  }),
++                ]),
++            TranslateModule.forRoot({
++              defaultLanguage: environment.localization.defaultLanguage,
++              loader: {
++                provide: TranslateLoader,
++                useFactory: (http: HttpClient) =>
++                  translateLoaderFactory(http, environment.localization.translationFiles),
++                deps: [HttpClient],
++              },
++            })
++          ),
++        ],
++      }
++).catch((err) => console.error(err));
+-- 
+2.46.2
+
