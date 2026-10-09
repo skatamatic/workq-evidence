@@ -1,0 +1,10 @@
+{
+  "revision": "5aee334eb6cf1fc4e8ca7e303617cee6f568c773",
+  "uniqueTests": 1772,
+  "scenarioInvocations": 464,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "gateCommand": "mvn verify -fae",
+  "commandEvidence": "ev_4bc82a06-b85b-4f80-9275-1880756031d6"
+}
