@@ -1,0 +1,50 @@
+{
+  "head": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+  "receipt": "normal-full/receipt.json",
+  "archiveSha256": "c2556201448e9e00dd5b9587032a60b3fdea4ced0e72e05e55fe33c51f62f093",
+  "parts": [
+    {
+      "name": "normal-full-proof.tar.gz.part00",
+      "bytes": 8388608,
+      "sha256": "1f66ca34dd3d3ddb3ba8c9b27803141abba8230a1017920d7a8496f89fb7fa5d",
+      "url": "http://127.0.0.1:9876/evidence/ev_b6d82958-caad-41e8-8f92-d65a915fc35e"
+    },
+    {
+      "name": "normal-full-proof.tar.gz.part01",
+      "bytes": 8388608,
+      "sha256": "035379b339d522b21e019e02fae4c78153ea98c8230cb6177253c02aa8c94f98",
+      "url": "http://127.0.0.1:9876/evidence/ev_2de8357f-c753-4eee-b5be-d5b1ba071570"
+    },
+    {
+      "name": "normal-full-proof.tar.gz.part02",
+      "bytes": 8388608,
+      "sha256": "2e3031a5ad5d9caa15cf265802ed15b4be38e109aa0928984e16568a7fbab385",
+      "url": "http://127.0.0.1:9876/evidence/ev_2d638a19-e86d-4697-b8aa-3472f3c1ad8c"
+    },
+    {
+      "name": "normal-full-proof.tar.gz.part03",
+      "bytes": 8388608,
+      "sha256": "58dbd53ffd61d09ecd5bc4a2013cc4e39a3ae4d927ce789341ce5b430ffdc677",
+      "url": "http://127.0.0.1:9876/evidence/ev_b56efde1-b021-4453-a44a-f61e56cf8622"
+    },
+    {
+      "name": "normal-full-proof.tar.gz.part04",
+      "bytes": 8388608,
+      "sha256": "5f1a9d580dce5db81f8d71a6e5440c9a0a0b92ce773c807917cc43118d70ae0b",
+      "url": "http://127.0.0.1:9876/evidence/ev_843bfd1e-51cd-4cb5-90af-5ad4dd0a2ab2"
+    },
+    {
+      "name": "normal-full-proof.tar.gz.part05",
+      "bytes": 8388608,
+      "sha256": "f7e597438071e5acc7eb4ecdcd26fe84f2346adc185d9fa888531d051af258c9",
+      "url": "http://127.0.0.1:9876/evidence/ev_bfb9fda2-8c4f-43ca-a939-a0b5f275b806"
+    },
+    {
+      "name": "normal-full-proof.tar.gz.part06",
+      "bytes": 1171372,
+      "sha256": "5a29c3db35408a0d6bb814bb4de6f85af10cdc4cc71a3bac5a1f952be0b874f1",
+      "url": "http://127.0.0.1:9876/evidence/ev_9f8eaeb0-17fb-45cc-b61e-e73c70e23bf4"
+    }
+  ],
+  "rehydration": "Concatenate listed parts in order as binary bytes; verify archiveSha256; extract gzip tar. All receipt artifact paths retained. Run check-receipt only against matching source/environment/dirty state; hashes remain independently auditable."
+}
