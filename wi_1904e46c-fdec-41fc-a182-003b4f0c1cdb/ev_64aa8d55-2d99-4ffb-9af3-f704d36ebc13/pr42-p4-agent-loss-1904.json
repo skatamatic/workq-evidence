@@ -1,0 +1,45 @@
+{
+  "head": "503f984740cc964996b558fae0cc083e2284b776",
+  "at": "2026-10-09T12:03:58.981Z",
+  "builds": [
+    {
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/12/",
+      "proof": [
+        "Checking out Revision 503f984740cc964996b558fae0cc083e2284b776 (PR-42)",
+        "Checking out Revision 503f984740cc964996b558fae0cc083e2284b776 (PR-42)",
+        "[INFO]  NX   Decoration of the Angular CLI is deprecated and will be removed in Nx v22",
+        "[INFO] ✔ Deploy Client publishes only non-PR, non-tag master or release refs (0.533228ms)",
+        "[INFO] ✔ Deploy Container publishes only non-PR, non-tag master or release refs (0.304565ms)",
+        "[INFO] ℹ tests 27",
+        "[INFO] ℹ pass 27",
+        "[INFO] etc-client: Chrome Headless 147.0.0.0 (Linux 0.0.0): Executed 1011 of 1722 SUCCESS (0 secs / 16.195 secs)",
+        "EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij) seems to be removed or offline (hudson.remoting.ChannelClosedException: Channel \"hudson.remoting.Channel@10db4175:EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij)\": Remote call on EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij) failed. The channel is closing down or has closed down); will wait for 5 min 0 sec for it to come back online",
+        "EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij) has been removed or offline for 5 min 0 sec; assuming it is not coming back, and terminating shell step",
+        "\t\tat PluginClassLoader for ec2//hudson.plugins.ec2.EC2ComputerListener.lambda$onOffline$0(EC2ComputerListener.java:68)",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij); EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij) was marked offline: Node is being removed",
+        "\t\tat PluginClassLoader for ec2//hudson.plugins.ec2.EC2ComputerListener.lambda$onOffline$0(EC2ComputerListener.java:68)",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij); EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij) was marked offline: Node is being removed",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/12/",
+      "proof": [
+        "Checking out Revision 503f984740cc964996b558fae0cc083e2284b776 (kwesley/source-backed-form-fixtures)",
+        "All nodes of label ‘Angular-Linux-EC2’ are offline",
+        "Checking out Revision 503f984740cc964996b558fae0cc083e2284b776 (kwesley/source-backed-form-fixtures)",
+        "[INFO]  NX   Decoration of the Angular CLI is deprecated and will be removed in Nx v22",
+        "[INFO] ✔ Deploy Client publishes only non-PR, non-tag master or release refs (0.989425ms)",
+        "[INFO] ✔ Deploy Container publishes only non-PR, non-tag master or release refs (0.443617ms)",
+        "[INFO] ℹ tests 27",
+        "[INFO] ℹ pass 27",
+        "[INFO] etc-client: Chrome Headless 147.0.0.0 (Linux 0.0.0): Executed 1011 of 1722 SUCCESS (0 secs / 19.123 secs)",
+        "[INFO] etc-client: TOTAL: 1722 SUCCESS",
+        "[INFO] Forms counts: {\"required\":14,\"selected\":14,\"executed\":14,\"skipped\":0,\"excluded\":0,\"assertions\":70,\"supportingAssertions\":26}; 190229ms; COMPLETE",
+        "\t\tat PluginClassLoader for ec2//hudson.plugins.ec2.EC2ComputerListener.lambda$onOffline$0(EC2ComputerListener.java:68)",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij); EC2 (AWS EC2 Builders) - Angular-Linux (sir-j74zmxij) was marked offline: Node is being removed",
+        "Finished: FAILURE"
+      ]
+    }
+  ]
+}
