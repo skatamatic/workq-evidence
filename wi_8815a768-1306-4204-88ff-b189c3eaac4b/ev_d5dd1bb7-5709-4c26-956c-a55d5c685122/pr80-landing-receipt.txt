@@ -1,0 +1,29 @@
+{
+  "head": "768e4ae80337417b4eeae6cda84a9da83fe94cb1",
+  "base": "kwesley/workflow-scenario-port",
+  "baseSha": "b12dca60228a986276d4857e4b293fced8bbfcde",
+  "jenkins": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-80/5/",
+  "uniqueSuiteTotals": {
+    "tests": 1804,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "suites": 126
+  },
+  "markers": [
+    "Checking out Revision 768e4ae80337417b4eeae6cda84a9da83fe94cb1 (PR-80)",
+    "+ MAVEN_OPTS=--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED mvn -B initialize verify sonar:sonar -Dsonar.pullrequest.branch=kwesley/safran-analysis-transactional-csv -Dsonar.pullrequest.key=80 -Dsonar.pullrequest.base=kwesley/workflow-scenario-port",
+    "[INFO] 08:04:27.823 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.insight%3Ainsight-root&pullRequest=80",
+    "SonarQube task 'd1fe99af-4713-44f2-a156-0e8451fab91f' completed. Quality gate is 'OK'",
+    "Finished: SUCCESS"
+  ],
+  "rootVerifiedReceipt": {
+    "headOid": "768e4ae80337",
+    "source": "override",
+    "at": 1791534074043,
+    "overriddenBy": "Root",
+    "reason": "Kyle requested direct subagent review, not a Workq review ticket. Two direct lenses reviewed final head 768e4ae80337417b4eeae6cda84a9da83fe94cb1 and found no material correctness or test issue; focused Java21/PostgreSQL tests passed 154/154; exact-head Jenkins PR-80 #5 succeeded and Sonar analysis ce3f31aa-91db-4a06-bc63-4d2970d09819 gate is OK. Target verified kwesley/workflow-scenario-port at b12dca60228a986276d4857e4b293fced8bbfcde."
+  },
+  "scope": "Four bounded CSV/override operations; snapshot 525716d6c / published v20 fixture. Exact-byte, tenant refusal/no mutation, rollback/resource cleanup and idempotent replay tests. Six Analysis journey dimensions and archive-publication remain PENDING; live migration owned by Kyle. Sonar detailed condition metrics are not injected into worker; exact-head Jenkins waitForQualityGate returned OK, corroborated by Root analysis receipt.",
+  "restrictions": "GET /repositories/flatironssolutions/insight-server/branch-restrictions returned HTTP 403. No master restriction inferred for the authorized feature base; forge merge endpoint will enforce destination restrictions."
+}
