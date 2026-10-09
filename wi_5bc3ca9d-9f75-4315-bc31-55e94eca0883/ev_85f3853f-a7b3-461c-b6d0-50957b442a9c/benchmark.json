@@ -1,0 +1,734 @@
+{
+  "measuredAt": "2026-10-09T13:11:27.715Z",
+  "sourceHead": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+  "callerTargetBase": "kwesley/insight-next",
+  "targetBaseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+  "measurements": [
+    {
+      "name": "fresh-full",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout",
+      "revision": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+      "base": {
+        "baseRef": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "baseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "mergeBase": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "changed": []
+      },
+      "fingerprint": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+      "durationMs": 97161,
+      "receiptElapsedMs": 96439,
+      "counts": {
+        "required": 14,
+        "selected": 14,
+        "executed": 14,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 70,
+        "supportingAssertions": 26
+      },
+      "toolingTestCount": 22,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "--test-reporter=tap",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 5482,
+          "peakCommandRssBytes": 60293120,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 2515,
+          "peakCommandRssBytes": 215023616,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 33608,
+          "peakCommandRssBytes": 2748825600,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:|Source:).*"
+          ],
+          "durationMs": 53140,
+          "peakCommandRssBytes": 1443086336,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:62576",
+      "karmaBrowsers": [
+        "16010333"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout/test-results/forms-verify/run-3iC6OY",
+      "buildCache": {
+        "hit": false,
+        "key": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+        "proof": "fresh successful browser host build; all tests execute"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "warm-full-1",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout",
+      "revision": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+      "base": {
+        "baseRef": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "baseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "mergeBase": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "changed": []
+      },
+      "fingerprint": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+      "durationMs": 70677,
+      "receiptElapsedMs": 70212,
+      "counts": {
+        "required": 14,
+        "selected": 14,
+        "executed": 14,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 70,
+        "supportingAssertions": 26
+      },
+      "toolingTestCount": 22,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "--test-reporter=tap",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 6137,
+          "peakCommandRssBytes": 60948480,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 2560,
+          "peakCommandRssBytes": 212762624,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 21143,
+          "peakCommandRssBytes": 1892974592,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:|Source:).*"
+          ],
+          "durationMs": 38031,
+          "peakCommandRssBytes": 341573632,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:63316",
+      "karmaBrowsers": [
+        "16378003"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout/test-results/forms-verify/run-aOpMhl",
+      "buildCache": {
+        "hit": true,
+        "key": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+        "proof": "validated immutable browser host build; all tests execute again"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "warm-full-2",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout",
+      "revision": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+      "base": {
+        "baseRef": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "baseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "mergeBase": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "changed": []
+      },
+      "fingerprint": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+      "durationMs": 64366,
+      "receiptElapsedMs": 63902,
+      "counts": {
+        "required": 14,
+        "selected": 14,
+        "executed": 14,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 70,
+        "supportingAssertions": 26
+      },
+      "toolingTestCount": 22,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "--test-reporter=tap",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 4917,
+          "peakCommandRssBytes": 60227584,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 1745,
+          "peakCommandRssBytes": 212205568,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 15011,
+          "peakCommandRssBytes": 1830436864,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:|Source:).*"
+          ],
+          "durationMs": 41169,
+          "peakCommandRssBytes": 310935552,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:63964",
+      "karmaBrowsers": [
+        "81111646"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout/test-results/forms-verify/run-gCkLGC",
+      "buildCache": {
+        "hit": true,
+        "key": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+        "proof": "validated immutable browser host build; all tests execute again"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "focused-clear",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout",
+      "revision": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+      "base": {
+        "baseRef": "HEAD",
+        "baseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "mergeBase": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "changed": []
+      },
+      "fingerprint": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+      "durationMs": 37222,
+      "receiptElapsedMs": 36843,
+      "counts": {
+        "required": 14,
+        "selected": 1,
+        "executed": 1,
+        "skipped": 0,
+        "excluded": 13,
+        "assertions": 5,
+        "supportingAssertions": 24
+      },
+      "toolingTestCount": 22,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "--test-reporter=tap",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 4887,
+          "peakCommandRssBytes": 60030976,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 2088,
+          "peakCommandRssBytes": 210272256,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 15873,
+          "peakCommandRssBytes": 1832878080,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:).*"
+          ],
+          "durationMs": 12220,
+          "peakCommandRssBytes": 242253824,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:64549",
+      "karmaBrowsers": [
+        "35628473"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-EFN1Gu/checkout/test-results/forms-verify/run-gqMcoh",
+      "buildCache": {
+        "hit": true,
+        "key": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+        "proof": "validated immutable browser host build; all tests execute again"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "concurrent-left",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-8nPlie/checkout",
+      "revision": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+      "base": {
+        "baseRef": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "baseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "mergeBase": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "changed": []
+      },
+      "fingerprint": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+      "durationMs": 147372,
+      "receiptElapsedMs": 146996,
+      "counts": {
+        "required": 14,
+        "selected": 14,
+        "executed": 14,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 70,
+        "supportingAssertions": 26
+      },
+      "toolingTestCount": 22,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "--test-reporter=tap",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 6404,
+          "peakCommandRssBytes": 60522496,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 3766,
+          "peakCommandRssBytes": 212402176,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 59454,
+          "peakCommandRssBytes": 2618425344,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:|Source:).*"
+          ],
+          "durationMs": 74189,
+          "peakCommandRssBytes": 1523810304,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:54311",
+      "karmaBrowsers": [
+        "32182656"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-8nPlie/checkout/test-results/forms-verify/run-4zjxlp",
+      "buildCache": {
+        "hit": false,
+        "key": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+        "proof": "fresh successful browser host build; all tests execute"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "concurrent-right",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-gVgP1s/checkout",
+      "revision": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+      "base": {
+        "baseRef": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "baseSha": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "mergeBase": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+        "changed": []
+      },
+      "fingerprint": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+      "durationMs": 149029,
+      "receiptElapsedMs": 148760,
+      "counts": {
+        "required": 14,
+        "selected": 14,
+        "executed": 14,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 70,
+        "supportingAssertions": 26
+      },
+      "toolingTestCount": 22,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "--test-reporter=tap",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 6245,
+          "peakCommandRssBytes": 61865984,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 3264,
+          "peakCommandRssBytes": 215171072,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 59938,
+          "peakCommandRssBytes": 2469347328,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:|Source:).*"
+          ],
+          "durationMs": 76166,
+          "peakCommandRssBytes": 1517993984,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:54317",
+      "karmaBrowsers": [
+        "58788927"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-gVgP1s/checkout/test-results/forms-verify/run-vf6Zox",
+      "buildCache": {
+        "hit": false,
+        "key": "42484213b48d7113b6da612afc083a5ce8b6c45d1f7d1bed8440e2535a3920fe",
+        "proof": "fresh successful browser host build; all tests execute"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    }
+  ],
+  "failure": null,
+  "goals": {
+    "warmFullMs": 120000,
+    "focusedMs": 30000
+  },
+  "isolation": "independent CoW/temporary Git checkouts, node_modules, compiler state, dynamic ports, profiles and artifact roots; immutable Git objects shared"
+}
