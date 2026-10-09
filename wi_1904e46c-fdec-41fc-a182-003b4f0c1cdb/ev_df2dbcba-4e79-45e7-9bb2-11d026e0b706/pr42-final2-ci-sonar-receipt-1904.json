@@ -1,0 +1,157 @@
+{
+  "head": "f8e31e33c37b96469d2e30f82779656d166d0b0d",
+  "capturedAt": "2026-10-09T07:14:49.189Z",
+  "builds": [
+    {
+      "name": "Research & Development Client Apps » etc-client » kwesley/source-backed-form-fixtures #5",
+      "key": "a95043a9f96a9ee39b2255af9092d6b6",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/5/",
+      "proof": [
+        "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+        "Checking out Revision f8e31e33c37b96469d2e30f82779656d166d0b0d (kwesley/source-backed-form-fixtures)",
+        "Checking out Revision f8e31e33c37b96469d2e30f82779656d166d0b0d (kwesley/source-backed-form-fixtures)",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic binding canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic console canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1706 SUCCESS",
+        "[INFO] 07:11:42.458 SCM revision ID 'f8e31e33c37b96469d2e30f82779656d166d0b0d'",
+        "[INFO] 07:11:45.777 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&branch=kwesley%2Fsource-backed-form-fixtures",
+        "[INFO] 07:11:45.778 More about the report processing at https://sonar.flatirons.cloud/api/ce/task?id=ecfbb8d0-e3ca-43f1-95bc-2b85ed0eb65b",
+        "[Pipeline] waitForQualityGate",
+        "Checking status of SonarQube task 'ecfbb8d0-e3ca-43f1-95bc-2b85ed0eb65b' on server 'Devops Sonarqube'",
+        "SonarQube task 'ecfbb8d0-e3ca-43f1-95bc-2b85ed0eb65b' status is 'IN_PROGRESS'",
+        "SonarQube task 'ecfbb8d0-e3ca-43f1-95bc-2b85ed0eb65b' status is 'SUCCESS'",
+        "SonarQube task 'ecfbb8d0-e3ca-43f1-95bc-2b85ed0eb65b' completed. Quality gate is 'OK'",
+        "Finished: SUCCESS"
+      ],
+      "sonar": {
+        "taskId": "ecfbb8d0-e3ca-43f1-95bc-2b85ed0eb65b",
+        "analysisId": "5aaec5ce-4913-460f-a2e5-e44542213def",
+        "status": "SUCCESS",
+        "qualityGate": {
+          "status": "OK",
+          "conditions": [
+            {
+              "status": "OK",
+              "metricKey": "new_reliability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_security_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_maintainability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_coverage",
+              "comparator": "LT",
+              "errorThreshold": "90",
+              "actualValue": "98.9"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_duplicated_lines_density",
+              "comparator": "GT",
+              "errorThreshold": "3",
+              "actualValue": "0.0"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_violations",
+              "comparator": "GT",
+              "errorThreshold": "0",
+              "actualValue": "0"
+            }
+          ],
+          "ignoredConditions": false,
+          "period": {
+            "mode": "PREVIOUS_VERSION",
+            "date": "2026-10-09T04:55:45+0000"
+          },
+          "caycStatus": "over-compliant"
+        }
+      }
+    },
+    {
+      "name": "Research & Development Client Apps » etc-client » Add source-backed Feedback Action form fixtures (#42) #5",
+      "key": "7b96d6c5cd362ef457b9485be7a360b5",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/5/",
+      "proof": [
+        "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)",
+        "Checking out Revision f8e31e33c37b96469d2e30f82779656d166d0b0d (PR-42)",
+        "Checking out Revision f8e31e33c37b96469d2e30f82779656d166d0b0d (PR-42)",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic binding canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1 FAILED, 2 SUCCESS",
+        "[INFO] Diagnostic console canary verified: expected 1 FAILED, 2 SUCCESS; exit 1",
+        "[INFO] TOTAL: 1706 SUCCESS",
+        "[WARNING] 07:00:08.739 Could not find ref 'kwesley/insight-next' in refs/heads, refs/remotes, refs/remotes/upstream or refs/remotes/origin",
+        "[INFO] 07:01:55.368 SCM revision ID 'f8e31e33c37b96469d2e30f82779656d166d0b0d'",
+        "[WARNING] 07:01:55.924 Could not find ref 'kwesley/insight-next' in refs/heads, refs/remotes, refs/remotes/upstream or refs/remotes/origin",
+        "[INFO] 07:01:57.026 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.mono.repo%3Aetc-client&pullRequest=42",
+        "[INFO] 07:01:57.027 More about the report processing at https://sonar.flatirons.cloud/api/ce/task?id=a1aa7c4f-e3ba-4df7-b79b-c7ab9bdaa15f",
+        "[Pipeline] waitForQualityGate",
+        "Checking status of SonarQube task 'a1aa7c4f-e3ba-4df7-b79b-c7ab9bdaa15f' on server 'Devops Sonarqube'",
+        "SonarQube task 'a1aa7c4f-e3ba-4df7-b79b-c7ab9bdaa15f' status is 'SUCCESS'",
+        "SonarQube task 'a1aa7c4f-e3ba-4df7-b79b-c7ab9bdaa15f' completed. Quality gate is 'OK'",
+        "Finished: SUCCESS"
+      ],
+      "sonar": {
+        "taskId": "a1aa7c4f-e3ba-4df7-b79b-c7ab9bdaa15f",
+        "analysisId": "364938e0-d968-4d0b-9c57-8d967473c716",
+        "status": "SUCCESS",
+        "qualityGate": {
+          "status": "OK",
+          "conditions": [
+            {
+              "status": "OK",
+              "metricKey": "new_reliability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_security_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_maintainability_rating",
+              "comparator": "GT",
+              "errorThreshold": "1",
+              "actualValue": "1"
+            },
+            {
+              "status": "OK",
+              "metricKey": "new_violations",
+              "comparator": "GT",
+              "errorThreshold": "0",
+              "actualValue": "0"
+            }
+          ],
+          "ignoredConditions": false,
+          "caycStatus": "over-compliant"
+        }
+      }
+    }
+  ],
+  "privateSourceLocator": "not included",
+  "scope": "Exact source revision,1706 full units,configured Jenkins scans and reported Sonar quality gates. Two intentional binding/console diagnostic canaries each require1FAILED/2SUCCESS and exit1; verifier confirms their expected failures. SCM target-ref warnings retained."
+}
