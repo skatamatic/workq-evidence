@@ -1,0 +1,222 @@
+{
+  "head": "006a1acc6ebb3cc258dad87200b995790cc2dbee",
+  "base": "af9a93faae2c97c31635cf238e22350073d912d7",
+  "report": "target/site/jacoco/jacoco.xml",
+  "method": "Changed executable lines plus JaCoCo branches; local estimate, not a Sonar quality-gate receipt.",
+  "covered": 973,
+  "total": 1052,
+  "coverage": 92.49,
+  "rows": [
+    {
+      "path": "insight-dao/src/main/java/com/flatirons/insight/domain/InsightFormPdfEntity.java",
+      "linesCovered": 11,
+      "linesTotal": 11,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    },
+    {
+      "path": "insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowDocumentJobEntity.java",
+      "linesCovered": 29,
+      "linesTotal": 29,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    },
+    {
+      "path": "insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowDocumentProcessEntity.java",
+      "linesCovered": 11,
+      "linesTotal": 11,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    },
+    {
+      "path": "insight-dao/src/main/java/com/flatirons/insight/domain/WorkflowDocumentResourceEntity.java",
+      "linesCovered": 7,
+      "linesTotal": 7,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentService.java",
+      "linesCovered": 225,
+      "linesTotal": 227,
+      "branchesCovered": 122,
+      "branchesTotal": 162,
+      "missing": [
+        57,
+        64,
+        67,
+        84,
+        90,
+        105,
+        125,
+        156,
+        192,
+        205,
+        208,
+        211,
+        222,
+        223,
+        226,
+        239,
+        240,
+        241,
+        243,
+        244,
+        255,
+        262,
+        264,
+        267,
+        269,
+        305,
+        319,
+        322,
+        341,
+        342
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowPdfBytes.java",
+      "linesCovered": 21,
+      "linesTotal": 22,
+      "branchesCovered": 18,
+      "branchesTotal": 18,
+      "missing": [
+        40
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/HttpWorkflowAnalyticsTransport.java",
+      "linesCovered": 21,
+      "linesTotal": 21,
+      "branchesCovered": 15,
+      "branchesTotal": 16,
+      "missing": [
+        34
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/ContentStorageServiceImpl.java",
+      "linesCovered": 13,
+      "linesTotal": 13,
+      "branchesCovered": 4,
+      "branchesTotal": 4,
+      "missing": []
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentResourceLedger.java",
+      "linesCovered": 5,
+      "linesTotal": 5,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowHttpTransport.java",
+      "linesCovered": 18,
+      "linesTotal": 18,
+      "branchesCovered": 8,
+      "branchesTotal": 10,
+      "missing": [
+        32,
+        38
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/TaskPrintSnapshot.java",
+      "linesCovered": 4,
+      "linesTotal": 4,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentCapture.java",
+      "linesCovered": 135,
+      "linesTotal": 136,
+      "branchesCovered": 87,
+      "branchesTotal": 103,
+      "missing": [
+        60,
+        79,
+        80,
+        92,
+        93,
+        94,
+        102,
+        120,
+        163,
+        198,
+        204
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveFormDefinition.java",
+      "linesCovered": 2,
+      "linesTotal": 2,
+      "branchesCovered": 8,
+      "branchesTotal": 8,
+      "missing": []
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentDeliveryConfiguration.java",
+      "linesCovered": 22,
+      "linesTotal": 23,
+      "branchesCovered": 23,
+      "branchesTotal": 28,
+      "missing": [
+        41,
+        44,
+        45,
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/NodeWorkflowPdfRenderer.java",
+      "linesCovered": 47,
+      "linesTotal": 47,
+      "branchesCovered": 41,
+      "branchesTotal": 48,
+      "missing": [
+        50,
+        61,
+        68,
+        69
+      ]
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/FormServiceImpl.java",
+      "linesCovered": 6,
+      "linesTotal": 6,
+      "branchesCovered": 4,
+      "branchesTotal": 4,
+      "missing": []
+    },
+    {
+      "path": "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowDocumentChildOrder.java",
+      "linesCovered": 30,
+      "linesTotal": 30,
+      "branchesCovered": 35,
+      "branchesTotal": 38,
+      "missing": [
+        30,
+        34,
+        38
+      ]
+    },
+    {
+      "path": "insight-api/src/main/java/com/flatirons/insight/service/runtime/ContentStorageService.java",
+      "linesCovered": 1,
+      "linesTotal": 1,
+      "branchesCovered": 0,
+      "branchesTotal": 0,
+      "missing": []
+    }
+  ],
+  "unreportedPaths": []
+}
