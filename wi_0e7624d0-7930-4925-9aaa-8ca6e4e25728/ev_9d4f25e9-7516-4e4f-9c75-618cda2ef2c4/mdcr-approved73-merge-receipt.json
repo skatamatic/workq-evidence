@@ -1,0 +1,12 @@
+{
+  "state": "MERGED",
+  "base": "kwesley/workflow-scenario-port",
+  "source": "40b6136db6ae",
+  "merge": "d88da5aae728",
+  "updatedAt": "2026-10-09T06:20:19.550361+00:00",
+  "ciReceipts": [
+    "ev_dd39b7e2-69b8-4a98-9509-6e3bb09c91c0",
+    "ev_2f824bd1-86f9-4d29-a540-71b21ee6d2ad"
+  ],
+  "limits": "Only bounded server MDCR PDF/report capture proven; production renderer, live indexing, rollout/backfill and unsupported parity remain pending."
+}
