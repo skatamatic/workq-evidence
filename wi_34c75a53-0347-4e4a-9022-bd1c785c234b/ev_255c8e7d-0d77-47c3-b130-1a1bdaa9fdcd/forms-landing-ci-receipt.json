@@ -1,0 +1,49 @@
+{
+  "head": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+  "base": "kwesley/insight-next",
+  "baseSHA": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+  "approval": "Root explicit landing approval; exact-head peer review confirmed by captain",
+  "jobs": [
+    {
+      "label": "pr",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-43/1/",
+      "result": "SUCCESS",
+      "building": false,
+      "sourceSHAs": [
+        "865cd9f488ac6f301a19b2fca58f099d66f3d9ca"
+      ],
+      "tests": [
+        "TOTAL: 1705 SUCCESS"
+      ],
+      "sonarGates": [
+        [
+          "a6cc96f1-a359-4694-a47a-34169f0a5421",
+          "OK"
+        ]
+      ]
+    },
+    {
+      "label": "branch",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Ffull-forms-verification/1/",
+      "result": "SUCCESS",
+      "building": false,
+      "sourceSHAs": [
+        "865cd9f488ac6f301a19b2fca58f099d66f3d9ca"
+      ],
+      "tests": [
+        "TOTAL: 1705 SUCCESS"
+      ],
+      "sonarGates": [
+        [
+          "fcb8507a-dd21-45f1-856d-15a6541939ef",
+          "OK"
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "Sonar condition API HTTP401; completed exact-task Jenkins quality-gate OK retained, individual thresholds unavailable",
+    "Bitbucket branch restrictions HTTP403; no destination requirements invented",
+    "Jenkins testReport API HTTP404; actual console count retained"
+  ]
+}
