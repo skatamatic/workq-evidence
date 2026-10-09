@@ -1,0 +1,16 @@
+{
+  "revision": "5def247bd835276632495c8cf721032f84446ee3",
+  "command": "npm run test-coverage -- --watch=false --skip-nx-cache --include=<two forms specs and diagnostic boundary>",
+  "lcov": "coverage/etc-client/run-88581/lcov.info",
+  "scope": [
+    {
+      "SF": "src/testing/forms-diagnostics.ts",
+      "FNF": "8",
+      "FNH": "7",
+      "LF": "26",
+      "LH": "22",
+      "BRF": "12",
+      "BRH": "8"
+    }
+  ]
+}
