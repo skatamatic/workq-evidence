@@ -1,0 +1,896 @@
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpSmokeTest.java b/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpSmokeTest.java
+index 2d767212..a97a680d 100644
+--- a/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpSmokeTest.java
++++ b/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpSmokeTest.java
+@@ -1,6 +1,8 @@
+ /** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
+ package com.flatirons.insight.scenario;
+ 
++import com.flatirons.insight.scenario.CustomerWorkflowHttpRuntime.HttpRun;
++
+ import static org.assertj.core.api.Assertions.assertThat;
+ 
+ import com.fasterxml.jackson.databind.ObjectMapper;
+@@ -78,7 +80,7 @@ class CustomerWorkflowHttpSmokeTest {
+ 
+     @ParameterizedTest @CsvSource({"form-app,1", "form-app,2", "safran-feedback,1", "safran-feedback,2"})
+     void authenticatedHttpJourneyAndRefusals(String fixture, int repeat) throws Exception {
+-        try (var run = new HttpRun(fixture)) {
++        try (var run = new HttpRun(POSTGRES, fixture)) {
+             assertEmptyRun(run);
+             byte[] archive = verifiedArchive(fixture);
+             String definition = authenticateAndPublish(run, fixture, archive);
+@@ -350,253 +352,4 @@ class CustomerWorkflowHttpSmokeTest {
+         assertThat(actual).as(fixture+" HTTP "+id).isEqualTo(expected); System.out.println("HTTP_ASSERTED:"+fixture+":"+id);
+     }
+ 
+-    @Configuration @EnableWebMvc
+-    @Import({SecurityConfig.class,WorkflowArchiveController.class,ProcessInstanceController.class,FormController.class,TaskActionController.class,RelatedContentController.class,RestExceptionHandlerAdvice.class})
+-    static class WebConfiguration {
+-        @Bean org.springframework.web.multipart.MultipartResolver multipartResolver() {
+-            return new org.springframework.web.multipart.support.StandardServletMultipartResolver();
+-        }
+-    }
+-
+-    @Configuration @EnableCaching @Import(CustomerFirstWaitTestConfiguration.class)
+-    static class RuntimeConfiguration {
+-        @Bean CacheManager cacheManager() { return new ConcurrentMapCacheManager("userSyncCache"); }
+-        @Bean UserSyncCacheService userSyncCacheService() { return new UserSyncCacheServiceImpl(); }
+-        @Bean TokenUtils tokenUtils() { return new TokenUtils(); }
+-        @Bean AESService aesService() { var properties=new SecurityProperties(); properties.setAesSecretKey("synthetic-local-test-key-32-bytes!"); return new AESServiceImpl(properties); }
+-        @Bean UserService userService(UserRepository users,GroupRepository groups,EntityManagerFactory factory,AESService aes,TokenUtils tokens,@Lazy UserService self) {
+-            return new UserServiceImpl(users,Mappers.getMapper(UserMapper.class),aes,tokens,self,groups,factory);
+-        }
+-        @Bean GroupService groupService(GroupRepository groups,UserRepository users,EntityManagerFactory factory) {
+-            var repositories=new JpaRepositoryFactory(SharedEntityManagerCreator.createSharedEntityManager(factory));
+-            return new GroupServiceImpl(groups,users,repositories.getRepository(UserGroupRepository.class),Mappers.getMapper(GroupMapper.class),factory);
+-        }
+-        @Bean UserPreferencesService preferences(EntityManagerFactory factory) {
+-            var repositories=new JpaRepositoryFactory(SharedEntityManagerCreator.createSharedEntityManager(factory));
+-            return new UserPreferencesServiceImpl(repositories.getRepository(UserPreferencesRepository.class),Mappers.getMapper(UserPreferencesMapper.class));
+-        }
+-        @Bean UserSynchronizationService synchronization(AESService aes,UserService users,GroupService groups,UserPreferencesService preferences) {
+-            return new UserSynchronizationServiceImpl(aes,users,Mappers.getMapper(UserMapper.class),groups,preferences);
+-        }
+-        @Bean UserCache userCache(org.springframework.core.env.Environment environment,UserService users) { return new UserCacheImpl(environment,users); }
+-    }
+-
+-    static class HttpRun implements AutoCloseable {
+-        final AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
+-        final AnnotationConfigWebApplicationContext web=new AnnotationConfigWebApplicationContext();
+-        final CustomerMailCapture capture=new CustomerMailCapture();
+-        final CustomerContentCapture content=new CustomerContentCapture();
+-        final LocalAcmTransport acm=new LocalAcmTransport();
+-        final HttpClient client=HttpClient.newHttpClient();
+-        final String schema="http_"+UUID.randomUUID().toString().replace("-","");
+-        final String fixture;
+-        final org.flowable.common.engine.api.identity.AuthenticationContext previous=Authentication.getAuthenticationContext();
+-        ProcessEngine engine; AppEngine apps; Tomcat server; Path directory; URI base;
+-        String system,owner,refused,reviewer;
+-        int refusalCount;
+-        HttpRun(String fixture) throws Exception {
+-            this.fixture=fixture;
+-            try {
+-                try(var connection=POSTGRES.createConnection("");var statement=connection.createStatement()) { statement.execute("create schema "+schema); }
+-                Authentication.setAuthenticationContext(new SpringSecurityAuthenticationContext());
+-                context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("http",Map.of(
+-                        "identifier.test.url",POSTGRES.getJdbcUrl()+(POSTGRES.getJdbcUrl().contains("?") ? "&" : "?")+"currentSchema="+schema,
+-                        "identifier.test.username",POSTGRES.getUsername(),"identifier.test.password",POSTGRES.getPassword(),
+-                        "identifier.test.schema",schema,"identifier.test.task-content",true,"insight.workflow.web-base-url","https://insight.example.invalid/")));
+-                context.registerBean(CustomerMailCapture.class,() -> capture);
+-                context.registerBean(Clock.class,Clock::systemUTC);
+-                context.register(RuntimeConfiguration.class); context.refresh();
+-                // Match user-preferences-001.xml: native authentication upsert relies on this DB default.
+-                new JdbcTemplate(context.getBean(javax.sql.DataSource.class)).execute(
+-                        "alter table insight_user_preferences alter column id set default nextval('insight_user_preferences_id_seq')");
+-                engine=context.getBean(ProcessEngine.class);
+-                var factory=context.getBean(EntityManagerFactory.class);
+-                try(var em=factory.createEntityManager()) {
+-                    em.getTransaction().begin(); CustomerGoldenSeed.load("safran-feedback").seed(em); em.getTransaction().commit();
+-                }
+-                seedRules();
+-                var transactions=context.getBean(PlatformTransactionManager.class);
+-                var appConfig=new SpringAppEngineConfiguration(); appConfig.setDataSource(context.getBean(javax.sql.DataSource.class));
+-                appConfig.setTransactionManager(transactions); appConfig.setDatabaseSchema(schema); appConfig.setDatabaseSchemaUpdate("true");
+-                appConfig.setDisableIdmEngine(true); appConfig.setDisableEventRegistry(true); apps=appConfig.buildAppEngine();
+-                new JdbcTemplate(context.getBean(javax.sql.DataSource.class)).update("insert into insight_archive_publication_lock(id) values (1)");
+-                var repositories=new JpaRepositoryFactory(SharedEntityManagerCreator.createSharedEntityManager(factory));
+-                var archives=transactional(new AppArchiveServiceImpl(apps.getAppRepositoryService(),engine.getRepositoryService(),JSON,repositories.getRepository(ArchivePublicationLockRepository.class)));
+-                var publications=transactional(new WorkflowArchivePublicationService(archives,context.getBean(WorkflowInitiatorIdentityService.class)));
+-                register("publications",publications);
+-                var users=context.getBean(UserService.class); var groups=context.getBean(GroupService.class);
+-                var contentRepository=repositories.getRepository(RelatedContentRepository.class);
+-                var storage=new ContentStorageServiceImpl(context.getEnvironment(),contentRepository,content,Mappers.getMapper(RelatedContentMapper.class));
+-                var formContent=transactional(new RelatedContentServiceImpl(storage,new com.flatirons.insight.model.component.SimpleContentTypeMapper(),
+-                        contentRepository,engine.getTaskService(),engine.getHistoryService(),repositories.getRepository(TaskRepository.class)));
+-                register("content",formContent);
+-                var options=new ArchiveTaskOptionService(repositories.getRepository(FormOptionSetRepository.class),repositories.getRepository(FormFieldOptionRepository.class),engine.getRepositoryService(),JSON);
+-                register("forms",transactional(new FormServiceImpl(engine.getTaskService(),engine.getRepositoryService(),engine.getRuntimeService(),engine.getHistoryService(),JSON,options,formContent)));
+-                register("starter",transactional(new ProcessInstanceServiceImpl(engine.getRuntimeService(),engine.getHistoryService(),context.getBean(UserCache.class),users,null,null,null,null,engine.getRepositoryService())));
+-                register("actions",new TaskActionServiceImpl(engine.getTaskService(),engine.getHistoryService(),engine.getRuntimeService(),context.getBean(UserCache.class),null,engine.getManagementService(),new WorkflowTaskIdentityService(users,groups)));
+-                var properties=new AcmProperties(); properties.setUrl("https://acm.example.invalid/");
+-                var talk=new AcmLoginTalk(properties) { @Override protected HttpRequestFactory getRequestFactory() { return acm.createRequestFactory(request -> request.setParser(new JsonObjectParser(GsonFactory.getDefaultInstance()))); } };
+-                var auth=new AuthServiceImpl(talk,properties);
+-                register("jwtAuthenticationFilter",new JwtAuthenticationFilter(auth,new TokenUtils(),groups,users,context.getBean(UserSynchronizationService.class),context.getBean(UserSyncCacheService.class)));
+-                system=acm.token(OWNER,true); owner=acm.token(OWNER,false); refused=acm.token(REFUSED,false); reviewer=acm.token(REVIEWER,false);
+-                directory=Files.createTempDirectory("insight-http-"); server=new Tomcat(); server.setBaseDir(directory.toString()); server.setPort(0);
+-                server.getConnector().setProperty("address","127.0.0.1");
+-                var container=server.addContext("",directory.toString()); container.setParentClassLoader(getClass().getClassLoader());
+-                web.setParent(context); web.setServletContext(container.getServletContext()); web.register(WebConfiguration.class); web.refresh();
+-                var servlet=Tomcat.addServlet(container,"dispatcher",new DispatcherServlet(web)); servlet.setLoadOnStartup(1); container.addServletMappingDecoded("/","dispatcher");
+-                servlet.setMultipartConfigElement(new jakarta.servlet.MultipartConfigElement(directory.toString()));
+-                var filter=new FilterDef(); filter.setFilterName("security"); filter.setFilter(new DelegatingFilterProxy("springSecurityFilterChain",web)); container.addFilterDef(filter);
+-                var mapping=new FilterMap(); mapping.setFilterName("security"); mapping.addURLPattern("/*"); container.addFilterMap(mapping);
+-                server.start(); base=URI.create("http://127.0.0.1:"+server.getConnector().getLocalPort());
+-            } catch(Exception | AssertionError failure) {
+-                try { close(); } catch(Exception cleanup) { failure.addSuppressed(cleanup); } throw failure;
+-            }
+-        }
+-        private void register(String name,Object value) { context.getBeanFactory().registerSingleton(name,value); }
+-        @SuppressWarnings("unchecked") private <T> T transactional(T target) {
+-            var proxy=new ProxyFactory(target); proxy.setProxyTargetClass(true);
+-            var advice=new TransactionInterceptor(context.getBean(PlatformTransactionManager.class),new AnnotationTransactionAttributeSource());
+-            advice.setBeanFactory(context.getBeanFactory()); proxy.addAdvice(advice); return (T)proxy.getProxy();
+-        }
+-        private void seedRules() {
+-            for(String task:List.of("local-review-feedback","global-review-action")) {
+-                var rule=new WorkflowTaskRoutingRuleEntity(); rule.setProcessDefinitionKey("SafranFeedbackWorkflow"); rule.setTaskKey(task);
+-                rule.setSiteKey("SAESB"); rule.setTaskName(task.equals("local-review-feedback") ? "SAESB: Local Support Feedback" : "Global team feedback review"); rule.setCandidateGroupId(13L);
+-                context.getBean(WorkflowTaskRoutingRuleRepository.class).saveAndFlush(rule);
+-            }
+-            var config=CustomerGoldenSeed.load("safran-feedback").processConfig("config-email-v2.json","SafranFeedbackWorkflow");
+-            for(var entry:config.path("mailTasks")) {
+-                var mail=entry.path("emailConfig"); var rule=new WorkflowNotificationRuleEntity(); rule.setProcessDefinitionKey("SafranFeedbackWorkflow");
+-                rule.setActivityId(entry.path("emailTaskId").asText()); rule.setTaskKey(entry.path("userTaskId").asText());
+-                rule.setTemplateName(mail.path("ftlTemplate").asText()); rule.setFrom("insight@example.invalid"); rule.setSubject(mail.path("subject").asText());
+-                rule.setRecipientSelector(rule.getTaskKey().equals("start") ? WorkflowNotificationRuleEntity.RecipientSelector.AUTHENTICATED_ACM_INITIATOR : WorkflowNotificationRuleEntity.RecipientSelector.AUTHENTICATED_ACM_COMPLETING_ACTOR);
+-                context.getBean(WorkflowNotificationService.class).saveRule(rule);
+-            }
+-        }
+-        String request(String method,String path,String token,byte[] body,String type,int expected) throws Exception {
+-            var response=send(method,path,token,body,type);
+-            assertThat(response.statusCode()).as(method+" "+path+" => "+response.body()).isEqualTo(expected); return response.body();
+-        }
+-        java.net.http.HttpResponse<String> send(String method,String path,String token,byte[] body,String type) throws Exception {
+-            var builder=java.net.http.HttpRequest.newBuilder(base.resolve(path)).timeout(Duration.ofSeconds(30)).header("Content-Type",type);
+-            if(token!=null) { builder.header("Authorization","Bearer "+token); }
+-            builder.method(method,body==null ? java.net.http.HttpRequest.BodyPublishers.noBody() : java.net.http.HttpRequest.BodyPublishers.ofByteArray(body));
+-            return client.send(builder.build(),java.net.http.HttpResponse.BodyHandlers.ofString());
+-        }
+-        void refuse(String method,String path,String token,byte[] body,String type,int expected) throws Exception {
+-            var before=snapshot();
+-            var response=send(method,path,token,body,type);
+-            var after=snapshot();
+-            var changed=before.keySet().stream().filter(table -> !Objects.equals(before.get(table),after.get(table))).toList();
+-            AssertionError mutationFailure=null;
+-            try { receipt(fixture,"refusal-no-mutation",changed,List.of()); }
+-            catch(AssertionError mutation) { mutationFailure=mutation; }
+-            String route=path.startsWith(ARCHIVES) ? "publication" : path.equals("/api/internal/process-instance") ? "start"
+-                    : path.equals("/api/internal/form/data") ? "submit" : path.startsWith("/api/internal/form/data?") ? "read"
+-                    : path.contains("raw-content") ? "upload" : path.substring(path.lastIndexOf('/')+1);
+-            String actor=token==null ? "anonymous" : token.equals(system) ? "system" : token.equals(owner) ? "owner"
+-                    : token.equals(refused) ? "non-assignee" : token.equals(reviewer) ? "reviewer" : "invalid-token";
+-            try { receipt(fixture,"refuse-"+route+"-"+actor+"-"+expected,response.statusCode(),expected); }
+-            catch(AssertionError statusFailure) { if(mutationFailure!=null) { statusFailure.addSuppressed(mutationFailure); } throw statusFailure; }
+-            if(mutationFailure!=null) { throw mutationFailure; }
+-            refusalCount++;
+-        }
+-        Map<String,List<String>> snapshot() throws Exception {
+-            Map<String,List<String>> rows=new TreeMap<>();
+-            try(var connection=context.getBean(javax.sql.DataSource.class).getConnection()) {
+-                connection.setAutoCommit(false); connection.setTransactionIsolation(java.sql.Connection.TRANSACTION_REPEATABLE_READ);
+-                List<String> tables=new ArrayList<>();
+-                try(var statement=connection.prepareStatement("select tablename from pg_tables where schemaname=?")) {
+-                    statement.setString(1,schema);
+-                    try(var result=statement.executeQuery()) { while(result.next()) { tables.add(result.getString(1)); } }
+-                }
+-                for(String table:tables) {
+-                    List<String> records=new ArrayList<>();
+-                    try(var statement=connection.createStatement();var result=statement.executeQuery("select row_to_json(t)::text from "+table+" t")) {
+-                        while(result.next()) { records.add(result.getString(1)); }
+-                    }
+-                    records.sort(Comparator.naturalOrder()); rows.put(table,records);
+-                }
+-                connection.rollback();
+-            }
+-            var messages=new ArrayList<String>(); for(var message:capture.messages()) { var bytes=new ByteArrayOutputStream(); message.writeTo(bytes); messages.add(Base64.getEncoder().encodeToString(bytes.toByteArray())); }
+-            rows.put("captured-mail",messages);
+-            rows.put("captured-content-writes",content.writes().stream()
+-                    .map(write -> write.storeId()+":"+write.lengthHint()+":"+Base64.getEncoder().encodeToString(write.bytes())).toList());
+-            List<String> files=new ArrayList<>();
+-            for(var file:content.getFiles()) {
+-                try(var input=file.getContent()) { files.add(file.getStoreId()+":"+Base64.getEncoder().encodeToString(input.readAllBytes())); }
+-            }
+-            rows.put("captured-content",files); return rows;
+-        }
+-        @Override public void close() throws Exception {
+-            List<AutoCloseable> cleanup=new ArrayList<>();
+-            if(server!=null) { cleanup.add(server::stop); cleanup.add(server::destroy); }
+-            cleanup.add(web::close);
+-            if(apps!=null) { cleanup.add(apps::close); }
+-            cleanup.add(context::close); cleanup.add(client::close);
+-            cleanup.add(() -> Authentication.setAuthenticationContext(previous));
+-            cleanup.add(() -> {
+-                try(var connection=POSTGRES.createConnection("");var statement=connection.createStatement()) {
+-                    statement.execute("drop schema if exists "+schema+" cascade");
+-                }
+-            });
+-            if(directory!=null) { cleanup.add(() -> {
+-                try(var paths=Files.walk(directory)) {
+-                    for(var path:paths.sorted(Comparator.reverseOrder()).toList()) { Files.delete(path); }
+-                }
+-            }); }
+-            Exception failure=null;
+-            for(var resource:cleanup) {
+-                try { resource.close(); }
+-                catch(Exception error) { if(failure==null) { failure=error; } else { failure.addSuppressed(error); } }
+-            }
+-            if(failure!=null) { throw failure; }
+-        }
+-    }
+-
+-    /** Replaces only ACM's HTTP transport; production AuthService/AcmLoginTalk validation still execute. */
+-    static class LocalAcmTransport extends HttpTransport {
+-        private final byte[] key=new byte[32]; int verifications;
+-        final List<Map<String, List<String>>> requestHeaders = new ArrayList<>();
+-        LocalAcmTransport() { new SecureRandom().nextBytes(key); }
+-        String token(String username,boolean system) throws Exception {
+-            var claims=new JWTClaimsSet.Builder().subject(username).issuer("isolated-http-smoke")
+-                    .claim("email",username).claim("firstname","Synthetic").claim("lastname","Actor")
+-                    .claim("roles",system ? List.of(Const.GROUP_ADMINISTRATOR) : List.of()).claim("groups",List.of())
+-                    .claim("accountType","SYSTEM").expirationTime(Date.from(Instant.now().plusSeconds(300))).build();
+-            var token=new SignedJWT(new JWSHeader(JWSAlgorithm.HS256),claims); token.sign(new MACSigner(key)); return token.serialize();
+-        }
+-        @Override protected LowLevelHttpRequest buildRequest(String method,String url) {
+-            assertThat(method).isEqualTo("PUT"); assertThat(url).isEqualTo("https://acm.example.invalid/api/auth");
+-            return new LowLevelHttpRequest() {
+-                private final Map<String, List<String>> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+-                @Override public void addHeader(String name,String value) {
+-                    headers.computeIfAbsent(name, ignored -> new ArrayList<>()).add(value);
+-                }
+-                @Override public LowLevelHttpResponse execute() throws IOException {
+-                    requestHeaders.add(Map.copyOf(headers));
+-                    verifications++; var bytes=new ByteArrayOutputStream(); getStreamingContent().writeTo(bytes);
+-                    boolean valid=false;
+-                    try {
+-                        var token=SignedJWT.parse(JSON.readTree(bytes.toByteArray()).path("token").asText());
+-                        valid=token.verify(new MACVerifier(key)) && token.getJWTClaimsSet().getExpirationTime().after(new Date());
+-                    } catch(Exception invalid) { valid=false; }
+-                    final int status=valid ? 200 : 401;
+-                    return new LowLevelHttpResponse() {
+-                        @Override public InputStream getContent() { return new ByteArrayInputStream("{}".getBytes(StandardCharsets.UTF_8)); }
+-                        @Override public String getContentEncoding() { return null; }
+-                        @Override public long getContentLength() { return 2; }
+-                        @Override public String getContentType() { return "application/json"; }
+-                        @Override public String getStatusLine() { return "HTTP/1.1 "+status; }
+-                        @Override public int getStatusCode() { return status; }
+-                        @Override public String getReasonPhrase() { return status==200 ? "OK" : "Unauthorized"; }
+-                        @Override public int getHeaderCount() { return 0; }
+-                        @Override public String getHeaderName(int index) { throw new IndexOutOfBoundsException(index); }
+-                        @Override public String getHeaderValue(int index) { throw new IndexOutOfBoundsException(index); }
+-                    };
+-                }
+-            };
+-        }
+-    }
+ }
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+index 732b4b2b..9626b0a7 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/CustomerFirstWaitTestConfiguration.java
+@@ -99,6 +99,17 @@ public class CustomerFirstWaitTestConfiguration {
+         if (environment.getProperty("identifier.test.task-content", Boolean.class, false)) {
+             types.add(com.flatirons.insight.domain.TaskEntity.class.getName());
+         }
++        if (environment.getProperty("identifier.test.browser-queries", Boolean.class, false)) {
++            types.addAll(java.util.List.of(
++                    com.flatirons.insight.domain.ProcessDefinitionEntity.class.getName(),
++                    com.flatirons.insight.domain.HistoricTaskEntity.class.getName(),
++                    com.flatirons.insight.domain.AppDeploymentEntity.class.getName(),
++                    com.flatirons.insight.domain.DeploymentEntity.class.getName(),
++                    com.flatirons.insight.domain.HistoricVariableInstanceEntity.class.getName(),
++                    com.flatirons.insight.domain.HistoricIdentityLinkEntity.class.getName(),
++                    com.flatirons.insight.domain.RuntimeIdentityLinkEntity.class.getName(),
++                    com.flatirons.insight.domain.HistoricProcessInstanceEntity.class.getName()));
++        }
+         factory.setManagedTypes(PersistenceManagedTypes.of(types.toArray(String[]::new)));
+         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+         factory.setJpaPropertyMap(Map.of("hibernate.hbm2ddl.auto", "create-drop", "hibernate.hbm2ddl.halt_on_error", true,
+@@ -115,7 +126,7 @@ public class CustomerFirstWaitTestConfiguration {
+         private final org.hibernate.tool.schema.spi.SchemaFilter filter = new org.hibernate.tool.schema.spi.SchemaFilter() {
+             public boolean includeNamespace(org.hibernate.boot.model.relational.Namespace namespace) { return true; }
+             public boolean includeSequence(org.hibernate.boot.model.relational.Sequence sequence) { return true; }
+-            public boolean includeTable(org.hibernate.mapping.Table table) { return !table.getName().equalsIgnoreCase("ACT_RU_TASK"); }
++            public boolean includeTable(org.hibernate.mapping.Table table) { return !table.getName().toUpperCase(java.util.Locale.ROOT).startsWith("ACT_"); }
+         };
+         public org.hibernate.tool.schema.spi.SchemaFilter getCreateFilter() { return filter; }
+         public org.hibernate.tool.schema.spi.SchemaFilter getDropFilter() { return filter; }
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpRuntime.java b/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpRuntime.java
+new file mode 100644
+index 00000000..e743896f
+--- /dev/null
++++ b/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpRuntime.java
+@@ -0,0 +1,366 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.scenario;
++
++import static org.assertj.core.api.Assertions.assertThat;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import com.flatirons.commons.acm.util.TokenUtils;
++import com.flatirons.insight.conf.security.*;
++import com.flatirons.insight.domain.*;
++import com.flatirons.insight.model.enums.status.UserAccountStatus;
++import com.flatirons.insight.properties.*;
++import com.flatirons.insight.repository.*;
++import com.flatirons.insight.rest.internal.identity.UserController;
++import com.flatirons.insight.rest.internal.repository.AppController;
++import com.flatirons.insight.rest.internal.repository.ProcessDefinitionController;
++import com.flatirons.insight.rest.internal.runtime.*;
++import com.flatirons.insight.rest.exception.RestExceptionHandlerAdvice;
++import com.flatirons.insight.rest.internal.editor.WorkflowArchiveController;
++import com.flatirons.insight.rest.internal.form.FormController;
++import com.flatirons.insight.rest.internal.runtime.ProcessInstanceController;
++import com.flatirons.insight.rest.internal.runtime.TaskActionController;
++import com.flatirons.insight.rest.internal.runtime.RelatedContentController;
++import com.flatirons.insight.service.editor.*;
++import com.flatirons.insight.service.mapper.*;
++import com.flatirons.insight.service.runtime.*;
++import com.flatirons.insight.service.runtime.acm.AcmLoginTalk;
++import com.flatirons.insight.util.Const;
++import com.google.api.client.http.*;
++import com.google.api.client.json.JsonObjectParser;
++import com.google.api.client.json.gson.GsonFactory;
++import com.nimbusds.jose.*;
++import com.nimbusds.jose.crypto.*;
++import com.nimbusds.jwt.*;
++import jakarta.persistence.EntityManagerFactory;
++import java.io.*;
++import java.net.*;
++import java.net.http.HttpClient;
++import java.nio.charset.StandardCharsets;
++import java.nio.file.*;
++import java.security.*;
++import java.time.*;
++import java.util.*;
++import java.util.zip.*;
++import org.apache.catalina.startup.Tomcat;
++import org.apache.tomcat.util.descriptor.web.*;
++import org.flowable.app.engine.AppEngine;
++import org.flowable.app.spring.SpringAppEngineConfiguration;
++import org.flowable.common.engine.impl.identity.Authentication;
++import org.flowable.engine.ProcessEngine;
++import org.flowable.task.api.Task;
++import org.junit.jupiter.params.ParameterizedTest;
++import org.junit.jupiter.params.provider.CsvSource;
++import org.mapstruct.factory.Mappers;
++import org.springframework.aop.framework.ProxyFactory;
++import org.springframework.cache.CacheManager;
++import org.springframework.cache.annotation.EnableCaching;
++import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
++import org.springframework.context.annotation.*;
++import org.springframework.core.env.MapPropertySource;
++import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
++import org.springframework.jdbc.core.JdbcTemplate;
++import org.springframework.orm.jpa.SharedEntityManagerCreator;
++import org.springframework.transaction.PlatformTransactionManager;
++import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
++import org.springframework.transaction.interceptor.TransactionInterceptor;
++import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
++import org.springframework.web.filter.DelegatingFilterProxy;
++import org.springframework.web.servlet.DispatcherServlet;
++import org.springframework.web.servlet.config.annotation.EnableWebMvc;
++import org.testcontainers.containers.PostgreSQLContainer;
++import org.testcontainers.junit.jupiter.*;
++
++/** Shared test-classpath socket runtime. Never included in the production artifact. */
++final class CustomerWorkflowHttpRuntime {
++    private static final ObjectMapper JSON = new ObjectMapper();
++    static final String OWNER = "admin@app.insight.com";
++    static final String REFUSED = "refused@insight.test";
++    static final String REVIEWER = "feedback-admin@insight.test";
++    private static final String ARCHIVES = "/api/internal/workflow-archives";
++    private static void receipt(String fixture,String id,Object actual,Object expected) {
++        assertThat(actual).as(fixture+" HTTP "+id).isEqualTo(expected);
++        System.out.println("HTTP_ASSERTED:"+fixture+":"+id);
++    }
++    @Configuration @EnableWebMvc
++    @Import({UserController.class,AppController.class,ProcessDefinitionsController.class,ProcessDefinitionController.class,TaskController.class,TaskQueryController.class,ProcessInstanceQueryController.class,SecurityConfig.class,WorkflowArchiveController.class,ProcessInstanceController.class,FormController.class,TaskActionController.class,RelatedContentController.class,RestExceptionHandlerAdvice.class})
++    static class WebConfiguration {
++        @Bean org.springframework.web.servlet.config.annotation.WebMvcConfigurer persistenceView(EntityManagerFactory factory) {
++            var interceptor=new org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor();
++            interceptor.setEntityManagerFactory(factory);
++            return new org.springframework.web.servlet.config.annotation.WebMvcConfigurer() {
++                @Override public void addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry registry) {
++                    registry.addWebRequestInterceptor(interceptor);
++                }
++            };
++        }
++        @Bean org.springframework.web.multipart.MultipartResolver multipartResolver() {
++            return new org.springframework.web.multipart.support.StandardServletMultipartResolver();
++        }
++    }
++
++    @Configuration @EnableCaching @Import(CustomerFirstWaitTestConfiguration.class)
++    static class RuntimeConfiguration {
++        @Bean CacheManager cacheManager() { return new ConcurrentMapCacheManager("userSyncCache"); }
++        @Bean UserSyncCacheService userSyncCacheService() { return new UserSyncCacheServiceImpl(); }
++        @Bean TokenUtils tokenUtils() { return new TokenUtils(); }
++        @Bean AESService aesService() { var properties=new SecurityProperties(); properties.setAesSecretKey("synthetic-local-test-key-32-bytes!"); return new AESServiceImpl(properties); }
++        @Bean UserService userService(UserRepository users,GroupRepository groups,EntityManagerFactory factory,AESService aes,TokenUtils tokens,@Lazy UserService self) {
++            return new UserServiceImpl(users,Mappers.getMapper(UserMapper.class),aes,tokens,self,groups,factory);
++        }
++        @Bean GroupService groupService(GroupRepository groups,UserRepository users,EntityManagerFactory factory) {
++            var repositories=new JpaRepositoryFactory(SharedEntityManagerCreator.createSharedEntityManager(factory));
++            return new GroupServiceImpl(groups,users,repositories.getRepository(UserGroupRepository.class),Mappers.getMapper(GroupMapper.class),factory);
++        }
++        @Bean UserPreferencesService preferences(EntityManagerFactory factory) {
++            var repositories=new JpaRepositoryFactory(SharedEntityManagerCreator.createSharedEntityManager(factory));
++            return new UserPreferencesServiceImpl(repositories.getRepository(UserPreferencesRepository.class),Mappers.getMapper(UserPreferencesMapper.class));
++        }
++        @Bean UserSynchronizationService synchronization(AESService aes,UserService users,GroupService groups,UserPreferencesService preferences) {
++            return new UserSynchronizationServiceImpl(aes,users,Mappers.getMapper(UserMapper.class),groups,preferences);
++        }
++        @Bean UserCache userCache(org.springframework.core.env.Environment environment,UserService users) { return new UserCacheImpl(environment,users); }
++    }
++
++    static class HttpRun implements AutoCloseable {
++        final AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
++        final AnnotationConfigWebApplicationContext web=new AnnotationConfigWebApplicationContext();
++        final CustomerMailCapture capture=new CustomerMailCapture();
++        final CustomerContentCapture content=new CustomerContentCapture();
++        final LocalAcmTransport acm=new LocalAcmTransport();
++        final HttpClient client=HttpClient.newHttpClient();
++        final String schema="http_"+UUID.randomUUID().toString().replace("-","");
++        final String fixture;
++        final org.flowable.common.engine.api.identity.AuthenticationContext previous=Authentication.getAuthenticationContext();
++        ProcessEngine engine; AppEngine apps; Tomcat server; Path directory; URI base;
++        String system,owner,refused,reviewer;
++        int refusalCount;
++        final PostgreSQLContainer<?> postgres;
++        boolean closed;
++        HttpRun(PostgreSQLContainer<?> postgres, String fixture) throws Exception {
++            this(postgres,fixture,300,null);
++        }
++        HttpRun(PostgreSQLContainer<?> postgres, String fixture, int lifetimeSeconds, jakarta.servlet.http.HttpServlet bootstrap) throws Exception {
++            this.postgres=postgres;
++            this.fixture=fixture;
++            try {
++                try(var connection=postgres.createConnection("");var statement=connection.createStatement()) { statement.execute("create schema "+schema); }
++                Authentication.setAuthenticationContext(new SpringSecurityAuthenticationContext());
++                context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("http",Map.of(
++                        "identifier.test.url",postgres.getJdbcUrl()+(postgres.getJdbcUrl().contains("?") ? "&" : "?")+"currentSchema="+schema,
++                        "identifier.test.username",postgres.getUsername(),"identifier.test.password",postgres.getPassword(),
++                        "identifier.test.schema",schema,"identifier.test.task-content",true,"identifier.test.browser-queries",true,"insight.workflow.web-base-url","https://insight.example.invalid/")));
++                context.registerBean(CustomerMailCapture.class,() -> capture);
++                context.registerBean(Clock.class,Clock::systemUTC);
++                context.register(RuntimeConfiguration.class); context.refresh();
++                // Match user-preferences-001.xml: native authentication upsert relies on this DB default.
++                new JdbcTemplate(context.getBean(javax.sql.DataSource.class)).execute(
++                        "alter table insight_user_preferences alter column id set default nextval('insight_user_preferences_id_seq')");
++                engine=context.getBean(ProcessEngine.class);
++                var factory=context.getBean(EntityManagerFactory.class);
++                try(var em=factory.createEntityManager()) {
++                    em.getTransaction().begin(); CustomerGoldenSeed.load("safran-feedback").seed(em); em.getTransaction().commit();
++                }
++                seedRules();
++                var transactions=context.getBean(PlatformTransactionManager.class);
++                var appConfig=new SpringAppEngineConfiguration(); appConfig.setDataSource(context.getBean(javax.sql.DataSource.class));
++                appConfig.setTransactionManager(transactions); appConfig.setDatabaseSchema(schema); appConfig.setDatabaseSchemaUpdate("true");
++                appConfig.setDisableIdmEngine(true); appConfig.setDisableEventRegistry(true); apps=appConfig.buildAppEngine();
++                new JdbcTemplate(context.getBean(javax.sql.DataSource.class)).update("insert into insight_archive_publication_lock(id) values (1)");
++                var repositories=new JpaRepositoryFactory(SharedEntityManagerCreator.createSharedEntityManager(factory));
++                var archives=transactional(new AppArchiveServiceImpl(apps.getAppRepositoryService(),engine.getRepositoryService(),JSON,repositories.getRepository(ArchivePublicationLockRepository.class)));
++                var publications=transactional(new WorkflowArchivePublicationService(archives,context.getBean(WorkflowInitiatorIdentityService.class)));
++                register("publications",publications);
++                var users=context.getBean(UserService.class); var groups=context.getBean(GroupService.class);
++                var definitions=new ProcessDefinitionServiceImpl(repositories.getRepository(ProcessDefinitionRepository.class),engine.getRepositoryService(),apps.getAppRepositoryService());
++                register("definitions",definitions);
++                register("appService",new AppServiceImpl(apps.getAppRepositoryService()));
++                register("taskService",new TaskServiceImpl(repositories.getRepository(TaskRepository.class),repositories.getRepository(HistoricTaskRepository.class),Mappers.getMapper(TaskMapper.class),engine.getTaskService()));
++                register("taskQueries",new TaskQueryServiceImpl(repositories.getRepository(TaskRepository.class),repositories.getRepository(HistoricTaskRepository.class),repositories.getRepository(AppDeploymentRepository.class),repositories.getRepository(DeploymentRepository.class),definitions,repositories.getRepository(HistoricProcessInstanceRepository.class),context.getBean(UserCache.class),users,engine.getRepositoryService(),SharedEntityManagerCreator.createSharedEntityManager(factory)));
++                register("processQueries",new ProcessInstanceQueryServiceImpl(users,context.getBean(UserCache.class),repositories.getRepository(ProcessDefinitionRepository.class),repositories.getRepository(AppDeploymentRepository.class),repositories.getRepository(DeploymentRepository.class),factory));
++
++                var contentRepository=repositories.getRepository(RelatedContentRepository.class);
++                var storage=new ContentStorageServiceImpl(context.getEnvironment(),contentRepository,content,Mappers.getMapper(RelatedContentMapper.class));
++                var formContent=transactional(new RelatedContentServiceImpl(storage,new com.flatirons.insight.model.component.SimpleContentTypeMapper(),
++                        contentRepository,engine.getTaskService(),engine.getHistoryService(),repositories.getRepository(TaskRepository.class)));
++                register("content",formContent);
++                var options=new ArchiveTaskOptionService(repositories.getRepository(FormOptionSetRepository.class),repositories.getRepository(FormFieldOptionRepository.class),engine.getRepositoryService(),JSON);
++                register("forms",transactional(new FormServiceImpl(engine.getTaskService(),engine.getRepositoryService(),engine.getRuntimeService(),engine.getHistoryService(),JSON,options,formContent)));
++                register("starter",transactional(new ProcessInstanceServiceImpl(engine.getRuntimeService(),engine.getHistoryService(),context.getBean(UserCache.class),users,null,null,null,null,engine.getRepositoryService())));
++                register("actions",new TaskActionServiceImpl(engine.getTaskService(),engine.getHistoryService(),engine.getRuntimeService(),context.getBean(UserCache.class),null,engine.getManagementService(),new WorkflowTaskIdentityService(users,groups)));
++                var properties=new AcmProperties(); properties.setUrl("https://acm.example.invalid/");
++                var talk=new AcmLoginTalk(properties) { @Override protected HttpRequestFactory getRequestFactory() { return acm.createRequestFactory(request -> request.setParser(new JsonObjectParser(GsonFactory.getDefaultInstance()))); } };
++                var auth=new AuthServiceImpl(talk,properties);
++                register("jwtAuthenticationFilter",new JwtAuthenticationFilter(auth,new TokenUtils(),groups,users,context.getBean(UserSynchronizationService.class),context.getBean(UserSyncCacheService.class)));
++                acm.lifetimeSeconds=lifetimeSeconds;
++                system=acm.token(OWNER,true); owner=acm.token(OWNER,false); refused=acm.token(REFUSED,false); reviewer=acm.token(REVIEWER,false);
++                directory=Files.createTempDirectory("insight-http-"); server=new Tomcat(); server.setBaseDir(directory.toString()); server.setPort(0);
++                server.getConnector().setProperty("address","127.0.0.1");
++                var container=server.addContext("",directory.toString()); container.setParentClassLoader(getClass().getClassLoader());
++                web.setParent(context); web.setServletContext(container.getServletContext()); web.register(WebConfiguration.class); web.refresh();
++                var servlet=Tomcat.addServlet(container,"dispatcher",new DispatcherServlet(web)); servlet.setLoadOnStartup(1); container.addServletMappingDecoded("/","dispatcher");
++                servlet.setMultipartConfigElement(new jakarta.servlet.MultipartConfigElement(directory.toString()));
++                var filter=new FilterDef(); filter.setFilterName("security"); filter.setFilter(new DelegatingFilterProxy("springSecurityFilterChain",web)); container.addFilterDef(filter);
++                var mapping=new FilterMap(); mapping.setFilterName("security"); mapping.addURLPattern("/*"); container.addFilterMap(mapping);
++                if (bootstrap!=null) {
++                    Tomcat.addServlet(container,"browserBootstrap",bootstrap);
++                    container.addServletMappingDecoded("/api/internal/__test/session","browserBootstrap");
++                }
++                server.start(); base=URI.create("http://127.0.0.1:"+server.getConnector().getLocalPort());
++            } catch(Exception | AssertionError failure) {
++                try { close(); } catch(Exception cleanup) { failure.addSuppressed(cleanup); } throw failure;
++            }
++        }
++        private void register(String name,Object value) { context.getBeanFactory().registerSingleton(name,value); }
++        @SuppressWarnings("unchecked") private <T> T transactional(T target) {
++            var proxy=new ProxyFactory(target); proxy.setProxyTargetClass(true);
++            var advice=new TransactionInterceptor(context.getBean(PlatformTransactionManager.class),new AnnotationTransactionAttributeSource());
++            advice.setBeanFactory(context.getBeanFactory()); proxy.addAdvice(advice); return (T)proxy.getProxy();
++        }
++        private void seedRules() {
++            for(String task:List.of("local-review-feedback","global-review-action")) {
++                var rule=new WorkflowTaskRoutingRuleEntity(); rule.setProcessDefinitionKey("SafranFeedbackWorkflow"); rule.setTaskKey(task);
++                rule.setSiteKey("SAESB"); rule.setTaskName(task.equals("local-review-feedback") ? "SAESB: Local Support Feedback" : "Global team feedback review"); rule.setCandidateGroupId(13L);
++                context.getBean(WorkflowTaskRoutingRuleRepository.class).saveAndFlush(rule);
++            }
++            var config=CustomerGoldenSeed.load("safran-feedback").processConfig("config-email-v2.json","SafranFeedbackWorkflow");
++            for(var entry:config.path("mailTasks")) {
++                var mail=entry.path("emailConfig"); var rule=new WorkflowNotificationRuleEntity(); rule.setProcessDefinitionKey("SafranFeedbackWorkflow");
++                rule.setActivityId(entry.path("emailTaskId").asText()); rule.setTaskKey(entry.path("userTaskId").asText());
++                rule.setTemplateName(mail.path("ftlTemplate").asText()); rule.setFrom("insight@example.invalid"); rule.setSubject(mail.path("subject").asText());
++                rule.setRecipientSelector(rule.getTaskKey().equals("start") ? WorkflowNotificationRuleEntity.RecipientSelector.AUTHENTICATED_ACM_INITIATOR : WorkflowNotificationRuleEntity.RecipientSelector.AUTHENTICATED_ACM_COMPLETING_ACTOR);
++                context.getBean(WorkflowNotificationService.class).saveRule(rule);
++            }
++        }
++        String request(String method,String path,String token,byte[] body,String type,int expected) throws Exception {
++            var response=send(method,path,token,body,type);
++            assertThat(response.statusCode()).as(method+" "+path+" => "+response.body()).isEqualTo(expected); return response.body();
++        }
++        java.net.http.HttpResponse<String> send(String method,String path,String token,byte[] body,String type) throws Exception {
++            var builder=java.net.http.HttpRequest.newBuilder(base.resolve(path)).timeout(Duration.ofSeconds(30)).header("Content-Type",type);
++            if(token!=null) { builder.header("Authorization","Bearer "+token); }
++            builder.method(method,body==null ? java.net.http.HttpRequest.BodyPublishers.noBody() : java.net.http.HttpRequest.BodyPublishers.ofByteArray(body));
++            return client.send(builder.build(),java.net.http.HttpResponse.BodyHandlers.ofString());
++        }
++        void refuse(String method,String path,String token,byte[] body,String type,int expected) throws Exception {
++            var before=snapshot();
++            var response=send(method,path,token,body,type);
++            var after=snapshot();
++            var changed=before.keySet().stream().filter(table -> !Objects.equals(before.get(table),after.get(table))).toList();
++            AssertionError mutationFailure=null;
++            try { receipt(fixture,"refusal-no-mutation",changed,List.of()); }
++            catch(AssertionError mutation) { mutationFailure=mutation; }
++            String route=path.startsWith(ARCHIVES) ? "publication" : path.equals("/api/internal/process-instance") ? "start"
++                    : path.equals("/api/internal/form/data") ? "submit" : path.startsWith("/api/internal/form/data?") ? "read"
++                    : path.contains("raw-content") ? "upload" : path.substring(path.lastIndexOf('/')+1);
++            String actor=token==null ? "anonymous" : token.equals(system) ? "system" : token.equals(owner) ? "owner"
++                    : token.equals(refused) ? "non-assignee" : token.equals(reviewer) ? "reviewer" : "invalid-token";
++            try { receipt(fixture,"refuse-"+route+"-"+actor+"-"+expected,response.statusCode(),expected); }
++            catch(AssertionError statusFailure) { if(mutationFailure!=null) { statusFailure.addSuppressed(mutationFailure); } throw statusFailure; }
++            if(mutationFailure!=null) { throw mutationFailure; }
++            refusalCount++;
++        }
++        Map<String,List<String>> snapshot() throws Exception {
++            Map<String,List<String>> rows=new TreeMap<>();
++            try(var connection=context.getBean(javax.sql.DataSource.class).getConnection()) {
++                connection.setAutoCommit(false); connection.setTransactionIsolation(java.sql.Connection.TRANSACTION_REPEATABLE_READ);
++                List<String> tables=new ArrayList<>();
++                try(var statement=connection.prepareStatement("select tablename from pg_tables where schemaname=?")) {
++                    statement.setString(1,schema);
++                    try(var result=statement.executeQuery()) { while(result.next()) { tables.add(result.getString(1)); } }
++                }
++                for(String table:tables) {
++                    List<String> records=new ArrayList<>();
++                    try(var statement=connection.createStatement();var result=statement.executeQuery("select row_to_json(t)::text from "+table+" t")) {
++                        while(result.next()) { records.add(result.getString(1)); }
++                    }
++                    records.sort(Comparator.naturalOrder()); rows.put(table,records);
++                }
++                connection.rollback();
++            }
++            var messages=new ArrayList<String>(); for(var message:capture.messages()) { var bytes=new ByteArrayOutputStream(); message.writeTo(bytes); messages.add(Base64.getEncoder().encodeToString(bytes.toByteArray())); }
++            rows.put("captured-mail",messages);
++            rows.put("captured-content-writes",content.writes().stream()
++                    .map(write -> write.storeId()+":"+write.lengthHint()+":"+Base64.getEncoder().encodeToString(write.bytes())).toList());
++            List<String> files=new ArrayList<>();
++            for(var file:content.getFiles()) {
++                try(var input=file.getContent()) { files.add(file.getStoreId()+":"+Base64.getEncoder().encodeToString(input.readAllBytes())); }
++            }
++            rows.put("captured-content",files); return rows;
++        }
++        @Override public synchronized void close() throws Exception {
++            if (closed) { return; }
++            closed=true;
++            List<AutoCloseable> cleanup=new ArrayList<>();
++            if(server!=null) { cleanup.add(server::stop); cleanup.add(server::destroy); }
++            cleanup.add(web::close);
++            if(apps!=null) { cleanup.add(apps::close); }
++            cleanup.add(context::close); cleanup.add(client::close);
++            cleanup.add(() -> Authentication.setAuthenticationContext(previous));
++            cleanup.add(() -> {
++                try(var connection=postgres.createConnection("");var statement=connection.createStatement()) {
++                    statement.execute("drop schema if exists "+schema+" cascade");
++                }
++            });
++            if(directory!=null) { cleanup.add(() -> {
++                try(var paths=Files.walk(directory)) {
++                    for(var path:paths.sorted(Comparator.reverseOrder()).toList()) { Files.delete(path); }
++                }
++            }); }
++            Exception failure=null;
++            for(var resource:cleanup) {
++                try { resource.close(); }
++                catch(Exception error) { if(failure==null) { failure=error; } else { failure.addSuppressed(error); } }
++            }
++            if(failure!=null) { throw failure; }
++        }
++    }
++
++    /** Replaces only ACM's HTTP transport; production AuthService/AcmLoginTalk validation still execute. */
++    static class LocalAcmTransport extends HttpTransport {
++        private final byte[] key=new byte[32]; int verifications;
++        int lifetimeSeconds=300;
++        final String issuer="isolated-http-"+UUID.randomUUID();
++        final List<Map<String, List<String>>> requestHeaders = new ArrayList<>();
++        LocalAcmTransport() { new SecureRandom().nextBytes(key); }
++        String token(String username,boolean system) throws Exception {
++            var claims=new JWTClaimsSet.Builder().subject(username).issuer(issuer)
++                    .claim("email",username).claim("firstname","Synthetic").claim("lastname","Actor")
++                    .claim("roles",system ? List.of(Const.GROUP_ADMINISTRATOR) : List.of()).claim("groups",List.of())
++                    .claim("accountType","SYSTEM").expirationTime(Date.from(Instant.now().plusSeconds(lifetimeSeconds))).build();
++            var token=new SignedJWT(new JWSHeader(JWSAlgorithm.HS256),claims); token.sign(new MACSigner(key)); return token.serialize();
++        }
++        @Override protected LowLevelHttpRequest buildRequest(String method,String url) {
++            assertThat(method).isEqualTo("PUT"); assertThat(url).isEqualTo("https://acm.example.invalid/api/auth");
++            return new LowLevelHttpRequest() {
++                private final Map<String, List<String>> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
++                @Override public void addHeader(String name,String value) {
++                    headers.computeIfAbsent(name, ignored -> new ArrayList<>()).add(value);
++                }
++                @Override public LowLevelHttpResponse execute() throws IOException {
++                    requestHeaders.add(Map.copyOf(headers));
++                    verifications++; var bytes=new ByteArrayOutputStream(); getStreamingContent().writeTo(bytes);
++                    boolean valid=false;
++                    try {
++                        var token=SignedJWT.parse(JSON.readTree(bytes.toByteArray()).path("token").asText());
++                        valid=token.verify(new MACVerifier(key)) && issuer.equals(token.getJWTClaimsSet().getIssuer())
++                                && Set.of(OWNER,REFUSED,REVIEWER).contains(token.getJWTClaimsSet().getSubject())
++                                && token.getJWTClaimsSet().getExpirationTime().after(new Date());
++                    } catch(Exception invalid) { valid=false; }
++                    final int status=valid ? 200 : 401;
++                    return new LowLevelHttpResponse() {
++                        @Override public InputStream getContent() { return new ByteArrayInputStream("{}".getBytes(StandardCharsets.UTF_8)); }
++                        @Override public String getContentEncoding() { return null; }
++                        @Override public long getContentLength() { return 2; }
++                        @Override public String getContentType() { return "application/json"; }
++                        @Override public String getStatusLine() { return "HTTP/1.1 "+status; }
++                        @Override public int getStatusCode() { return status; }
++                        @Override public String getReasonPhrase() { return status==200 ? "OK" : "Unauthorized"; }
++                        @Override public int getHeaderCount() { return 0; }
++                        @Override public String getHeaderName(int index) { throw new IndexOutOfBoundsException(index); }
++                        @Override public String getHeaderValue(int index) { throw new IndexOutOfBoundsException(index); }
++                    };
++                }
++            };
++        }
++    }
++}
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/scenario/InsightBrowserRuntime.java b/insight-rest/src/test/java/com/flatirons/insight/scenario/InsightBrowserRuntime.java
+new file mode 100644
+index 00000000..230d182d
+--- /dev/null
++++ b/insight-rest/src/test/java/com/flatirons/insight/scenario/InsightBrowserRuntime.java
+@@ -0,0 +1,123 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.scenario;
++
++import com.fasterxml.jackson.databind.ObjectMapper;
++import jakarta.servlet.http.HttpServlet;
++import jakarta.servlet.http.HttpServletRequest;
++import jakarta.servlet.http.HttpServletResponse;
++import java.io.IOException;
++import java.nio.file.*;
++import java.nio.file.attribute.PosixFilePermissions;
++import java.security.MessageDigest;
++import java.util.*;
++import java.util.concurrent.CountDownLatch;
++import java.util.concurrent.TimeUnit;
++import org.testcontainers.containers.PostgreSQLContainer;
++
++/** Bounded standalone launcher on the test classpath; authenticates requests, not the credential login UI. */
++public final class InsightBrowserRuntime {
++    static final String FIXTURE_HASH="efbb7849ac80b1eb9a165d439b22f5a51dc57ae1b96f353cfa507b3d942eab08";
++    static final ObjectMapper JSON=new ObjectMapper();
++
++    public static void main(String[] args) throws Exception {
++        if (args.length!=3) {
++            throw new IllegalArgumentException("Usage: InsightBrowserRuntime <readiness.json> <session-control.json> <seconds:1..3600>");
++        }
++        int seconds=Integer.parseInt(args[2]);
++        if (seconds<1 || seconds>3600) { throw new IllegalArgumentException("Runtime must be bounded to 1..3600 seconds"); }
++        Path ready=Path.of(args[0]).toAbsolutePath(), control=Path.of(args[1]).toAbsolutePath();
++        if (ready.equals(control) || Files.exists(ready) || Files.exists(control)) {
++            throw new IllegalArgumentException("Receipt paths must be distinct and must not already exist");
++        }
++        var stopped=new CountDownLatch(1);
++        var cleaned=new CountDownLatch(1);
++        var hook=new Thread(() -> {
++            stopped.countDown();
++            try { cleaned.await(60,TimeUnit.SECONDS); }
++            catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); }
++        },"insight-browser-shutdown");
++        Runtime.getRuntime().addShutdownHook(hook);
++        try (var postgres=new PostgreSQLContainer<>("postgres:16-alpine")) {
++            postgres.start();
++            var session=new Session(seconds,stopped);
++            try (var run=new CustomerWorkflowHttpRuntime.HttpRun(postgres,"form-app",seconds,session)) {
++                session.run=run;
++                publish(run);
++                run.request("GET","/api/internal/user/info",run.owner,null,"application/json",200);
++                Map<String,Object> receipt=receipt(run,sourceCommit());
++                Files.createFile(control,PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------")));
++                Files.writeString(control,JSON.writeValueAsString(Map.of("bootstrapUrl",run.base+"/api/internal/__test/session","capability",session.capability)));
++                Files.writeString(ready,JSON.writeValueAsString(receipt),StandardOpenOption.CREATE_NEW);
++                System.out.println("INSIGHT_BROWSER_READY "+JSON.writeValueAsString(receipt));
++                stopped.await(seconds,TimeUnit.SECONDS);
++            }
++        } finally {
++            try {
++                Files.deleteIfExists(ready);
++                Files.deleteIfExists(control);
++            } finally {
++                cleaned.countDown();
++                try { Runtime.getRuntime().removeShutdownHook(hook); }
++                catch (IllegalStateException shuttingDown) { /* JVM shutdown is already in progress. */ }
++            }
++        }
++    }
++
++    static String publish(CustomerWorkflowHttpRuntime.HttpRun run) throws Exception {
++        byte[] archive;
++        try (var input=InsightBrowserRuntime.class.getClassLoader().getResourceAsStream("scenarios/customers/form-app/app.zip")) {
++            if (input==null) { throw new IOException("Missing pinned FormApp archive"); }
++            archive=input.readAllBytes();
++        }
++        String hash=HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(archive));
++        if (!FIXTURE_HASH.equals(hash)) { throw new IllegalStateException("Pinned FormApp archive hash differs"); }
++        return JSON.readTree(run.request("POST","/api/internal/workflow-archives",run.system,archive,"application/zip",200))
++                .path("processDefinitions").get(0).path("id").asText();
++    }
++
++    static Map<String,Object> receipt(CustomerWorkflowHttpRuntime.HttpRun run,String commit) {
++        return Map.of("sourceCommit",commit,"runId",run.schema,"schema",run.schema,"baseUrl",run.base.toString(),
++                "fixtureSha256",FIXTURE_HASH,"authenticationProof","browser requests; credential login UI excluded");
++    }
++
++    static String sourceCommit() throws Exception {
++        var process=new ProcessBuilder("git","rev-parse","HEAD").redirectErrorStream(true).start();
++        if (!process.waitFor(5,TimeUnit.SECONDS)) {
++            process.destroyForcibly(); process.waitFor(); throw new IOException("Source commit lookup timed out");
++        }
++        String sha=new String(process.getInputStream().readAllBytes(),java.nio.charset.StandardCharsets.UTF_8).trim();
++        if (process.exitValue()!=0 || !sha.matches("[0-9a-f]{40}")) { throw new IOException("Cannot resolve source commit"); }
++        return sha;
++    }
++
++    static final class Session extends HttpServlet {
++        final String capability=UUID.randomUUID().toString()+UUID.randomUUID();
++        final int seconds;
++        final CountDownLatch stopped;
++        volatile CustomerWorkflowHttpRuntime.HttpRun run;
++        Session(int seconds,CountDownLatch stopped) { this.seconds=seconds; this.stopped=stopped; }
++        @Override protected void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException {
++            response.setHeader("Cache-Control","no-store");
++            var current=run;
++            String origin=request.getHeader("Origin");
++            if (current==null || !"127.0.0.1".equals(request.getRemoteAddr())
++                    || !"127.0.0.1".equals(request.getServerName())
++                    || (origin!=null && !current.base.toString().equals(origin))
++                    || !capability.equals(request.getHeader("X-Insight-Test-Capability"))) {
++                response.sendError(403); return;
++            }
++            String actor=request.getParameter("actor");
++            if ("shutdown".equals(actor)) { response.setStatus(204); stopped.countDown(); return; }
++            String token=switch (actor==null ? "" : actor) {
++                case "owner" -> current.owner;
++                case "nonassignee" -> current.refused;
++                case "invalid" -> "invalid-token";
++                case "anonymous" -> "";
++                default -> null;
++            };
++            if (token==null) { response.sendError(400); return; }
++            response.setHeader("Set-Cookie","acmToken="+token+"; Path=/; HttpOnly; SameSite=Lax; Max-Age="+(token.isEmpty() ? 0 : seconds));
++            response.setStatus(204);
++        }
++    }
++}
+diff --git a/insight-rest/src/test/java/com/flatirons/insight/scenario/InsightBrowserRuntimeTest.java b/insight-rest/src/test/java/com/flatirons/insight/scenario/InsightBrowserRuntimeTest.java
+new file mode 100644
+index 00000000..70db2bf4
+--- /dev/null
++++ b/insight-rest/src/test/java/com/flatirons/insight/scenario/InsightBrowserRuntimeTest.java
+@@ -0,0 +1,82 @@
++/** Copyright (c) 2026, Flatirons Solutions. All Rights Reserved. */
++package com.flatirons.insight.scenario;
++
++import static org.assertj.core.api.Assertions.*;
++import java.net.*;
++import java.net.http.*;
++import java.nio.file.*;
++import java.util.*;
++import java.util.concurrent.CountDownLatch;
++import org.junit.jupiter.api.Test;
++import org.testcontainers.containers.PostgreSQLContainer;
++import org.testcontainers.junit.jupiter.*;
++
++@Testcontainers
++class InsightBrowserRuntimeTest {
++    @Container static final PostgreSQLContainer<?> POSTGRES=new PostgreSQLContainer<>("postgres:16-alpine");
++
++    @Test void cookieIdentityRealQueriesRefusalsAndFreshSchemaCleanup() throws Exception {
++        String previous=null;
++        for (int repeat=0;repeat<2;repeat++) {
++            var session=new InsightBrowserRuntime.Session(120,new CountDownLatch(1));
++            String schema; Path directory; URI base;
++            try (var run=new CustomerWorkflowHttpRuntime.HttpRun(POSTGRES,"form-app",120,session)) {
++                session.run=run; schema=run.schema; directory=run.directory; base=run.base;
++                assertThat(schema).isNotEqualTo(previous); previous=schema;
++                assertThat(run.engine.getRuntimeService().createProcessInstanceQuery().count()).isZero();
++                String definition=InsightBrowserRuntime.publish(run);
++                var receipt=InsightBrowserRuntime.receipt(run,InsightBrowserRuntime.sourceCommit());
++                assertThat(receipt.get("fixtureSha256")).isEqualTo(InsightBrowserRuntime.FIXTURE_HASH);
++                assertThat(InsightBrowserRuntime.JSON.writeValueAsString(receipt)).doesNotContain(run.owner,session.capability,"password");
++                var cookies=new CookieManager(null,CookiePolicy.ACCEPT_ALL);
++                try (var browser=HttpClient.newBuilder().cookieHandler(cookies).build()) {
++                    assertThat(send(browser,base,"GET","/api/internal/user/info",null,null).statusCode()).isEqualTo(401);
++                    assertThat(bootstrap(browser,run,session,"owner",null).statusCode()).isEqualTo(403);
++                    assertThat(bootstrap(browser,run,session,"owner",session.capability).statusCode()).isEqualTo(204);
++                    assertThat(cookies.getCookieStore().getCookies().stream().filter(cookie -> cookie.getName().equals("acmToken")).findFirst().orElseThrow().isHttpOnly()).isTrue();
++                    assertThat(send(browser,base,"GET","/api/internal/user/info",null,null).body()).contains(CustomerWorkflowHttpRuntime.OWNER);
++                    assertThat(send(browser,base,"GET","/api/internal/app/definitions",null,null).body()).contains("FormApp");
++                    assertThat(send(browser,base,"GET","/api/internal/process-definitions?latest=true",null,null).body()).contains(definition);
++                    String payload=InsightBrowserRuntime.JSON.writeValueAsString(Map.of("processDefinitionId",definition));
++                    var start=send(browser,base,"POST","/api/internal/process-instance",payload,null);
++                    assertThat(start.statusCode()).isEqualTo(200);
++                    String process=InsightBrowserRuntime.JSON.readTree(start.body()).path("id").asText();
++                    String task=run.engine.getTaskService().createTaskQuery().processInstanceId(process).list().getFirst().getId();
++                    var tasks=send(browser,base,"POST","/api/internal/query/tasks","{\"state\":\"active\",\"assignment\":\"assignee\"}",null);
++                    assertThat(tasks.statusCode()).as(tasks.body()).isEqualTo(200); assertThat(tasks.body()).contains(task);
++                    var details=send(browser,base,"GET","/api/internal/task/"+task,null,null);
++                    assertThat(details.statusCode()).isEqualTo(200); assertThat(details.body()).contains(task);
++                    var processes=send(browser,base,"POST","/api/internal/query/process-instances","{\"state\":\"running\"}",null);
++                    assertThat(processes.statusCode()).isEqualTo(200); assertThat(processes.body()).contains(process);
++                    for (String actor:List.of("nonassignee","anonymous","invalid")) {
++                        assertThat(bootstrap(browser,run,session,actor,session.capability).statusCode()).isEqualTo(204);
++                        var info=send(browser,base,"GET","/api/internal/user/info",null,null);
++                        assertThat(info.statusCode()).isEqualTo(actor.equals("nonassignee") ? 200 : 401);
++                        if (actor.equals("nonassignee")) { assertThat(info.body()).contains(CustomerWorkflowHttpRuntime.REFUSED); }
++                        var before=run.snapshot();
++                        var refusal=send(browser,base,"PUT","/api/internal/task/"+task+"/action/complete",null,null);
++                        assertThat(refusal.statusCode()).isEqualTo(actor.equals("invalid") ? 401 : 403);
++                        assertThat(run.snapshot()).isEqualTo(before);
++                    }
++                }
++            }
++            assertThat(directory).doesNotExist();
++            try (var connection=POSTGRES.createConnection("");var statement=connection.prepareStatement("select count(*) from information_schema.schemata where schema_name=?")) {
++                statement.setString(1,schema);
++                try (var result=statement.executeQuery()) { result.next(); assertThat(result.getInt(1)).isZero(); }
++            }
++            try (var client=HttpClient.newHttpClient()) {
++                assertThatThrownBy(() -> send(client,base,"GET","/api/internal/user/info",null,null)).isInstanceOf(java.io.IOException.class);
++            }
++        }
++    }
++
++    static HttpResponse<String> bootstrap(HttpClient browser,CustomerWorkflowHttpRuntime.HttpRun run,InsightBrowserRuntime.Session session,String actor,String capability) throws Exception {
++        return send(browser,run.base,"GET","/api/internal/__test/session?actor="+actor,null,capability);
++    }
++    static HttpResponse<String> send(HttpClient client,URI base,String method,String path,String body,String capability) throws Exception {
++        var request=HttpRequest.newBuilder(base.resolve(path)).timeout(java.time.Duration.ofSeconds(30)).header("Content-Type","application/json");
++        if (capability!=null) { request.header("X-Insight-Test-Capability",capability); }
++        return client.send(request.method(method,body==null ? HttpRequest.BodyPublishers.noBody() : HttpRequest.BodyPublishers.ofString(body)).build(),HttpResponse.BodyHandlers.ofString());
++    }
++}
