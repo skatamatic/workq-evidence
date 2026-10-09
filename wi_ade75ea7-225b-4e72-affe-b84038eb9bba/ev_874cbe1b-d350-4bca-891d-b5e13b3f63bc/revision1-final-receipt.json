@@ -1,0 +1,21 @@
+{
+  "revision": "4e293085d0a8884a3435befdc12c00a0fe8d06a4",
+  "uniqueTests": 1918,
+  "scenarioInvocations": 583,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "commands": {
+    "verify -fae": "ev_7749f4e3-2148-4dff-95fd-6f21f954f668",
+    "clean install -fae": "ev_725f59f1-f8d7-4c10-bb9a-6c92d71d2fa8"
+  },
+  "httpRepeats": {
+    "form-app": 2,
+    "safran-feedback": 2
+  },
+  "customerParity": {
+    "deployed": 4,
+    "asserted": 17,
+    "pending": 11
+  }
+}
