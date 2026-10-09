@@ -1,0 +1,89 @@
+[
+  {
+    "case": "immediate-late-failure",
+    "pluginVersion": "3.0.0",
+    "containerPluginVersions": [
+      "3.0.0",
+      "3.0.0"
+    ],
+    "deployAtEnd": false,
+    "exit": 1,
+    "publishedPoms": [
+      "local/proof/before/1.0/before-1.0.pom",
+      "local/proof/root/1.0/root-1.0.pom"
+    ],
+    "publishedFiles": [
+      "local/proof/before/1.0/before-1.0.pom",
+      "local/proof/before/1.0/before-1.0.pom.md5",
+      "local/proof/before/1.0/before-1.0.pom.sha1",
+      "local/proof/before/maven-metadata.xml",
+      "local/proof/before/maven-metadata.xml.md5",
+      "local/proof/before/maven-metadata.xml.sha1",
+      "local/proof/root/1.0/root-1.0.pom",
+      "local/proof/root/1.0/root-1.0.pom.md5",
+      "local/proof/root/1.0/root-1.0.pom.sha1",
+      "local/proof/root/maven-metadata.xml",
+      "local/proof/root/maven-metadata.xml.md5",
+      "local/proof/root/maven-metadata.xml.sha1"
+    ]
+  },
+  {
+    "case": "deferred-late-failure",
+    "pluginVersion": "3.0.0",
+    "containerPluginVersions": [
+      "3.0.0",
+      "3.0.0"
+    ],
+    "deployAtEnd": true,
+    "exit": 1,
+    "publishedPoms": [],
+    "publishedFiles": []
+  },
+  {
+    "case": "deferred-skipped-tail-failure",
+    "pluginVersion": "3.0.0",
+    "containerPluginVersions": [
+      "3.0.0",
+      "3.0.0"
+    ],
+    "deployAtEnd": true,
+    "exit": 1,
+    "publishedPoms": [],
+    "publishedFiles": []
+  },
+  {
+    "case": "deferred-success",
+    "pluginVersion": "3.0.0",
+    "containerPluginVersions": [
+      "3.0.0",
+      "3.0.0"
+    ],
+    "deployAtEnd": true,
+    "exit": 0,
+    "publishedPoms": [
+      "local/proof/before/1.0/before-1.0.pom",
+      "local/proof/gate/1.0/gate-1.0.pom",
+      "local/proof/root/1.0/root-1.0.pom"
+    ],
+    "publishedFiles": [
+      "local/proof/before/1.0/before-1.0.pom",
+      "local/proof/before/1.0/before-1.0.pom.md5",
+      "local/proof/before/1.0/before-1.0.pom.sha1",
+      "local/proof/before/maven-metadata.xml",
+      "local/proof/before/maven-metadata.xml.md5",
+      "local/proof/before/maven-metadata.xml.sha1",
+      "local/proof/gate/1.0/gate-1.0.pom",
+      "local/proof/gate/1.0/gate-1.0.pom.md5",
+      "local/proof/gate/1.0/gate-1.0.pom.sha1",
+      "local/proof/gate/maven-metadata.xml",
+      "local/proof/gate/maven-metadata.xml.md5",
+      "local/proof/gate/maven-metadata.xml.sha1",
+      "local/proof/root/1.0/root-1.0.pom",
+      "local/proof/root/1.0/root-1.0.pom.md5",
+      "local/proof/root/1.0/root-1.0.pom.sha1",
+      "local/proof/root/maven-metadata.xml",
+      "local/proof/root/maven-metadata.xml.md5",
+      "local/proof/root/maven-metadata.xml.sha1"
+    ]
+  }
+]
