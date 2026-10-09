@@ -1,0 +1,38 @@
+{
+  "state": "MERGED",
+  "source": "b604db0c56f1",
+  "base": "kwesley/workflow-scenario-port",
+  "merge": "199397b95041",
+  "ci": {
+    "jenkins": [
+      {
+        "job": "PR-81",
+        "build": 4,
+        "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-81/4/",
+        "head": "b604db0c56f129e521d7a8cdd118573ea40a285f",
+        "result": "SUCCESS",
+        "uniqueTests": 1954,
+        "scenarioInvocations": 619,
+        "failures": 0,
+        "skipped": 0
+      },
+      {
+        "job": "kwesley%2Fformapp-feedback-http-security",
+        "build": 5,
+        "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/kwesley%252Fformapp-feedback-http-security/5/",
+        "head": "b604db0c56f129e521d7a8cdd118573ea40a285f",
+        "result": "SUCCESS",
+        "uniqueTests": 1954,
+        "scenarioInvocations": 619,
+        "failures": 0,
+        "skipped": 0
+      }
+    ],
+    "sonar": {
+      "job": "PR-81/4",
+      "task": "ba951fd3-a029-4fa5-b35a-d8982ad84b88",
+      "qualityGate": "OK"
+    },
+    "publicationCases": 7
+  }
+}
