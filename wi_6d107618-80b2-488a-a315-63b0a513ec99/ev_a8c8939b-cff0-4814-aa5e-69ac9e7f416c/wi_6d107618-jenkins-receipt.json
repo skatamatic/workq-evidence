@@ -1,0 +1,56 @@
+{
+  "head": "34c1d38f98d2dc9e853e5a82aa00507f997c4014",
+  "buildUrl": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-44/2/",
+  "result": "SUCCESS",
+  "durationMs": 1804792,
+  "receiptUrl": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-44/2/artifact/test-results/forms-verify/run-kgsmtQ/receipt.json",
+  "artifactIndex": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-44/2/artifact/",
+  "testReport": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-44/2/testReport/",
+  "counts": {
+    "required": 12,
+    "selected": 12,
+    "executed": 12,
+    "skipped": 0,
+    "excluded": 0,
+    "assertions": 60,
+    "supportingAssertions": 16
+  },
+  "toolingTests": 19,
+  "matrixElapsedMs": 170788,
+  "versions": {
+    "@flatirons/component-library": "20.3.16-feature-etc-insight.1791070420",
+    "@flatirons/flatirons-icon-font": "4.1.4",
+    "@playwright/test": "1.59.1",
+    "playwright-core": "1.59.1",
+    "tinymce": "6.8.6",
+    "@angular/core": "20.3.16",
+    "@angular-devkit/build-angular": "20.3.14",
+    "@angular/build": "20.3.24",
+    "@angular/compiler-cli": "20.3.16",
+    "typescript": "5.9.3",
+    "karma": "6.4.4",
+    "karma-jasmine": "5.1.0",
+    "karma-chrome-launcher": "3.2.0",
+    "nx": "21.6.10"
+  },
+  "node": "v24.12.0",
+  "checkedArtifactHashes": 101,
+  "junitPassCount": 1784,
+  "junitCountsByIdentity": {
+    "ci.forms-matrix": 1,
+    "ci.unit-coverage": 1,
+    "ci.unit": 1705,
+    "forms.angular": 12,
+    "forms.browser": 12,
+    "forms.contract": 36,
+    "forms.verification": 17
+  },
+  "sonar": "completed OK",
+  "dirtySummary": {
+    "tracked": [
+      "M .npmrc"
+    ],
+    "untrackedMavenCachePaths": 762,
+    "original": "Preserved verbatim in archived strict receipt; Jenkins credential configuration modified .npmrc, but its contents are not archived."
+  }
+}
