@@ -1,0 +1,11 @@
+{
+  "state": "MERGED",
+  "base": "kwesley/workflow-scenario-port",
+  "merge": "af9a93faae2c",
+  "source": "65a97d2770e4e37434a0bacd00f958a583c6d165",
+  "checks": "PR and branch Jenkins build3 SUCCESSFUL",
+  "localTests": 1459,
+  "scenarioTests": 288,
+  "parity": "4 deployed /13 asserted /15 pending",
+  "limitation": "Direct Jenkins console TCP connection timed out. Captain reproduced internal VPN/network limitation; detailed Sonar conditions unavailable. Passed exact-head statuses and local receipts used under captain direction."
+}
