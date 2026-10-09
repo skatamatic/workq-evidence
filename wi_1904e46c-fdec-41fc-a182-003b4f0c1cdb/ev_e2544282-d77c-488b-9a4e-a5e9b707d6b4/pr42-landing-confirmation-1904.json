@@ -1,0 +1,27 @@
+{
+  "pr": "https://bitbucket.org/flatironssolutions/etc-client/pull-requests/42",
+  "state": "MERGED",
+  "sourceHead": "503f984740cc",
+  "base": "kwesley/insight-next",
+  "mergeCommit": "a5bb6e64c820e88da819edee5d0e12df500938e6",
+  "capturedAt": "2026-10-09T12:53:01.190Z",
+  "approvedHead": "503f984740cc964996b558fae0cc083e2284b776",
+  "targetContainsApprovedHead": true,
+  "mergedTreeMatchesApprovedHead": true,
+  "remoteHeadsRemoved": [
+    "kwesley/source-backed-form-fixtures",
+    "workq/wi_1904e46c-fdec-41fc-a182-003b4f0c1cdb"
+  ],
+  "mergeValidation": {
+    "baseBuildExit": 0,
+    "mergedCandidateBuildExit": 0,
+    "pinnedBase": "b429288a7b3efd97bc377e3041934a9669edf613",
+    "lockMergeExit": 0
+  },
+  "ciReceipt": "ev_ddb8c05d-a03d-4537-ae0c-2425c5affe63",
+  "unavailableProof": [
+    "immediate readonly-transition retention",
+    "real database persistence",
+    "full customer workflow journey"
+  ]
+}
