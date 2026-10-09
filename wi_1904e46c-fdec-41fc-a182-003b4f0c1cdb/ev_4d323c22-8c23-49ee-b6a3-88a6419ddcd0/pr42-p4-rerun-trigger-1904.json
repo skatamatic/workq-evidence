@@ -1,0 +1,20 @@
+{
+  "head": "503f984740cc964996b558fae0cc083e2284b776",
+  "at": "2026-10-09T12:08:09.839Z",
+  "authorization": "Captain explicitly requested unchanged-head PR and branch reruns after agent loss",
+  "onlineBuilders": [],
+  "results": [
+    {
+      "job": "PR-42",
+      "triggered": true,
+      "status": 201,
+      "queueUrl": "https://build.flatirons.cloud/queue/item/42875/"
+    },
+    {
+      "job": "kwesley%252Fsource-backed-form-fixtures",
+      "triggered": true,
+      "status": 201,
+      "queueUrl": "https://build.flatirons.cloud/queue/item/42876/"
+    }
+  ]
+}
