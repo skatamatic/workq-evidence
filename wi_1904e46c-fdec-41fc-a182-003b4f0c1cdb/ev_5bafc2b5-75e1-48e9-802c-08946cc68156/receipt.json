@@ -1,0 +1,60 @@
+{
+  "proof": "in-memory JSON serialization and rendering; not database persistence",
+  "head": "f86425b2bc4b584ca44c90eb871e566a05471179",
+  "node": "v22.17.0",
+  "library": "20.3.16-feature-etc-insight.1791070420",
+  "playwright": "1.59.1",
+  "baseURL": "http://127.0.0.1:49683",
+  "buildMs": 9083,
+  "sourceHashes": {
+    "package-lock.json": "fd4c7d0694c7ddf4d7c667963ff3bec6289b0033bec1dbab0f5037137d2bf530",
+    "tools/forms-browser/host/main.ts": "cb762d592b504a3f6b7379e603aca79eeec3734b2c120ee822fe4c0beb74666b",
+    "tools/forms-browser/tests/pilots.spec.ts": "45db69acff4020fd9e4c7aded244b430c4147f00efee39265955ae9de6e3dc05",
+    "src/testing/form-fixtures/components/dropdown.fixture.ts": "eba6e11f58861992a2cd21dacf8cebc79092c9061290521571f110817847ace2",
+    "src/testing/form-fixtures/components/embedded.fixture.ts": "2b43034d39fe4545617944d7f2d9cfa3bc482f6e5b96a09589530ff844735cad",
+    "src/testing/form-fixtures/components/source-feedback/source-feedback.fixture.ts": "a71029c292e465abb85a9624e2210c4483d30d766dd0680860f7e465791e7418",
+    "src/testing/form-fixtures/source-backed-contract.ts": "2830d3869f833f6cc147a1f9fe1f4b5737d138a5fbf240d933d529fb9abb7307",
+    "src/testing/form-fixtures/components/source-feedback/reviewed-contract.ts": "ba08ff0ad9529b7ffbd422bf8c82ccdd4f85f0cfb40fdf4743f2a3a0450621f2",
+    "src/testing/form-fixtures/components/source-feedback/legacy-projection.json": "b58baff5315c34d7576dcb89884bdf58c127e077acdff4645919e2f6176db318"
+  },
+  "selection": [],
+  "canary": null,
+  "complete": true,
+  "stats": {
+    "startTime": "2026-10-09T05:39:49.796Z",
+    "duration": 16117.250999999998,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "caseIds": [
+    "source-feedback/supported-selection",
+    "source-feedback/explicit-clear",
+    "dropdown/default",
+    "dropdown/explicit-null-clear",
+    "dropdown/required",
+    "dropdown/configured-disabled",
+    "dropdown/readonly",
+    "embedded/hide",
+    "embedded/remount-populated",
+    "embedded/remount-clear"
+  ],
+  "excludedCaseIds": [
+    "dropdown/multiple-empty-clear",
+    "dropdown/selection",
+    "embedded/disable",
+    "embedded/enable"
+  ],
+  "browserVersion": "147.0.7727.15",
+  "elapsedMs": 26007,
+  "browserExitCode": 0,
+  "exitCode": 0,
+  "timedOut": false,
+  "interrupted": false,
+  "peakOrchestratorRssBytes": 67256320,
+  "memoryScope": "session Node process only; excludes compiler/browser descendants",
+  "tinymce": "6.8.6",
+  "iconFont": "4.1.4",
+  "dirty": "M AGENTS.md"
+}
