@@ -1,0 +1,19 @@
+{
+  "url": "https://bitbucket.org/flatironssolutions/etc-client/pull-requests/40",
+  "state": "OPEN",
+  "base": "kwesley/insight-next",
+  "head": "kwesley/forms-test-diagnostics-karma-isolation",
+  "sha": "5def247bd835",
+  "checks": [
+    {
+      "name": "Research & Development Client Apps » etc-client » kwesley/forms-test-diagnostics-karma-isolation #1",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fforms-test-diagnostics-karma-isolation/1/display/redirect"
+    },
+    {
+      "name": "Research & Development Client Apps » etc-client » Fail unexpected forms diagnostics and isolate Karma runs (#40) #1",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-40/1/display/redirect"
+    }
+  ]
+}
