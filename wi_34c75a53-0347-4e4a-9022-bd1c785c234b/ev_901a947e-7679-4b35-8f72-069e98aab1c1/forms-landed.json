@@ -1,0 +1,8 @@
+{
+  "state": "MERGED",
+  "base": "kwesley/insight-next",
+  "mergeCommit": "8b03192c7de5",
+  "integrationHead": "8b03192c7de5bd390c3aa58ee63febb864912d53",
+  "approvedHead": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+  "approvedHeadAncestor": true
+}
