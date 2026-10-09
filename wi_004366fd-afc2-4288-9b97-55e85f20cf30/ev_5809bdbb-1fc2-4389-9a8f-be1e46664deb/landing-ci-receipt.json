@@ -1,0 +1,23 @@
+[
+  {
+    "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-83/3/",
+    "checkout": [
+      "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+      "918bbe7469b1ff3ef564b86d107ae2b2924b495d"
+    ],
+    "end": "SUCCESS",
+    "sonar": [
+      "[INFO] 14:44:39.059 ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.flatirons.cloud/dashboard?id=com.flatirons.insight%3Ainsight-root&pullRequest=83",
+      "Qube task 'b445c0e2-1015-4910-a6be-6d41bb8185cc' completed. Quality gate is 'OK'"
+    ]
+  },
+  {
+    "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/kwesley%252Fsecure-pin-inspector-authority/3/",
+    "checkout": [
+      "a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c",
+      "918bbe7469b1ff3ef564b86d107ae2b2924b495d"
+    ],
+    "end": "SUCCESS",
+    "sonar": []
+  }
+]
