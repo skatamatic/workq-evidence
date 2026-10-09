@@ -1,0 +1,893 @@
+{
+  "measuredAt": "2026-10-09T05:32:13.721Z",
+  "sourceHead": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+  "callerTargetBase": "origin/kwesley/insight-next",
+  "targetBaseSha": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+  "measurements": [
+    {
+      "name": "fresh-full",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout",
+      "revision": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+      "base": {
+        "baseRef": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "baseSha": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "mergeBase": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "changed": [
+          "docs/design/form-builder/forms-verification.md",
+          "docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md",
+          "package.json",
+          "src/test.ts",
+          "src/testing/form-fixtures/angular-matrix.spec.ts",
+          "src/testing/form-fixtures/catalog.spec.ts",
+          "src/testing/form-fixtures/components/dropdown.fixture.ts",
+          "src/testing/form-fixtures/components/embedded.fixture.ts",
+          "src/testing/form-fixtures/showcase.generated.json",
+          "tools/form-fixtures/catalog.mjs",
+          "tools/forms-browser/build-cache.cjs",
+          "tools/forms-browser/build-cache.test.cjs",
+          "tools/forms-browser/host/main.ts",
+          "tools/forms-browser/result-receipt.cjs",
+          "tools/forms-browser/result-receipt.test.cjs",
+          "tools/forms-browser/run.cjs",
+          "tools/forms-browser/session.cjs",
+          "tools/forms-browser/tests/matrix.spec.ts",
+          "tools/forms-browser/tests/pilots.spec.ts",
+          "tools/forms-verify/benchmark.cjs",
+          "tools/forms-verify/inputs.cjs",
+          "tools/forms-verify/inputs.test.cjs",
+          "tools/forms-verify/isolated-checkout.cjs",
+          "tools/forms-verify/karma-receipt.cjs",
+          "tools/forms-verify/karma.conf.cjs",
+          "tools/forms-verify/negative.cjs",
+          "tools/forms-verify/receipt.cjs",
+          "tools/forms-verify/receipt.test.cjs",
+          "tools/forms-verify/run.cjs",
+          "tools/forms-verify/selection.cjs",
+          "tools/forms-verify/selection.test.cjs",
+          "tools/forms-verify/tsconfig.spec.json"
+        ]
+      },
+      "fingerprint": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+      "durationMs": 77571,
+      "receiptElapsedMs": 76892,
+      "counts": {
+        "required": 12,
+        "selected": 12,
+        "executed": 12,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 60,
+        "supportingAssertions": 16
+      },
+      "toolingTestCount": 19,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 6045,
+          "peakCommandRssBytes": 61227008,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 2445,
+          "peakCommandRssBytes": 207568896,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 30861,
+          "peakCommandRssBytes": 2912944128,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:).*"
+          ],
+          "durationMs": 35485,
+          "peakCommandRssBytes": 1554890752,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:54934",
+      "karmaBrowsers": [
+        "53134409"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout/test-results/forms-verify/run-8O3aB5",
+      "buildCache": {
+        "hit": false,
+        "key": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+        "proof": "fresh successful browser host build; all tests execute"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "warm-full-1",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout",
+      "revision": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+      "base": {
+        "baseRef": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "baseSha": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "mergeBase": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "changed": [
+          "docs/design/form-builder/forms-verification.md",
+          "docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md",
+          "package.json",
+          "src/test.ts",
+          "src/testing/form-fixtures/angular-matrix.spec.ts",
+          "src/testing/form-fixtures/catalog.spec.ts",
+          "src/testing/form-fixtures/components/dropdown.fixture.ts",
+          "src/testing/form-fixtures/components/embedded.fixture.ts",
+          "src/testing/form-fixtures/showcase.generated.json",
+          "tools/form-fixtures/catalog.mjs",
+          "tools/forms-browser/build-cache.cjs",
+          "tools/forms-browser/build-cache.test.cjs",
+          "tools/forms-browser/host/main.ts",
+          "tools/forms-browser/result-receipt.cjs",
+          "tools/forms-browser/result-receipt.test.cjs",
+          "tools/forms-browser/run.cjs",
+          "tools/forms-browser/session.cjs",
+          "tools/forms-browser/tests/matrix.spec.ts",
+          "tools/forms-browser/tests/pilots.spec.ts",
+          "tools/forms-verify/benchmark.cjs",
+          "tools/forms-verify/inputs.cjs",
+          "tools/forms-verify/inputs.test.cjs",
+          "tools/forms-verify/isolated-checkout.cjs",
+          "tools/forms-verify/karma-receipt.cjs",
+          "tools/forms-verify/karma.conf.cjs",
+          "tools/forms-verify/negative.cjs",
+          "tools/forms-verify/receipt.cjs",
+          "tools/forms-verify/receipt.test.cjs",
+          "tools/forms-verify/run.cjs",
+          "tools/forms-verify/selection.cjs",
+          "tools/forms-verify/selection.test.cjs",
+          "tools/forms-verify/tsconfig.spec.json"
+        ]
+      },
+      "fingerprint": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+      "durationMs": 43116,
+      "receiptElapsedMs": 42920,
+      "counts": {
+        "required": 12,
+        "selected": 12,
+        "executed": 12,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 60,
+        "supportingAssertions": 16
+      },
+      "toolingTestCount": 19,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 3486,
+          "peakCommandRssBytes": 59899904,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 1423,
+          "peakCommandRssBytes": 209108992,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 11357,
+          "peakCommandRssBytes": 1888485376,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:).*"
+          ],
+          "durationMs": 25507,
+          "peakCommandRssBytes": 312639488,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:55374",
+      "karmaBrowsers": [
+        "9788616"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout/test-results/forms-verify/run-eWoNJe",
+      "buildCache": {
+        "hit": true,
+        "key": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+        "proof": "validated immutable browser host build; all tests execute again"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "warm-full-2",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout",
+      "revision": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+      "base": {
+        "baseRef": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "baseSha": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "mergeBase": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "changed": [
+          "docs/design/form-builder/forms-verification.md",
+          "docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md",
+          "package.json",
+          "src/test.ts",
+          "src/testing/form-fixtures/angular-matrix.spec.ts",
+          "src/testing/form-fixtures/catalog.spec.ts",
+          "src/testing/form-fixtures/components/dropdown.fixture.ts",
+          "src/testing/form-fixtures/components/embedded.fixture.ts",
+          "src/testing/form-fixtures/showcase.generated.json",
+          "tools/form-fixtures/catalog.mjs",
+          "tools/forms-browser/build-cache.cjs",
+          "tools/forms-browser/build-cache.test.cjs",
+          "tools/forms-browser/host/main.ts",
+          "tools/forms-browser/result-receipt.cjs",
+          "tools/forms-browser/result-receipt.test.cjs",
+          "tools/forms-browser/run.cjs",
+          "tools/forms-browser/session.cjs",
+          "tools/forms-browser/tests/matrix.spec.ts",
+          "tools/forms-browser/tests/pilots.spec.ts",
+          "tools/forms-verify/benchmark.cjs",
+          "tools/forms-verify/inputs.cjs",
+          "tools/forms-verify/inputs.test.cjs",
+          "tools/forms-verify/isolated-checkout.cjs",
+          "tools/forms-verify/karma-receipt.cjs",
+          "tools/forms-verify/karma.conf.cjs",
+          "tools/forms-verify/negative.cjs",
+          "tools/forms-verify/receipt.cjs",
+          "tools/forms-verify/receipt.test.cjs",
+          "tools/forms-verify/run.cjs",
+          "tools/forms-verify/selection.cjs",
+          "tools/forms-verify/selection.test.cjs",
+          "tools/forms-verify/tsconfig.spec.json"
+        ]
+      },
+      "fingerprint": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+      "durationMs": 44130,
+      "receiptElapsedMs": 43833,
+      "counts": {
+        "required": 12,
+        "selected": 12,
+        "executed": 12,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 60,
+        "supportingAssertions": 16
+      },
+      "toolingTestCount": 19,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 4136,
+          "peakCommandRssBytes": 60784640,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 1547,
+          "peakCommandRssBytes": 213712896,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 11167,
+          "peakCommandRssBytes": 1822425088,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:).*"
+          ],
+          "durationMs": 25800,
+          "peakCommandRssBytes": 311197696,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:55844",
+      "karmaBrowsers": [
+        "72094687"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout/test-results/forms-verify/run-yARzI9",
+      "buildCache": {
+        "hit": true,
+        "key": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+        "proof": "validated immutable browser host build; all tests execute again"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "focused-clear",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout",
+      "revision": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+      "base": {
+        "baseRef": "HEAD",
+        "baseSha": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+        "mergeBase": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+        "changed": []
+      },
+      "fingerprint": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+      "durationMs": 29373,
+      "receiptElapsedMs": 29255,
+      "counts": {
+        "required": 12,
+        "selected": 1,
+        "executed": 1,
+        "skipped": 0,
+        "excluded": 11,
+        "assertions": 5,
+        "supportingAssertions": 15
+      },
+      "toolingTestCount": 19,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 3308,
+          "peakCommandRssBytes": 59473920,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 1433,
+          "peakCommandRssBytes": 211632128,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 11396,
+          "peakCommandRssBytes": 1824817152,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:).*"
+          ],
+          "durationMs": 11709,
+          "peakCommandRssBytes": 242499584,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:56239",
+      "karmaBrowsers": [
+        "41873234"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-KYrKOk/checkout/test-results/forms-verify/run-9QzfuD",
+      "buildCache": {
+        "hit": true,
+        "key": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+        "proof": "validated immutable browser host build; all tests execute again"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "concurrent-right",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-Y39gcd/checkout",
+      "revision": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+      "base": {
+        "baseRef": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "baseSha": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "mergeBase": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "changed": [
+          "docs/design/form-builder/forms-verification.md",
+          "docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md",
+          "package.json",
+          "src/test.ts",
+          "src/testing/form-fixtures/angular-matrix.spec.ts",
+          "src/testing/form-fixtures/catalog.spec.ts",
+          "src/testing/form-fixtures/components/dropdown.fixture.ts",
+          "src/testing/form-fixtures/components/embedded.fixture.ts",
+          "src/testing/form-fixtures/showcase.generated.json",
+          "tools/form-fixtures/catalog.mjs",
+          "tools/forms-browser/build-cache.cjs",
+          "tools/forms-browser/build-cache.test.cjs",
+          "tools/forms-browser/host/main.ts",
+          "tools/forms-browser/result-receipt.cjs",
+          "tools/forms-browser/result-receipt.test.cjs",
+          "tools/forms-browser/run.cjs",
+          "tools/forms-browser/session.cjs",
+          "tools/forms-browser/tests/matrix.spec.ts",
+          "tools/forms-browser/tests/pilots.spec.ts",
+          "tools/forms-verify/benchmark.cjs",
+          "tools/forms-verify/inputs.cjs",
+          "tools/forms-verify/inputs.test.cjs",
+          "tools/forms-verify/isolated-checkout.cjs",
+          "tools/forms-verify/karma-receipt.cjs",
+          "tools/forms-verify/karma.conf.cjs",
+          "tools/forms-verify/negative.cjs",
+          "tools/forms-verify/receipt.cjs",
+          "tools/forms-verify/receipt.test.cjs",
+          "tools/forms-verify/run.cjs",
+          "tools/forms-verify/selection.cjs",
+          "tools/forms-verify/selection.test.cjs",
+          "tools/forms-verify/tsconfig.spec.json"
+        ]
+      },
+      "fingerprint": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+      "durationMs": 91294,
+      "receiptElapsedMs": 91107,
+      "counts": {
+        "required": 12,
+        "selected": 12,
+        "executed": 12,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 60,
+        "supportingAssertions": 16
+      },
+      "toolingTestCount": 19,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 5274,
+          "peakCommandRssBytes": 60571648,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 2493,
+          "peakCommandRssBytes": 210960384,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 29238,
+          "peakCommandRssBytes": 2831548416,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:).*"
+          ],
+          "durationMs": 51273,
+          "peakCommandRssBytes": 1499774976,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:65063",
+      "karmaBrowsers": [
+        "95305345"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-Y39gcd/checkout/test-results/forms-verify/run-QwP2AJ",
+      "buildCache": {
+        "hit": false,
+        "key": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+        "proof": "fresh successful browser host build; all tests execute"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    },
+    {
+      "name": "concurrent-left",
+      "checkout": "/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-18Uvxz/checkout",
+      "revision": "865cd9f488ac6f301a19b2fca58f099d66f3d9ca",
+      "base": {
+        "baseRef": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "baseSha": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "mergeBase": "18072e87c47a9f455012503a1b7dae3f7e8e23da",
+        "changed": [
+          "docs/design/form-builder/forms-verification.md",
+          "docs/design/form-builder/skills/form-field-refactor-skill/SKILL.md",
+          "package.json",
+          "src/test.ts",
+          "src/testing/form-fixtures/angular-matrix.spec.ts",
+          "src/testing/form-fixtures/catalog.spec.ts",
+          "src/testing/form-fixtures/components/dropdown.fixture.ts",
+          "src/testing/form-fixtures/components/embedded.fixture.ts",
+          "src/testing/form-fixtures/showcase.generated.json",
+          "tools/form-fixtures/catalog.mjs",
+          "tools/forms-browser/build-cache.cjs",
+          "tools/forms-browser/build-cache.test.cjs",
+          "tools/forms-browser/host/main.ts",
+          "tools/forms-browser/result-receipt.cjs",
+          "tools/forms-browser/result-receipt.test.cjs",
+          "tools/forms-browser/run.cjs",
+          "tools/forms-browser/session.cjs",
+          "tools/forms-browser/tests/matrix.spec.ts",
+          "tools/forms-browser/tests/pilots.spec.ts",
+          "tools/forms-verify/benchmark.cjs",
+          "tools/forms-verify/inputs.cjs",
+          "tools/forms-verify/inputs.test.cjs",
+          "tools/forms-verify/isolated-checkout.cjs",
+          "tools/forms-verify/karma-receipt.cjs",
+          "tools/forms-verify/karma.conf.cjs",
+          "tools/forms-verify/negative.cjs",
+          "tools/forms-verify/receipt.cjs",
+          "tools/forms-verify/receipt.test.cjs",
+          "tools/forms-verify/run.cjs",
+          "tools/forms-verify/selection.cjs",
+          "tools/forms-verify/selection.test.cjs",
+          "tools/forms-verify/tsconfig.spec.json"
+        ]
+      },
+      "fingerprint": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+      "durationMs": 91862,
+      "receiptElapsedMs": 91109,
+      "counts": {
+        "required": 12,
+        "selected": 12,
+        "executed": 12,
+        "skipped": 0,
+        "excluded": 0,
+        "assertions": 60,
+        "supportingAssertions": 16
+      },
+      "toolingTestCount": 19,
+      "phases": [
+        {
+          "name": "tooling",
+          "command": [
+            "/usr/local/bin/node",
+            "--test",
+            "tools/forms-verify/selection.test.cjs",
+            "tools/forms-verify/inputs.test.cjs",
+            "tools/forms-verify/receipt.test.cjs",
+            "tools/forms-browser/build-cache.test.cjs",
+            "tools/forms-browser/result-receipt.test.cjs"
+          ],
+          "durationMs": 5107,
+          "peakCommandRssBytes": 60751872,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "tooling.log"
+          ]
+        },
+        {
+          "name": "catalog",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/form-fixtures/catalog.mjs",
+            "--check"
+          ],
+          "durationMs": 2616,
+          "peakCommandRssBytes": 212647936,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "catalog.log"
+          ]
+        },
+        {
+          "name": "angular",
+          "command": [
+            "/usr/local/bin/node",
+            "node_modules/nx/bin/nx.js",
+            "run",
+            "etc-client:test",
+            "--watch=false",
+            "--skip-nx-cache",
+            "--output-style=stream",
+            "--tsConfig=tools/forms-verify/tsconfig.spec.json",
+            "--karmaConfig=tools/forms-verify/karma.conf.cjs",
+            "--include=src/testing/**/*.spec.ts"
+          ],
+          "durationMs": 29952,
+          "peakCommandRssBytes": 2931294208,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "angular.log"
+          ]
+        },
+        {
+          "name": "browser",
+          "command": [
+            "/usr/local/bin/node",
+            "tools/forms-browser/session.cjs",
+            "--grep",
+            "(Matrix |Dropdown:|Embedded:).*"
+          ],
+          "durationMs": 50388,
+          "peakCommandRssBytes": 1400897536,
+          "memoryScope": "OS time maximum RSS for the command; not simultaneous aggregate process-tree memory",
+          "exitCode": 0,
+          "timedOut": false,
+          "interrupted": false,
+          "artifacts": [
+            "browser.log"
+          ]
+        }
+      ],
+      "browserURL": "http://127.0.0.1:65071",
+      "karmaBrowsers": [
+        "47671511"
+      ],
+      "output": "/private/var/folders/2m/v1mmq__j1z5cytk4dpmbn0ph0000gn/T/forms-proof-18Uvxz/checkout/test-results/forms-verify/run-0YO5ls",
+      "buildCache": {
+        "hit": false,
+        "key": "60da8611f19a6850811f05e78c9fab3f145566a51a583f78c5b616dc2bc4211d",
+        "proof": "fresh successful browser host build; all tests execute"
+      },
+      "complete": true,
+      "exitCode": 0,
+      "memoryScope": "OS time per-command maximum RSS, not simultaneous aggregate memory; checkout provisioning excluded from wall time"
+    }
+  ],
+  "failure": null,
+  "goals": {
+    "warmFullMs": 120000,
+    "focusedMs": 30000
+  },
+  "isolation": "independent CoW/temporary Git checkouts, node_modules, compiler state, dynamic ports, profiles and artifact roots; immutable Git objects shared"
+}
