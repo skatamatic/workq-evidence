@@ -1,0 +1,20 @@
+{
+  "testedRevision": "a444c4605f5c7de6d4980d877873ccc51453eb15",
+  "prHead": "a444c4605f5c",
+  "base": "kwesley/insight-next",
+  "capturedAt": "2026-10-09T05:26:44.862Z",
+  "statuses": [
+    {
+      "name": "Research & Development Client Apps » etc-client » kwesley/source-backed-form-fixtures #2",
+      "key": "a95043a9f96a9ee39b2255af9092d6b6",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/kwesley%252Fsource-backed-form-fixtures/2/display/redirect"
+    },
+    {
+      "name": "Research & Development Client Apps » etc-client » Add source-backed Feedback Action form fixtures (#42) #2",
+      "key": "7b96d6c5cd362ef457b9485be7a360b5",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/etc-client/job/PR-42/2/display/redirect"
+    }
+  ]
+}
