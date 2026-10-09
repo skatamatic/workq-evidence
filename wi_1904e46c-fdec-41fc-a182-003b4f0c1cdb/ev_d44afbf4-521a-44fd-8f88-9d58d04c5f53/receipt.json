@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "mode": "full",
+  "startedAt": "2026-10-09T07:38:16.101Z",
+  "output": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_1904e46c-fdec-41fc-a182-003b4f0c1cdb/test-results/forms-verify/run-ANkHuq",
+  "complete": false,
+  "exitCode": 1,
+  "phases": [],
+  "outcomes": [],
+  "supportingOutcomes": [],
+  "diagnostics": [
+    "Installed @angular/build 20.3.38 differs from lockfile"
+  ],
+  "requiredCaseIds": [],
+  "executedCaseIds": [],
+  "selection": {
+    "ids": []
+  },
+  "pendingCapabilities": [],
+  "unproved": [
+    "HTTP/database persistence",
+    "customer conversion and legacy parity",
+    "workflow delivery",
+    "full product E2E"
+  ],
+  "memoryScope": "orchestrator RSS only; compiler/browser descendants excluded",
+  "resources": {
+    "socketRoot": "/tmp/forms-nx-8JvwqE",
+    "nxWorkspace": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_1904e46c-fdec-41fc-a182-003b4f0c1cdb/test-results/forms-verify/run-ANkHuq/nx-workspace",
+    "nxCache": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_1904e46c-fdec-41fc-a182-003b4f0c1cdb/test-results/forms-verify/run-ANkHuq/nx-cache",
+    "output": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-clones/workq_wi_1904e46c-fdec-41fc-a182-003b4f0c1cdb/test-results/forms-verify/run-ANkHuq",
+    "subprocessConcurrency": 1,
+    "angularWorkers": 2,
+    "managedChromium": true,
+    "socketRootRemoved": true
+  },
+  "canary": null,
+  "validationErrors": [
+    "Installed @angular/build 20.3.38 differs from lockfile"
+  ],
+  "elapsedMs": 609,
+  "peakOrchestratorRssBytes": 99205120,
+  "counts": {
+    "required": 0,
+    "selected": 0,
+    "executed": 0,
+    "skipped": 0,
+    "excluded": 0,
+    "assertions": 0,
+    "supportingAssertions": 0
+  },
+  "artifacts": [
+    "receipt.json"
+  ],
+  "artifactHashes": {}
+}
