@@ -1,0 +1,7 @@
+{
+  "specialty": "tests",
+  "reviewedHead": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+  "base": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "summary": "All seven variable and fourteen content routes have real HTTP refusal/authorized outcome assertions. Named refused actors, persisted/storage snapshots, byte assertions and direct service cases provide material coverage; full run executed without skips.",
+  "findings": []
+}
