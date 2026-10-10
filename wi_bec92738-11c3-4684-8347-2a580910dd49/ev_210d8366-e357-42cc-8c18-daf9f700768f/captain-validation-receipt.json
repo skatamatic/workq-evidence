@@ -1,0 +1,26 @@
+{
+  "source": "81871b8c08f7b3e5c017c7cca69e3d71cd4435be",
+  "testedTarget": "3f04cd4aa788691e6bbc8b10d88da9541f1925af",
+  "command": "configured mvn install -fae, all tests/parity enabled",
+  "exit": 0,
+  "uniqueSurefireTests": 2343,
+  "scenarioCases": 881,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "WAR": "insight-package/target/insight-server.war",
+  "fullGateEvidence": "ev_c772213a-8c5c-428c-95e3-5ae592c3dae4",
+  "remoteJenkinsSonar": "pending fresh exact-head/current-target checks",
+  "assertedAnalysisDimensions": [
+    "customer-path"
+  ],
+  "remainingAnalysisDimensions": "five PENDING; general archive publication PENDING",
+  "selfReview": [
+    "correctness:clean",
+    "pattern-conformance:clean",
+    "tests:clean"
+  ],
+  "exactMatchedAfterEvidence": "ev_0124da36-ab8d-4306-ae39-79c4f367c31c",
+  "localDiffJacocoEstimate": 92.6,
+  "localCoverageNote": "approximate only; authoritative Sonar pending"
+}
