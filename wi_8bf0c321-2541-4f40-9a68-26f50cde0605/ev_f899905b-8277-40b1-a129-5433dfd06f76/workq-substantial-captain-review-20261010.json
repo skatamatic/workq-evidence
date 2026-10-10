@@ -1,0 +1,48 @@
+{
+  "capturedAt": "2026-10-10T20:40:44.800Z",
+  "threshold": "Block only confirmed substantial correctness, security or PR-purpose defects; minor heartbeat cleanup is nonblocking; no redundant review passes.",
+  "pr1616": {
+    "reviewed": "0c8d39f07eb84bc2c5a7744f573bb246b26e0d40",
+    "current": "bc4f334a4b51f700ddc060a7e3487a3a18fd5178",
+    "delta": "Only one assertion in probe-evidence-capability.spec.ts changed; cited resolver byte-identical.",
+    "finding": "Selected symlinked Playwright package resolves wrong hoisted core and does not invalidate selected-core revision.",
+    "proof": "/tmp/workq-pr1616-symlink-core-proof-20261010.json",
+    "publicReply": {
+      "id": 4239127882,
+      "url": "https://github.com/scopear/workq/pull/1616#discussion_r4239127882",
+      "commit": "4f3e91e003a3b2067593571218c0460eea969f1c",
+      "originalCommit": "4f3e91e003a3b2067593571218c0460eea969f1c"
+    },
+    "direction": "/tmp/workq-pr1616-captain-symlink-direction-20261010.md",
+    "ci": "0c8 run38083875016 unit2/2 failure verified; same-worker CI repair bc4 current CI running; no approval"
+  },
+  "pr1617": {
+    "reviewed": "cce32e3458d041c635dd2cc0a45d489896e68ac3",
+    "ci": "Exact run38083831950 complete all9SUCCESS",
+    "finding": "Both diagnostics unavailable promotes external forge check.name/error text outside CI-log trust boundary.",
+    "proof": "/tmp/workq-pr1617-unavailable-repair-proof-20261010.json",
+    "resolved": [
+      "source green/current-target unknown",
+      "successful Sonar-only fencing",
+      "diagnostic lease timeout; remaining handle cleanup NONBLOCKING"
+    ],
+    "rootRepairProofs": [
+      "/tmp/workq-pr1617-target-green-repaired-20261010.json",
+      "/tmp/workq-pr1617-sonar-only-repair-proof-20261010.json"
+    ],
+    "resolvedThreads": [
+      "PRRT_kwDOTi7irc6rHYIE",
+      "PRRT_kwDOTi7irc6rHYIK"
+    ],
+    "publicReply": {
+      "id": 4239128469,
+      "url": "https://github.com/scopear/workq/pull/1617#discussion_r4239128469",
+      "commit": "0f0aedb96013a667b3970a98913d9843aba513d2",
+      "originalCommit": "0f0aedb96013a667b3970a98913d9843aba513d2"
+    },
+    "direction": "/tmp/workq-pr1617-captain-unavailable-direction-20261010.md"
+  },
+  "landAuthorized": false,
+  "formalApproval": false,
+  "policy": "Actual develop requires non-author approval. gh authenticated identity skatamatic equals authors of both reviewed-ready PR1614/1615; cannot self-approve or bypass."
+}
