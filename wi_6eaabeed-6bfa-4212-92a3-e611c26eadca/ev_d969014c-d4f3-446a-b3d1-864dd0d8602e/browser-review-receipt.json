@@ -1,0 +1,45 @@
+{
+  "sourceCommit": "5498f0ae57a979a03f4c2a5409977fc12c6f877c",
+  "counts": {
+    "tests": 2203,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "runtimeSuites": [
+    {
+      "suite": "com.flatirons.insight.scenario.InsightBrowserRuntimeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.flatirons.insight.scenario.TaskSignatureScenarioTest",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "com.flatirons.insight.scenario.InsightBrowserLauncherTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "fixtureSha256": "efbb7849ac80b1eb9a165d439b22f5a51dc57ae1b96f353cfa507b3d942eab08",
+  "limitations": [
+    "Real credential login UI not exercised",
+    "All ten client browser task forms belong to dependent smoke",
+    "Exact-head remote Jenkins/Sonar require captain receipts"
+  ]
+}
