@@ -1,0 +1,15 @@
+{
+  "reviewedAt": "2026-10-10T17:22:09.985819+00:00",
+  "repo": "insight-server",
+  "pr": 111,
+  "source": "c9cff77e56d602e9c067adfe65d59d111c1c7b91",
+  "mergeBase": "e117e2f50bf7a48205d2c2678ec8e30e15dea6e0",
+  "mode": "external-pr",
+  "lensesRan": [
+    "correctness",
+    "tests"
+  ],
+  "findings": [],
+  "summary": "Both independent captain lenses returned no material findings. Correct unknown-group success/manual resolution, sibling/identity links/both reassignment arms, notification recipients/facts/refusal snapshots/fixture hashes/exhaustive gateways traced. Broader customer/full journey pending.",
+  "limitations": "Static independent reviews; full current-target integration and remote gates separately required."
+}
