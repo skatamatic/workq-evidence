@@ -1,0 +1,928 @@
+{
+  "capturedAt": "2026-10-10T22:31:08.847282+00:00",
+  "jobs": [
+    {
+      "capturedAt": "2026-10-10T22:29:55.117039+00:00",
+      "name": "PR110",
+      "number": 4,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+            "branch": [
+              {
+                "SHA1": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+                "name": "PR-110"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/PR110-exact4-2230-console-20261010.txt",
+      "consoleSha256": "082ba60be0a543a98add5acfa89323f053039c8509d03f7fdbd3e169df02bd8e",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying pull request build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": false,
+      "terminalMechanism": "Agent return timeout; marked offline Connection was broken.",
+      "matchingTerminalConsoleLines": [
+        "Timeout waiting for agent to come back",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-110-4-7v1h4-7ss3b-0qh22; rd-insight-server-pr-110-4-7v1h4-7ss3b-0qh22 was marked offline: Connection was broken",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.079729+00:00",
+      "name": "source110",
+      "number": 4,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+            "branch": [
+              {
+                "SHA1": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+                "name": "kwesley/mdcr-integration-contract"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/source110-exact4-2230-console-20261010.txt",
+      "consoleSha256": "69f4ca5acb2720aa6e42a67985df799f0846e1cc9365c979af12bfff63671e3f",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying commit build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": false,
+      "terminalMechanism": "Agent return timeout; marked offline Connection was broken.",
+      "matchingTerminalConsoleLines": [
+        "Timeout waiting for agent to come back",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-kwesley-2fmdcr-integration-contract-4-g-t3pq8; rd-insight-server-kwesley-2fmdcr-integration-contract-4-g-t3pq8 was marked offline: Connection was broken",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.107903+00:00",
+      "name": "PR111",
+      "number": 5,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "d6a06aa1134c43c677874b63f3c16666626540f3",
+            "branch": [
+              {
+                "SHA1": "d6a06aa1134c43c677874b63f3c16666626540f3",
+                "name": "PR-111"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/PR111-exact5-2230-console-20261010.txt",
+      "consoleSha256": "b3ff6a76a586527d0547254ea1159c87f45e9ddc3fca89700b752524bc1ef6d5",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying pull request build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": false,
+      "terminalMechanism": "Agent return timeout; marked offline Connection was broken.",
+      "matchingTerminalConsoleLines": [
+        "Timeout waiting for agent to come back",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-111-5-6w2ns-md1vc-6wqj3; rd-insight-server-pr-111-5-6w2ns-md1vc-6wqj3 was marked offline: Connection was broken",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.089662+00:00",
+      "name": "source111",
+      "number": 5,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "d6a06aa1134c43c677874b63f3c16666626540f3",
+            "branch": [
+              {
+                "SHA1": "d6a06aa1134c43c677874b63f3c16666626540f3",
+                "name": "kwesley/analysis-conditional-parity"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/source111-exact5-2230-console-20261010.txt",
+      "consoleSha256": "b69ea73f1f69dbc0367af1d2012b4d07f1f68b2bde30b0a8641834d17f1af155",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying commit build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": false,
+      "terminalMechanism": "Agent return timeout; marked offline Connection was broken.",
+      "matchingTerminalConsoleLines": [
+        "Timeout waiting for agent to come back",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-kwesley-2fanalysis-conditional-parity-5-2stj5; rd-insight-server-kwesley-2fanalysis-conditional-parity-5-2stj5 was marked offline: Connection was broken",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.093066+00:00",
+      "name": "PR112",
+      "number": 3,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+            "branch": [
+              {
+                "SHA1": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+                "name": "PR-112"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/PR112-exact3-2230-console-20261010.txt",
+      "consoleSha256": "601f289d780e203888f2a69036d6c28e3e2fce5806c438f7deaa132b3fc55ab7",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying pull request build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": false,
+      "terminalMechanism": "Agent return timeout; marked offline Connection was broken.",
+      "matchingTerminalConsoleLines": [
+        "Timeout waiting for agent to come back",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-112-3-5t40q-33mxq-4j5cb; rd-insight-server-pr-112-3-5t40q-33mxq-4j5cb was marked offline: Connection was broken",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.121436+00:00",
+      "name": "source112",
+      "number": 3,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+            "branch": [
+              {
+                "SHA1": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+                "name": "kwesley/remediate-quarantined-workflow-identities"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/source112-exact3-2230-console-20261010.txt",
+      "consoleSha256": "d77987289cf0581103185dc09ff2b4b5fe024874c13d968dd812365e99da6267",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying commit build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": true,
+      "terminalMechanism": "Agent deleted after ClosedChannelException; marked offline Pod failed with null reason/message; node body cancelled.",
+      "matchingTerminalConsoleLines": [
+        "ver-kwesley-2fremediate-quarantined-workflow-identities-3-713kw seems to be removed or offline (hudson.remoting.RequestAbortedException: java.nio.channels.ClosedChannelException); will wait for 5 min 0 sec for it to come back online",
+        "Agent ver-kwesley-2fremediate-quarantined-workflow-identities-3-713kw was deleted; cancelling node body",
+        "Agent was removed",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for ver-kwesley-2fremediate-quarantined-workflow-identities-3-713kw; ver-kwesley-2fremediate-quarantined-workflow-identities-3-713kw was marked offline: Pod failed (Reason: null, Message: null)",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.224192+00:00",
+      "name": "PR113",
+      "number": 2,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+            "branch": [
+              {
+                "SHA1": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+                "name": "PR-113"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/PR113-exact2-2230-console-20261010.txt",
+      "consoleSha256": "542bcadfde67aeb7de1336eeb3345cb3dc118d34a5de097379df28f5c1f1fe50",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying pull request build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": true,
+      "terminalMechanism": "Agent deleted after ClosedChannelException; marked offline Pod failed with null reason/message; node body cancelled.",
+      "matchingTerminalConsoleLines": [
+        "rd-insight-server-pr-113-2-2tprb-1k4h5-sskrg seems to be removed or offline (hudson.remoting.RequestAbortedException: java.nio.channels.ClosedChannelException); will wait for 5 min 0 sec for it to come back online",
+        "Agent rd-insight-server-pr-113-2-2tprb-1k4h5-sskrg was deleted; cancelling node body",
+        "Agent was removed",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-113-2-2tprb-1k4h5-sskrg; rd-insight-server-pr-113-2-2tprb-1k4h5-sskrg was marked offline: Pod failed (Reason: null, Message: null)",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "capturedAt": "2026-10-10T22:29:55.103966+00:00",
+      "name": "source113",
+      "number": 2,
+      "building": false,
+      "result": "ABORTED",
+      "applicationBuildData": [
+        {
+          "remoteUrls": [
+            "https://bitbucket.org/flatironssolutions/insight-server.git"
+          ],
+          "lastBuiltRevision": {
+            "SHA1": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+            "branch": [
+              {
+                "SHA1": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+                "name": "kwesley/authorize-content-variable-routes"
+              }
+            ]
+          }
+        }
+      ],
+      "consolePath": "/tmp/source113-exact2-2230-console-20261010.txt",
+      "consoleSha256": "9cbdb78242cab11fb6a06f843a962f86556f5421e61f77e1eda74a02add95681",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "taintDeletion": true,
+      "finishedAborted": true,
+      "tail": [
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+        "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+        "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+        "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+        "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+        "\tat java.base/java.lang.Thread.run(Unknown Source)",
+        "[Bitbucket] Notifying commit build result",
+        "[Bitbucket] Build result notified",
+        "Finished: ABORTED"
+      ],
+      "newTerminalSincePreviousCapture": true,
+      "terminalMechanism": "Agent deleted after ClosedChannelException; marked offline Pod failed with null reason/message; node body cancelled.",
+      "matchingTerminalConsoleLines": [
+        "ight-server-kwesley-2fauthorize-content-variable-routes-2-ssg3z seems to be removed or offline (hudson.remoting.RequestAbortedException: java.nio.channels.ClosedChannelException); will wait for 5 min 0 sec for it to come back online",
+        "Agent ight-server-kwesley-2fauthorize-content-variable-routes-2-ssg3z was deleted; cancelling node body",
+        "Agent was removed",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for ight-server-kwesley-2fauthorize-content-variable-routes-2-ssg3z; ight-server-kwesley-2fauthorize-content-variable-routes-2-ssg3z was marked offline: Pod failed (Reason: null, Message: null)",
+        "Finished: ABORTED"
+      ]
+    }
+  ],
+  "currentJobAndRecoveryState": {
+    "capturedAt": "2026-10-10T22:29:55.041769+00:00",
+    "jobs": [
+      {
+        "alias": "PR110",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "PR-110",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 4,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 3,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 4,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "source110",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "kwesley%2Fmdcr-integration-contract",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 4,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 3,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 4,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "PR111",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "PR-111",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 5,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 4,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 5,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "source111",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "kwesley%2Fanalysis-conditional-parity",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 5,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 4,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 5,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "PR112",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "PR-112",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 3,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 2,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 3,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "source112",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "kwesley%2Fremediate-quarantined-workflow-identities",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 3,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 2,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 3,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "PR113",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "PR-113",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 2,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 1,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 2,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      },
+      {
+        "alias": "source113",
+        "metadata": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+          "name": "kwesley%2Fauthorize-content-variable-routes",
+          "builds": [
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 2,
+              "result": "ABORTED"
+            },
+            {
+              "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+              "building": false,
+              "number": 1,
+              "result": "ABORTED"
+            }
+          ],
+          "lastBuild": {
+            "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+            "building": false,
+            "number": 2,
+            "result": "ABORTED"
+          },
+          "inQueue": false,
+          "queueItem": null
+        }
+      }
+    ],
+    "computers": {
+      "_class": "hudson.model.ComputerSet",
+      "computer": [
+        {
+          "_class": "hudson.model.Hudson$MasterComputer",
+          "displayName": "Built-In Node",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - Angular-Linux (i-008fc7df9757dcbc4)",
+          "idle": true,
+          "numExecutors": 4,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - page-windows-java21 (i-0d3f5ef9404e0c063)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - page-windows-java8 (i-01709b11cf0216f8e)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - page-windows-java8 (i-0400fae05807b5817)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - page-windows-java8 (i-0478dd0358e8cd4f5)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - pinpoint-windows-java21 (i-03a9523d74f456522)",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - pinpoint-windows-java21 (i-0653e9dfe725149c9)",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - pinpoint-windows-java21 (i-0a694ebb6c08e16b7)",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - pinpoint-windows-java21 (i-0ba4a72d2b5b7f786)",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (AWS EC2 Builders) - pinpoint-windows-java21 (i-0fc3bf3df5bd282c0)",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (Jenkinsfile-EC2-Builders) - jenkins-aws-ec2-winslave-img-studio-build-java8 (i-00c81f7b539e2faba)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (Jenkinsfile-EC2-Builders) - jenkins-aws-ec2-winslave-img-studio-build-java8 (i-01bf2702fa06b609f)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "This agent is offline because Jenkins failed to launch the agent process on it.",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.plugins.ec2.EC2Computer",
+          "displayName": "EC2 (Jenkinsfile-EC2-Builders) - jenkins-aws-ec2-winslave-img-studio-plugins-kcs-java8 (i-0e45f3b9559fa872e)",
+          "idle": true,
+          "numExecutors": 3,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "buildslave-aws1",
+          "idle": true,
+          "numExecutors": 2,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "ind-build-mac3",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "ind-build-mac4",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "This agent is offline because Jenkins failed to launch the agent process on it.",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "ind-build-mac5",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "ind-build-mac6",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "This agent is offline because Jenkins failed to launch the agent process on it.",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "kca-windows-node",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "kcs-studio-build-agent-aws",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": true,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "kcs-studio-build-agent-aws-vs2022",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "kcsclient-automation-testing-windows-node",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "mac-ipa-sdk16",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "nor-cislave-deploy2",
+          "idle": true,
+          "numExecutors": 2,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "nor-slave-ubuntu",
+          "idle": true,
+          "numExecutors": 2,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "pinpoint-automation-testing-windows-node_1",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "pinpoint-automation-testing-windows-node_2",
+          "idle": false,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "pinpoint-automation-testing-windows-node_3",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "pinpoint-automation-testing-windows-node_4",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        },
+        {
+          "_class": "hudson.slaves.SlaveComputer",
+          "displayName": "studio-build-agent-aws-win2025",
+          "idle": true,
+          "numExecutors": 1,
+          "offline": false,
+          "offlineCauseReason": "",
+          "temporarilyOffline": false
+        }
+      ]
+    }
+  },
+  "currentFullRefs": {
+    "refs/heads/kwesley/analysis-conditional-parity": "d6a06aa1134c43c677874b63f3c16666626540f3",
+    "refs/heads/kwesley/authorize-content-variable-routes": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+    "refs/heads/kwesley/mdcr-integration-contract": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+    "refs/heads/kwesley/remediate-quarantined-workflow-identities": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+    "refs/heads/kwesley/workflow-scenario-port": "e12fb0a9f83bb942d39e87158007ade16db22e6a"
+  },
+  "priorImmutableProofPath": "/tmp/insight-repeated-agent-loss-terminal-proof-20261010.json",
+  "priorImmutableProofSha256": "6edc710516811fe8e4d5cda956509cb61951aa8e67dbfa3a570e5e738340a5f3",
+  "conclusion": "All eight ONE ordinary replacement jobs terminal ABORTED after repeated CI agent loss. Five timed out with Connection was broken; final three had ClosedChannelException and agent deletion/Pod failed with null reason/message. All consoles include NoExecute-taint warnings. Specific cluster root cause remains unproven. No application defect or full CI/Sonar clearance established.",
+  "operatorAction": "Continue existing infrastructure hold. No automatic retry or worker product pass pending verified infrastructure recovery or concrete operator decision.",
+  "scope": "Infrastructure monitoring only for112/113; existing completed main110/111 reviews and local proofs retained. No source change, broad review, cap waiver, fleet/cluster/configuration mutation or new landing authority."
+}
