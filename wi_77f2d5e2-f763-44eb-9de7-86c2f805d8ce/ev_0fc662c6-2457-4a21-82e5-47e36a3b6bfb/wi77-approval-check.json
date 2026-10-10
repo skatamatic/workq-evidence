@@ -1,0 +1,104 @@
+{
+  "state": "OPEN",
+  "author": {
+    "name": "Kyle Wesley",
+    "uuid": "{26f0a210-daae-4767-aa71-fff74bc16779}"
+  },
+  "source": {
+    "branch": {
+      "name": "kwesley/task-form-summary-coverage",
+      "links": {},
+      "sync_strategies": [
+        "merge_commit",
+        "rebase"
+      ]
+    },
+    "commit": {
+      "hash": "9634017b8b7c",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-client/commit/9634017b8b7c"
+        },
+        "html": {
+          "href": "https://bitbucket.org/flatironssolutions/insight-client/commits/9634017b8b7c"
+        }
+      },
+      "type": "commit"
+    },
+    "repository": {
+      "type": "repository",
+      "full_name": "flatironssolutions/insight-client",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-client"
+        },
+        "html": {
+          "href": "https://bitbucket.org/flatironssolutions/insight-client"
+        },
+        "avatar": {
+          "href": "https://bytebucket.org/ravatar/%7Befb3887c-074a-4b38-8ff4-146da8394002%7D?ts=default"
+        }
+      },
+      "name": "Insight Client",
+      "uuid": "{efb3887c-074a-4b38-8ff4-146da8394002}"
+    }
+  },
+  "target": {
+    "branch": {
+      "name": "kwesley/insight-next"
+    },
+    "commit": {
+      "hash": "162e0371841c",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-client/commit/162e0371841c"
+        },
+        "html": {
+          "href": "https://bitbucket.org/flatironssolutions/insight-client/commits/162e0371841c"
+        }
+      },
+      "type": "commit"
+    },
+    "repository": {
+      "type": "repository",
+      "full_name": "flatironssolutions/insight-client",
+      "links": {
+        "self": {
+          "href": "https://api.bitbucket.org/2.0/repositories/flatironssolutions/insight-client"
+        },
+        "html": {
+          "href": "https://bitbucket.org/flatironssolutions/insight-client"
+        },
+        "avatar": {
+          "href": "https://bytebucket.org/ravatar/%7Befb3887c-074a-4b38-8ff4-146da8394002%7D?ts=default"
+        }
+      },
+      "name": "Insight Client",
+      "uuid": "{efb3887c-074a-4b38-8ff4-146da8394002}"
+    }
+  },
+  "participants": [
+    {
+      "name": "Kyle Wesley",
+      "uuid": "{26f0a210-daae-4767-aa71-fff74bc16779}",
+      "approved": false,
+      "state": null,
+      "role": "PARTICIPANT"
+    }
+  ],
+  "statuses": [
+    {
+      "key": "cb77146d8aa34630d1361aecc2376c9e",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/insight-client/job/kwesley%252Ftask-form-summary-coverage/3/display/redirect",
+      "description": "This commit looks good."
+    },
+    {
+      "key": "d78e707492253cf7f38351bceef08dbb",
+      "state": "SUCCESSFUL",
+      "url": "https://build.flatirons.cloud/job/RDCA/job/insight-client/job/PR-56/4/display/redirect",
+      "description": "This commit looks good."
+    }
+  ],
+  "comment": "Correction to my landing direction above: the Workq host-review gate requires an approval from a **non-author Bitbucket account**. This PR is authored under Kyle's account, so approval from that same account does not satisfy the gate; I removed the self-approval. The code review and exact-head Jenkins/Sonar findings remain valid, but PR56 stays OPEN. Please obtain an independent eligible host approval, then revalidate the source/target heads, two exact-source statuses and merge tree before landing. I will not use the unreviewed override or merge into master.\n"
+}
