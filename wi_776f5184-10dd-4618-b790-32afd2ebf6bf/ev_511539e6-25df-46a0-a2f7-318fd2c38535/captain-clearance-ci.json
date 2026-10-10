@@ -1,0 +1,23 @@
+{
+  "head": "84d010f7cf770d6da1f5eae8b20e8cede2778a16",
+  "pages": 1,
+  "checks": [
+    {
+      "key": "ed3ba4b9f71d35a613c48b3364955423",
+      "name": "Research & Development » insight-server » kwesley/unify-flowable-user-identity #3",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/kwesley%252Funify-flowable-user-identity/3/display/redirect",
+      "updated": "2026-10-10T09:01:03.531565+00:00",
+      "head": "84d010f7cf770d6da1f5eae8b20e8cede2778a16"
+    },
+    {
+      "key": "d53ba25e0d22d79d39aef075eb04ceee",
+      "name": "Research & Development » insight-server » Unify persisted Flowable user identity codec (#108) #3",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-108/3/display/redirect",
+      "updated": "2026-10-10T09:01:04.040533+00:00",
+      "head": "84d010f7cf770d6da1f5eae8b20e8cede2778a16"
+    }
+  ],
+  "assessment": "Inspect exact-head Jenkins and Sonar states; no merge authorization."
+}
