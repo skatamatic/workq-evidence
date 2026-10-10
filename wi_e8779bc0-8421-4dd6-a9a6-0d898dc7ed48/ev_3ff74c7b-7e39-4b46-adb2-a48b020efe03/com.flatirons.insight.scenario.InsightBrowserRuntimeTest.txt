@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Test set: com.flatirons.insight.scenario.InsightBrowserRuntimeTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 10.41 s <<< FAILURE! -- in com.flatirons.insight.scenario.InsightBrowserRuntimeTest
+com.flatirons.insight.scenario.InsightBrowserRuntimeTest.cookieIdentityRealQueriesRefusalsAndFreshSchemaCleanup -- Time elapsed: 4.354 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: 403
+ but was: 401
+	at com.flatirons.insight.scenario.InsightBrowserRuntimeTest.assertRefusedActors(InsightBrowserRuntimeTest.java:151)
+	at com.flatirons.insight.scenario.InsightBrowserRuntimeTest.cookieIdentityRealQueriesRefusalsAndFreshSchemaCleanup(InsightBrowserRuntimeTest.java:34)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
