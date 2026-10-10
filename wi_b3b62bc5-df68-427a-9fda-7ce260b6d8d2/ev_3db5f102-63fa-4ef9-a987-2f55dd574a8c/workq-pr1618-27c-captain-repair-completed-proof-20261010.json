@@ -1,0 +1,158 @@
+{
+  "capturedAt": "2026-10-10T21:27:21.686459+00:00",
+  "source": "27c79cd866ba16b8af9f12843b5e2917d3319c4c",
+  "baseline": "a5b46b37551afd212905eb5f49c3e2bff222530a",
+  "prUrl": "https://github.com/scopear/workq/pull/1618",
+  "scope": "Only three changed files; generated identity round trip and tracked skill mirror repair",
+  "independentCaptainCorrectness": {
+    "agent": "/root/lens_pr1618_correctness",
+    "findings": [],
+    "verdict": "Confirmed repair, no substantial findings"
+  },
+  "rootExactReplay": {
+    "at": "2026-10-10T21:25:58.342Z",
+    "head": "27c79cd866ba16b8af9f12843b5e2917d3319c4c",
+    "sourceHashes": {
+      "apps/pool/src/memory/librarian/lifecycle.ts": "5d111f123c4049820aced3e67e12882fc25c8ea5c9be6724e44873d622570b86",
+      "apps/pool/src/memory/repo-identity.ts": "ed9c154a6bf98e686959b67d08203dc2c57bea007ee89254e398ca61bc79f404",
+      "packages/domain/src/repo-identity.ts": "6ca5790ee5f06eb1323add9ab770916560edacc8e8e973dc336e251a710b053b"
+    },
+    "repoCatalog": [
+      {
+        "key": "acme-client",
+        "url": "https://github.com/acme/client"
+      },
+      {
+        "key": "beta-client",
+        "url": "https://bitbucket.org/beta/client"
+      }
+    ],
+    "exactPr": "https://github.com/acme/client/pull/55",
+    "inputMerged": {
+      "itemId": "m",
+      "updatedAt": 1,
+      "status": "done",
+      "contradictions": [],
+      "verdict": "verified_merged",
+      "pr": "https://github.com/acme/client/pull/55",
+      "sha": "162e0371841cb3d01f419949aac4cb17894eb41e"
+    },
+    "inputLaterUnknown": {
+      "itemId": "u",
+      "updatedAt": 2,
+      "status": "done",
+      "contradictions": [
+        "forge receipt state unknown"
+      ],
+      "verdict": "uncertain",
+      "pr": "https://github.com/acme/client/pull/55"
+    },
+    "first": {
+      "lines": [
+        "acme-client PR55 merged at 162e0371841c (verified receipt)"
+      ],
+      "notes": [
+        "lifecycle kept verified_merged for acme-client PR55"
+      ]
+    },
+    "second": {
+      "lines": [
+        "acme-client PR55 merge state uncertain; forge receipt state unknown"
+      ],
+      "notes": [
+        "lifecycle kept uncertain for acme-client PR55"
+      ]
+    },
+    "repairVerified": "Host-generated correction retains exact catalog identity; later exact uncertain receipt removes prior generated verified-merge certainty",
+    "realCaller": "finishCliNativePass -> applyLifecycleCorrections -> reconcileDocSections -> reconcileLines -> authorityLine -> displayPr",
+    "path": "apps/pool/src/memory/librarian/lifecycle.ts",
+    "line": 655,
+    "scope": "Single same-name catalog round-trip; no live memory writes/transports; previously repaired counterexamples remain passing"
+  },
+  "retainedPriorCounterexamples": "/tmp/workq-pr1618-27c-prior-repairs-proof-20261010.json",
+  "librarianBundledSkillAndTrackedMirror": "byte-identical, root exact compare exit0",
+  "ciAtCapture": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:24:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468171",
+      "name": "Lint & format",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:23:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468227",
+      "name": "Typecheck",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:26:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468158",
+      "name": "Unit 1/2",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468265",
+      "name": "Unit 2/2",
+      "startedAt": "2026-10-10T21:21:56Z",
+      "status": "IN_PROGRESS",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316467991",
+      "name": "Integration",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "IN_PROGRESS",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:23:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468163",
+      "name": "Postgres",
+      "startedAt": "2026-10-10T21:21:56Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:24:00Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468238",
+      "name": "Build",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:24:21Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468220",
+      "name": "E2E",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "captainReview": "COMPLETE/CLEAR for unchanged 27c",
+  "gates": "Full exact CI remains pending. Actual non-author approval remains. No formal selfapproval, Workq landing authority or merge."
+}
