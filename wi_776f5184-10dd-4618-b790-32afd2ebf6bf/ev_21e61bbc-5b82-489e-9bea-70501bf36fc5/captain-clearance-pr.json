@@ -1,0 +1,18 @@
+{
+  "state": "OPEN",
+  "author": "{26f0a210-daae-4767-aa71-fff74bc16779}",
+  "source": "84d010f7cf77",
+  "targetBranch": "kwesley/workflow-scenario-port",
+  "target": "3f04cd4aa788",
+  "participants": [
+    {
+      "id": "{26f0a210-daae-4767-aa71-fff74bc16779}",
+      "name": "Kyle Wesley",
+      "approved": false,
+      "state": null,
+      "role": "PARTICIPANT"
+    }
+  ],
+  "rules": [],
+  "rulesError": "Bitbucket API 403: Access denied. You must have write or admin access."
+}
