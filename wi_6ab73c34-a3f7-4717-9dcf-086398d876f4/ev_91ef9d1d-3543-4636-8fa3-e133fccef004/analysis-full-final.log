@@ -1,0 +1,906 @@
+$ env JAVA_HOME=/Users/kylewesley/opt/jdk-21/Contents/Home JAVA_TOOL_OPTIONS=-Djava.awt.headless=true mvn -s /Users/kylewesley/repos/insight-next/.bootstrap/maven-settings.xml -Dmaven.repo.local=.workq/maven/repository install -fae
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------- maven-git-versioning-extension:5.2.0 -----------------
+[INFO] Adjusting project models...
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-root @ branch kwesley/analysis-conditional-parity ---
+[INFO] project version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] properties:
+[INFO]   flatirons.versionRange: [0-${flatirons.parentBranch}-SNAPSHOT, 0-${flatirons.parentBranch}-Z-SNAPSHOT),[999.999-kwesley-analysis-conditional-parity-SNAPSHOT,999.999-kwesley-analysis-conditional-parity-Z-SNAPSHOT)
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-config @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-model @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-dao @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-rest @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-service @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] properties:
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-api @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-package @ branch kwesley/analysis-conditional-parity ---
+[INFO] parent version: 999.999-kwesley-analysis-conditional-parity-SNAPSHOT
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Insight Server                                                     [pom]
+[INFO] Insight - API                                                      [jar]
+[INFO] Insight - Spring Configuration                                     [jar]
+[INFO] Insight - Model                                                    [jar]
+[INFO] Insight - Entity and Repository                                    [jar]
+[INFO] Insight - Service                                                  [jar]
+[INFO] Insight - REST                                                     [jar]
+[INFO] Insight - Spring Application                                       [war]
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-root >-----------------
+[INFO] Building Insight Server 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-root ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-root ---
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-root ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-root/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-root-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-api >------------------
+[INFO] Building Insight - API 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [2/8]
+[INFO]   from insight-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-api ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-api ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-api ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-api ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-api ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-api ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.model.response.IFormFieldResponseTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.854 s -- in com.flatirons.insight.model.response.IFormFieldResponseTest
+[INFO] Running com.flatirons.insight.util.AcmUtilsTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.174 s -- in com.flatirons.insight.util.AcmUtilsTest
+[INFO] Running com.flatirons.insight.util.ServerTalkTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.287 s -- in com.flatirons.insight.util.ServerTalkTest
+[INFO] Running com.flatirons.insight.util.ThreadLocalContextTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.flatirons.insight.util.ThreadLocalContextTest
+[INFO] Running com.flatirons.insight.util.UtilsTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in com.flatirons.insight.util.UtilsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 49, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-api ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/insight-api-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-api ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-api ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-api/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-api-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/insight-api-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-api/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-api-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-config >----------------
+[INFO] Building Insight - Spring Configuration 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [3/8]
+[INFO]   from insight-config/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-config ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-config ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-config ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-config ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 26 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-config ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-config ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 15 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/src/test/java/com/flatirons/insight/conf/security/IdentityMutationHttpSecurityTest.java:[62,43] request(java.lang.String,java.net.URI) in org.springframework.test.web.servlet.request.MockMvcRequestBuilders has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/src/test/java/com/flatirons/insight/conf/security/IdentityMutationHttpSecurityTest.java:[71,43] request(java.lang.String,java.net.URI) in org.springframework.test.web.servlet.request.MockMvcRequestBuilders has been deprecated
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-config ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.conf.DatabaseConfigurationTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.023 s -- in com.flatirons.insight.conf.DatabaseConfigurationTest
+[INFO] Running com.flatirons.insight.conf.DynamicRmqConfigListenerMockTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.900 s -- in com.flatirons.insight.conf.DynamicRmqConfigListenerMockTest
+[INFO] Running com.flatirons.insight.conf.DynamicRmqConfigMockTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.569 s -- in com.flatirons.insight.conf.DynamicRmqConfigMockTest
+[INFO] Running com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandlerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.200 s -- in com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandlerTest
+[INFO] Running com.flatirons.insight.conf.security.IdentityMutationHttpSecurityTest
+[INFO] Tests run: 35, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.792 s -- in com.flatirons.insight.conf.security.IdentityMutationHttpSecurityTest
+[INFO] Running com.flatirons.insight.conf.security.JwtAuthenticationFilterTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.324 s -- in com.flatirons.insight.conf.security.JwtAuthenticationFilterTest
+[INFO] Running com.flatirons.insight.conf.security.SecurityConfigTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.111 s -- in com.flatirons.insight.conf.security.SecurityConfigTest
+[INFO] Running com.flatirons.insight.conf.security.WorkflowUserIdentityTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in com.flatirons.insight.conf.security.WorkflowUserIdentityTest
+[INFO] Running com.flatirons.insight.properties.AcmPropertiesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s -- in com.flatirons.insight.properties.AcmPropertiesTest
+[INFO] Running com.flatirons.insight.properties.ColumnConfigTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.properties.ColumnConfigTest
+[INFO] Running com.flatirons.insight.properties.CookiePropertiesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in com.flatirons.insight.properties.CookiePropertiesTest
+[INFO] Running com.flatirons.insight.properties.ExportConfigTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in com.flatirons.insight.properties.ExportConfigTest
+[INFO] Running com.flatirons.insight.properties.RmqPropertiesMockTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.flatirons.insight.properties.RmqPropertiesMockTest
+[INFO] Running com.flatirons.insight.properties.SecurityPropertiesMockTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.properties.SecurityPropertiesMockTest
+[INFO] Running com.flatirons.insight.properties.TableConfigTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.properties.TableConfigTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 86, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-config ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/insight-config-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-config ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-config ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-config/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-config-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/insight-config-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-config/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-config-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-model >-----------------
+[INFO] Building Insight - Model 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [4/8]
+[INFO]   from insight-model/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-model ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-model ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-model ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-model ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 100 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-model ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-model ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-model ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.model.GroupPrivilegeDtoTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in com.flatirons.insight.model.GroupPrivilegeDtoTest
+[INFO] Running com.flatirons.insight.model.component.SimpleContentTypeMapperTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.780 s -- in com.flatirons.insight.model.component.SimpleContentTypeMapperTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-model ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/insight-model-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-model ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-model ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-model/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-model-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/insight-model-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-model/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-model-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-dao >------------------
+[INFO] Building Insight - Entity and Repository 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [5/8]
+[INFO]   from insight-dao/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-dao ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-dao ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-dao ---
+[INFO] Copying 33 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-dao ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 97 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] Hibernate compile-time tooling 6.6.40.Final
+[WARNING] Implicitly compiled files were not subject to annotation processing.
+  Use -implicit to specify a policy for implicit compilation.
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/src/main/java/com/flatirons/insight/TaskInfoQueryWrapper.java: Some input files use unchecked or unsafe operations.
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/src/main/java/com/flatirons/insight/TaskInfoQueryWrapper.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-dao ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-dao ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] Hibernate compile-time tooling 6.6.40.Final
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-dao ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.TaskInfoQueryWrapperTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.145 s -- in com.flatirons.insight.TaskInfoQueryWrapperTest
+[INFO] Running com.flatirons.insight.repository.ProcessSearchRepositoryTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.114 s -- in com.flatirons.insight.repository.ProcessSearchRepositoryTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-dao ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/insight-dao-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-dao ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] Analyzed bundle 'insight-model' with 100 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-dao ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-dao/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-dao-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/insight-dao-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-dao/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-dao-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------< com.flatirons.insight:insight-service >----------------
+[INFO] Building Insight - Service 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [6/8]
+[INFO]   from insight-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clear-customer-parity-results) @ insight-service ---
+[INFO] Executing tasks
+[INFO]    [delete] Deleting: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/customer-parity-summary.txt
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-service ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-service ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-generated) @ insight-service ---
+[INFO] Source directory: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/generated-sources/annotations added.
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-service ---
+[INFO] Copying 14 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-service ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 169 source files with javac [debug optimize deprecation release 21] to target/classes
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserMapper.java:[22,16] Unmapped target property: "groups".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserMapper.java:[36,13] Unmapped target properties: "company, deactivationOrigin, externalOriginalSrc, lastSyncTimestamp, lastSyncTimestampEpoch".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/TaskMapper.java:[35,18] Unmapped target properties: "endDate, processInstanceName, processDefinitionName, processDefinitionDescription, processDefinitionKey, processDefinitionCategory, processDefinitionVersion, processDefinitionDeploymentId".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/RelatedContentMapper.java:[32,10] Unmapped target properties: "storeId, updatedBy, status, createdDate, updatedDate".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/RelatedContentMapper.java:[41,10] Unmapped target properties: "createdDate, updatedDate, id, created, createdBy, taskId, processId, contentSource, storeId, mimeType, fieldId, updated, updatedBy, contentSize, status".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserPreferencesMapper.java:[25,27] Unmapped target properties: "createdDate, updatedDate".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserPreferencesMapper.java:[29,17] Unmapped target property: "id".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/ProcessDefinitionModelMapper.java:[49,34] Unmapped target property: "tenantId".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/ProcessDefinitionModelMapper.java:[64,10] Unmapped target property: "tenantId".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/GroupMapper.java:[19,17] Unmapped target properties: "parentGroupId, parent, children, relatedGroups, status, externalId, lastSyncDate, lastSyncTimeStampEpoch".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/mapper/ReferenceDataLookupDefinitionMapper.java:[29,54] Unmapped target properties: "createdBy, updatedBy".
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,52] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[216,41] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[216,103] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[218,28] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[233,48] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[240,23] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] Implicitly compiled files were not subject to annotation processing.
+  Use -implicit to specify a policy for implicit compilation.
+[INFO] 
+[INFO] --- resources:3.3.0:copy-resources (copy-test-resources) @ insight-service ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/../etc-package/src/test/resources
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-service ---
+[INFO] Copying 47 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-service ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 121 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] The following options were not recognized by any processor: '[mapstruct.defaultComponentModel]'
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivePublicationScenarioTestBase.java:[123,36] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivePublicationScenarioTestBase.java:[134,31] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFullJourneyScenarioTest.java:[85,27] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/RelatedContentAuthorizationScenarioTest.java:[83,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerAnalysisJourneyFixture.java:[110,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/SafranFeedbackJourneyScenarioTest.java:[131,22] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/MdcrSyntheticArchiveBoundaryScenarioTest.java:[175,29] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/MdcrSyntheticArchiveBoundaryScenarioTest.java:[623,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowDocumentScenarioSupport.java:[70,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedTaskFormScenarioTest.java:[118,29] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedTaskFormScenarioTest.java:[135,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java:[176,20] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[311,31] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[316,35] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[337,30] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/service/runtime/GroupServiceImplTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/src/test/java/com/flatirons/insight/service/runtime/GroupServiceImplTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- jar:3.3.0:test-jar (shared-scenario-test-support) @ insight-service ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-service ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.scenario.AnalysisConditionalScenarioTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 51.03 s -- in com.flatirons.insight.scenario.AnalysisConditionalScenarioTest
+[INFO] Running com.flatirons.insight.scenario.AnalysisJourneyScenarioTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 131.3 s -- in com.flatirons.insight.scenario.AnalysisJourneyScenarioTest
+[INFO] Running com.flatirons.insight.scenario.AnalysisNotificationScenarioTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.35 s -- in com.flatirons.insight.scenario.AnalysisNotificationScenarioTest
+[INFO] Running com.flatirons.insight.scenario.AnalysisReassignmentScenarioTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 69.16 s -- in com.flatirons.insight.scenario.AnalysisReassignmentScenarioTest
+[INFO] Running com.flatirons.insight.scenario.AnalysisRefusalScenarioTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 94.80 s -- in com.flatirons.insight.scenario.AnalysisRefusalScenarioTest
+[INFO] Running com.flatirons.insight.scenario.AnalystStartContentScenarioTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 65.96 s -- in com.flatirons.insight.scenario.AnalystStartContentScenarioTest
+[INFO] Running com.flatirons.insight.scenario.ArchivedStartFormScenarioTest
+[INFO] Tests run: 40, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.81 s -- in com.flatirons.insight.scenario.ArchivedStartFormScenarioTest
+[INFO] Running com.flatirons.insight.scenario.ArchivedTaskFormScenarioTest
+[INFO] Tests run: 105, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 121.4 s -- in com.flatirons.insight.scenario.ArchivedTaskFormScenarioTest
+[INFO] Running com.flatirons.insight.scenario.CustomerArchiveCompatibilityPreflightTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.134 s -- in com.flatirons.insight.scenario.CustomerArchiveCompatibilityPreflightTest
+[INFO] Running com.flatirons.insight.scenario.CustomerArchivePublicationTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.33 s -- in com.flatirons.insight.scenario.CustomerArchivePublicationTest
+[INFO] Running com.flatirons.insight.scenario.CustomerBpmnDeploymentScenarioTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.129 s -- in com.flatirons.insight.scenario.CustomerBpmnDeploymentScenarioTest
+[INFO] Running com.flatirons.insight.scenario.CustomerContentCaptureScenarioTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.146 s -- in com.flatirons.insight.scenario.CustomerContentCaptureScenarioTest
+[INFO] Running com.flatirons.insight.scenario.CustomerFirstWaitScenarioTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 31.41 s -- in com.flatirons.insight.scenario.CustomerFirstWaitScenarioTest
+[INFO] Running com.flatirons.insight.scenario.CustomerGoldenSeedTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.806 s -- in com.flatirons.insight.scenario.CustomerGoldenSeedTest
+[INFO] Running com.flatirons.insight.scenario.CustomerMailCaptureScenarioTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.735 s -- in com.flatirons.insight.scenario.CustomerMailCaptureScenarioTest
+[INFO] Running com.flatirons.insight.scenario.CustomerParityGateTest
+[INFO] Tests run: 42, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.441 s -- in com.flatirons.insight.scenario.CustomerParityGateTest
+[INFO] Running com.flatirons.insight.scenario.CustomerTaskAssignmentScenarioTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.019 s -- in com.flatirons.insight.scenario.CustomerTaskAssignmentScenarioTest
+[INFO] Running com.flatirons.insight.scenario.CustomerTaskDateScenarioTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.021 s -- in com.flatirons.insight.scenario.CustomerTaskDateScenarioTest
+[INFO] Running com.flatirons.insight.scenario.FormAppEngineScenarioTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.083 s -- in com.flatirons.insight.scenario.FormAppEngineScenarioTest
+[INFO] Running com.flatirons.insight.scenario.FormAppFormSubmissionScenarioTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.088 s -- in com.flatirons.insight.scenario.FormAppFormSubmissionScenarioTest
+[INFO] Running com.flatirons.insight.scenario.FormAppFullJourneyScenarioTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.350 s -- in com.flatirons.insight.scenario.FormAppFullJourneyScenarioTest
+[INFO] Running com.flatirons.insight.scenario.FormAppTaskActionScenarioTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.071 s -- in com.flatirons.insight.scenario.FormAppTaskActionScenarioTest
+[INFO] Running com.flatirons.insight.scenario.IdentityAuthorityPersistenceTest
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.81 s -- in com.flatirons.insight.scenario.IdentityAuthorityPersistenceTest
+[INFO] Running com.flatirons.insight.scenario.InclusiveGatewayScenarioTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.145 s -- in com.flatirons.insight.scenario.InclusiveGatewayScenarioTest
+[INFO] Running com.flatirons.insight.scenario.MdcrSyntheticArchiveBoundaryScenarioTest
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 39.76 s -- in com.flatirons.insight.scenario.MdcrSyntheticArchiveBoundaryScenarioTest
+[INFO] Running com.flatirons.insight.scenario.NativeNotificationBridgeScenarioTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.431 s -- in com.flatirons.insight.scenario.NativeNotificationBridgeScenarioTest
+[INFO] Running com.flatirons.insight.scenario.RelatedContentAuthorizationScenarioTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.534 s -- in com.flatirons.insight.scenario.RelatedContentAuthorizationScenarioTest
+[INFO] Running com.flatirons.insight.scenario.SafranAnalysisArtifactCoexistenceScenarioTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.214 s -- in com.flatirons.insight.scenario.SafranAnalysisArtifactCoexistenceScenarioTest
+[INFO] Running com.flatirons.insight.scenario.SafranFeedbackJourneyScenarioTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.09 s -- in com.flatirons.insight.scenario.SafranFeedbackJourneyScenarioTest
+[INFO] Running com.flatirons.insight.scenario.SmokeScenarioTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 s -- in com.flatirons.insight.scenario.SmokeScenarioTest
+[INFO] Running com.flatirons.insight.scenario.WorkflowAnalysisAuthorityMigrationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.213 s -- in com.flatirons.insight.scenario.WorkflowAnalysisAuthorityMigrationTest
+[INFO] Running com.flatirons.insight.scenario.WorkflowAnalysisOperationsScenarioTest
+[INFO] Tests run: 217, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 188.2 s -- in com.flatirons.insight.scenario.WorkflowAnalysisOperationsScenarioTest
+[INFO] Running com.flatirons.insight.scenario.WorkflowAnalysisScenarioTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.89 s -- in com.flatirons.insight.scenario.WorkflowAnalysisScenarioTest
+[INFO] Running com.flatirons.insight.scenario.WorkflowIdentityAmbiguityMigrationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.282 s -- in com.flatirons.insight.scenario.WorkflowIdentityAmbiguityMigrationTest
+[INFO] Running com.flatirons.insight.security.SecurityUtilsTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.120 s -- in com.flatirons.insight.security.SecurityUtilsTest
+[INFO] Running com.flatirons.insight.service.editor.AppArchiveServiceTest
+[INFO] Tests run: 54, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.10 s -- in com.flatirons.insight.service.editor.AppArchiveServiceTest
+[INFO] Running com.flatirons.insight.service.editor.ArchiveExecutionPolicyTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in com.flatirons.insight.service.editor.ArchiveExecutionPolicyTest
+[INFO] Running com.flatirons.insight.service.editor.FormAppArchiveServiceTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.144 s -- in com.flatirons.insight.service.editor.FormAppArchiveServiceTest
+[INFO] Running com.flatirons.insight.service.editor.WorkflowArchivePublicationServiceTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.117 s -- in com.flatirons.insight.service.editor.WorkflowArchivePublicationServiceTest
+[INFO] Running com.flatirons.insight.service.reporting.eventhandler.InsightCustomEventHandlerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.502 s -- in com.flatirons.insight.service.reporting.eventhandler.InsightCustomEventHandlerTest
+[INFO] Running com.flatirons.insight.service.reporting.eventhandler.ProcessEventHandlerTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.923 s -- in com.flatirons.insight.service.reporting.eventhandler.ProcessEventHandlerTest
+[INFO] Running com.flatirons.insight.service.reporting.eventhandler.TaskEventHandlerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.154 s -- in com.flatirons.insight.service.reporting.eventhandler.TaskEventHandlerTest
+[INFO] Running com.flatirons.insight.service.reporting.eventhandler.VariableEventHandlerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.116 s -- in com.flatirons.insight.service.reporting.eventhandler.VariableEventHandlerTest
+[INFO] Running com.flatirons.insight.service.rmq.RmqEventListenerImplTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.469 s -- in com.flatirons.insight.service.rmq.RmqEventListenerImplTest
+[INFO] Running com.flatirons.insight.service.rmq.RmqHealthCheckServiceImplTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.596 s -- in com.flatirons.insight.service.rmq.RmqHealthCheckServiceImplTest
+[INFO] Running com.flatirons.insight.service.rmq.RmqServiceImplTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.203 s -- in com.flatirons.insight.service.rmq.RmqServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.AESServiceImplTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.service.runtime.AESServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.AppServiceImplTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.193 s -- in com.flatirons.insight.service.runtime.AppServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.ArchiveFormDefinitionTest
+[INFO] Tests run: 78, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in com.flatirons.insight.service.runtime.ArchiveFormDefinitionTest
+[INFO] Running com.flatirons.insight.service.runtime.AuthServiceImplTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.413 s -- in com.flatirons.insight.service.runtime.AuthServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.CommentServiceImplTest
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.625 s -- in com.flatirons.insight.service.runtime.CommentServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.ContentStorageServiceImplTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.780 s -- in com.flatirons.insight.service.runtime.ContentStorageServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.CustomerReachedListenerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.flatirons.insight.service.runtime.CustomerReachedListenerTest
+[INFO] Running com.flatirons.insight.service.runtime.FormFieldOptionServiceImplTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.454 s -- in com.flatirons.insight.service.runtime.FormFieldOptionServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.FormOptionSetServiceImplTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.303 s -- in com.flatirons.insight.service.runtime.FormOptionSetServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.GroupServiceImplTest
+[INFO] Tests run: 57, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.236 s -- in com.flatirons.insight.service.runtime.GroupServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.IT.ProcessInstanceQueryServiceImplTest
+[INFO] Tests run: 51, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.360 s -- in com.flatirons.insight.service.runtime.IT.ProcessInstanceQueryServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.MdcrMailTemplateTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.110 s -- in com.flatirons.insight.service.runtime.MdcrMailTemplateTest
+[INFO] Running com.flatirons.insight.service.runtime.MdcrNotificationBoundaryTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.706 s -- in com.flatirons.insight.service.runtime.MdcrNotificationBoundaryTest
+[INFO] Running com.flatirons.insight.service.runtime.MdcrNotificationContractTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.243 s -- in com.flatirons.insight.service.runtime.MdcrNotificationContractTest
+[INFO] Running com.flatirons.insight.service.runtime.MdcrStarterProjectionBoundaryTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.flatirons.insight.service.runtime.MdcrStarterProjectionBoundaryTest
+[INFO] Running com.flatirons.insight.service.runtime.PersistedActorProviderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.flatirons.insight.service.runtime.PersistedActorProviderTest
+[INFO] Running com.flatirons.insight.service.runtime.PrivilegeServiceImplTest
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.208 s -- in com.flatirons.insight.service.runtime.PrivilegeServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.ProcessInstanceServiceImplTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.770 s -- in com.flatirons.insight.service.runtime.ProcessInstanceServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.RelatedContentServiceImplTest
+[INFO] Tests run: 41, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.465 s -- in com.flatirons.insight.service.runtime.RelatedContentServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.SafranAnalysisArtifactBuilderTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.070 s -- in com.flatirons.insight.service.runtime.SafranAnalysisArtifactBuilderTest
+[INFO] Running com.flatirons.insight.service.runtime.TaskActionServiceImplTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.381 s -- in com.flatirons.insight.service.runtime.TaskActionServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.TaskQueryServiceImplTest
+[INFO] Tests run: 29, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.410 s -- in com.flatirons.insight.service.runtime.TaskQueryServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.UserCacheImplTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in com.flatirons.insight.service.runtime.UserCacheImplTest
+[INFO] Running com.flatirons.insight.service.runtime.UserInitializerServiceImplTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s -- in com.flatirons.insight.service.runtime.UserInitializerServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.UserPreferencesServiceImplTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.191 s -- in com.flatirons.insight.service.runtime.UserPreferencesServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.UserServiceImplTest
+[INFO] Tests run: 71, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.770 s -- in com.flatirons.insight.service.runtime.UserServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.UserSyncCacheServiceImplTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.service.runtime.UserSyncCacheServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.UserSynchronizationServiceImplTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.283 s -- in com.flatirons.insight.service.runtime.UserSynchronizationServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowDocumentBoundaryTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.431 s -- in com.flatirons.insight.service.runtime.WorkflowDocumentBoundaryTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowDocumentPersistenceTest
+[INFO] Tests run: 53, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 55.62 s -- in com.flatirons.insight.service.runtime.WorkflowDocumentPersistenceTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowFeedbackNotificationBoundaryTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in com.flatirons.insight.service.runtime.WorkflowFeedbackNotificationBoundaryTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowHttpTransportTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.513 s -- in com.flatirons.insight.service.runtime.WorkflowHttpTransportTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowIdentifierConfigurationTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.flatirons.insight.service.runtime.WorkflowIdentifierConfigurationTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowIdentifierCustomerStartTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.847 s -- in com.flatirons.insight.service.runtime.WorkflowIdentifierCustomerStartTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowIdentifierPersistenceTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.947 s -- in com.flatirons.insight.service.runtime.WorkflowIdentifierPersistenceTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowIdentityAmbiguityStoreTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.098 s -- in com.flatirons.insight.service.runtime.WorkflowIdentityAmbiguityStoreTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowNotificationDeliveryConfigurationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.119 s -- in com.flatirons.insight.service.runtime.WorkflowNotificationDeliveryConfigurationTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowNotificationIdentityTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.flatirons.insight.service.runtime.WorkflowNotificationIdentityTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowNotificationOutboxServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.379 s -- in com.flatirons.insight.service.runtime.WorkflowNotificationOutboxServiceTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowProcessNamingConfigurationTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.flatirons.insight.service.runtime.WorkflowProcessNamingConfigurationTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowReachedBoundaryTest
+[INFO] Tests run: 51, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.204 s -- in com.flatirons.insight.service.runtime.WorkflowReachedBoundaryTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowStartListenerPersistenceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.194 s -- in com.flatirons.insight.service.runtime.WorkflowStartListenerPersistenceTest
+[INFO] Running com.flatirons.insight.service.runtime.WorkflowTaskIdentityServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.flatirons.insight.service.runtime.WorkflowTaskIdentityServiceTest
+[INFO] Running com.flatirons.insight.service.runtime.acm.AcmInitializerServiceImplTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.675 s -- in com.flatirons.insight.service.runtime.acm.AcmInitializerServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.acm.AcmLoginTalkTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.417 s -- in com.flatirons.insight.service.runtime.acm.AcmLoginTalkTest
+[INFO] Running com.flatirons.insight.service.runtime.acm.LoadAcmConfigurationServiceImplTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.105 s -- in com.flatirons.insight.service.runtime.acm.LoadAcmConfigurationServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.acm.RoleResourceServiceImplTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.100 s -- in com.flatirons.insight.service.runtime.acm.RoleResourceServiceImplTest
+[INFO] Running com.flatirons.insight.service.runtime.listener.TaskAssignmentBeanTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.flatirons.insight.service.runtime.listener.TaskAssignmentBeanTest
+[INFO] Running com.flatirons.insight.service.runtime.listener.TaskDueDateBeanTest
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.flatirons.insight.service.runtime.listener.TaskDueDateBeanTest
+[INFO] Running com.flatirons.insight.service.search.SearchEventListenerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.107 s -- in com.flatirons.insight.service.search.SearchEventListenerTest
+[INFO] Running com.flatirons.insight.service.search.SearchRefreshServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.294 s -- in com.flatirons.insight.service.search.SearchRefreshServiceTest
+[INFO] Running com.flatirons.insight.service.search.SearchTxSynchronizationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.flatirons.insight.service.search.SearchTxSynchronizationTest
+[INFO] Running com.flatirons.insight.service.search.SearchWorkSetTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.flatirons.insight.service.search.SearchWorkSetTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1981, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-service ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] --- antrun:3.1.0:run (customer-parity-gate) @ insight-service ---
+[INFO] Executing tasks
+[INFO]      [java] Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO]      [java] form-app / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+[INFO]      [java] form-app / authenticated-start = ASSERTED (observed=2) — JWT and legacy authenticated starter owns all ten tasks despite spoofing
+[INFO]      [java] form-app / form-refusal = ASSERTED (observed=1) — Required field refused before writes; task/local-variable invariants also asserted
+[INFO]      [java] form-app / task-refusal = ASSERTED (observed=4) — Named non-assignee refused on claim and complete under both principals
+[INFO]      [java] form-app / first-wait = ASSERTED (observed=1) — Product start reaches ten assigned tasks
+[INFO]      [java] form-app / customer-path = ASSERTED (observed=1) — Unchanged general archive publication and stable forms; all ten product submissions join with historic fields
+[INFO]      [java] form-app / full-journey = ASSERTED (observed=4) — Pinned source obligations under both principals and upstream states: 169 conditions including manufacturer server blindness, seeded identities, authenticated ten-arm forms and attachments, refusals without mutation, partial siblings and historic completion. Empty start schema and no declared mail/metadata listeners are structurally asserted; see docs/form-app-full-journey.md
+[INFO]      [java] mdcr / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+[INFO]      [java] mdcr / authenticated-start = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Unchanged archive starts under JWT and legacy persisted ACM identity; initiator spoof ignored
+[INFO]      [java] mdcr / form-refusal = PENDING — Synthetic test-only v3 membership proves isolated mechanics only; reviewed customer membership remains absent. Unchanged customer Originate and full journey remain pending; MDCR notification/routing/subtask ports and archive publication are not certified
+[INFO]      [java] mdcr / task-refusal = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Named non-assignee refuses claim and complete with task variables links and mail count unchanged
+[INFO]      [java] mdcr / first-wait = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: First customer task assignment and visible variables asserted; Feedback typed start notification captured
+[INFO]      [java] mdcr / customer-path = PENDING — Synthetic test-only v3 membership proves isolated mechanics only; reviewed customer membership remains absent. Unchanged customer Originate and full journey remain pending; MDCR notification/routing/subtask ports and archive publication are not certified
+[INFO]      [java] mdcr / full-journey = PENDING — Synthetic test-only v3 membership proves isolated mechanics only; reviewed customer membership remains absent. Unchanged customer Originate and full journey remain pending; MDCR notification/routing/subtask ports and archive publication are not certified
+[INFO]      [java] safran-analysis / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+[INFO]      [java] safran-analysis / authenticated-start = PENDING — Versioned original-form journey proves JWT start only; complete JWT and legacy principal dimension remains pending
+[INFO]      [java] safran-analysis / form-refusal = PENDING — Original required PIN signoffs and tenant refusals have bounded receipts; complete conditional and missing-group refusal matrix remains pending under follow-on Analysis conditional refusal and notification item
+[INFO]      [java] safran-analysis / task-refusal = PENDING — Named noncandidate and foreign principal/private tenant claim refusals are tested; complete principal and task-action refusal matrix remains pending
+[INFO]      [java] safran-analysis / first-wait = PENDING — Versioned original-form acknowledgement wait has JWT receipts; complete declared first-wait principal matrix remains pending
+[INFO]      [java] safran-analysis / customer-path = ASSERTED (observed=5) — Versioned source-hashed artifact and unchanged forms under JWT; Full and IC long two-document join no-highlights acknowledgement wait and two no-analysis routes; persisted required PIN signatures private tenant routing deterministic jobs and captured mail; full conditional journey remains pending
+[INFO]      [java] safran-analysis / full-journey = PENDING — Long and short paths have real-service receipts; conditional refusals missing-group correction complete notification matrix and original general archive publication remain pending under follow-on Analysis item
+[INFO]      [java] safran-feedback / bpmn-deploy = DEPLOYED (observed=1) — BPMN parse and deploy only; no app publication claim
+[INFO]      [java] safran-feedback / authenticated-start = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Unchanged archive starts under JWT and legacy persisted ACM identity; initiator spoof ignored
+[INFO]      [java] safran-feedback / form-refusal = ASSERTED (observed=2) — Unchanged archive product start and both review forms reject required/unknown/anonymous/named nonmember submissions without persisted task variable history outbox content or mail mutation under JWT and legacy
+[INFO]      [java] safran-feedback / task-refusal = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: Named non-assignee refuses claim and complete with task variables links and mail count unchanged
+[INFO]      [java] safran-feedback / first-wait = ASSERTED (observed=2) — Direct BPMN deployment, separate from archive publication: First customer task assignment and visible variables asserted; Feedback typed start notification captured
+[INFO]      [java] safran-feedback / customer-path = ASSERTED (observed=8) — Four unchanged local/global solved/rejected product journeys under JWT and legacy with real persisted routing recipients preserved templates readonly carry-forward outbox and exact mail arm; derived no-match carriers are separate and do not establish unknown-option reachability or ETC rendering
+[INFO]      [java] safran-feedback / full-journey = ASSERTED (observed=8) — Four unchanged local/global solved/rejected product journeys under JWT and legacy with real persisted routing recipients preserved templates readonly carry-forward outbox and exact mail arm; derived no-match carriers are separate and do not establish unknown-option reachability or ETC rendering
+[INFO]      [java] form-app / archive-publication = ASSERTED (observed=1) — Unchanged app and form publication; runnable authenticated customer path is separately asserted
+[INFO]      [java] mdcr / archive-publication = PENDING — Original listener binding has trailing semicolon after expression; malformed publication refused atomically. Existing first-wait proofs deploy BPMN directly and do not establish published availability
+[INFO]      [java] safran-analysis / archive-publication = PENDING — Original listener binding ends with Create and service expression is {}; malformed publication refused atomically. Scripts and missing adapters remain unsupported
+[INFO]      [java] safran-feedback / archive-publication = ASSERTED (observed=8) — Original hashed archive publishes unchanged app BPMN and deployed form bytes with numeric aliases and certified Feedback execution; unsupported expression scopes remain suspended
+[INFO]      [java] Customer parity: fixtures=4 deployed=4 asserted=18 pending-or-waived=10 observed-claim-invocations=61 (shared test invocations counted per dimension; not complete legacy parity)
+[INFO]      [java] Surefire scenario invocations: tests=815 failures-or-errors=0 skipped=0
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-service ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] Analyzed bundle 'insight-config' with 30 classes
+[INFO] Analyzed bundle 'insight-dao' with 107 classes
+[INFO] Analyzed bundle 'insight-model' with 100 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-service ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-service/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-service/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT-tests.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-service/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-service-999.999-kwesley-analysis-conditional-parity-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-rest >-----------------
+[INFO] Building Insight - REST 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [7/8]
+[INFO]   from insight-rest/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clear-customer-http-results) @ insight-rest ---
+[INFO] Executing tasks
+[INFO]    [delete] Deleting: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/customer-http-summary.txt
+[INFO]    [delete] Deleting: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest.xml
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-rest ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-rest ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-rest ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-rest ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 26 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/main/java/com/flatirons/insight/rest/internal/form/ReferenceDataController.java: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/main/java/com/flatirons/insight/rest/internal/form/ReferenceDataController.java uses unchecked or unsafe operations.
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/main/java/com/flatirons/insight/rest/internal/form/ReferenceDataController.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.0:copy-resources (copy-test-resources) @ insight-rest ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/../etc-package/src/test/resources
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-rest ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-rest ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 34 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/test/java/com/flatirons/insight/scenario/CustomerWorkflowHttpRuntime.java:[257,24] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/test/java/com/flatirons/insight/rest/internal/form/FormAppFormControllerTest.java:[61,32] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/test/java/com/flatirons/insight/scenario/TaskSignatureScenarioTest.java:[469,20] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/test/java/com/flatirons/insight/rest/internal/repository/ProcessDefinitionControllerTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/src/test/java/com/flatirons/insight/rest/internal/repository/ProcessDefinitionControllerTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-rest ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.rest.external.ExternalLoginControllerTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.000 s -- in com.flatirons.insight.rest.external.ExternalLoginControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.form.FormAppFormControllerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.986 s -- in com.flatirons.insight.rest.internal.form.FormAppFormControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.form.FormControllerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.183 s -- in com.flatirons.insight.rest.internal.form.FormControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.form.FormFieldOptionControllerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.163 s -- in com.flatirons.insight.rest.internal.form.FormFieldOptionControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.form.FormOptionSetControllerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 s -- in com.flatirons.insight.rest.internal.form.FormOptionSetControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.form.ReferenceDataRoutingIsolationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.420 s -- in com.flatirons.insight.rest.internal.form.ReferenceDataRoutingIsolationTest
+[INFO] Running com.flatirons.insight.rest.internal.identity.GroupControllerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.180 s -- in com.flatirons.insight.rest.internal.identity.GroupControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.identity.PrivilegeControllerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 s -- in com.flatirons.insight.rest.internal.identity.PrivilegeControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.identity.UserControllerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.107 s -- in com.flatirons.insight.rest.internal.identity.UserControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.identity.UserEmailMutationBoundaryTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.166 s -- in com.flatirons.insight.rest.internal.identity.UserEmailMutationBoundaryTest
+[INFO] Running com.flatirons.insight.rest.internal.identity.UserPinControllerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 s -- in com.flatirons.insight.rest.internal.identity.UserPinControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.repository.AppControllerTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.142 s -- in com.flatirons.insight.rest.internal.repository.AppControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.repository.ProcessDefinitionControllerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.182 s -- in com.flatirons.insight.rest.internal.repository.ProcessDefinitionControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.AnalystStartContentHttpTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.722 s -- in com.flatirons.insight.rest.internal.runtime.AnalystStartContentHttpTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.CommentControllerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.109 s -- in com.flatirons.insight.rest.internal.runtime.CommentControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.ProcessInstanceControllerTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s -- in com.flatirons.insight.rest.internal.runtime.ProcessInstanceControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.ProcessInstanceQueryControllerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.167 s -- in com.flatirons.insight.rest.internal.runtime.ProcessInstanceQueryControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.ProcessInstanceVariableControllerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.118 s -- in com.flatirons.insight.rest.internal.runtime.ProcessInstanceVariableControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.RelatedContentControllerTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.196 s -- in com.flatirons.insight.rest.internal.runtime.RelatedContentControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.TaskActionControllerTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.142 s -- in com.flatirons.insight.rest.internal.runtime.TaskActionControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.TaskAssignmentAuthorizationHttpTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.583 s -- in com.flatirons.insight.rest.internal.runtime.TaskAssignmentAuthorizationHttpTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.TaskControllerTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 s -- in com.flatirons.insight.rest.internal.runtime.TaskControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.TaskQueryControllerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in com.flatirons.insight.rest.internal.runtime.TaskQueryControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.UserPreferencesControllerTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.177 s -- in com.flatirons.insight.rest.internal.runtime.UserPreferencesControllerTest
+[INFO] Running com.flatirons.insight.rest.internal.runtime.WorkflowAnalysisStartAuthorityHttpTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.796 s -- in com.flatirons.insight.rest.internal.runtime.WorkflowAnalysisStartAuthorityHttpTest
+[INFO] Running com.flatirons.insight.scenario.AnalysisTaskAuthorityControllerTest
+[INFO] Tests run: 57, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 317.7 s -- in com.flatirons.insight.scenario.AnalysisTaskAuthorityControllerTest
+[INFO] Running com.flatirons.insight.scenario.CustomerWorkflowHttpGateTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in com.flatirons.insight.scenario.CustomerWorkflowHttpGateTest
+[INFO] Running com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 68.65 s -- in com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest
+[INFO] Running com.flatirons.insight.scenario.InsightBrowserLauncherTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.46 s -- in com.flatirons.insight.scenario.InsightBrowserLauncherTest
+[INFO] Running com.flatirons.insight.scenario.InsightBrowserRuntimeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.407 s -- in com.flatirons.insight.scenario.InsightBrowserRuntimeTest
+[INFO] Running com.flatirons.insight.scenario.TaskSignatureScenarioTest
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 61.19 s -- in com.flatirons.insight.scenario.TaskSignatureScenarioTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 298, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-rest ---
+[INFO] Building jar: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/insight-rest-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] --- antrun:3.1.0:run (customer-http-gate) @ insight-rest ---
+[INFO] Executing tasks
+[INFO]      [java] Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-rest ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] Analyzed bundle 'insight-service' with 204 classes
+[INFO] Analyzed bundle 'insight-model' with 100 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-rest ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-rest/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-rest-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/insight-rest-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-rest/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-rest-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------< com.flatirons.insight:insight-package >----------------
+[INFO] Building Insight - Spring Application 999.999-kwesley-analysis-conditional-parity-SNAPSHOT [8/8]
+[INFO]   from insight-package/pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-package ---
+[INFO] argLine set to -javaagent:/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-package ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-package ---
+[INFO] Copying 6 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-package ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-package ---
+[INFO] skip non existing resourceDirectory /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-package ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-package ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+[INFO] Running com.flatirons.insight.app.ServletInitializerTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.803 s -- in com.flatirons.insight.app.ServletInitializerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- war:3.4.0:war (default-war) @ insight-package ---
+[WARNING]  Parameter 'warName' is read-only, must not be used in configuration
+[INFO] Packaging webapp
+[INFO] Assembling webapp [insight-package] in [/Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/target/insight-package-999.999-kwesley-analysis-conditional-parity-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Building war: /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/target/insight-server.war
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-package ---
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-config/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-dao/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-model/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-rest/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-service/target/jacoco.exec
+[INFO] Loading execution data file /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-api/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-config' with 30 classes
+[INFO] Analyzed bundle 'insight-dao' with 107 classes
+[INFO] Analyzed bundle 'insight-model' with 100 classes
+[INFO] Analyzed bundle 'insight-rest' with 26 classes
+[INFO] Analyzed bundle 'insight-service' with 204 classes
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ insight-package ---
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/target/.git-versioned-pom.xml to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-package/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-package-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.pom
+[INFO] Installing /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/insight-package/target/insight-server.war to /Users/kylewesley/.workq-pool/bases/insight-server/cow-clones/workq_wi_6ab73c34-a3f7-4717-9dcf-086398d876f4/.workq/maven/repository/com/flatirons/insight/insight-package/999.999-kwesley-analysis-conditional-parity-SNAPSHOT/insight-package-999.999-kwesley-analysis-conditional-parity-SNAPSHOT.war
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Insight Server 999.999-kwesley-analysis-conditional-parity-SNAPSHOT:
+[INFO] 
+[INFO] Insight Server ..................................... SUCCESS [  1.122 s]
+[INFO] Insight - API ...................................... SUCCESS [  3.856 s]
+[INFO] Insight - Spring Configuration ..................... SUCCESS [  7.788 s]
+[INFO] Insight - Model .................................... SUCCESS [  2.397 s]
+[INFO] Insight - Entity and Repository .................... SUCCESS [  3.238 s]
+[INFO] Insight - Service .................................. SUCCESS [18:15 min]
+[INFO] Insight - REST ..................................... SUCCESS [08:29 min]
+[INFO] Insight - Spring Application ....................... SUCCESS [  5.006 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27:11 min
+[INFO] Finished at: 2026-10-10T06:35:47-06:00
+[INFO] ------------------------------------------------------------------------
+
+[exit 0]
+Attached evidence ev_f70ab0fd-32eb-435d-aaf5-a5c12b23ec61 to wi_6ab73c34-a3f7-4717-9dcf-086398d876f4 (exit 0).
