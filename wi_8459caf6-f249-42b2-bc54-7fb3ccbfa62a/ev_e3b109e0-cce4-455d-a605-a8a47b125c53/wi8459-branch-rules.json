@@ -1,0 +1,16 @@
+{
+  "retrievedAt": "2026-10-10T19:15:00.179Z",
+  "status": 403,
+  "body": {
+    "type": "error",
+    "error": {
+      "message": "Access denied. You must have write or admin access.",
+      "data": {
+        "key": "INSUFFICIENT_RIGHTS"
+      }
+    },
+    "data": {
+      "key": "INSUFFICIENT_RIGHTS"
+    }
+  }
+}
