@@ -1,0 +1,87 @@
+{
+  "item": "wi_bbde85ce-d5ed-4a37-980e-5d178c1a1130",
+  "clientRevision": "5c6bd9a4c76301643383315f7eab32b67e3ebff4",
+  "isolatedRuntimeReceipt": {
+    "schema": "http_f1b977da8a984749b2c197963f667085",
+    "runId": "http_f1b977da8a984749b2c197963f667085",
+    "baseUrl": "http://127.0.0.1:55532",
+    "fixtureSha256": "efbb7849ac80b1eb9a165d439b22f5a51dc57ae1b96f353cfa507b3d942eab08",
+    "authenticationProof": "browser requests; credential login UI excluded",
+    "sourceCommit": "a1e89eef810fa7e4dd48c9f797af451f31ae3764"
+  },
+  "receiptOrigin": "Original INSIGHT_BROWSER_READY JSON recovered verbatim from /tmp/formapp-runtime.log; runtime files were removed by clean shutdown.",
+  "command": "npm run e2e:formapp",
+  "externalConfiguration": {
+    "readinessFile": "/tmp/formapp-ready.json",
+    "privateControlFile": "/tmp/formapp-session.json (capability excluded)",
+    "ownedPostgresContainer": "215a94da10b3"
+  },
+  "exitCode": 0,
+  "reports": [
+    {
+      "clientRevision": "5c6bd9a4c76301643383315f7eab32b67e3ebff4",
+      "backendRevision": "a1e89eef810fa7e4dd48c9f797af451f31ae3764",
+      "project": "desktop",
+      "name": "workflow.spec.ts",
+      "timestamp": "2026-10-10T07:31:14.815Z",
+      "hostname": "desktop",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "48.049",
+      "errors": "0",
+      "testcases": [
+        {
+          "name": "FormApp: real start, required refusal, ten form submissions and visible join",
+          "classname": "workflow.spec.ts",
+          "time": "48.049"
+        }
+      ],
+      "credentialLoginUI": "PENDING",
+      "proofSource": "actual final Playwright JUnit test-results/formapp.xml",
+      "traceSha256": "88437c960d4e36a9dff4b49eb360df98b74d6d51043c9869a364261cd7b41a3a"
+    },
+    {
+      "clientRevision": "5c6bd9a4c76301643383315f7eab32b67e3ebff4",
+      "backendRevision": "a1e89eef810fa7e4dd48c9f797af451f31ae3764",
+      "project": "narrow",
+      "name": "workflow.spec.ts",
+      "timestamp": "2026-10-10T07:31:14.815Z",
+      "hostname": "narrow",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "33.054",
+      "errors": "0",
+      "testcases": [
+        {
+          "name": "FormApp: real start, required refusal, ten form submissions and visible join",
+          "classname": "workflow.spec.ts",
+          "time": "33.054"
+        }
+      ],
+      "credentialLoginUI": "PENDING",
+      "proofSource": "actual final Playwright JUnit test-results/formapp.xml",
+      "traceSha256": "3c5f674edd89ce72007afc89c46d549d9a01c6b6cbfd82e8cf5d87c737da8866"
+    }
+  ],
+  "passed": [
+    "persisted-identity/acmToken bootstrap through production security",
+    "real product FormApp start",
+    "ten UI required refusals and ten HTTP400 refusals per width; entire isolated database schema unchanged",
+    "ten real product form submissions per width",
+    "read-only saved assignee values",
+    "backend joined/ended and real summary Completed/End Date at both widths"
+  ],
+  "pending": [
+    "real credential-login /adminlogin UI",
+    "uploads",
+    "archive JavaScript/rules",
+    "optional/default/explicit-clear matrix",
+    "actual delete/cancel transport",
+    "live external transports",
+    "full Maven opt-in profile CI carrier"
+  ],
+  "ciBoundary": "Standard Jenkins does NOT invoke formapp-browser; this receipt proves the separate local paired-runtime browser run only. Exact-head Jenkins/Sonar and Bitbucket rules remain independent required landing gates.",
+  "shutdown": "owned runtime shutdown HTTP204; private capability absent from both trace ZIP member contents before publishing captures"
+}
