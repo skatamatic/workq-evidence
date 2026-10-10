@@ -1,0 +1,942 @@
+{
+  "head": "f5714b6a05bf201efe9a9615159f075c96688fb6",
+  "suites": 155,
+  "counts": [
+    2461,
+    0,
+    0,
+    0
+  ],
+  "bySuite": {
+    "com.flatirons.insight.repository.ProcessSearchRepositoryTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.TaskInfoQueryWrapperTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.app.ServletInitializerTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerContentCaptureScenarioTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowDocumentBoundaryTest": [
+      7,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.FormAppTaskActionScenarioTest": [
+      18,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.UserSyncCacheServiceImplTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.acm.LoadAcmConfigurationServiceImplTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalystStartContentScenarioTest": [
+      63,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.WorkflowAnalysisOperationsScenarioTest": [
+      217,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.acm.RoleResourceServiceImplTest": [
+      11,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.MdcrSyntheticArchiveBoundaryScenarioTest": [
+      27,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.WorkflowAnalysisScenarioTest": [
+      24,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.IT.ProcessInstanceQueryServiceImplTest": [
+      51,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowIdentityAmbiguityStoreTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.SafranAnalysisArtifactBuilderTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowNotificationIdentityTest": [
+      16,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.UserPreferencesServiceImplTest": [
+      19,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.ProcessInstanceServiceImplTest": [
+      17,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerGoldenSeedTest": [
+      11,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.reporting.eventhandler.VariableEventHandlerTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowIdentifierCustomerStartTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowNotificationDeliveryConfigurationTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.editor.ArchiveExecutionPolicyTest": [
+      16,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowIdentifierPersistenceTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.editor.FormAppArchiveServiceTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerMailCaptureScenarioTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerParityGateTest": [
+      42,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerFirstWaitScenarioTest": [
+      30,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerArchiveCompatibilityPreflightTest": [
+      14,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.MdcrStarterProjectionBoundaryTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.CustomerReachedListenerTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.WorkflowIdentityAmbiguityMigrationTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.FormOptionSetServiceImplTest": [
+      16,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.AESServiceImplTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.rmq.RmqHealthCheckServiceImplTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.MdcrNotificationContractTest": [
+      23,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.RelatedContentServiceImplTest": [
+      41,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.reporting.eventhandler.InsightCustomEventHandlerTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.ContentStorageServiceImplTest": [
+      19,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowNotificationOutboxServiceTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.search.SearchTxSynchronizationTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerTaskDateScenarioTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.rmq.RmqEventListenerImplTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.search.SearchWorkSetTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.PrivilegeServiceImplTest": [
+      31,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.WorkflowAnalysisAuthorityMigrationTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.MdcrMailTemplateTest": [
+      7,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerBpmnDeploymentScenarioTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.TaskActionServiceImplTest": [
+      20,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.AppServiceImplTest": [
+      14,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowIdentifierConfigurationTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowDocumentPersistenceTest": [
+      53,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.FormFieldOptionServiceImplTest": [
+      30,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowFeedbackNotificationBoundaryTest": [
+      14,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.reporting.eventhandler.ProcessEventHandlerTest": [
+      11,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.ArchivedTaskFormScenarioTest": [
+      105,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.listener.TaskDueDateBeanTest": [
+      27,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowReachedBoundaryTest": [
+      51,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.UserCacheImplTest": [
+      20,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.NativeNotificationBridgeScenarioTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.UserInitializerServiceImplTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.UserSynchronizationServiceImplTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.editor.AppArchiveServiceTest": [
+      54,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.search.SearchRefreshServiceTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.UserServiceImplTest": [
+      71,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.acm.AcmInitializerServiceImplTest": [
+      14,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.AuthServiceImplTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalysisRefusalScenarioTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.InclusiveGatewayScenarioTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalysisReassignmentScenarioTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.SmokeScenarioTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalysisConditionalScenarioTest": [
+      7,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.MdcrNotificationBoundaryTest": [
+      21,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowTaskIdentityServiceTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.RelatedContentAuthorizationScenarioTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowProcessNamingConfigurationTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.FormAppFullJourneyScenarioTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.reporting.eventhandler.TaskEventHandlerTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.rmq.RmqServiceImplTest": [
+      11,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.security.SecurityUtilsTest": [
+      23,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.SafranFeedbackJourneyScenarioTest": [
+      24,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.FormAppEngineScenarioTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.ArchiveFormDefinitionTest": [
+      78,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.FormAppFormSubmissionScenarioTest": [
+      17,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.SafranAnalysisArtifactCoexistenceScenarioTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.IdentityAuthorityPersistenceTest": [
+      27,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowHttpTransportTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.listener.TaskAssignmentBeanTest": [
+      17,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.editor.WorkflowArchivePublicationServiceTest": [
+      22,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalysisNotificationScenarioTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.acm.AcmLoginTalkTest": [
+      30,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.search.SearchEventListenerTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerArchivePublicationTest": [
+      23,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.GroupServiceImplTest": [
+      57,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.TaskQueryServiceImplTest": [
+      29,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalysisJourneyScenarioTest": [
+      24,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.WorkflowStartListenerPersistenceTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.CommentServiceImplTest": [
+      34,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerTaskAssignmentScenarioTest": [
+      20,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.service.runtime.PersistedActorProviderTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.ArchivedStartFormScenarioTest": [
+      40,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.TableConfigTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.security.SecurityConfigTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.ExportConfigTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.security.JwtAuthenticationFilterTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.security.IdentityMutationHttpSecurityTest": [
+      35,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.CookiePropertiesTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.ColumnConfigTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.DatabaseConfigurationTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.SecurityPropertiesMockTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.AcmPropertiesTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.DynamicRmqConfigMockTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.DynamicRmqConfigListenerMockTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.security.WorkflowUserIdentityTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.properties.RmqPropertiesMockTest": [
+      5,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandlerTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.util.ServerTalkTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.util.ThreadLocalContextTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.util.AcmUtilsTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.util.UtilsTest": [
+      22,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.model.response.IFormFieldResponseTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.model.GroupPrivilegeDtoTest": [
+      18,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.model.component.SimpleContentTypeMapperTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.repository.AppControllerTest": [
+      12,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.RelatedContentControllerTest": [
+      14,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.TaskQueryControllerTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.form.ReferenceDataRoutingIsolationTest": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.external.ExternalLoginControllerTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.identity.PrivilegeControllerTest": [
+      7,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.form.FormControllerTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.InsightBrowserRuntimeTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.form.FormAppFormControllerTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerWorkflowHttpGateTest": [
+      9,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.identity.UserPinControllerTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.ProcessInstanceControllerTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.TaskSignatureScenarioTest": [
+      28,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.TaskControllerTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.identity.GroupControllerTest": [
+      10,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.CommentControllerTest": [
+      8,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.identity.UserEmailMutationBoundaryTest": [
+      4,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.InsightBrowserLauncherTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.TaskAssignmentAuthorizationHttpTest": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.scenario.AnalysisTaskAuthorityControllerTest": [
+      57,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.form.FormOptionSetControllerTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.AnalystStartContentHttpTest": [
+      7,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.ProcessInstanceVariableControllerTest": [
+      10,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.TaskActionControllerTest": [
+      11,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.UserPreferencesControllerTest": [
+      13,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.repository.ProcessDefinitionControllerTest": [
+      10,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.WorkflowAnalysisStartAuthorityHttpTest": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.form.FormFieldOptionControllerTest": [
+      6,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.identity.UserControllerTest": [
+      10,
+      0,
+      0,
+      0
+    ],
+    "com.flatirons.insight.rest.internal.runtime.ProcessInstanceQueryControllerTest": [
+      4,
+      0,
+      0,
+      0
+    ]
+  }
+}
