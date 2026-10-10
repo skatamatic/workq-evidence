@@ -1,0 +1,10 @@
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="84.88700899999999">
+<testsuite name="workflow.spec.ts" timestamp="2026-10-10T07:31:14.815Z" hostname="desktop" tests="1" failures="0" skipped="0" time="48.049" errors="0">
+<testcase name="FormApp: real start, required refusal, ten form submissions and visible join" classname="workflow.spec.ts" time="48.049">
+</testcase>
+</testsuite>
+<testsuite name="workflow.spec.ts" timestamp="2026-10-10T07:31:14.815Z" hostname="narrow" tests="1" failures="0" skipped="0" time="33.054" errors="0">
+<testcase name="FormApp: real start, required refusal, ten form submissions and visible join" classname="workflow.spec.ts" time="33.054">
+</testcase>
+</testsuite>
+</testsuites>
