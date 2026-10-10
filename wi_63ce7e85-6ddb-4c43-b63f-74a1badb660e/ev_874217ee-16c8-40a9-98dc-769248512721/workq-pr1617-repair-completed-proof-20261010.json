@@ -1,0 +1,17 @@
+{
+  "verifiedAt": "2026-10-10T20:55:23.782639+00:00",
+  "pr": 1617,
+  "source": "1bbac530a954626644868bdcb8142332cf903943",
+  "comparisonBase": "cce32e3458d041c635dd2cc0a45d489896e68ac3",
+  "findings": [],
+  "summary": "Pinned independent security review and root exact all-unavailable handoff replay confirm external names/errors inside the CI log boundary. No remaining substantial findings; heartbeat cleanup remains nonblocking.",
+  "ci": {
+    "run": 38084921970,
+    "headSha": "1bbac530a954626644868bdcb8142332cf903943",
+    "jobs": 9,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "rootProof": "/tmp/workq-pr1617-1bbac-repair-proof-20261010.json",
+  "authorization": "Captain review complete. Actual required non-author approval remains; no formal self-approval, Workq landing authorization, bypass or merge."
+}
