@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-10T09:10:25.584Z",
+  "source": "81871b8c08f7",
+  "target": "3f04cd4aa788",
+  "base": "kwesley/workflow-scenario-port",
+  "state": "OPEN",
+  "author": "Kyle Wesley",
+  "participants": [
+    {
+      "name": "Kyle Wesley",
+      "role": "PARTICIPANT",
+      "approved": false,
+      "state": null,
+      "isAuthor": true
+    }
+  ],
+  "statuses": [
+    {
+      "key": "ea1a6b2156b0a836730dde3d24fffdf3",
+      "name": "Research & Development » insight-server » kwesley/analysis-journey-spines #5",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/kwesley%252Fanalysis-journey-spines/5/display/redirect",
+      "description": "The build is in progress...",
+      "updated": "2026-10-10T08:18:27.546726+00:00"
+    },
+    {
+      "key": "df763d650ca79316229e488d913dbc7b",
+      "name": "Research & Development » insight-server » Port original-form Analysis long short and multi-instance journeys (#101) #5",
+      "state": "INPROGRESS",
+      "url": "https://build.flatirons.cloud/job/rd/job/insight-server/job/PR-101/5/display/redirect",
+      "description": "The build is in progress...",
+      "updated": "2026-10-10T08:18:27.633688+00:00"
+    }
+  ]
+}
