@@ -1,0 +1,7 @@
+{
+  "head": "52ea7ac59d78884fb7c1bbd41800ade4507db8d7",
+  "pr": "https://bitbucket.org/flatironssolutions/insight-server/pull-requests/107",
+  "checkedAt": "2026-10-10T04:09:58.604311+00:00",
+  "status": "unverified",
+  "diagnostic": "Bitbucket commit build-status endpoint returned HTTP 403: This endpoint does not support token-based authentication. Both env credential and provisioned email+token credential attempted. Jenkins/Sonar implement-worker credentials are intentionally withheld; remote watcher/operator must establish exact-head receipts. No remote pass is claimed."
+}
