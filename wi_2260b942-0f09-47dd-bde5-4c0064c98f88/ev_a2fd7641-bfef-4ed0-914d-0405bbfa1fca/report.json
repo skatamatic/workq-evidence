@@ -1,0 +1,565 @@
+{
+  "productionRevision": "3e2bd027c2056e043e57f33334da32cf8119e1cd",
+  "baselineCommand": "NX_DAEMON=false ng test --watch=false --code-coverage --exclude=**/{workflow.component,workflow-xml.service,workflow-modeler-moddle}.spec.ts",
+  "afterCommand": "NX_DAEMON=false npm run test -- --code-coverage",
+  "sonarqube": {
+    "beforeRevision": "e1d53a298f3f",
+    "beforeNewCoverage": 66.2,
+    "newLines": 561,
+    "uncoveredNewLines": 226,
+    "conditions": 316,
+    "uncoveredConditions": 70,
+    "afterNewCoverage": null,
+    "limitation": "No Sonar token or per-line new-code mask supplied. Local all-code LCOV metrics cannot establish exact new-code coverage or the 90% gate. Captain must run exact-head Jenkins/Sonar."
+  },
+  "localLoadedSources": {
+    "before": {
+      "lines": 3599,
+      "coveredLines": 2589,
+      "linePercent": 71.94,
+      "branches": 1185,
+      "coveredBranches": 744,
+      "branchPercent": 62.78
+    },
+    "after": {
+      "lines": 4805,
+      "coveredLines": 3354,
+      "linePercent": 69.8,
+      "branches": 1783,
+      "coveredBranches": 1093,
+      "branchPercent": 61.3
+    }
+  },
+  "localMatchedSourceUnion": {
+    "before": {
+      "lines": 4805,
+      "coveredLines": 2589,
+      "linePercent": 53.88,
+      "branches": 1783,
+      "coveredBranches": 744,
+      "branchPercent": 41.73
+    },
+    "after": {
+      "lines": 4805,
+      "coveredLines": 3354,
+      "linePercent": 69.8,
+      "branches": 1783,
+      "coveredBranches": 1093,
+      "branchPercent": 61.3
+    }
+  },
+  "files": [
+    {
+      "path": "src/app/main/components/workflow/modeler/workflow.component.ts",
+      "baseline": {
+        "note": "Not imported by the pre-existing suite; no covered lines. Supplied Sonar new-code baseline: 0%."
+      },
+      "after": {
+        "lines": 532,
+        "coveredLines": 484,
+        "linePercent": 90.98,
+        "branches": 219,
+        "coveredBranches": 167,
+        "branchPercent": 76.26
+      },
+      "uncoveredLines": [
+        156,
+        248,
+        260,
+        268,
+        270,
+        309,
+        483,
+        511,
+        551,
+        552,
+        565,
+        760,
+        761,
+        849,
+        854,
+        855,
+        856,
+        864,
+        937,
+        944,
+        953,
+        959,
+        1040,
+        1041,
+        1062,
+        1081,
+        1115,
+        1116,
+        1119,
+        1120,
+        1121,
+        1126,
+        1127,
+        1153,
+        1177,
+        1207,
+        1212,
+        1213,
+        1215,
+        1241,
+        1243,
+        1245,
+        1251,
+        1489,
+        1520,
+        1583,
+        1584,
+        1585
+      ],
+      "uncoveredBranches": [
+        {
+          "line": 162,
+          "block": 1,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 248,
+          "block": 4,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 248,
+          "block": 4,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 482,
+          "block": 9,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 510,
+          "block": 12,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 550,
+          "block": 14,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 564,
+          "block": 18,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 606,
+          "block": 29,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 658,
+          "block": 33,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 756,
+          "block": 38,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 758,
+          "block": 39,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 848,
+          "block": 46,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 852,
+          "block": 47,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 854,
+          "block": 48,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 863,
+          "block": 49,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 897,
+          "block": 51,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 958,
+          "block": 57,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 962,
+          "block": 58,
+          "branch": 11,
+          "count": 0
+        },
+        {
+          "line": 1061,
+          "block": 59,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1071,
+          "block": 61,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1080,
+          "block": 62,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1091,
+          "block": 65,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1100,
+          "block": 66,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1115,
+          "block": 68,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1134,
+          "block": 69,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1152,
+          "block": 71,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1169,
+          "block": 72,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 1176,
+          "block": 73,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1179,
+          "block": 74,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1194,
+          "block": 77,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1196,
+          "block": 78,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1196,
+          "block": 78,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1198,
+          "block": 79,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1198,
+          "block": 79,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1199,
+          "block": 80,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 1206,
+          "block": 81,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1212,
+          "block": 84,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1212,
+          "block": 85,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1212,
+          "block": 85,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1212,
+          "block": 85,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 1215,
+          "block": 86,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1215,
+          "block": 86,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1229,
+          "block": 87,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 1237,
+          "block": 88,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1237,
+          "block": 88,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 1237,
+          "block": 88,
+          "branch": 3,
+          "count": 0
+        },
+        {
+          "line": 1250,
+          "block": 89,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1255,
+          "block": 91,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1469,
+          "block": 111,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1519,
+          "block": 113,
+          "branch": 0,
+          "count": 0
+        },
+        {
+          "line": 1549,
+          "block": 119,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 1584,
+          "block": 121,
+          "branch": 0,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "path": "src/app/main/components/workflow/modeler/services/workflow-xml.service.ts",
+      "baseline": {
+        "note": "Not imported by the pre-existing suite; no covered lines. Supplied Sonar new-code baseline: 0%."
+      },
+      "after": {
+        "lines": 244,
+        "coveredLines": 244,
+        "linePercent": 100,
+        "branches": 195,
+        "coveredBranches": 179,
+        "branchPercent": 91.79
+      },
+      "uncoveredLines": [],
+      "uncoveredBranches": [
+        {
+          "line": 46,
+          "block": 0,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 120,
+          "block": 10,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 143,
+          "block": 19,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 147,
+          "block": 21,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 157,
+          "block": 24,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 177,
+          "block": 29,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 182,
+          "block": 31,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 182,
+          "block": 31,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 185,
+          "block": 32,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 185,
+          "block": 32,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 192,
+          "block": 35,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 198,
+          "block": 37,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 219,
+          "block": 46,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 314,
+          "block": 69,
+          "branch": 1,
+          "count": 0
+        },
+        {
+          "line": 519,
+          "block": 108,
+          "branch": 2,
+          "count": 0
+        },
+        {
+          "line": 576,
+          "block": 114,
+          "branch": 1,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "path": "src/app/main/components/workflow/modeler/moddle/workflow-modeler-moddle.ts",
+      "baseline": {
+        "note": "Not imported by the pre-existing suite; no covered lines. Supplied Sonar new-code baseline: 0%."
+      },
+      "after": {
+        "lines": 7,
+        "coveredLines": 7,
+        "linePercent": 100,
+        "branches": 0,
+        "coveredBranches": 0,
+        "branchPercent": null
+      },
+      "uncoveredLines": [],
+      "uncoveredBranches": []
+    }
+  ],
+  "remainingSeams": [
+    "ScriptTask has no ELEMENT_PROPERTIES entry and no palette entry; component script modal wrapper cannot be reached through current property UI. Imported scripts are preserved and service script read/write are tested.",
+    "Full component-library rendering is outside this unit fixture; real BPMN engine, palette output subscription, property callbacks and XML are exercised.",
+    "Some defensive private guards, unused value-conversion variants and unsupported identity-recipient persistence remain uncovered; exact line and branch identities are in files[]."
+  ]
+}
