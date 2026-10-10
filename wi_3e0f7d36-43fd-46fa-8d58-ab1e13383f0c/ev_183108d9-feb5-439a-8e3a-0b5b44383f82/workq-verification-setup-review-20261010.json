@@ -1,0 +1,434 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-10T17:59:58.196855+00:00",
+  "scope": "Read-only review. Only this evidence JSON was written; no repository edits, installs, Maven/browser execution, reprovisioning, worker changes, tickets, commits or external messages.",
+  "source": {
+    "repoRoot": "/Users/kylewesley/workq",
+    "head": "82cefda51f13316e1a03879712fdecb9e4e076f7",
+    "version": "1.2.1",
+    "supervisorCheckoutHead": "82cefda51f13316e1a03879712fdecb9e4e076f7",
+    "supervisorStartedAt": "2026-10-10T00:23:03.252Z",
+    "supervisorConfigPath": "/Users/kylewesley/.workq-pool/pool.config.json",
+    "runtimeUpdatedAt": "2026-10-10T17:59:57.847Z"
+  },
+  "profileCache": {
+    "path": "/Users/kylewesley/.workq-pool/repo-profiles-cache.json",
+    "fetchedAt": "2026-10-10T17:59:08.859Z",
+    "degraded": false
+  },
+  "globalLinkNodeModules": true,
+  "bases": [
+    {
+      "repoKey": "insight-client",
+      "workspaceMode": "cow_clone",
+      "seedDefaultBranch": "kwesley/insight-next",
+      "setupCommands": [],
+      "currentLinkPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/current",
+      "currentLinkTarget": "generations/gen-mv1z9m3m-7gq",
+      "generationPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq",
+      "head": "162e0371841cb3d01f419949aac4cb17894eb41e",
+      "checkedOutBranch": "kwesley/insight-next",
+      "localOriginTargetSha": "162e0371841cb3d01f419949aac4cb17894eb41e",
+      "liveRemoteTargetSha": "e898169125a42d67160dfceae5d5c6f7ec082c31",
+      "generationMatchesLiveRemote": false,
+      "generationLockSha256": "da040edd73621b1aebc3059c3bbb575da849b38e9901a3304ca175ae6333e23c",
+      "localTargetLockSha256": "da040edd73621b1aebc3059c3bbb575da849b38e9901a3304ca175ae6333e23c",
+      "generationLockMatchesLocalTarget": true,
+      "generationManifestMatchesLocalTarget": true,
+      "installMarker": "v2 a8340029228a3706859cc67ac247898c3e4258851addbc5e84102285c9f3ca8f",
+      "markerKind": "ready",
+      "computedFingerprintAbi137": "a8340029228a3706859cc67ac247898c3e4258851addbc5e84102285c9f3ca8f",
+      "markerMatchesAbi137": true,
+      "computedFingerprintAbi147": "a08d92feee5a0948d5cb8c0321eb31f684bd8484f173dfaacf602faf79870bd0",
+      "markerMatchesAbi147": false,
+      "fingerprintProof": "Read-only workspaceInstallFingerprint/listWorkspacePackages calls and SHA256 reproduction matched only ABI137; ambient worker ABI resolved147.",
+      "packages": [
+        {
+          "name": "@angular/localize",
+          "declaredVersion": "20.3.16",
+          "lockedVersion": "20.3.16",
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq/node_modules/@angular/localize/package.json"
+        },
+        {
+          "name": "eslint-plugin-sonarjs",
+          "declaredVersion": null,
+          "lockedVersion": null,
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq/node_modules/eslint-plugin-sonarjs/package.json"
+        },
+        {
+          "name": "eslint-plugin-unicorn",
+          "declaredVersion": null,
+          "lockedVersion": null,
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq/node_modules/eslint-plugin-unicorn/package.json"
+        },
+        {
+          "name": "playwright",
+          "declaredVersion": null,
+          "lockedVersion": "1.59.1",
+          "installedVersion": "1.59.1",
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq/node_modules/playwright/package.json"
+        },
+        {
+          "name": "@playwright/test",
+          "declaredVersion": "^1.50.1",
+          "lockedVersion": "1.59.1",
+          "installedVersion": "1.59.1",
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq/node_modules/@playwright/test/package.json"
+        },
+        {
+          "name": "playwright-core",
+          "declaredVersion": null,
+          "lockedVersion": null,
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/insight-client/cow-base/generations/gen-mv1z9m3m-7gq/node_modules/playwright-core/package.json"
+        }
+      ],
+      "installedBrowserRevisions": [],
+      "derivedRootReadinessRequiresLocalize": false,
+      "derivedRootReadinessRequiresSonarjs": false,
+      "derivedRootReadinessRequiresUnicorn": false,
+      "derivedRootReadinessModuleCount": 690
+    },
+    {
+      "repoKey": "etc-client",
+      "workspaceMode": "cow_clone",
+      "seedDefaultBranch": "kwesley/insight-next",
+      "setupCommands": [],
+      "currentLinkPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/current",
+      "currentLinkTarget": "generations/gen-mv25xwca-7gq",
+      "generationPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq",
+      "head": "931c660a49e511ac4c56728679870d5de8138323",
+      "checkedOutBranch": "kwesley/insight-next",
+      "localOriginTargetSha": "931c660a49e511ac4c56728679870d5de8138323",
+      "liveRemoteTargetSha": "931c660a49e511ac4c56728679870d5de8138323",
+      "generationMatchesLiveRemote": true,
+      "generationLockSha256": "1494753c21e3b0be69c5caf8f19b4beeed4b77dfe0afceee6238010a8a619f43",
+      "localTargetLockSha256": "1494753c21e3b0be69c5caf8f19b4beeed4b77dfe0afceee6238010a8a619f43",
+      "generationLockMatchesLocalTarget": true,
+      "generationManifestMatchesLocalTarget": true,
+      "installMarker": "v2 8af5d7483083f87f22cc41aa21f53dcf30f4764a9d6994d99e95e572b3ea9989",
+      "markerKind": "ready",
+      "computedFingerprintAbi137": "8af5d7483083f87f22cc41aa21f53dcf30f4764a9d6994d99e95e572b3ea9989",
+      "markerMatchesAbi137": true,
+      "computedFingerprintAbi147": "8651d070da4ce10f82716a0e7660f89366ae3b3b3d2c41edd3f9cf072489ba2c",
+      "markerMatchesAbi147": false,
+      "fingerprintProof": "Read-only workspaceInstallFingerprint/listWorkspacePackages calls and SHA256 reproduction matched only ABI137; ambient worker ABI resolved147.",
+      "packages": [
+        {
+          "name": "@angular/localize",
+          "declaredVersion": null,
+          "lockedVersion": null,
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq/node_modules/@angular/localize/package.json"
+        },
+        {
+          "name": "eslint-plugin-sonarjs",
+          "declaredVersion": "4.2.2",
+          "lockedVersion": "4.2.2",
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq/node_modules/eslint-plugin-sonarjs/package.json"
+        },
+        {
+          "name": "eslint-plugin-unicorn",
+          "declaredVersion": "60.0.0",
+          "lockedVersion": "60.0.0",
+          "installedVersion": null,
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq/node_modules/eslint-plugin-unicorn/package.json"
+        },
+        {
+          "name": "playwright",
+          "declaredVersion": null,
+          "lockedVersion": "1.59.1",
+          "installedVersion": "1.63.0",
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq/node_modules/playwright/package.json"
+        },
+        {
+          "name": "@playwright/test",
+          "declaredVersion": "^1.50.1",
+          "lockedVersion": "1.59.1",
+          "installedVersion": "1.63.0",
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq/node_modules/@playwright/test/package.json"
+        },
+        {
+          "name": "playwright-core",
+          "declaredVersion": null,
+          "lockedVersion": "1.59.1",
+          "installedVersion": "1.63.0",
+          "installedManifestPath": "/Users/kylewesley/.workq-pool/bases/etc-client/cow-base/generations/gen-mv25xwca-7gq/node_modules/playwright-core/package.json"
+        }
+      ],
+      "installedBrowserRevisions": [
+        {
+          "name": "chromium",
+          "revision": "1243"
+        },
+        {
+          "name": "chromium-headless-shell",
+          "revision": "1243"
+        }
+      ],
+      "derivedRootReadinessRequiresLocalize": false,
+      "derivedRootReadinessRequiresSonarjs": false,
+      "derivedRootReadinessRequiresUnicorn": false,
+      "derivedRootReadinessModuleCount": 1564
+    }
+  ],
+  "browserProof": {
+    "cachePath": "/Users/kylewesley/Library/Caches/ms-playwright",
+    "cacheEntries": [
+      "chromium-1217",
+      "chromium-1234",
+      ".links",
+      "ffmpeg-1011",
+      "chromium_headless_shell-1217",
+      "chromium_headless_shell-1234"
+    ],
+    "installedEtcPlaywrightVersion": "1.63.0",
+    "requiredChromiumRevision": "1243",
+    "requiredRevisionPresent": false,
+    "actualReadOnlyProbe": {
+      "playwrightBrowsersInstalled": true,
+      "browserPresent": true,
+      "browserUsable": true,
+      "missing": [],
+      "spawnCalls": 0
+    },
+    "method": "Called maintained compiled probeHostEvidenceCapability with actual current-generation checkout/cache and a spawner that throws on any child launch."
+  },
+  "confirmedFindings": [
+    {
+      "priority": 1,
+      "title": "CoW ready markers do not attest declared and locked installed dependencies",
+      "sourceLocations": [
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/base.ts",
+          "start": 457,
+          "end": 459
+        },
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/cow-clone.ts",
+          "start": 579,
+          "end": 595
+        },
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/worktree-readiness.ts",
+          "start": 175,
+          "end": 193
+        },
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/worktree-readiness.ts",
+          "start": 357,
+          "end": 378
+        },
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/worktree-readiness.ts",
+          "start": 544,
+          "end": 574
+        }
+      ],
+      "impact": "Current configured bases omit declared locked Angular localize and ESLint plugins, and ETC has Playwright1.63.0 against lock1.59.1. Empty setup returns success; marker hashes lock bytes/workspace names/ABI; root readiness enumerates existing installed packages, hiding omitted declarations. New tasks inherit the broken install.",
+      "scopedFix": "Persist locked Node setup commands. Before publishing/reusing a generation, validate required declared/locked packages and versions, refreshing future generations on mismatch. Keep intentional dangling file/link dependency exceptions and preserve busy/parked clones.",
+      "acceptance": [
+        "Populated node_modules missing a required locked package or containing a wrong locked Playwright version is not publishable/reusable as ready.",
+        "A fresh repaired generation completes maintained lint/build and a matching-browser smoke without task-specific package repairs or lockfile changes.",
+        "Warm reuse remains cached, parked work survives generation replacement, and Maven non-Node roots plus intentional dangling local links remain supported."
+      ]
+    },
+    {
+      "priority": 2,
+      "title": "Browser readiness accepts a cache for a different Playwright revision",
+      "sourceLocations": [
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/probe-evidence-capability.ts",
+          "start": 716,
+          "end": 749
+        },
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/probe-evidence-capability.ts",
+          "start": 768,
+          "end": 770
+        },
+        {
+          "path": "/Users/kylewesley/workq/apps/pool/src/provision/probe-evidence-capability.spec.ts",
+          "start": 422,
+          "end": 453
+        }
+      ],
+      "impact": "ETC installed Playwright expects Chromium1243, cache has1217/1234, but maintained host probe returns installed/usable true with no missing reasons.",
+      "scopedFix": "Retain filesystem-first probing, TTL and singleflight. Resolve the installed package browsers.json and platform executable; require the exact revision. Distinguish installed from usable and cache one bounded proof for the selected worker runtime rather than spawning per heartbeat.",
+      "acceptance": [
+        "Local Playwright requiring1243 with only1234 cache returns not-installed/not-usable without CLI spawn.",
+        "Correct revision with absent executable also fails; a valid exact-revision browser has a recorded positive runtime proof.",
+        "Concurrent polls preserve singleflight and do not recreate the prior Playwright --version process storm."
+      ]
+    }
+  ],
+  "additionalConfirmedDiagnosticGap": {
+    "title": "JVM doctor ignores required server-profile gate commands",
+    "sourceLocations": [
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/src/provision/preflight-seed-jvm.ts",
+        "start": 67,
+        "end": 81
+      },
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/src/provision/preflight-seed-jvm.ts",
+        "start": 218,
+        "end": 234
+      },
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/src/config/repo-policy-resolve.ts",
+        "start": 140,
+        "end": 162
+      }
+    ],
+    "repoKey": "insight-server",
+    "localSetupCommands": [],
+    "localTestingGateCommands": null,
+    "serverProfileGates": [
+      {
+        "gateId": "unit",
+        "command": "JAVA_HOME=/Users/kylewesley/opt/jdk-21/Contents/Home mvn -s /Users/kylewesley/repos/insight-next/.bootstrap/maven-settings.xml install -fae",
+        "description": "One full Maven lifecycle: build, tests, customer parity inventory and reactor install"
+      }
+    ],
+    "actualReadOnlyJvmToolsForSeed": {
+      "needsJava": false,
+      "needsMvn": false,
+      "javaHomeAssigns": []
+    },
+    "actualReadOnlyProbeNames": [],
+    "scopedFix": "Discover JVM intent from the same resolved repo-policy snapshot used to provision worker gates, including server_profile/repo-owned layers. Probe the actual worker paths and JDK assignment.",
+    "acceptance": "A server-profile-only Maven gate activates Java/Maven checks; missing JVM fails doctor and the correct JDK passes. Node-only gates stay unaffected."
+  },
+  "provisioningGap": {
+    "title": "Insight Maven cache and headless child JVM settings remain task-specific",
+    "classification": "Persistent repository/runtime setup gap; Workq source does not promise automatic Maven cache/headless provisioning.",
+    "profileGate": "JAVA_HOME=/Users/kylewesley/opt/jdk-21/Contents/Home mvn -s /Users/kylewesley/repos/insight-next/.bootstrap/maven-settings.xml install -fae",
+    "localSetupCommands": [],
+    "mavenSettingsHasLocalRepository": false,
+    "jvmConfigExists": false,
+    "mavenConfigExists": false,
+    "sourceLocations": [
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/src/harness/host-tooling.ts",
+        "start": 236,
+        "end": 258
+      },
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/src/provision/preflight-seed-jvm.ts",
+        "start": 218,
+        "end": 280
+      }
+    ],
+    "journalExamples": [
+      "infra-322c6a01-b88a-4e47-aa7a-1d9b8e311b0d",
+      "infra-b0e1b54b-42ca-4f35-b07a-b5cd7c223a9f",
+      "infra-49c379c2-6f27-42cc-8894-cdd8ec3732b0"
+    ],
+    "scopedFix": "Prepare a private writable task Maven repository from a controlled warm seed and pass maven.repo.local through the maintained gate. Persist JAVA_TOOL_OPTIONS=-Djava.awt.headless=true for noninteractive Insight server JVMs so Surefire children inherit it.",
+    "acceptance": "A newly provisioned worker runs the single required Maven install lifecycle with all required tests and fresh parity receipts without manual cache/AWT repair or shared-cache writes."
+  },
+  "metadataRemedy": {
+    "status": "recovered",
+    "itemId": "wi_a2159945-403f-41a9-a0ad-6efb7dd22871",
+    "pr": "https://bitbucket.org/flatironssolutions/etc-client/pull-requests/54",
+    "landReceiptPath": "/tmp/etc54-land-receipt-20261010.json",
+    "ordinaryMerge": true,
+    "destination": "kwesley/sync-sonar-cleanup",
+    "originalHelperLimitation": "assert-pr-base defaults repository master when item targetBase absent, refusing explicitly requested cleanup branch. User explicit cleanup/never-master directions and live brief take precedence; manual ordinary authorized landing recorded. No product branch requirement bypassed.",
+    "currentLiveShow": {
+      "status": "done",
+      "version": 288,
+      "targetBase": "kwesley/sync-sonar-cleanup",
+      "campaignBase": null,
+      "headerBase": "kwesley/sync-sonar-cleanup (item-declared)"
+    },
+    "classification": "The original cleanup destination existed only in Request prose; current structured metadata has already been repaired. No metadata mutation was made in this review.",
+    "pureHelperProof": {
+      "proseOnlyParsedBase": null,
+      "proseOnlyCleanupAllowed": false,
+      "structuredCleanupAllowed": true
+    },
+    "sourceLocations": [
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/skills/workq-playbook/scripts/assert-pr-base.js",
+        "start": 363,
+        "end": 405
+      },
+      {
+        "path": "/Users/kylewesley/workq/packages/worker/src/lifecycle-cli.ts",
+        "start": 241,
+        "end": 251
+      },
+      {
+        "path": "/Users/kylewesley/workq/packages/worker/src/lifecycle-cli.ts",
+        "start": 343,
+        "end": 347
+      },
+      {
+        "path": "/Users/kylewesley/workq/packages/worker/src/review-cli.ts",
+        "start": 234,
+        "end": 252
+      },
+      {
+        "path": "/Users/kylewesley/workq/packages/worker/src/cli-print.ts",
+        "start": 73,
+        "end": 78
+      },
+      {
+        "path": "/Users/kylewesley/workq/apps/pool/src/orchestrator/slot/workspace-prepare.ts",
+        "start": 164,
+        "end": 185
+      }
+    ],
+    "scopedRemedy": "Create cleanup/feature tasks with structured --base or campaign targetBase; reconcile existing prose-only declarations using set-base before assignment/landing. Keep the gate ignoring request prose.",
+    "acceptance": "show prints declared base; fork pin and PR destination match it; assert-pr-base refuses master."
+  },
+  "duplicateChecks": {
+    "openWorkqIssuesAtRead": 0,
+    "focusedHistorySearches": {
+      "Maven": 0,
+      "warm": 0,
+      "provision": 0,
+      "Playwright": 0
+    },
+    "relatedLandedFixes": [
+      {
+        "issue": 755,
+        "scope": "Link-incomplete classification, not declared package attestation"
+      },
+      {
+        "issue": 1438,
+        "scope": "Maven root classification, not installed versions"
+      },
+      {
+        "issue": 1469,
+        "pr": 1473,
+        "scope": "JVM tools declared in host seed, not resolved server profiles"
+      },
+      {
+        "pr": 1166,
+        "scope": "Filesystem-first browser cache and singleflight optimization"
+      },
+      {
+        "pr": 1587,
+        "scope": "Completed-base/artifact reuse"
+      }
+    ],
+    "relatedDormantTopic": {
+      "id": "topic-ste-poc-warm-base-empty-setupcommands-ready",
+      "status": "dormant",
+      "scope": "Older absent-node_modules variant, parked quiet rather than resolved; current bases contain incomplete and wrong-version installs."
+    }
+  },
+  "limitations": [
+    "Current links resolve the configured generations, not orphan paths. Existing workers can retain older copied generations; no working clone was inspected or changed.",
+    "Markers match ABI137, while ambient review worker ABI resolves147. Marker kind ready is not a claim that current ABI147 readiness passes.",
+    "ETC generation matches live declared remote base. Insight Client live declared remote base advanced beyond its generation; local-generation manifests/locks match that generation local origin reference. No fetch/ref change was performed.",
+    "No Maven/install/browser suite ran; meaningful acceptance above is proposed future verification, not claimed completed."
+  ]
+}
