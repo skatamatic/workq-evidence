@@ -1,0 +1,105 @@
+{
+  "capturedAt": "2026-10-10T21:31:29.572968+00:00",
+  "prUrl": "https://github.com/scopear/workq/pull/1618",
+  "source": "27c79cd866ba16b8af9f12843b5e2917d3319c4c",
+  "exactRun": 38087335579,
+  "allNineChecks": "COMPLETED SUCCESS",
+  "checks": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:24:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468171",
+      "name": "Lint & format",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:23:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468227",
+      "name": "Typecheck",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:26:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468158",
+      "name": "Unit 1/2",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:29:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468265",
+      "name": "Unit 2/2",
+      "startedAt": "2026-10-10T21:21:56Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:27:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316467991",
+      "name": "Integration",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:23:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468163",
+      "name": "Postgres",
+      "startedAt": "2026-10-10T21:21:56Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:24:00Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468238",
+      "name": "Build",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:24:21Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114316468220",
+      "name": "E2E",
+      "startedAt": "2026-10-10T21:21:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T21:29:24Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38087335579/job/114317890513",
+      "name": "Unit tests",
+      "startedAt": "2026-10-10T21:29:21Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "retainedCaptainRepairReview": "/tmp/workq-pr1618-27c-captain-repair-completed-proof-20261010.json",
+  "captainEvidence": "ev_3db5f102-63fa-4ef9-a987-2f55dd574a8c",
+  "resolvedOwnThread": "PRRT_kwDOTi7irc6rH1ge",
+  "ownFinalReply": 4239264677,
+  "actualResumeProof": "/tmp/workq-pr1618-27c-verification-resumed-proof-20261010.json",
+  "remaining": "Actual develop non-author approval. No selfapproval, Workq land authority, bypass or merge."
+}
