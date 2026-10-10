@@ -1,0 +1,18 @@
+{
+  "item": "wi_8459caf6-f249-42b2-bc54-7fb3ccbfa62a",
+  "source": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "sourceFiles": {
+    "docs/workflow-mdcr-contracts.md": "e2b0c6e55024f91038655c4a6afb920709840eda6903d8651e7992394add9013",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/ProcessInstanceVariableServiceImpl.java": "0907088fd9a544002262aadc50ad60043f2d0ee1764bee7f17846923c5ecb838",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/RelatedContentServiceImpl.java": "7eb0609f037f5de7a482d00dfc9e81983b4740824e3224e00fa511e81fe3506c",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/ProcessInstanceServiceImpl.java": "6b01adcfa5a0a91427d1fa40f1b7575fe690e207f0e38e5855788c1b38dca929",
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowReadAuthorizationService.java": "14703fb9645973b0c4e23a0f072ad46cf4972ce8c4d3d8b01282771bf0d53d86"
+  },
+  "questionAnswered": true,
+  "decision": "Authorization-only for existing seven variable stubs; existing process read policy for GET, persisted starter-only variable mutation guard, explicit existing starter/assignee content grants preserved; real variable CRUD remains pending.",
+  "brief": "/tmp/content-variable-authorization-clarified-brief-20261010.md",
+  "direction": "/tmp/content-variable-authorization-direction-20261010.md",
+  "scopeClearanceOnly": true,
+  "productReviewOrLandClearance": false,
+  "liveState": "/tmp/content-variable-unblock-state-20261010.json"
+}
