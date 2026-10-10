@@ -1,0 +1,7 @@
+{
+  "specialty": "security",
+  "reviewedHead": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+  "base": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "summary": "Explicit route authentication, current active persisted content actors and separate process read/starter mutation guards preserve content restrictions. No material security finding.",
+  "findings": []
+}
