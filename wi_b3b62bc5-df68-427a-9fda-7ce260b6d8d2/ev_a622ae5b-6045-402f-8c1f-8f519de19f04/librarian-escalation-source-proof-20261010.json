@@ -1,0 +1,102 @@
+{
+  "at": "2026-10-10T19:22:10.745Z",
+  "head": "0d35268e0e219a0b9ebbc9aec7ed2888fd3da5da",
+  "file": "apps/pool/src/memory/librarian/lifecycle.ts",
+  "slugs": [
+    {
+      "ref": "Workq PR55",
+      "slug": null
+    },
+    {
+      "ref": "Insight-client PR55",
+      "slug": null
+    },
+    {
+      "ref": "in PR55",
+      "slug": "in"
+    },
+    {
+      "ref": "on PR55",
+      "slug": "on"
+    },
+    {
+      "ref": "to PR55",
+      "slug": "to"
+    }
+  ],
+  "capitalized": [
+    {
+      "itemId": "b",
+      "pr": "Insight-client PR55",
+      "verdict": "uncertain",
+      "updatedAt": 1,
+      "status": "done",
+      "contradictions": [
+        "sources disagree (open, outcome_merged)"
+      ]
+    }
+  ],
+  "negated": [
+    {
+      "summary": "PR99 was not merged",
+      "claim": {
+        "pr": "PR99",
+        "state": "open"
+      },
+      "derived": {
+        "itemId": "example",
+        "updatedAt": 1,
+        "status": "done",
+        "contradictions": [
+          "summary contradicts outcome merged"
+        ],
+        "verdict": "outcome_merged"
+      }
+    },
+    {
+      "summary": "PR99 not yet merged",
+      "claim": {
+        "pr": "PR99",
+        "state": "merged"
+      },
+      "derived": {
+        "itemId": "example",
+        "updatedAt": 1,
+        "status": "done",
+        "contradictions": [],
+        "verdict": "outcome_merged",
+        "pr": "PR99"
+      }
+    },
+    {
+      "summary": "PR99 has not been merged",
+      "claim": {
+        "pr": "PR99",
+        "state": "merged"
+      },
+      "derived": {
+        "itemId": "example",
+        "updatedAt": 1,
+        "status": "done",
+        "contradictions": [],
+        "verdict": "outcome_merged",
+        "pr": "PR99"
+      }
+    },
+    {
+      "summary": "PR99 wasn't merged",
+      "claim": {
+        "pr": "PR99",
+        "state": "merged"
+      },
+      "derived": {
+        "itemId": "example",
+        "updatedAt": 1,
+        "status": "done",
+        "contradictions": [],
+        "verdict": "outcome_merged",
+        "pr": "PR99"
+      }
+    }
+  ]
+}
