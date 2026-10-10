@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: com.flatirons.insight.service.editor.AppArchiveServiceTest
+-------------------------------------------------------------------------------
+Tests run: 58, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 17.56 s <<< FAILURE! -- in com.flatirons.insight.service.editor.AppArchiveServiceTest
+com.flatirons.insight.service.editor.AppArchiveServiceTest.missingArchiveIsRejectedWithoutState -- Time elapsed: 0.285 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual throwable to be an instance of:
+  com.flatirons.insight.service.exception.BadRequestException
+but was:
+  java.lang.NullPointerException: Cannot invoke "java.io.InputStream.readNBytes(int)" because "input" is null
+	at com.flatirons.insight.service.editor.KickstartArchive.read(KickstartArchive.java:60)
+	at com.flatirons.insight.service.editor.AppArchiveServiceImpl.publish(AppArchiveServiceImpl.java:42)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	...(89 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)
+	at com.flatirons.insight.service.editor.AppArchiveServiceTest.missingArchiveIsRejectedWithoutState(AppArchiveServiceTest.java:415)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
