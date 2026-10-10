@@ -1,0 +1,103 @@
+{
+  "observedAt": "2026-10-10T20:05:39.749Z",
+  "pr": 1615,
+  "item": "wi_ce4831cc-cfb8-49de-93b6-7d51c8f72955",
+  "source": "f575491552a3ba577e2a4342a1e6851a3b8cc11f",
+  "target": "c78a277d306a4a5dac8e575e3a817ea3068803d7",
+  "review": "Independent correctness lens: no findings. Exact-source isolated dispatch validated all adopted handler paths; root replay confirmed stale explicit report now submits current lease and exits zero. Prior pinned independent lenses and historical red counterexample retained.",
+  "findings": [],
+  "exactRemoteChecks": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:00:55Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981880",
+      "name": "Lint & format",
+      "startedAt": "2026-10-10T19:56:30Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:57:52Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981987",
+      "name": "Typecheck",
+      "startedAt": "2026-10-10T19:56:30Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:02:57Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981935",
+      "name": "Unit 1/2",
+      "startedAt": "2026-10-10T19:56:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:03:13Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299982007",
+      "name": "Unit 2/2",
+      "startedAt": "2026-10-10T19:56:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:00:52Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981913",
+      "name": "Integration",
+      "startedAt": "2026-10-10T19:56:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:57:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981864",
+      "name": "Postgres",
+      "startedAt": "2026-10-10T19:56:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:58:39Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981749",
+      "name": "Build",
+      "startedAt": "2026-10-10T19:56:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:58:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114299981823",
+      "name": "E2E",
+      "startedAt": "2026-10-10T19:56:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:03:20Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081770390/job/114301296028",
+      "name": "Unit tests",
+      "startedAt": "2026-10-10T20:03:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "executionProof": "/tmp/workq-pr1615-repair-stale-explicit-proof-20261010.json",
+  "limitations": "Independent captain source review and exact-head CI verified. Required develop approval and human Workq landing authorization remain unsatisfied; no approval, merge, upgrade, or live fleet test performed."
+}
