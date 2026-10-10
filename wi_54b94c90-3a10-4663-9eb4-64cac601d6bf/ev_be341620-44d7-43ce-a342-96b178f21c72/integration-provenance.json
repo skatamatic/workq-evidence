@@ -1,0 +1,13 @@
+{
+  "item": "wi_54b94c90-3a10-4663-9eb4-64cac601d6bf",
+  "pr": 110,
+  "source": "15951e7285c97f2aa46ac1a68abf325930debde6",
+  "target": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "previousReviewedSource": "587b02df3cf4b2a8338c22a9e063fc6bb1e977f2",
+  "previousReviewBase": "3f04cd4aa788691e6bbc8b10d88da9541f1925af",
+  "merge": "348b726087f9dcd4217dc38b31b16563be9e4217",
+  "repair": "Typed PERSON config uses persistedUser(id), not legacy numeric string; repository-backed adapter adopts findIfPresent APIs. Numeric username collision cannot redirect; canonical collision refuses with unchanged deployment and option counts.",
+  "historicalRemoteGate": "PR110 build2 SUCCESS/Sonar OK at previous source/base is historical only",
+  "currentRemoteGate": "Pending fresh published full source/current target checkout and scanner provenance",
+  "customerCertification": "Pending actual reviewed installation bindings; no promotion"
+}
