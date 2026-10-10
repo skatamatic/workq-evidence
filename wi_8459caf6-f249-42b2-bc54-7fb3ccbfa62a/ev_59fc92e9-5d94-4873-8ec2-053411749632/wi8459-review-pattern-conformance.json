@@ -1,0 +1,7 @@
+{
+  "specialty": "pattern-conformance",
+  "reviewedHead": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+  "base": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "summary": "Persisted actor validation, process read authorization and starter-only mutation follow existing family patterns. Transaction boundaries preserve stub outcomes with no new writes.",
+  "findings": []
+}
