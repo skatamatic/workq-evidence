@@ -1,0 +1,135 @@
+{
+  "reviewedAt": "2026-10-10T17:59:22.592628+00:00",
+  "scope": "Read-only review of recent Workq reports, current fleet, retained run evidence and source. No code/config/queue/memory changes.",
+  "sourceRevision": "82cefda51f13316e1a03879712fdecb9e4e076f7",
+  "currentHealth": {
+    "intakePaused": false,
+    "running": 2,
+    "parked": 2,
+    "queued": 13,
+    "needsHuman": 0,
+    "waitingFeedback": 0,
+    "summaryMeasuredMs": [
+      98,
+      55,
+      72,
+      130
+    ]
+  },
+  "priorities": [
+    {
+      "priority": 1,
+      "area": "Resumed worker lease adoption",
+      "confirmed": true,
+      "problem": "Feedback resumes can issue lease-bound heartbeat/report against a stale cached token before adopting the refreshed same-consumer lease.",
+      "evidence": {
+        "item": "wi_84843b49-0ed0-469c-b5b1-d0d7061d6453",
+        "failedRun": "rl_a38cb406",
+        "failureLines": [
+          48,
+          51
+        ],
+        "recoveryRun": "rl_4bf7ce71",
+        "adoptLines": [
+          11,
+          12
+        ],
+        "successfulHeartbeatLine": 14,
+        "source": [
+          "apps/pool/src/orchestrator/slot/prompts.ts:333",
+          "packages/worker/src/cli.ts:66",
+          "packages/worker/src/captain-cli.ts:824"
+        ]
+      },
+      "action": "Common adopt-first guidance for resumed entrypoints before lease-bound commands; preserve consumer ownership and refuse another consumer lease.",
+      "acceptance": "Rotated token A to B for same consumer/workspace adopts before real heartbeat/report; no extra claim/takeover, foreign consumer refused."
+    },
+    {
+      "priority": 2,
+      "area": "Worker snapshot and browser readiness",
+      "confirmed": true,
+      "problem": "Referenced ready snapshots lack locked required packages; browser readiness accepts any Chromium cache directory without checking the Playwright-required revision.",
+      "evidenceFile": "/tmp/workq-verification-setup-review-20261010.json",
+      "action": "Validate declared locked packages and exact browser executable/revision before publishing ready; retain cache coalescing.",
+      "limitations": "Snapshot ABI marker provenance must be retained; absent packages independently verified without asserting ambient Node ABI equivalence."
+    },
+    {
+      "priority": 3,
+      "area": "Librarian lifecycle accuracy",
+      "confirmed": true,
+      "problem": "Librarian replaced a confirmed merged PR55 memory fact with open/unmerged after trusting stale report summary over structured merged outcome and terminal state.",
+      "evidence": {
+        "item": "wi_9d285afb-396a-4c23-ad34-b31535123ec1",
+        "itemStatus": "done",
+        "reportOutcome": "merged",
+        "reportSummary": "PR 55 is open against kwesley/insight-next and left unmerged.",
+        "forgeState": "MERGED",
+        "forgeUpdated": "2026-10-10T05:42:51.655752+00:00",
+        "librarianRun": "20261010T163050-1ig2fx",
+        "memoryRead": "/tmp/workq-review-insight-client-memory.txt:40",
+        "source": "apps/pool/src/memory/librarian/prompt.ts:229"
+      },
+      "action": "Give explicit lifecycle facts and current forge/land receipts precedence over older narrative; prevent downgrade of confirmed merge from publication prose.",
+      "acceptance": "Stale summary says open while structured outcome and exact merge receipt say merged: memory retains merged and reports contradiction. Terminal done alone must not imply merge."
+    }
+  ],
+  "followups": [
+    {
+      "area": "JVM preflight and persistent setup",
+      "problem": "JVM intent detection omits configured server profile gate commands; repeated Maven writable-cache/headless setup friction remains.",
+      "action": "Probe effective merged repo policy; persist private writable Maven cache and headless JVM defaults for this repo.",
+      "evidenceFile": "/tmp/workq-verification-setup-review-20261010.json"
+    },
+    {
+      "area": "Scoped CI diagnostic handoff",
+      "problem": "Feedback/fresh runs intentionally do not receive Jenkins credentials; captain directions asking for current CI evidence can exceed that run capability.",
+      "correction": "Reported landing/revision misses were actual feedback/fresh run headers, not failures of revision/landing credential transport.",
+      "action": "Provide pool-fetched read-only exact PR/CI evidence where authoritative phase needs it; keep credentials with pool.",
+      "source": [
+        "apps/pool/src/orchestrator/jenkins-revision-env.ts:27",
+        "apps/pool/src/orchestrator/waiting-resume.ts:206"
+      ]
+    },
+    {
+      "area": "Librarian repeated wall timeouts",
+      "problem": "16 of 18 retained librarian runs today timed out around 300 seconds; two later runs succeeded and watermark caught up.",
+      "action": "Bound repeated batch work and add timeout backoff/adaptive splitting while preserving CAS/partial-write and watermark guarantees.",
+      "source": [
+        "apps/pool/src/memory/librarian/review.ts:167",
+        "apps/pool/src/memory/librarian/wake-loop.ts:376"
+      ],
+      "currentState": "Recovered; no blind rerun or larger global time limit recommended."
+    }
+  ],
+  "resolvedOrHistorical": [
+    {
+      "area": "Dashboard stalls",
+      "status": "PR1607 merged, API hotfix already live, current summary roughly 0.1 second.",
+      "url": "https://github.com/scopear/workq/pull/1607"
+    },
+    {
+      "area": "Old analyst TLS/missing CLI reports",
+      "status": "Latest analyst report October6, analyst currently disabled; memory CLI currently reachable. No current recurrence established."
+    },
+    {
+      "area": "ETC54 missing targetBase",
+      "status": "Historical landing helper fallback retained in receipt; live item now has explicit kwesley/sync-sonar-cleanup targetBase."
+    }
+  ],
+  "maintenance": "Routine controlled full upgrade after active work is safe to stop should pick up merged PR1606/1607/1608; no emergency restart or intake pause warranted by current evidence.",
+  "fourTicketWork": {
+    "PR107": "Reviewed source adfbd against b29f, exact PR6 building, genuine new Sonar pending",
+    "PR110": "Current-target integration full local running before publication",
+    "PR111": "Current-target integration full local running before publication",
+    "ETC54": "Ordinarily merged at 5c38; exact merged-head cleanup7 SUCCESS, 1907 units/19 fixture/26 strict browser, 2066 JUnit PASSED zero failures/skips; genuine branch Sonar f64fe193/analysisbb4dcf42 OK96.5 coverage/zero issues. Parent47 not cleared."
+  },
+  "evidenceInputs": [
+    "/tmp/workq-infra-journal-review-20261010.json",
+    "/tmp/workq-analyst-reports-20261010.json",
+    "/tmp/workq-all-topics-review-20261010.json",
+    "/tmp/workq-review-client55-item.json",
+    "/tmp/workq-review-client55-recall.txt",
+    "/tmp/workq-review-insight-client-memory.txt"
+  ],
+  "setupReviewVerified": true
+}
