@@ -1,0 +1,44 @@
+{
+  "head": "587b02df3cf4b2a8338c22a9e063fc6bb1e977f2",
+  "basis": "Local JaCoCo aggregation on git-added source lines vs declared fork; an estimate, not a remote Sonar receipt",
+  "coveragePercent": 97.33,
+  "covered": 584,
+  "total": 600,
+  "files": [
+    {
+      "file": "insight-service/src/main/java/com/flatirons/insight/service/runtime/ArchiveTaskOptionService.java",
+      "coveredLines": 53,
+      "missedLines": 1,
+      "coveredBranches": 56,
+      "missedBranches": 4
+    },
+    {
+      "file": "insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrChildAuthorityContract.java",
+      "coveredLines": 17,
+      "missedLines": 0,
+      "coveredBranches": 58,
+      "missedBranches": 0
+    },
+    {
+      "file": "insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrIntegrationContract.java",
+      "coveredLines": 18,
+      "missedLines": 0,
+      "coveredBranches": 0,
+      "missedBranches": 0
+    },
+    {
+      "file": "insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrIntegrationProvisioner.java",
+      "coveredLines": 64,
+      "missedLines": 0,
+      "coveredBranches": 21,
+      "missedBranches": 1
+    },
+    {
+      "file": "insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrIntegrationValidator.java",
+      "coveredLines": 122,
+      "missedLines": 1,
+      "coveredBranches": 175,
+      "missedBranches": 9
+    }
+  ]
+}
