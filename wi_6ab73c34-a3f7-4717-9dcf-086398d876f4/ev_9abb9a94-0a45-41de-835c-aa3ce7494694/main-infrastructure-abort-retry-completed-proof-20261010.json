@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-10-10T21:30:55.603722+00:00",
+  "sources": {
+    "PR110": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+    "PR111": "d6a06aa1134c43c677874b63f3c16666626540f3",
+    "target": "e12fb0a9f83bb942d39e87158007ade16db22e6a"
+  },
+  "oldRemoteResults": "PR110#3 and source#3; PR111#4 and source#4 all terminal ABORTED after Kubernetes NoExecute / agent deletion",
+  "retry": "One normal request per terminal failed job only after no queued/running replacement; fresh PR110#4/source#4 and PR111#5/source#5 now running",
+  "latest": "Actual21:29:27 new PRs still containers starting; NO application BuildData/full Maven/genuine Sonar/final clearance",
+  "captainAndLocal": "Unchanged sources retain COMPLETE/CLEAR reviews and root local2740/2596; no repeat review/test/source repair",
+  "workers": "Fresh runners and explicit acknowledgements verified; existing CI wait restored without fourth review pass",
+  "artifacts": [
+    {
+      "path": "/tmp/pr110-exact3-aborted-console-20261010.txt",
+      "sha256": "0673565d0ef23fe69a1c831ea607fe54f0be6a9b846008ace7fff8178e1e46de"
+    },
+    {
+      "path": "/tmp/pr111-exact4-2123-console-20261010.txt",
+      "sha256": "bb620f328cbc343f2090584ca988500fd1408365f1334ea9c5e857f844ad5b3f"
+    },
+    {
+      "path": "/tmp/main-sourcebranch-aborted-proof-20261010.json",
+      "sha256": "419abb9447ae937bbd0719f4fe8918bb2e159add3ed53dc74b48a29835080064"
+    },
+    {
+      "path": "/tmp/pr110-exact-ci-retry-request-20261010.json",
+      "sha256": "41f6cf03387ffb642a4aca964cca506d338bc91559e852db6d0af9ce2b269f86"
+    },
+    {
+      "path": "/tmp/main-exact-ci-retry-requests-20261010.json",
+      "sha256": "4f43eaf7d47efc621bcb1ebb0906c75ff6ace4d26da94047da809d208e786f3f"
+    },
+    {
+      "path": "/tmp/main-fresh-ci-2130-progress-proof-20261010.json",
+      "sha256": "4380c65bf638526e00ee2a94653355c291ae48804cc0b8e1c6fff417bd18f913"
+    },
+    {
+      "path": "/tmp/main-infra-retry-explicit-adoption-20261010.json",
+      "sha256": "95df704d1210ed17970fc63447dcba2c03ecb96f8962de96bde8ae19475aa35f"
+    }
+  ],
+  "authority": "All actual remote/provenance/rules/immediate-heads/tree gates still required before authorized ordinary land and postmerge; no infrastructure/fleet config or restart"
+}
