@@ -1,0 +1,23 @@
+{
+  "clientRevision": "5c6bd9a4c76301643383315f7eab32b67e3ebff4",
+  "backendRevision": "a1e89eef810fa7e4dd48c9f797af451f31ae3764",
+  "project": "narrow",
+  "name": "workflow.spec.ts",
+  "timestamp": "2026-10-10T07:31:14.815Z",
+  "hostname": "narrow",
+  "tests": "1",
+  "failures": "0",
+  "skipped": "0",
+  "time": "33.054",
+  "errors": "0",
+  "testcases": [
+    {
+      "name": "FormApp: real start, required refusal, ten form submissions and visible join",
+      "classname": "workflow.spec.ts",
+      "time": "33.054"
+    }
+  ],
+  "credentialLoginUI": "PENDING",
+  "proofSource": "actual final Playwright JUnit test-results/formapp.xml",
+  "traceSha256": "3c5f674edd89ce72007afc89c46d549d9a01c6b6cbfd82e8cf5d87c737da8866"
+}
