@@ -1,0 +1,17 @@
+{
+  "verifiedAt": "2026-10-10T20:55:23.751517+00:00",
+  "pr": 1616,
+  "source": "3ada5fa58f775766f1d22791ce490bdd74f3dbe8",
+  "comparisonBase": "bc4f334a4b51f700ddc060a7e3487a3a18fd5178",
+  "findings": [],
+  "summary": "Pinned independent correctness review and root disposable symlink/native-Node replay confirm the selected pnpm sibling core and selected revision cache invalidation. No remaining substantial findings.",
+  "ci": {
+    "run": 38084930295,
+    "headSha": "3ada5fa58f775766f1d22791ce490bdd74f3dbe8",
+    "jobs": 9,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "rootProof": "/tmp/workq-pr1616-3ada-repair-proof-20261010.json",
+  "authorization": "Captain review complete. Actual required non-author approval remains; no formal self-approval, Workq landing authorization, bypass or merge."
+}
