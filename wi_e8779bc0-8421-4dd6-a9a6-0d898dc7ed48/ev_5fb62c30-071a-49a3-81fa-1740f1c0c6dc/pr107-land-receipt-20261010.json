@@ -1,0 +1,73 @@
+{
+  "landedAt": "2026-10-10T18:25:34.999991+00:00",
+  "verifiedAt": "2026-10-10T18:25:49.514Z",
+  "pr": 107,
+  "url": "https://bitbucket.org/flatironssolutions/insight-server/pull-requests/107",
+  "state": "MERGED",
+  "mergeCommit": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "source": "adfbd45efb5542afeca2523166db12afed73d7a0",
+  "previousTarget": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "targetBranch": "kwesley/workflow-scenario-port",
+  "parents": [
+    "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+    "adfbd45efb5542afeca2523166db12afed73d7a0"
+  ],
+  "tree": "68d0287ea0f3a66f8ea89f0f5351ca22d1823404",
+  "matchesImmediatelyValidatedTree": true,
+  "ordinaryMerge": true,
+  "bypass": false,
+  "sourceGate": "/tmp/pr107-exact6-completed-proof-20261010.json",
+  "captainReview": "/tmp/pr107-b29f-captain-integration-review-20261010.json",
+  "immediatePrelandProof": "/tmp/pr107-immediate-preland-proof-20261010.json",
+  "mergedHeadGate": {
+    "verifiedAt": "2026-10-10T18:27:10.321465+00:00",
+    "build": 51,
+    "url": "https://build.flatirons.cloud/job/RD/job/insight-server/job/kwesley%252Fworkflow-scenario-port/51/",
+    "building": true,
+    "result": null,
+    "applicationBuildData": [
+      {
+        "_class": "hudson.plugins.git.util.BuildData",
+        "buildsByBranchName": {
+          "kwesley/workflow-scenario-port": {
+            "_class": "hudson.plugins.git.util.Build",
+            "buildNumber": 51,
+            "buildResult": null,
+            "marked": {
+              "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+              "branch": [
+                {
+                  "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+                  "name": "kwesley/workflow-scenario-port"
+                }
+              ]
+            },
+            "revision": {
+              "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+              "branch": [
+                {
+                  "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+                  "name": "kwesley/workflow-scenario-port"
+                }
+              ]
+            }
+          }
+        },
+        "lastBuiltRevision": {
+          "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+          "branch": [
+            {
+              "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+              "name": "kwesley/workflow-scenario-port"
+            }
+          ]
+        },
+        "remoteUrls": [
+          "https://bitbucket.org/flatironssolutions/insight-server.git"
+        ],
+        "scmName": ""
+      }
+    ]
+  },
+  "screenshot": "/tmp/pr107-merged-20261010.png"
+}
