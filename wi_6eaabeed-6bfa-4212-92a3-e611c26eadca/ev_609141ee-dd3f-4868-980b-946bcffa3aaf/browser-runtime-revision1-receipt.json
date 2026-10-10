@@ -1,0 +1,37 @@
+{
+  "sourceCommit": "19d1dbebfedc53109a59dbbaa91a1b634ede4574",
+  "totals": {
+    "tests": 2222,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": {
+    "com.flatirons.insight.scenario.InsightBrowserRuntimeTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "com.flatirons.insight.scenario.TaskSignatureScenarioTest": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "com.flatirons.insight.scenario.InsightBrowserLauncherTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "fixtureSha256": "efbb7849ac80b1eb9a165d439b22f5a51dc57ae1b96f353cfa507b3d942eab08",
+  "scope": "Test-only Sonar revision; authenticated browser requests, not credential login UI or ten-form browser parity"
+}
