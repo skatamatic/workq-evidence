@@ -1,0 +1,13 @@
+diff --git a/projects/component-library/src/lib/fs-rich-text-field/components/fs-rich-text-field.component.ts b/projects/component-library/src/lib/fs-rich-text-field/components/fs-rich-text-field.component.ts
+index b92c260f..33a6ad40 100644
+--- a/projects/component-library/src/lib/fs-rich-text-field/components/fs-rich-text-field.component.ts
++++ b/projects/component-library/src/lib/fs-rich-text-field/components/fs-rich-text-field.component.ts
+@@ -419,7 +419,7 @@ export class FsRichTextFieldComponent implements AfterViewInit, OnChanges, OnDes
+         editor.on('SaveContent', (e: any) => {
+             // Removal saves back to TinyMCE's host; it is not a user save action.
+             if (e.is_removing) {
+-                return;
++                return undefined;
+             }
+             e?.preventDefault?.();
+             e?.stopPropagation?.();
