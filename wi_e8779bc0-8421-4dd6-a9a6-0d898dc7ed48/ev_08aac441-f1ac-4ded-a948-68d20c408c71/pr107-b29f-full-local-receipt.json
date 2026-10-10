@@ -1,0 +1,15 @@
+{
+  "head": "adfbd45efb5542afeca2523166db12afed73d7a0",
+  "target": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "startedAt": "2026-10-10T16:19:30.975018+00:00",
+  "command": "env JAVA_HOME=/Users/kylewesley/opt/jdk-21/Contents/Home JAVA_TOOL_OPTIONS=-Djava.awt.headless=true mvn -s /Users/kylewesley/repos/insight-next/.bootstrap/maven-settings.xml -Dmaven.repo.local=/private/tmp/wi-e877-maven-repository install -fae",
+  "finishedAt": "2026-10-10T16:50:08.817907+00:00",
+  "exitCode": 0,
+  "buildSuccess": true,
+  "xmlSuites": 156,
+  "rawCases": 2564,
+  "uniqueCases": 2564,
+  "badCases": [],
+  "staleReports": [],
+  "evidence": "ev_a5ac438a-e658-4183-af73-94f8f7774a2f"
+}
