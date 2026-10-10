@@ -1,0 +1,10 @@
+{
+  "pr": "https://bitbucket.org/flatironssolutions/insight-server/pull-requests/104",
+  "state": "MERGED",
+  "base": "kwesley/workflow-scenario-port",
+  "mergedSha": "3f04cd4aa788691e6bbc8b10d88da9541f1925af",
+  "parents": [
+    "7f65bde1f1cd22798cfd38304dbbb8ca88f43785",
+    "19d1dbebfedc53109a59dbbaa91a1b634ede4574"
+  ]
+}
