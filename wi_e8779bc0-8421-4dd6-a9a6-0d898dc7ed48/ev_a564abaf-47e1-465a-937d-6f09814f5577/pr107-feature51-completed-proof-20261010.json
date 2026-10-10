@@ -1,0 +1,120 @@
+{
+  "verifiedAt": "2026-10-10T19:24:03.904629+00:00",
+  "pr": 107,
+  "featureBuild": 51,
+  "url": "https://build.flatirons.cloud/job/RD/job/insight-server/job/kwesley%252Fworkflow-scenario-port/51/",
+  "result": "SUCCESS",
+  "building": false,
+  "completedAt": "2026-10-10T19:20:47.203000+00:00",
+  "applicationHead": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "applicationBuildData": [
+    {
+      "_class": "hudson.plugins.git.util.BuildData",
+      "buildsByBranchName": {
+        "kwesley/workflow-scenario-port": {
+          "_class": "hudson.plugins.git.util.Build",
+          "buildNumber": 51,
+          "buildResult": null,
+          "marked": {
+            "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+            "branch": [
+              {
+                "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+                "name": "kwesley/workflow-scenario-port"
+              }
+            ]
+          },
+          "revision": {
+            "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+            "branch": [
+              {
+                "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+                "name": "kwesley/workflow-scenario-port"
+              }
+            ]
+          }
+        }
+      },
+      "lastBuiltRevision": {
+        "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+        "branch": [
+          {
+            "SHA1": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+            "name": "kwesley/workflow-scenario-port"
+          }
+        ]
+      },
+      "remoteUrls": [
+        "https://bitbucket.org/flatironssolutions/insight-server.git"
+      ],
+      "scmName": ""
+    }
+  ],
+  "rawTests": 5128,
+  "uniqueTests": 2564,
+  "rawStatuses": {
+    "PASSED": 5128
+  },
+  "badUniqueTests": {},
+  "configuredFullMavenCommands": [
+    "+ mvn clean install -fae",
+    "+ mvn verify -fae -Pbuild-containers"
+  ],
+  "mavenBuildSuccesses": 2,
+  "consoleProof": [
+    {
+      "line": 21,
+      "text": "Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)"
+    },
+    {
+      "line": 217,
+      "text": "Checking out Revision e12fb0a9f83bb942d39e87158007ade16db22e6a (kwesley/workflow-scenario-port)"
+    },
+    {
+      "line": 250,
+      "text": "+ mvn clean install -fae"
+    },
+    {
+      "line": 1166,
+      "text": "[INFO] BUILD SUCCESS"
+    },
+    {
+      "line": 1214,
+      "text": "+ mvn verify -fae -Pbuild-containers"
+    },
+    {
+      "line": 2165,
+      "text": "[INFO] BUILD SUCCESS"
+    },
+    {
+      "line": 2253,
+      "text": "Stage \"Branches\" skipped due to when conditional"
+    },
+    {
+      "line": 2256,
+      "text": "Stage \"Pull Requests\" skipped due to when conditional"
+    },
+    {
+      "line": 2259,
+      "text": "Stage \"Mainline\" skipped due to when conditional"
+    },
+    {
+      "line": 2273,
+      "text": "Stage \"Deploy\" skipped due to when conditional"
+    },
+    {
+      "line": 2288,
+      "text": "Finished: SUCCESS"
+    }
+  ],
+  "staticAnalysisChildrenSkipped": [
+    "Mainline",
+    "Branches",
+    "Pull Requests"
+  ],
+  "branchSonarPassClaimed": false,
+  "genuinePrSonarAnalysisRetained": "4c01af9a-00d7-4ecc-8030-c5c7a0660cd7",
+  "consoleFile": "/tmp/pr107-feature51-completed-console-20261010.txt",
+  "consoleSha256": "8a49a383b937bac0d47786a00cf0d8586b427f20fa42212f0a8cc2bc9c401703",
+  "junitFile": "/tmp/pr107-feature51-completed-junit-20261010.json"
+}
