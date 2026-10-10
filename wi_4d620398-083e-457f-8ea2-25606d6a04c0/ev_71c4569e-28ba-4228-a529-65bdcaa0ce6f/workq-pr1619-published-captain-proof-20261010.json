@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-10T21:13:19.267898+00:00",
+  "pr": "https://github.com/scopear/workq/pull/1619",
+  "head": "e1be296bdd253de1885682ecfc3ef1984534f27b",
+  "base": "c78a277d306a4a5dac8e575e3a817ea3068803d7",
+  "captainReview": "Previously complete and retained unchanged; no substantial findings; no extra review cycle",
+  "localIntegration": {
+    "evidenceId": "ev_8d7fbdec-26b8-403d-bc64-17ac6aa1f034",
+    "command": "npm run test:integration -- apps/pool/src/harness/dist-isolated-import.int.spec.ts apps/pool/src/provision/cow-clone.int.spec.ts eslint-rules/integration-tier-smoke.int.spec.ts --poolOptions.forks.maxForks=1 --poolOptions.forks.minForks=1",
+    "exitCode": 0,
+    "suites": 3,
+    "cases": 15,
+    "allPassed": true,
+    "rawLogSha256": "f7cca6f3285a40b2e6785ac7795d0950650607f04e6bd950b37038548fd9dfc1",
+    "rawLog": "/tmp/snapshot-pr1619-serial-integration-exact-log-20261010.txt",
+    "scopedOnly": true,
+    "earlierRedLogsRetained": true,
+    "raceDiagnosis": "Worker-reported; root verified existing unchanged cases and canaries passing when serialized, did not independently reproduce the APFS race"
+  },
+  "remoteGates": "Exact run38086536033 still active; no full CI clearance",
+  "landing": "Required non-author approval remains; no Workq land authority/selfapproval/bypass/merge"
+}
