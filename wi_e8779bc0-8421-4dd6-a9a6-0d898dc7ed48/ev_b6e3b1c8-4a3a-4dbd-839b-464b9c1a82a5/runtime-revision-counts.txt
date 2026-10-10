@@ -1,0 +1,3 @@
+Tested head: 5091173e518650ad4723d75333c0a09155093c25
+Full Maven install -fae: exit 0, all eight reactor modules SUCCESS.
+{"tests": 2234, "failures": 0, "errors": 0, "skipped": 0}
