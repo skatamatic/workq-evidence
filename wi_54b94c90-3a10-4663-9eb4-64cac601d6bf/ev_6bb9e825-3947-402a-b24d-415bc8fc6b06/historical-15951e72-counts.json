@@ -1,0 +1,1270 @@
+{
+  "source": "15951e7285c97f2aa46ac1a68abf325930debde6",
+  "target": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "historicalOnly": true,
+  "supersedingTarget": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "totals": {
+    "tests": 2713,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "reports": [
+    {
+      "path": "insight-api/target/surefire-reports/TEST-com.flatirons.insight.model.response.IFormFieldResponseTest.xml",
+      "sha256": "12d66ad51a19065bdf0cc2a35de1f284ddf7a2bb212df999319db88c4dac41e0",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-api/target/surefire-reports/TEST-com.flatirons.insight.util.AcmUtilsTest.xml",
+      "sha256": "f181e5b6802654749ac5e95b53f79640365217954646f18d221410c471f7f1aa",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-api/target/surefire-reports/TEST-com.flatirons.insight.util.ServerTalkTest.xml",
+      "sha256": "e15fe9ca263037236848e6a339498031b3f8b63b1108454ff628b60a8c187509",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-api/target/surefire-reports/TEST-com.flatirons.insight.util.ThreadLocalContextTest.xml",
+      "sha256": "9f47cb4ccbc3f8f7281ef63719fc5f9b295c13b1cb2fe1f8d85154be0b22e4e6",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-api/target/surefire-reports/TEST-com.flatirons.insight.util.UtilsTest.xml",
+      "sha256": "e82cc67f5511a56050dfcb0716bba4ee8ba878e40108fcfa412be53aedd667d8",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.DatabaseConfigurationTest.xml",
+      "sha256": "e259756badb5fc41ccacbdcabed9847be4a2022551b612beb505601aae246973",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.DynamicRmqConfigListenerMockTest.xml",
+      "sha256": "a1bc4a31880c37aa144545b5fae57d1ee341a7b32d435d5e376460fe32554722",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.DynamicRmqConfigMockTest.xml",
+      "sha256": "7b2a29c61c23b4d9569e4efb8a6ea018dac4309853acb8d5aacb4643200252f9",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandlerTest.xml",
+      "sha256": "dc0608ea4c6b627ca02f73f5162ecece84427a0c3d009dc4a0a75f829fccbb90",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.security.IdentityMutationHttpSecurityTest.xml",
+      "sha256": "366ff897b1cfb6dec660b151ad4b4e164d924303b57db93823f14ab45f8f036c",
+      "tests": 35,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.security.JwtAuthenticationFilterTest.xml",
+      "sha256": "afdf09d9209fb093d12281c4fea28c4a6c88c59cc88aaaf25732202e201927b3",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.security.SecurityConfigTest.xml",
+      "sha256": "4aa6f45e3b148ba6ef26b86ad6169b9c35d33e0cf7f52df7f8b192a739ae1eb9",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.conf.security.WorkflowUserIdentityTest.xml",
+      "sha256": "e89e9c37550757721358ed66efca9f6c3339c8ed8600a589ded77d9f9f2fd99b",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.AcmPropertiesTest.xml",
+      "sha256": "44143b6efd77a53182899a6de9792ae72af4cea7b98d68b838fc727d3e17f7e2",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.ColumnConfigTest.xml",
+      "sha256": "8369add27aaa27e24a97e3782188be6890e262c7320812bb0cf4490c04cd4bb3",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.CookiePropertiesTest.xml",
+      "sha256": "04e5ec4f3115b6febabea7a140df098d44e517fbc10a1a88005d420dae84e0ba",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.ExportConfigTest.xml",
+      "sha256": "57fbbf2a535673af433164ae68f45edb87ef04315559090f40558323bb7d3f40",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.RmqPropertiesMockTest.xml",
+      "sha256": "8edff6e0c9c6bbc215bdb46a59f9470434d4021305569177b26a3cb353ebb2f2",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.SecurityPropertiesMockTest.xml",
+      "sha256": "d339c00822dd2b50d2ecf19aede827a63af6ae51cb17017e76483851cdad1052",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-config/target/surefire-reports/TEST-com.flatirons.insight.properties.TableConfigTest.xml",
+      "sha256": "325e65e453c396764f4577b1fe9fbe8cfbd3f0d306ef72a2a45f9dfe0350853d",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-dao/target/surefire-reports/TEST-com.flatirons.insight.TaskInfoQueryWrapperTest.xml",
+      "sha256": "e2a93788b66fd9296d0c7dc0cd41bdb2d364e068ee57d7f86623f35360dab726",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-dao/target/surefire-reports/TEST-com.flatirons.insight.repository.ProcessSearchRepositoryTest.xml",
+      "sha256": "583e856110e9cb6765216ffbc6b3bfed56754115ae9ff8668720e3334d28409a",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-model/target/surefire-reports/TEST-com.flatirons.insight.model.GroupPrivilegeDtoTest.xml",
+      "sha256": "9961395f9a9b314b505e94d633ade34977e145e320b9914d273ddfa651339a46",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-model/target/surefire-reports/TEST-com.flatirons.insight.model.component.SimpleContentTypeMapperTest.xml",
+      "sha256": "23ea35b3121618b87f1863c4197eca4e0f67485c5769c748dbd18b92482ae798",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-package/target/surefire-reports/TEST-com.flatirons.insight.app.ServletInitializerTest.xml",
+      "sha256": "45b6a7a23ff913c40dfc163a5d364c9af4bafd0ae814274a15f37dd704c223ae",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.external.ExternalLoginControllerTest.xml",
+      "sha256": "1b7ee2beefc6711dc34e7699f045f63150c111c1756f1478f979e8e901e26eee",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.form.FormAppFormControllerTest.xml",
+      "sha256": "ee118272c3a3a8b444cabb70505662d264304f8a6b9fff79cec90f37cb817a07",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.form.FormControllerTest.xml",
+      "sha256": "880d4a315d97e062f01763fd1d554aba87be2f6d7991d671680b1655337d0959",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.form.FormFieldOptionControllerTest.xml",
+      "sha256": "aca294dc5126894b96ba641eebbf674356a968ce5c381e98d05f6e7af0c13214",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.form.FormOptionSetControllerTest.xml",
+      "sha256": "cf72db18776fe7040f0c12e8798e30ff061588101dd289c2df0a8a1ab5160d96",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.form.ReferenceDataRoutingIsolationTest.xml",
+      "sha256": "990c1874f538d5a885e077fe02ca918e3a387d34a555419bb0092e6c1f254c5f",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.identity.GroupControllerTest.xml",
+      "sha256": "d2cbbaf3c1fb2578768087ab02ed4a1635549300896a0af28fd6b74f3c70b4f1",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.identity.PrivilegeControllerTest.xml",
+      "sha256": "e898d993519f1c62fb11df93e6edc001aef651329254717a9d900ac29ff9b9c4",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.identity.UserControllerTest.xml",
+      "sha256": "200ad944268568b1deeac17c82980df79468ce6412f45eb97abed41583dd87c5",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.identity.UserEmailMutationBoundaryTest.xml",
+      "sha256": "161ee96957b171ba092796f4f6863caebaf02df159b219f997c2d4aff9cf950e",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.identity.UserPinControllerTest.xml",
+      "sha256": "78deebb5a9c5826eed32d1bfcd7c0c4e6e2929e931d42b09f475f05143b6d87d",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.repository.AppControllerTest.xml",
+      "sha256": "37538eb1305253636154d238a6435c5ca354db709502cbcce78dcf8ed9f7f37a",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.repository.ProcessDefinitionControllerTest.xml",
+      "sha256": "419b32e4924299efa0a66bf708c031dacdb60e031ea3175c2c79dc9d03a78d51",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.AnalystStartContentHttpTest.xml",
+      "sha256": "cb089f396519eda0a240c6273966ec41cc2733a5e7f16616e884f6834228154b",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.CommentControllerTest.xml",
+      "sha256": "6b6a1f26682e304670947cc0e8915c152cf5a72c02e0d453700c1130c49aee61",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.ProcessInstanceControllerTest.xml",
+      "sha256": "2ce393f4037dc541590a4d502615072aacd2b121b7caa1501dadc65e935a1bc2",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.ProcessInstanceQueryControllerTest.xml",
+      "sha256": "b80e39290f367d5a3fcf4106c1f9fcaf928a541f981b7726e7b25eb3d48f2d41",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.ProcessInstanceVariableControllerTest.xml",
+      "sha256": "b1f4aa8418c91f25ff4d109355ccb62972cb40f3d2ec86a2eeb862e1c511bbc2",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.RelatedContentControllerTest.xml",
+      "sha256": "9a11e3f7e99fbd66d01b7d24f120eb8cb389f1503eaa73d400a42be98d241452",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.TaskActionControllerTest.xml",
+      "sha256": "a4f1ce65f149ea5a4796ca25b767bfa902e40a83f14e17edcf9b5bb473917df7",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.TaskAssignmentAuthorizationHttpTest.xml",
+      "sha256": "047ecbbb5a5f74d63f5222dd3d76084daeb1d91237dac1fc1400d6a827fb9a6a",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.TaskControllerTest.xml",
+      "sha256": "81cd7a377c75b17fd12d1063277791e668c6a5cc6146f9302bdf42e711de60f6",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.TaskQueryControllerTest.xml",
+      "sha256": "1e1d0b5be923957c6ef4a6ecf319ae03a1ad625b4b14925356259c097fe1355c",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.UserPreferencesControllerTest.xml",
+      "sha256": "c7b270bea87df15c5b06482f4675d898554a7b706cc45ad1cea0d3dd4fc48290",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.rest.internal.runtime.WorkflowAnalysisStartAuthorityHttpTest.xml",
+      "sha256": "7f28e45f2623fbcbc9ca4b44e766feb98c4483845accf5987328566ba487b4ce",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.AnalysisTaskAuthorityControllerTest.xml",
+      "sha256": "b48b7fa1858e1407adc8917e413ca5ed13c2b572d17a5bc79d23233af5beec05",
+      "tests": 58,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerWorkflowHttpGateTest.xml",
+      "sha256": "0eef1767cc1dca7033b0adc0c572a9603121153d8292c776334f3e480d822718",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerWorkflowHttpSmokeTest.xml",
+      "sha256": "91402454a7cea6b711f7ff0bed1cd602043c77f642e778d3bedb32cc1b3c51c9",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.InsightBrowserLauncherTest.xml",
+      "sha256": "2d5abf0631c9009870e364dadd32587824fc28d6056191644802dd3bad101990",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.InsightBrowserRuntimeTest.xml",
+      "sha256": "7dff0e4883161315d355d5a85bf50acebd5c94b8ae247933534d8d102bfe34e5",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-rest/target/surefire-reports/TEST-com.flatirons.insight.scenario.TaskSignatureScenarioTest.xml",
+      "sha256": "16b5ab23ef32a55c430cac3140722a6a7cc0db137fe16a619996cb9724047f36",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.AnalysisJourneyScenarioTest.xml",
+      "sha256": "0b2c3507a1a26a25b0645287ff6615f97297b3b0d30f1bcd49c4a251b9f878f8",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.AnalystStartContentScenarioTest.xml",
+      "sha256": "8d20a31b2bdea8ada4b9d6a7d29e6599e3ccb9acd0f7d84438210baea7fb9a9b",
+      "tests": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.ArchivedStartFormScenarioTest.xml",
+      "sha256": "10ed84c4fda4c6cc73e9b1ca76f1ce87fe0bee44de14c7f201aac9f13350b8bd",
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.ArchivedTaskFormScenarioTest.xml",
+      "sha256": "9b392d2858256e1366a407b2e82e00c5063e746f4211e2b024eb5d4109ca7563",
+      "tests": 106,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerArchiveCompatibilityPreflightTest.xml",
+      "sha256": "d3ab03b43a3e88b6467e86f5c0b2848577400b8f7291a465517bc843fa2a22c1",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerArchivePublicationTest.xml",
+      "sha256": "5780acd351c4dac7f6565777c36b89eae4620188a3238acaac311031f9293f3d",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerBpmnDeploymentScenarioTest.xml",
+      "sha256": "f44bda24d8f415790dba1ef56e84e4be9954f4a310e0b44969ebc2520c4ef547",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerContentCaptureScenarioTest.xml",
+      "sha256": "45eecd5ece9ecece7385602d091d1c60d5de501211fe275bae01fc3ebaeb48f2",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerFirstWaitScenarioTest.xml",
+      "sha256": "b597913105714e6fb668bbc60995e0b4568fa9bb024147369eedd90f5dafcd75",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerGoldenSeedTest.xml",
+      "sha256": "404faca1362cdb74aa39aea951506ac6e26270fa03cccaf81d46ea1683de386a",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerMailCaptureScenarioTest.xml",
+      "sha256": "ce6cc769cca0e4514afc1b555cfcaab4223caa676ae1c0f4a6c8c8c90ce45f03",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerParityGateTest.xml",
+      "sha256": "b78b7cc1b508bc584165f1c8a0bb7f141c1b61225e7147848eba4845ad5f7015",
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerTaskAssignmentScenarioTest.xml",
+      "sha256": "17ba6678eb1a74213f052ff0615b1996274860c20b4eb2a0b0d76c50b504b426",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.CustomerTaskDateScenarioTest.xml",
+      "sha256": "445b27a10b8afb441b53fde7520ec508a63a1d729108522196d20fb090db451c",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.FormAppEngineScenarioTest.xml",
+      "sha256": "159cec65618e13285c82bcab54cf9e2a28df6a6faad6dce845821fa8610472ba",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.FormAppFormSubmissionScenarioTest.xml",
+      "sha256": "4c4ce7d5cc4875016aa555144d8c2be98d103aa7029b1ca99c817a11713afc79",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.FormAppFullJourneyScenarioTest.xml",
+      "sha256": "7a0457ee96164ee18d1eee4885c2fa2b491255d7e46499328a8c0a1cbd1aefbc",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.FormAppTaskActionScenarioTest.xml",
+      "sha256": "231a5847196c260e12604d0f1c1ddcdf08ebe434cac62eef168bac58144feafe",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.IdentityAuthorityPersistenceTest.xml",
+      "sha256": "b0efae785ae28cc906790f991bed330cad11bd37f271085773b2db0d892e250e",
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.InclusiveGatewayScenarioTest.xml",
+      "sha256": "4543125ecc1ae0b12da49f234b9b0e057021b5cd3812a4b3a00dea1a6027359d",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.MdcrSyntheticArchiveBoundaryScenarioTest.xml",
+      "sha256": "02ea58b73358b2bb581c5652b84036afa0e0de9a5fa12e8c85cac2461a1903b0",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.NativeNotificationBridgeScenarioTest.xml",
+      "sha256": "0b9b63bd6c066595d7caf8ce7d0202292f18c159700f9dd9da17d5db7c0c28cf",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.RelatedContentAuthorizationScenarioTest.xml",
+      "sha256": "5dda2be0087dfdb03cc1363a0113d3dc449f659a493c81c829a7a6a9295bf975",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.SafranAnalysisArtifactCoexistenceScenarioTest.xml",
+      "sha256": "4cc797bc2e08c0c7920af9705769d63107ccc4aa43a1d12bd351cc97737ba2f9",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.SafranFeedbackJourneyScenarioTest.xml",
+      "sha256": "59f59b724c55241b08e4e663cefc913cbd2dbfa7bec59dfde076251fa4511948",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.SmokeScenarioTest.xml",
+      "sha256": "5913134a039bcc8ba02c4027237b0e5b510ff3083b8e0e1d4c1a018f6e43127e",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.WorkflowAnalysisAuthorityMigrationTest.xml",
+      "sha256": "5963d52be9ba5c60af63e0575b7271666eb82ff8bfd3b5db02b27a83aa1b3a9f",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.WorkflowAnalysisOperationsScenarioTest.xml",
+      "sha256": "194c3697d70eb9503649e6d0a7a9fa70a0f2795611df6846ff60405af4609a4d",
+      "tests": 217,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.WorkflowAnalysisScenarioTest.xml",
+      "sha256": "cd8097c27a327acd3ed853cc977840c895d1eed8840244f1999154aa69287741",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.scenario.WorkflowIdentityAmbiguityMigrationTest.xml",
+      "sha256": "4f5c2401cf371324cd7066b37fb897eada7378dc2affacc2a45f526d0e8a32d3",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.security.SecurityUtilsTest.xml",
+      "sha256": "1c365f25eb1b651db68aba22f1ca69b1fc7632b1edd2022be6e6e073df85e23b",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.security.WorkflowLegacyAliasTest.xml",
+      "sha256": "226097ca5ca4ce312fb66182ed5a3d7cc53f6145505b01cb9d3162d88d987022",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.editor.AppArchiveServiceTest.xml",
+      "sha256": "a26c6a557c212f3e944887931f45b3b7c6c88f3d0d067e403d9c130f13d8c9fc",
+      "tests": 58,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.editor.ArchiveExecutionPolicyTest.xml",
+      "sha256": "d2d5c1ff00ba8618238ae5e8cf208ad29b239ec54599b42e2ea3ae94a32ede5d",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.editor.FormAppArchiveServiceTest.xml",
+      "sha256": "42705213511b5449436c49bc1b950a73f3a0414c1e0a7213193093a6d1c8054f",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.editor.KickstartArchiveRetentionTest.xml",
+      "sha256": "e8cfa1d953778e422adf0ccb2e0fcea871a413eb3b76d4e7b2ff13b25c9301ba",
+      "tests": 48,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.editor.WorkflowArchivePublicationServiceTest.xml",
+      "sha256": "02e2a1e4c28d92ac2c01e41792b7290e4126a440cd77cfb67c7a28fb9b04dc1f",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.reporting.eventhandler.InsightCustomEventHandlerTest.xml",
+      "sha256": "9ba98e7c9dd58144eeca1a7c37f1e2f7006354e253527ee88b6f94963b17a281",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.reporting.eventhandler.ProcessEventHandlerTest.xml",
+      "sha256": "36cfd42e7938cbb077ddc50e5d8a4f7be3fd5512e71bfe58ba9b910d43360eae",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.reporting.eventhandler.TaskEventHandlerTest.xml",
+      "sha256": "24872545dcbfdbb0d4ec44423934c516188fade448ad01b13acc4a1d88c8b907",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.reporting.eventhandler.VariableEventHandlerTest.xml",
+      "sha256": "f5d0fbd0bdd5dc3e2e5120bd118eab6ae57d830b550f9ee22ec3c300c5305e17",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.rmq.RmqEventListenerImplTest.xml",
+      "sha256": "ed1d77e0024580770071068603f47c73943c40dcc0206888e400987d95f61a6e",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.rmq.RmqHealthCheckServiceImplTest.xml",
+      "sha256": "92cef47465a60b1a6c353c509877b43337c8ea4a2201027d5a1b27adb6aa6029",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.rmq.RmqServiceImplTest.xml",
+      "sha256": "80ba9b7f9687cda4ee81e0311cb98576c03da0533d4d2de0b974bf72302bf038",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.AESServiceImplTest.xml",
+      "sha256": "d2340f9f5b7b3a58bea37ef423e0bff78cad0b218f54f4883d282cee24f16a16",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.AppServiceImplTest.xml",
+      "sha256": "a08b936692f9f72b17957187c5e095ce0b714134e5edc497e877a8385c1a6f6d",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.ArchiveFormDefinitionTest.xml",
+      "sha256": "a2e182918f820e8be61583bacbf419c57a2a51871a5465a289db3441d32135b3",
+      "tests": 78,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.AuthServiceImplTest.xml",
+      "sha256": "f023f42e92609996f700655d4fa237824cd9d3734ad009185763351a7e7be9fb",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.CommentServiceImplTest.xml",
+      "sha256": "1aff1bf5634bed14e7992dec96580beea46026af43bdcfce9e84c788c97c92f2",
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.ContentStorageServiceImplTest.xml",
+      "sha256": "481f8f4a9d0a807c3285b8a05f8bb214e1606c6c9105172821b846af1f5edc07",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.CustomerReachedListenerTest.xml",
+      "sha256": "59f017d9fcb8ba934dea26c827a5e00c4f193b116743d4926d604790b57a2aab",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.FormFieldOptionServiceImplTest.xml",
+      "sha256": "65fe1d9acc50f466fbce1f2606040874260729a03563d842edfb7a87823e2ad9",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.FormOptionSetServiceImplTest.xml",
+      "sha256": "072c52db4c8405ceecd5f906f6d0b29c3f88bee6b6c39ab77a80bb14f2f7d073",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.GroupServiceImplTest.xml",
+      "sha256": "5bdd85894d4290ea51f24fd734f59e04376830d0bc6e953ecc66198924bd5b17",
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.IT.ProcessInstanceQueryServiceImplTest.xml",
+      "sha256": "444d0bc68205ecf57411a55d99bfaedf33f0a50eb2ee360f61641055b6b1a64e",
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrChildAuthorityContractTest.xml",
+      "sha256": "f304cd49f32acaba3afcfaa11023341c7168b5f1c748398fe8f83972061b59c4",
+      "tests": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrConsultSyntaxArtifactBuilderTest.xml",
+      "sha256": "7b2e81ef2f2cccd594d258a2fece6ad449e22296743c99471c3cad0b0dd08c93",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrIntegrationProvisionerTest.xml",
+      "sha256": "bd8ac2da2954e7d121f96adad4677d0b3b0bd4ead0c017403f5791922d3edcec",
+      "tests": 139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrMailTemplateTest.xml",
+      "sha256": "b32a8d0900b7ca6ef410f52b24390394cf7730c9e63ad4587f443158136cd99f",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrNotificationBoundaryTest.xml",
+      "sha256": "5db97b096e9faa8eba826c743e57ee27c3201414a255040518310cc9491270fc",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrNotificationContractTest.xml",
+      "sha256": "c3a3cec7b94dc537f46b5e994177b4e4d119fcd25fa4b0b7cd65f87e490b4fe1",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.MdcrStarterProjectionBoundaryTest.xml",
+      "sha256": "770a50b834a487a581ba409e1494db721e4bb70a0fcd7f590075afe67e220081",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.PersistedActorProviderTest.xml",
+      "sha256": "1ac571df179c6e0714138fab0c87bbb38a5f427a10cfa8fc20166304da34009f",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.PrivilegeServiceImplTest.xml",
+      "sha256": "c182c0e3aab9163bac8a59d7eeaade6ae7a36f1f49b11b8cc6776348440d7520",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.ProcessInstanceServiceImplTest.xml",
+      "sha256": "a1343b8cb371afa96f587c5ca684331d42abba8f807fbc0f345b75e7dfadd541",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.RelatedContentServiceImplTest.xml",
+      "sha256": "a9652b5bbf99bc765c82c085b078d4392687268ec3588f19a69674bc542ac654",
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.SafranAnalysisArtifactBuilderTest.xml",
+      "sha256": "aba0c7324a3c30446885396cb5c8b21246e4ecc6c515c7fa9ea065c0778ef0a6",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.TaskActionServiceImplTest.xml",
+      "sha256": "6ee888e036ed8d419102f587710906f5630a703462fe9a3bd878a964e1e6a774",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.TaskQueryServiceImplTest.xml",
+      "sha256": "9d8271fe7a707e70cecfa34e2d8e5ae30e91b60df0b769911a066cad073ee7c1",
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.UserCacheImplTest.xml",
+      "sha256": "46b1ccabb33f9c94766a2a2459420e58944ecfc1e0c818e6799013ed597d9a6b",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.UserInitializerServiceImplTest.xml",
+      "sha256": "692ee81ddeb93c05a34e2d586d7219c82b8008e5826eb36e719487ccfe695ede",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.UserPreferencesServiceImplTest.xml",
+      "sha256": "76af17e4c260189bfca831f7669bb6d61365c843f12135f88b6a364a9d079af9",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.UserServiceImplTest.xml",
+      "sha256": "45ba7ca97bccc97384d85ad2f86fe9959d771ae6ba47ceda20a54d195292fcae",
+      "tests": 71,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.UserSyncCacheServiceImplTest.xml",
+      "sha256": "a6f344f782e22f7e2d43d31e868df460ba798166ba1ebd0007b21faa152cb140",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.UserSynchronizationServiceImplTest.xml",
+      "sha256": "6b7f968c592f5d01c2c547524a24d99e21c9f3800b39726b518ada0ed8febdb7",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowDocumentBoundaryTest.xml",
+      "sha256": "78bfc7de07ae553570e47015f9be01d8b463ce8acd31ae41fa5466e7478f00c8",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowDocumentPersistenceTest.xml",
+      "sha256": "c34265c5c032f35d9ca13f09a94488d13b2a5cd03a089189813cef4972269da4",
+      "tests": 53,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowFeedbackNotificationBoundaryTest.xml",
+      "sha256": "b8f898775f36e86f4e5a302d0d54c16f02abe27c3c147eaef83bda24f585cc2d",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowHttpTransportTest.xml",
+      "sha256": "a6dfdf423bea80087aff904863625360485cadbdd60912551fb0808143fbc8a2",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowIdentifierConfigurationTest.xml",
+      "sha256": "55371364236ddb37d9c778233a3e147fa4b84891580e628543ebef1e44db27d4",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowIdentifierCustomerStartTest.xml",
+      "sha256": "4b75e52fb0fc1f600e4d96608178d3a3d7cc5aa8b71b25cd08030762a652fae7",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowIdentifierPersistenceTest.xml",
+      "sha256": "813a88db8aa7e4180ff859079b782d08e57bd33a32e35c527de5d41fb9a73af4",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowIdentityAmbiguityStoreTest.xml",
+      "sha256": "0cd350cb6c50b6738ba79b33355bda44ebb687d393dfa615ad444d9e9d248737",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowNotificationDeliveryConfigurationTest.xml",
+      "sha256": "cdf17b7ec6d07dafca5838998d97f2f9ba269b2791af69398c2127237504dd16",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowNotificationIdentityTest.xml",
+      "sha256": "b556873440308bae398e5b4c88cfaddcd7f5b43e66230007dd9f643f535c6373",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowNotificationOutboxServiceTest.xml",
+      "sha256": "7679cb255eb01d87d00a7385c34339ec9bf9c462084e55b75d481d9578850b59",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowProcessNamingConfigurationTest.xml",
+      "sha256": "ce78566f8fff5b04c9ebf5e332e600233e1dc13f57051837532a9cc9d8654b03",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowReachedBoundaryTest.xml",
+      "sha256": "0497a8378511c832f865afc3c404d6e9fbbb2814adfac4742a57cb6dc868751c",
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowStartListenerPersistenceTest.xml",
+      "sha256": "f84c06372eec5a6c8fd571daababb682c3ea9240e36885be374ca99cee2447c0",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.WorkflowTaskIdentityServiceTest.xml",
+      "sha256": "0782c6e9975bf06b4319591ea85f94b73b79b43f3528a58aef5633b3ff8ffa89",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.acm.AcmInitializerServiceImplTest.xml",
+      "sha256": "5b1ae4aec921bb1bc9c23a933e0efa98f24a574ed094b176158eee6c2c3b7bbb",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.acm.AcmLoginTalkTest.xml",
+      "sha256": "6309ce49be941398fd46f0b7c55eead7be6e7240eab6f1de0c1872355db774c6",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.acm.LoadAcmConfigurationServiceImplTest.xml",
+      "sha256": "77ce6450727b856e7167670036170f28321ce0c3e5dc02b4398c7cd55e396568",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.acm.RoleResourceServiceImplTest.xml",
+      "sha256": "dfb6fa6d631b31e82ed2feb33152affd4911cd32ff8809374433597315f4ac37",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.listener.InsightLdapListenerTest.xml",
+      "sha256": "3946768e0e29c90509777194ce5b3bbb40b4353a6e87a5a27fc2f8dfa838f1df",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.listener.TaskAssignmentBeanTest.xml",
+      "sha256": "9c53856a86efcbadfa036c7992f3220e04631b33fbd3f51ea3da5feb03649737",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.runtime.listener.TaskDueDateBeanTest.xml",
+      "sha256": "3f3abedd168d9d09cbefec5d0ffc6d02843bc265763277e327b99dc3e93df7ef",
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.search.SearchEventListenerTest.xml",
+      "sha256": "4e539a59658c94c43b69109e2fe25e949e6a0a67ed2bf90ddbcc49ac8b1e2bc4",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.search.SearchRefreshServiceTest.xml",
+      "sha256": "b26940e725b5f37eb1fcc350eb6812816ce776910fa87a0944eab004df74bf64",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.search.SearchTxSynchronizationTest.xml",
+      "sha256": "bcfdd13bdfa3d4fecbe8e6adb0669929ec1d1d338059128a943782d3fa26d684",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "insight-service/target/surefire-reports/TEST-com.flatirons.insight.service.search.SearchWorkSetTest.xml",
+      "sha256": "7d1665fb6aa1134cf5cd9be92b6d6d82679baf82e91a98fe3091e3277202a3f7",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}
