@@ -1,0 +1,56 @@
+{
+  "capturedAt": "2026-10-10T22:18:02.517796+00:00",
+  "newTerminalDelta": {
+    "capturedAt": "2026-10-10T22:15:21.215812+00:00",
+    "name": "PR110",
+    "number": 4,
+    "building": false,
+    "result": "ABORTED",
+    "applicationBuildData": [
+      {
+        "remoteUrls": [
+          "https://bitbucket.org/flatironssolutions/insight-server.git"
+        ],
+        "lastBuiltRevision": {
+          "SHA1": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+          "branch": [
+            {
+              "SHA1": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+              "name": "PR-110"
+            }
+          ]
+        }
+      }
+    ],
+    "consolePath": "/tmp/PR110-exact4-2215-console-20261010.txt",
+    "consoleSha256": "082ba60be0a543a98add5acfa89323f053039c8509d03f7fdbd3e169df02bd8e",
+    "fullBuildSuccessCount": 0,
+    "sonarTaskIds": [],
+    "taintDeletion": true,
+    "finishedAborted": true,
+    "tail": [
+      "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)",
+      "\tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)",
+      "\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)",
+      "\tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+      "\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)",
+      "\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)",
+      "\tat java.base/java.lang.Thread.run(Unknown Source)",
+      "[Bitbucket] Notifying pull request build result",
+      "[Bitbucket] Build result notified",
+      "Finished: ABORTED"
+    ]
+  },
+  "reason": "Same repeated Jenkins NoExecute-taint agent loss and connection-broken timeout already captain-owned; no application defect established.",
+  "matchingConsoleLines": [
+    "Checking out Revision d5a88b7198a5c7182ab52e78adfb68699b9cc9db (PR-110)",
+    "Timeout waiting for agent to come back",
+    "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-110-4-7v1h4-7ss3b-0qh22; rd-insight-server-pr-110-4-7v1h4-7ss3b-0qh22 was marked offline: Connection was broken",
+    "Finished: ABORTED"
+  ],
+  "currentJobStatePath": "/tmp/insight-repeat-abort-current-job-state-2216-20261010.json",
+  "priorImmutableProofPath": "/tmp/insight-repeated-agent-loss-terminal-proof-20261010.json",
+  "priorImmutableProofSha256": "6edc710516811fe8e4d5cda956509cb61951aa8e67dbfa3a570e5e738340a5f3",
+  "standingDirectionPath": "/tmp/insight-repeated-ci-agent-loss-operator-direction-20261010.md",
+  "action": "No additional retry, source repair, review pass or worker wake. Pending verified infrastructure recovery or concrete operator decision."
+}
