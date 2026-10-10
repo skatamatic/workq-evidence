@@ -1,0 +1,51 @@
+{
+  "reviewedAt": "2026-10-10T19:51:10.045160+00:00",
+  "source": "d6a06aa1134c43c677874b63f3c16666626540f3",
+  "target": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "priorReviewedSource": "f0fcf08b25c77155b7219ab9c6497b0e4ab257de",
+  "mergeBase": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "parents": "f0fcf08b25c77155b7219ab9c6497b0e4ab257de e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "tree": "a3ca584064d75ddee621b24a41cc1632c6794648",
+  "cleanMergeTree": "a3ca584064d75ddee621b24a41cc1632c6794648",
+  "changedFromPriorSource": 17,
+  "pathsIdenticalToLandedTarget": 16,
+  "combinedPaths": [
+    "insight-service/src/test/java/com/flatirons/insight/scenario/AnalysisJourneyScenarioTest.java"
+  ],
+  "lensesRan": [
+    "correctness"
+  ],
+  "lensReports": [
+    {
+      "specialty": "correctness",
+      "summary": "No confirmed regression in bounded integration delta. Both pinned parents retained. Landed authorization and prior Analysis fixture/signature/hash contracts preserved.",
+      "findings": []
+    }
+  ],
+  "findings": [],
+  "preservedPriorCaptainReceipts": [
+    "/tmp/pr111-captain-review-20261010.json",
+    "/tmp/pr111-b29f-captain-integration-review-20261010.json"
+  ],
+  "local": {
+    "proof": "/tmp/pr111-e12-full-local-proof-20261010.json",
+    "commandEvidence": "ev_bf311603-e00c-473b-8f4f-55860aec10a9",
+    "xmlSuites": 160,
+    "uniqueCases": 2596,
+    "badCases": [],
+    "staleReports": [],
+    "allImmutableArtifactHashesMatch": true,
+    "xmlHashesMatch": true,
+    "buildSuccess": true,
+    "exit0": true
+  },
+  "remainingGates": [
+    "fresh full exact-source/current-target Jenkins",
+    "genuine Sonar and scanner/application/current-target provenance",
+    "actual branch rules",
+    "immediate full heads and clean merge tree",
+    "ordinary authorized landing then actual merged-head checks"
+  ],
+  "landingClearance": false,
+  "fullJourneyCustomerParity": "pending"
+}
