@@ -1,0 +1,20 @@
+{
+  "source": "5d16635640dbb6b4c2b8ac4c326eda9dbdfcbe88",
+  "testedTarget": "7f65bde1f1cd22798cfd38304dbbb8ca88f43785",
+  "command": "bash .workq/revision-final.sh (configured mvn install -fae, all tests/parity enabled)",
+  "exit": 0,
+  "uniqueSurefireTests": 2308,
+  "scenarioCases": 846,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "packagedWAR": true,
+  "fullGateEvidence": "ev_e1bdbc20-ae3e-4180-8a00-e570f7ff4755",
+  "localDiffJacocoEstimate": 93.41,
+  "remoteSonar": "pending exact-head authoritative analysis",
+  "fixtureBytes": "unchanged",
+  "assertedAnalysisDimensions": [
+    "customer-path"
+  ],
+  "remainingAnalysisDimensions": "five PENDING; general archive publication PENDING"
+}
