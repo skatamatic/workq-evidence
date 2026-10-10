@@ -1,0 +1,34 @@
+{
+  "reviewedAt": "2026-10-10T18:20:18.643710+00:00",
+  "pr": 111,
+  "source": "f0fcf08b25c77155b7219ab9c6497b0e4ab257de",
+  "target": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "mergeBase": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "tree": "327fe0d3dd3c036e405a82fafaed6f06686331a7",
+  "predictedCleanIntegrationTree": "327fe0d3dd3c036e405a82fafaed6f06686331a7",
+  "parents": "c9cff77e56d602e9c067adfe65d59d111c1c7b91 b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "priorPinnedReview": "/tmp/pr111-captain-review-20261010.json",
+  "mode": "bounded integration re-review",
+  "lensesRan": [
+    "correctness"
+  ],
+  "reviewer": "/root/analysis111_b29f_integration",
+  "findings": [],
+  "summary": "Conflict-free integration tree matches automatic clean merge. Combined Journey authentication/refusal changes preserve original route, private/persisted actor authority, meaningful tests and no-write snapshots. Unknown-group original CSV reaches Review Missing Groups then manual Resolve Missing Groups. No broader journey/customer certification.",
+  "changedPathsFromPriorSource": 57,
+  "pathsIdenticalToLandedTarget": 56,
+  "combinedIntegrationPaths": [
+    "insight-service/src/test/java/com/flatirons/insight/scenario/AnalysisJourneyScenarioTest.java"
+  ],
+  "localProof": "/tmp/pr111-b29f-full-local-proof-20261010.json",
+  "localGate": {
+    "exitCode": 0,
+    "freshSuites": 159,
+    "uniqueCases": 2569,
+    "badCases": 0,
+    "staleReports": 0,
+    "immutableLogHashMatches": true,
+    "immutableCountsHashMatches": true
+  },
+  "remoteGate": "Exact PR111#3 BUILDING at actual f0fc application source; genuine exact-source/current-target Sonar, full configured Jenkins lifecycles, scanner provenance, actual rules, immediate heads and clean merge tree before ordinary authorized land. NO landing clearance."
+}
