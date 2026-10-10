@@ -1,0 +1,38 @@
+{
+  "observedAt": "2026-10-10T20:07:57.959Z",
+  "source": "0f0aedb96013a667b3970a98913d9843aba513d2",
+  "target": "c78a277d306a4a5dac8e575e3a817ea3068803d7",
+  "lenses": [
+    "correctness",
+    "security",
+    "pattern-conformance"
+  ],
+  "internalNotes": [
+    "nt_5ea0259e-d419-49a1-b014-dcf4fddf2b9e",
+    "nt_51a16201-4758-4d27-ab0e-0897a198a745"
+  ],
+  "findings": [
+    {
+      "path": "apps/pool/src/orchestrator/feedback-ci-evidence.ts",
+      "line": 113,
+      "body": "**[P2] Separate source rollup from current-target CI**\n\nThe live Bitbucket producer reads statuses only for `headOid`; its destination `baseOid` is discarded by the persisted checks projection, and it provides no `BEHIND` merge state. I executed that producer → persistence → formatter path with only the target SHA changed: evidence stayed byte-identical and still claimed current-target green. Bind application/scanner source and analyzed target to current revisions before making that claim, or report source-status green with target verification unknown. Add a regression using the actual persisted shape and an advanced destination."
+    },
+    {
+      "path": "apps/pool/src/orchestrator/feedback-ci-evidence.ts",
+      "line": 191,
+      "body": "**[P2] Fence Sonar-only diagnostics as external CI text**\n\nIf Jenkins is unavailable (including a Sonar status URL rejected by the Jenkins origin check) but Sonar succeeds, the handoff contains scanner issue messages without `JENKINS_LEAD`. This branch puts the entire scanner summary in `pool`, so the feedback prompt omits the CI-log/not-instructions boundary. Exact-source isolated execution reproduces this. Recognize Sonar blocks independently or use structured trusted/external sections; cover Jenkins-unavailable/Sonar-success and retain the boundary through truncation."
+    },
+    {
+      "path": "apps/pool/src/orchestrator/waiting-resume.ts",
+      "line": 1759,
+      "body": "**[P2] Protect the lease through feedback diagnostic enrichment**\n\nWarm resumes stop the gap heartbeat in `dropPendingResume` before this new wait; cold resumes likewise wait at line1304 after leasing but before the Slot heartbeat starts. Sequential Jenkins, Sonar status, and Sonar issues calls can each spend two29s responses plus a60s Retry-After: 354s exceeds the production300s lease. The same-consumer `leaseForSlotRunner` then returns the original ID. Preserve lease protection until runner handoff and bound enrichment so unavailable diagnostics degrade safely. Use fake-time regressions for slow diagnostics in both resume paths."
+    }
+  ],
+  "rootReplayed": [
+    "/tmp/workq-pr1617-target-green-20261010.json",
+    "/tmp/workq-pr1617-sonar-only-20261010.json"
+  ],
+  "leaseFindingEvidence": "Root independently traced warm/cold waits, gapHeartbeat stop, same-consumer return, 30s/two-attempt/60sRetry-After policy and sequential Sonar calls. No live lease test.",
+  "direction": "/tmp/workq-pr1617-captain-direction-20261010.md",
+  "landAuthorized": false
+}
