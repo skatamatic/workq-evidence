@@ -1,0 +1,547 @@
+{
+  "packetVersion": 2,
+  "item": "wi_54b94c90-3a10-4663-9eb4-64cac601d6bf",
+  "status": "DISCOVERY_ONLY_UNAPPROVED_PREREQUISITE_UNRESOLVED",
+  "branch": "kwesley/mdcr-membership-routing-authority",
+  "targetBase": "kwesley/workflow-scenario-port",
+  "sources": {
+    "readme": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "docs/scenario-harness/customers/mdcr/README.md",
+      "sha256": "94fd8a2d0a8aad533c56f121d1f87b6292c11968b0b97dc5ffbf8e17b0fffcc5"
+    },
+    "inventory": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "docs/scenario-harness/customers/mdcr/ASSERTION-INVENTORY-9075.md",
+      "sha256": "d07baa03d8dce3de2e971a4c89a1946dbc56e802c219faa413fb9f98c506e7e8"
+    },
+    "routing": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-app-model/src/main/resources/insight-app/config/config-process-instance-routing.json",
+      "sha256": "eb777c8c22ec4ed3f18cf43a75ed0011d49a927fd4123540bf34186d141a7a27"
+    },
+    "children": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-app-ext/src/main/java/com/activiti/service/runtime/InsightSubtaskServiceImpl.java",
+      "sha256": "26693fdb0dcede989ce52b040170569f4daee35a9fe7fd592851731b0c9b0b9d"
+    },
+    "assertions": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/activiti-app/src/test/java/com/flatironssolutions/insight/scenario/customers/mdcr/Mdcr.java",
+      "sha256": "affb67d52b7d1034bf94829d2338e847711b9a00af960d9ec7d0ea4579800827"
+    },
+    "seed": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/activiti-app/src/test/resources/scenarios/customers/mdcr/seed-manifest.yaml",
+      "sha256": "0f4b3825644959d35379cd4d00a93831e1c81abc36fb7e8a3af87e1f18b116e4"
+    },
+    "archive": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/activiti-app/src/test/resources/scenarios/customers/mdcr/app.zip",
+      "sha256": "7ffe64c62463713346cf4c610235248c72c299a47c984da8b09cb3bb7ec0bf2b"
+    },
+    "v2": {
+      "repository": "insight-server",
+      "commit": "2b785a9d3a670ce0028dc81f22638324dfc1fb7d",
+      "path": "insight-service/src/test/resources/scenarios/customer-adapters/mdcr-task-options-v2.json",
+      "sha256": "ec739cf72b7c4ec476edffadf3ed50f0088360e2992bd65f8871526b7543f982"
+    },
+    "synthetic_v3": {
+      "repository": "insight-server",
+      "commit": "2b785a9d3a670ce0028dc81f22638324dfc1fb7d",
+      "path": "insight-service/src/test/resources/scenarios/customer-adapters/mdcr-synthetic-test-only-v3.json",
+      "sha256": "a959664270c2fff89a450791fae1c9a933d72c454b920f55f88eb989c5aa1979"
+    },
+    "current_seed": {
+      "repository": "insight-server",
+      "commit": "2b785a9d3a670ce0028dc81f22638324dfc1fb7d",
+      "path": "insight-service/src/test/resources/scenarios/customers/mdcr/seed-manifest.yaml",
+      "sha256": "0f4b3825644959d35379cd4d00a93831e1c81abc36fb7e8a3af87e1f18b116e4"
+    },
+    "current_archive": {
+      "repository": "insight-server",
+      "commit": "2b785a9d3a670ce0028dc81f22638324dfc1fb7d",
+      "path": "insight-service/src/test/resources/scenarios/customers/mdcr/app.zip",
+      "sha256": "7ffe64c62463713346cf4c610235248c72c299a47c984da8b09cb3bb7ec0bf2b"
+    },
+    "grouped_contract": {
+      "repository": "insight-server",
+      "commit": "2b785a9d3a670ce0028dc81f22638324dfc1fb7d",
+      "path": "docs/workflow-task-form-contracts.md",
+      "sha256": "11e4151cc3a66d23804719e7c0e15fdb4f10aa6133e44ee36594d564a74f410d"
+    },
+    "historical_routing_keys": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-rest/src/test/resources/db/liquibase/insight-rest/init_delta_techlead_adv_routing.sql",
+      "sha256": "3b056a0332cb700db129814050e28d579c9e2cd50bd8fb2878cf357a420ba769"
+    },
+    "historical_routing_values": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-rest/src/test/resources/db/liquibase/insight-rest/init_delta_techlead_adv_routing_value.sql",
+      "sha256": "203dd7d56aeff23fe59024dba49004c43676f6e2c9505be70d79218c22a2c9c7"
+    },
+    "historical_loader": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-rest/src/main/java/com/flatironssolutions/insight/services/config/ConfigSql.java",
+      "sha256": "1fbe62596a58d42fe2e2b34ca06c622804b590e8a1c64dfb9c4d00df88dc860f"
+    },
+    "historical_group_schema": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-rest/src/test/resources/db/liquibase/insight-rest/init_form_field_group_table.sql",
+      "sha256": "e899339fd36bb5ca0bfa8dae29efa36ad31f1a71538449077ee9fecde8541527"
+    },
+    "historical_option_schema": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-rest/src/test/resources/db/liquibase/insight-rest/init_form_field_option_table.sql",
+      "sha256": "4a8c3420ad84de53d4a669bc101af4f1bada8d99e53de4f6ad5da2d3a7205090"
+    },
+    "historical_metadata_schema": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-rest/src/main/resources/insight-rest/config/config-metadata-lookup.json",
+      "sha256": "47d82b68584972f9042f5d18a390b6645c2f22dce991a8f2bc034128121c6bd2"
+    },
+    "historical_routing_consumer": {
+      "repository": "insight-activiti-bpm-suite",
+      "commit": "525716d6c337c5b007894e59cea555d7c051605c",
+      "path": "activiti-bpm-suite/insight-app-ext/src/main/java/com/activiti/extension/bean/InsightRoutingProcessListener.java",
+      "sha256": "548abcaaf21fa9f050ec6fcc85580afa80d273ed1b157de6d8362d93be76bb57"
+    }
+  },
+  "membership": {
+    "reviewedFlatChoices": {
+      "change_type": [
+        {
+          "id": "Preprint",
+          "name": "Preprint"
+        },
+        {
+          "id": "Publication",
+          "name": "Publication"
+        }
+      ],
+      "request_type": [
+        {
+          "id": "Economic/Operational",
+          "name": "Economic/Operational"
+        },
+        {
+          "id": "Safety",
+          "name": "Safety"
+        }
+      ],
+      "priority_type": [
+        {
+          "id": "Critical",
+          "name": "Critical"
+        },
+        {
+          "id": "Routine",
+          "name": "Routine"
+        }
+      ],
+      "manual_document_type": [
+        {
+          "id": "Maintenance Programs",
+          "name": "Maintenance Programs"
+        }
+      ]
+    },
+    "rows": [
+      {
+        "parent": "Preprint",
+        "field": "request_type",
+        "reviewedCustomerMembership": null,
+        "syntheticTestOnlyMembership": [
+          "Economic/Operational",
+          "Safety"
+        ],
+        "missingApproval": "Data owner must supply the exact ordered child id/name array, including explicitly empty groups if applicable, with source reference/hash and review receipt."
+      },
+      {
+        "parent": "Preprint",
+        "field": "priority_type",
+        "reviewedCustomerMembership": null,
+        "syntheticTestOnlyMembership": [
+          "Critical",
+          "Routine"
+        ],
+        "missingApproval": "Data owner must supply the exact ordered child id/name array, including explicitly empty groups if applicable, with source reference/hash and review receipt."
+      },
+      {
+        "parent": "Preprint",
+        "field": "manual_document_type",
+        "reviewedCustomerMembership": null,
+        "syntheticTestOnlyMembership": [
+          "Maintenance Programs"
+        ],
+        "missingApproval": "Data owner must supply the exact ordered child id/name array, including explicitly empty groups if applicable, with source reference/hash and review receipt."
+      },
+      {
+        "parent": "Publication",
+        "field": "request_type",
+        "reviewedCustomerMembership": null,
+        "syntheticTestOnlyMembership": [
+          "Economic/Operational",
+          "Safety"
+        ],
+        "missingApproval": "Data owner must supply the exact ordered child id/name array, including explicitly empty groups if applicable, with source reference/hash and review receipt."
+      },
+      {
+        "parent": "Publication",
+        "field": "priority_type",
+        "reviewedCustomerMembership": null,
+        "syntheticTestOnlyMembership": [
+          "Critical",
+          "Routine"
+        ],
+        "missingApproval": "Data owner must supply the exact ordered child id/name array, including explicitly empty groups if applicable, with source reference/hash and review receipt."
+      },
+      {
+        "parent": "Publication",
+        "field": "manual_document_type",
+        "reviewedCustomerMembership": null,
+        "syntheticTestOnlyMembership": [
+          "Maintenance Programs"
+        ],
+        "missingApproval": "Data owner must supply the exact ordered child id/name array, including explicitly empty groups if applicable, with source reference/hash and review receipt."
+      }
+    ],
+    "limits": "Flat choices do not prove parent membership. Synthetic v3 assigns all flat choices to BOTH parents in nine original forms. Captain already approved clear-all-three switch semantics (grouped_contract:97-104,155-157); no new switch-policy decision is required. Reviewed customer endpoint/data provenance remains missing.",
+    "approvedMigrationInterface": {
+      "version": 3,
+      "parentSwitch": "clear-all-three",
+      "groups": "Exactly request_type, priority_type, manual_document_type; each has ordered Preprint and Publication arrays of canonical {id,name}, including explicit empty arrays.",
+      "bindingKey": "<deployment-id>:mdcr:<child-id>",
+      "source": "grouped_contract:97-142",
+      "approvalStatus": "Generic mechanics approved; no reviewed customer v3 binding supplied."
+    },
+    "reviewedFlatChoicesStatus": "Pinned test seed facts, not an owner-reviewed customer membership contract; retained legacy v1 field name reviewedFlatChoices is not a customer approval."
+  },
+  "routingFacts": [
+    {
+      "task": "techlead-review",
+      "archiveGroupId": "7",
+      "name": "OmtTechLead",
+      "source": "archive:bpmn-models/MDCR-21.bpmn20.xml:75,88; seed:43-51"
+    },
+    {
+      "task": "rcb-review",
+      "archiveGroupId": "6",
+      "name": "OmtRcbSecretary",
+      "source": "archive:bpmn-models/MDCR-21.bpmn20.xml:51,58; seed:43-51"
+    },
+    {
+      "task": "mng-dir-engr-review",
+      "archiveGroupId": "8",
+      "name": "OmtEngineeringMD",
+      "source": "archive:bpmn-models/MDCR-21.bpmn20.xml:344,351; seed:43-51"
+    },
+    {
+      "task": "ort-review",
+      "formSelectedGroup": "applicable_ort_group_techlead_review",
+      "fixtureGroups": [
+        "OmtOrt",
+        "OmtPubWs1"
+      ],
+      "source": "archive:bpmn-models/MDCR-21.bpmn20.xml:21,30; assertions:85-94,1854-1872"
+    },
+    {
+      "task": "techlead-review",
+      "metadataConfiguration": {
+        "assigneeVariable": "techlead_group_supervisor_review",
+        "defaultAssignee": "TechLeads",
+        "metadataLookup": [
+          {
+            "fieldId": "equipment_types",
+            "delimiter": ","
+          },
+          {
+            "fieldId": "manual_document_type",
+            "delimiter": ""
+          },
+          {
+            "fieldId": "change_type",
+            "delimiter": ""
+          }
+        ]
+      },
+      "source": "routing:7-33",
+      "limit": "Configuration is a lookup specification, not reviewed lookup rows. TechLeads is not the OmtTechLead fixture name; do not silently equate them."
+    },
+    {
+      "task": "techlead-implementation",
+      "formSelectedPerson": "user_techlead_implementation_assignee",
+      "source": "assertions:1844-1851,2557-2581",
+      "limit": "Legacy helper injects process_id=1 to expose the field. This is not an approved product form path."
+    }
+  ],
+  "childAuthority": {
+    "legacyPredicate": "validateReadPermissionOnTask(current authenticated user, parentTaskId)",
+    "source": "children:359-405",
+    "additionalChecks": [
+      "essential task properties",
+      "parent exists",
+      "subtasks enabled on parent form",
+      "child form attachment and metadata",
+      "initialization/start validation",
+      "durable ordering"
+    ],
+    "fixturePermittedActor": "TECHLEAD creates department tasks under TechLead Implementation",
+    "fixtureSource": "assertions:2607-2645",
+    "scopeLimit": "A positive fixture receipt does not establish every actor admitted by legacy parent-read permission. No explicit Insight Next child-creation authority approval found. Do not replace it with content-assignee, generic Administration or PDC-005 authority.",
+    "identitySource": "children:1076-1106",
+    "identityFacts": [
+      "current authenticated user supplies child tenant",
+      "parent supplies parentTaskId/processInstanceId/processDefinitionId",
+      "no child BPMN execution or task-definition id",
+      "category falls back to deployment or parent"
+    ],
+    "missingDecision": "Owner must explicitly approve which actors may create department children, tenant/parent boundaries, task lifecycle constraints, and named refused actors with no-mutation obligations."
+  },
+  "missingCustomerContract": [
+    {
+      "field": "tenant binding",
+      "required": "Private persisted customer tenant identifier and exact durable GROUP identities for archive pins 6/7/8, with active-user memberships, source hash/reference and owner approval. Group names/membership alone confer no tenant authority."
+    },
+    {
+      "field": "metadata routing rows",
+      "required": "Reviewed equipment_types/manual_document_type/change_type to routing-group rows, actual representation of techlead_group_supervisor_review, and approved missing-row/default behavior (TechLeads versus OmtTechLead). No guessed fallback."
+    },
+    {
+      "field": "field-selected routing",
+      "required": "Reviewed allowed ORT group identities and tenant scope for applicable_ort_group_techlead_review; active persisted person-selection scope for Implementation and SME routes."
+    },
+    {
+      "field": "customer grouped source schema",
+      "required": "Exact six reviewed membership arrays with canonical id/name values, ordering, applicability/requiredness and source revision/hash; endpoint/schema provenance. clear-all-three switch behavior is already approved and is not an open decision."
+    },
+    {
+      "field": "child authority",
+      "required": "Explicit owner decision for creators, refused actors, tenant/parent boundary and lifecycle constraints. Legacy parent-read check is characterization only."
+    },
+    {
+      "field": "approval receipt",
+      "required": "Contract version, source hashes/protected attachment references, reviewer identity and approval date. Writing this packet does not approve it."
+    }
+  ],
+  "syntheticTesting": {
+    "availableMechanics": [
+      "Originate grouped options, parent-switch clearing, canonical label and invalid group refusal",
+      "production form submission, upload identity binding, named intruder no-mutation refusal",
+      "Supervisor person routing and Consult SME return/timers",
+      "isolated Originate PDF/content/report delivery and rollback receipts"
+    ],
+    "potentialAfterBoundedPorts": [
+      "TechLead/later-level persisted routing mechanics under explicitly isolated test tenant bindings",
+      "department child form linkage, durable order and progression only after an explicit test actor policy is approved"
+    ],
+    "awaitReviewedContract": [
+      "real-customer grouped Originate path",
+      "customer tenant/static and field-selected routing certification",
+      "product child creation authority",
+      "customer archive publication and unchanged customer/full-journey parity"
+    ]
+  },
+  "downstreamHandoff": {
+    "routing": "wi_69c9d2bc-adb3-4076-bc98-e9a4d15335b4 stays gated; source pins are not a reviewed tenant binding.",
+    "children": "wi_70719746-e72f-4346-9de7-061680b92e9b stays gated; parent-read characterization is not an approved port actor policy.",
+    "certification": "wi_4bdec66b-7cf4-448d-815a-2e9fae7ca7e3 stays gated; v3 remains synthetic-only."
+  },
+  "verification": {
+    "codeChanged": false,
+    "fixtureBytesChanged": false,
+    "runtimeTestsRun": false,
+    "reason": "Read-only investigation; no service change or PR. Source/fixture hashes and v3 group consistency checked. Build/Jenkins/Sonar not claimed.",
+    "checks": [
+      "All original packet source hashes equal pinned git blobs",
+      "Archive/seed SHA256 unchanged",
+      "189 keys/567 value tuples and exactly three fields per key",
+      "No production code, adapter or fixture edit"
+    ]
+  },
+  "supersedes": {
+    "evidence": "ev_9e55ddd0-189b-44e9-813d-407dae7388f1",
+    "packetSha256": "b14db095beb190b4653253875e2bf0437b00cfc92e0c72560f7304a9ab43ba63"
+  },
+  "captainDirection": {
+    "at": "2026-10-10T06:51:55.420Z",
+    "evidence": "ev_437840d7-b1b0-4aec-b703-655991c457da",
+    "reviewedCustomerContractExists": false,
+    "instruction": "Continue source-backed discovery; do not approve customer parity or production child authority."
+  },
+  "historicalRoutingCandidate": {
+    "classification": "HISTORICAL_TEST_ONLY_NOT_CUSTOMER_APPROVED",
+    "keyCount": 189,
+    "valueStatementCount": 567,
+    "distinctLdapGroupNames": 23,
+    "fieldCounts": {
+      "change_type": 189,
+      "manual_document_type": 189,
+      "equipment_types": 189
+    },
+    "changeTypeCounts": {
+      "Publication": 115,
+      "Work Card": 33,
+      "Maintenance Programs": 41
+    },
+    "countCorrection": "Captain evidence reported 566 values. The pinned blob with the SAME SHA256 contains 567 VALUES tuples: 189 of each of three fields. All 189 keys have exactly three fields. Line 767 spells Values for key 110/manual_document_type/Engine Maintenance Manual; a case-sensitive VALUES scan counts only 566. Counts here are case-insensitive SQL tuples from git show pinned bytes, not a mutable working file.",
+    "loading": "historical_loader:253-269 declares @Profile(\"test\"), h2datasource/dataSourceTest and loads both SQL scripts into EmbeddedDatabaseType.H2.",
+    "gitHistory": "At the current path, history includes initial module addition cc8bfbb7f9343645ecc5df3c134c47189d6218b6 (2025-06-13), removal a1cc0a56ee7be0ce3cd1dbd7658c1c37eed8f6c4 (2025-06-17), reintroduction 2f9acf5edfd6b565cc352c9d2cffaf973a874a12 (2025-07-31). This is repository provenance, not customer approval or original business authorship.",
+    "reconciliation": [
+      "Pinned seed uses Preprint/Publication; SQL uses Publication/Work Card/Maintenance Programs with zero Preprint. No approved mapping between these vocabularies.",
+      "SQL has no request_type or priority_type rows. manual_document_type routing predicates do not establish selectable option order, canonical labels, applicability or empty groups.",
+      "Adjacent historical_group_schema and historical_option_schema define tables only. Existence of group_name/sort_order columns supplies no six reviewed MDCR arrays.",
+      "SQL maps lookup keys to LDAP group names, not persisted customer tenant/GROUP IDs or active membership. Do not equate these names with archive numeric pins.",
+      "routing:7-33 specifies lookup fields and TechLeads fallback. Archive/seed specify 7/OmtTechLead, 6/OmtRcbSecretary, 8/OmtEngineeringMD. Customer reconciliation/default policy remains absent.",
+      "Legacy routing_consumer characterizes fallback mechanics; old behavior is not a reviewed production routing decision."
+    ],
+    "consumerTrace": "historical_routing_consumer:356-370 resolves returned names; :373-402 derives variable predicates; :413-446 calls metadatalookup/fields-key via PUT; :520-536 matches functional-group names in execution tenant, falling back to tenant ID 1 if tenant is null. This legacy fallback is characterization, never permission to infer customer tenant 1. historical_metadata_schema:3-35 describes three lookup inputs and ldap_group output, not selectable groups.",
+    "approval": null,
+    "derivedCustomerBinding": null,
+    "rawCustomerDataPublished": false
+  },
+  "archiveOriginateCharacterization": {
+    "member": "form-models/FormOriginateMDCR-18.json",
+    "fields": {
+      "change_type": {
+        "options": [
+          {
+            "id": "empty",
+            "name": "Please choose one..."
+          }
+        ],
+        "required": true,
+        "optionType": "manual"
+      },
+      "request_type": {
+        "options": [
+          {
+            "id": "empty",
+            "name": "Please choose one..."
+          }
+        ],
+        "required": true,
+        "optionType": "manual"
+      },
+      "priority_type": {
+        "options": [
+          {
+            "id": "empty",
+            "name": "Please choose one..."
+          }
+        ],
+        "required": true,
+        "optionType": "manual"
+      },
+      "manual_document_type": {
+        "options": [
+          {
+            "id": "empty",
+            "name": "Please choose one..."
+          }
+        ],
+        "required": false,
+        "optionType": "manual"
+      }
+    },
+    "limit": "Embedded options are placeholders. Archive required flags characterize this form only; they do not approve per-parent applicability/requiredness for a customer grouped binding."
+  },
+  "gapMatrix": [
+    {
+      "field": "Preprint × request_type",
+      "verified": "Flat seed Economic/Operational, Safety; archive placeholder",
+      "historicalCandidate": "No request_type SQL rows",
+      "missing": "Ordered canonical id/name array, explicit emptiness, applicability/requiredness",
+      "gate": "customer grouped Originate"
+    },
+    {
+      "field": "Publication × request_type",
+      "verified": "Flat seed Economic/Operational, Safety; archive placeholder",
+      "historicalCandidate": "No request_type SQL rows",
+      "missing": "Ordered canonical id/name array, explicit emptiness, applicability/requiredness",
+      "gate": "customer grouped Originate"
+    },
+    {
+      "field": "Preprint × priority_type",
+      "verified": "Flat seed Critical, Routine; archive placeholder",
+      "historicalCandidate": "No priority_type SQL rows or Preprint routing rows",
+      "missing": "Ordered canonical id/name array, explicit emptiness, applicability/requiredness",
+      "gate": "customer grouped Originate"
+    },
+    {
+      "field": "Publication × priority_type",
+      "verified": "Flat seed Critical, Routine; archive placeholder",
+      "historicalCandidate": "No priority_type SQL rows",
+      "missing": "Ordered canonical id/name array, explicit emptiness, applicability/requiredness",
+      "gate": "customer grouped Originate"
+    },
+    {
+      "field": "Preprint × manual_document_type",
+      "verified": "Flat seed Maintenance Programs; archive placeholder",
+      "historicalCandidate": "189 manual-document predicates; no Preprint routing rows",
+      "missing": "Ordered canonical id/name array, explicit emptiness, applicability/requiredness",
+      "gate": "customer grouped Originate"
+    },
+    {
+      "field": "Publication × manual_document_type",
+      "verified": "Flat seed Maintenance Programs; archive placeholder",
+      "historicalCandidate": "Routing predicates exist for Publication; no selectable membership contract",
+      "missing": "Ordered canonical id/name array, explicit emptiness, applicability/requiredness",
+      "gate": "customer grouped Originate"
+    },
+    {
+      "field": "Customer tenant/static GROUP binding",
+      "verified": "Archive/seed 7/OmtTechLead, 6/OmtRcbSecretary, 8/OmtEngineeringMD",
+      "historicalCandidate": "23 LDAP names",
+      "missing": "Protected persisted tenant and durable GROUP IDs, active memberships, authorized binding owner",
+      "gate": "wi_69c9d2bc-adb3-4076-bc98-e9a4d15335b4"
+    },
+    {
+      "field": "Metadata routing and defaults",
+      "verified": "Three-field lookup and TechLeads config",
+      "historicalCandidate": "189 test keys/567 value statements; divergent change vocabulary",
+      "missing": "Reviewed applicable rows, vocabulary migration provenance, variable representation, missing/ambiguous/error behavior, TechLeads/OmtTechLead reconciliation",
+      "gate": "wi_69c9d2bc-adb3-4076-bc98-e9a4d15335b4"
+    },
+    {
+      "field": "Field-selected ORT/person routing",
+      "verified": "Fixture ORT groups and synthetic selected-person paths",
+      "historicalCandidate": "No tenant-authorized allowlist established",
+      "missing": "Allowed durable ORT groups and active person selection scope within customer tenant",
+      "gate": "customer routing certification"
+    },
+    {
+      "field": "Department-child authority",
+      "verified": "Legacy parent-read predicate, fixture TECHLEAD positive path",
+      "historicalCandidate": "Old code characterization only",
+      "missing": "Retain/narrow policy decision, permitted/refused actors, no-mutation refusal, tenant/parent and lifecycle constraints",
+      "gate": "wi_70719746-e72f-4346-9de7-061680b92e9b"
+    },
+    {
+      "field": "Review/provenance receipt",
+      "verified": "Pinned source hashes; captain confirms no reviewed contract",
+      "historicalCandidate": "No approval receipt",
+      "missing": "Version/source hash or protected attachment, reviewer and approval date; schema/endpoint and migration provenance",
+      "gate": "wi_4bdec66b-7cf4-448d-815a-2e9fae7ca7e3 and all customer parity claims"
+    }
+  ],
+  "searchScope": {
+    "searched": "Pinned legacy archive, seed, routing SQL, loader, adjacent option/group schemas, routing consumer, child service; pinned Insight Next v2/v3 and contract docs. All v1 source hashes rechecked against commit blobs.",
+    "unavailable": "No protected customer contract or owner-approved attachment supplied. Repository candidates cannot prove absence from inaccessible external systems.",
+    "decision": "No new owner question: captain already answered. Escalate unresolved contract to owner; retain all three dependent gates."
+  },
+  "approvalReceipt": null
+}
