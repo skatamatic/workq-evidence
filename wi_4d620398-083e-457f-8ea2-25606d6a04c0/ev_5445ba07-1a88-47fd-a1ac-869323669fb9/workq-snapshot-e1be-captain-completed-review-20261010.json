@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-10T20:41:51.113Z",
+  "item": "wi_4d620398-083e-457f-8ea2-25606d6a04c0",
+  "source": "e1be296bdd253de1885682ecfc3ef1984534f27b",
+  "comparisonBase": "4deb18a1d1cff67cae111fcaf2e57b329e1aac20",
+  "scope": "Requested bounded captain repair review after actual worker three-pass cap; no fourth worker pass or broad review.",
+  "threshold": "Only substantial confirmed defects block.",
+  "independentCorrectness": {
+    "summary": "All five prior counterexamples retain auditing; plain node/npx follow-ups accepted; no substantial defect found.",
+    "findings": []
+  },
+  "rootExecutionProof": "/tmp/workq-snapshot-e1be-captain-execution-proof-20261010.json",
+  "rootExecution": "Exact before/after source with disposable filesystem; five old bypasses now refuse and eight ordinary follow-ups preserved; no install/live snapshot writes.",
+  "evidenceRead": {
+    "focused29": "ev_54c4350e-fe4d-4759-be43-af80e80db6ab exit0",
+    "unit10177": "ev_c26608f8-989b-4e99-8bea-06c917d03eeb exit0, one unrelated skip",
+    "lintFormat": "green exact changed files",
+    "e2e": "No mapped suites; not full E2E proof",
+    "integration": "Two worker-reported distinct APFS canary failures; no root reproduction or full integration green claim. Required gates preserved."
+  },
+  "captainRepairReviewComplete": true,
+  "requiredLocalRemoteGatesWaived": false,
+  "publication": "Reviewed source may proceed through existing actual local gate/publication workflow; no unreviewed publication or further worker review required.",
+  "productLandAuthorized": false
+}
