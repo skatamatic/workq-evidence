@@ -1,0 +1,43 @@
+{
+  "pr": 107,
+  "head": "adfbd45efb5542afeca2523166db12afed73d7a0",
+  "target": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "merge_base": "b29f54a001cb8d38b5cb90d3132e4226af84fa33",
+  "tree_and_clean_merge_tree": "68d0287ea0f3a66f8ea89f0f5351ca22d1823404",
+  "prior_reviewed_source": "7858c9e3ff5a0bcf67e0ef80001e05857200852a",
+  "integration_commit": "8d7dd69dbf3c2469826394443573f81c9b99914b",
+  "reviewed_at": "2026-10-10T17:00:23Z",
+  "lensesRan": [
+    "correctness",
+    "security",
+    "tests"
+  ],
+  "reviewers": [
+    "/root/server107_b29f_correctness",
+    "/root/server107_b29f_security",
+    "/root/server107_b29f_tests"
+  ],
+  "findings": [],
+  "summaries": {
+    "correctness": "Persisted actor/assignee authorization, revision fencing and persisted task read retained before nullable participant refusal. Service exception maps to HTTP400 through real advice; canonical owner preflight and assignment expectedRevision retained.",
+    "security": "Route authentication, canonical actor scope, persisted tenant/assignee authority and revision fencing preserved. PR108 codec/quarantine/credential protection and private Analysis/completed-content authority remain intact.",
+    "tests": "Both pinned parents meaningful authorized and refusal paths retained. Null participation forceUpdate before persisted read/no identity or cache writes, real JWT400/403/global snapshots, canonical owner200 and ambiguity refusal, completed/private reads remain. Two raw-edit test names intentionally replaced with authorized-owner400/200 proof."
+  },
+  "scope": "Bounded conflict resolution and postmerge repair delta. No broad review or reviewer test runs; prior pinned reviews retained. 35 of 46 paths changed from prior source are byte-for-byte landed target.",
+  "local_gate": {
+    "proof": "/tmp/pr107-b29f-full-local-proof-20261010.json",
+    "evidence": "ev_a5ac438a-e658-4183-af73-94f8f7774a2f",
+    "exit_code": 0,
+    "finished_at": "2026-10-10T16:49:39Z",
+    "fresh_xml_suites": 156,
+    "unique_tests": 2564,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "stale_reports": 0,
+    "receipt_digest_matches": true,
+    "root_parsed": true
+  },
+  "full_remote_heads_revalidated_at": "2026-10-10T17:00:23Z",
+  "remote_gate": "Exact PR107#6 BUILDING at actual insight-server adfbd application checkout, no Sonar yet. Full exact-source/current-target Jenkins/Sonar/scanner provenance/actual rules/immediate full heads and merge-tree/merged-head checks required. No land clearance."
+}
