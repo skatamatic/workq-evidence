@@ -1,0 +1,57 @@
+diff --git a/insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilder.java b/insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilder.java
+index c754fbaa..0a84a8ed 100644
+--- a/insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilder.java
++++ b/insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilder.java
+@@ -28,6 +28,16 @@ public class MdcrConsultSyntaxArtifactBuilder {
+     public record Artifact(byte[] archive, String sha256, String provenance) {
+         public Artifact { archive = archive.clone(); }
+         @Override public byte[] archive() { return archive.clone(); }
++        @Override public boolean equals(Object other) {
++            if (this == other) { return true; }
++            if (!(other instanceof Artifact(var otherArchive, var otherSha256, var otherProvenance))) { return false; }
++            return java.util.Arrays.equals(archive, otherArchive)
++                    && java.util.Objects.equals(sha256, otherSha256)
++                    && java.util.Objects.equals(provenance, otherProvenance);
++        }
++        @Override public int hashCode() {
++            return java.util.Objects.hash(java.util.Arrays.hashCode(archive), sha256, provenance);
++        }
+         @Override public String toString() { return "Artifact[sha256=" + sha256 + ", provenance=" + provenance + "]"; }
+     }
+ 
+@@ -109,7 +119,7 @@ public class MdcrConsultSyntaxArtifactBuilder {
+                 var member = new ZipEntry(entry.getKey());
+                 // Jan 2 avoids ZipEntry's Jan 1 sentinel/extended timestamp fallback.
+                 // STORED plus a fixed DOS time avoids compression and time-zone dependent output.
+-                member.setMethod(ZipEntry.STORED); member.setTimeLocal(LocalDateTime.of(1980, 1, 2, 0, 0));
++                member.setMethod(ZipEntry.STORED); member.setTimeLocal(LocalDateTime.of(1980, java.time.Month.JANUARY, 2, 0, 0));
+                 member.setSize(bytes.length); member.setCompressedSize(bytes.length);
+                 var crc = new java.util.zip.CRC32(); crc.update(bytes); member.setCrc(crc.getValue());
+                 zip.putNextEntry(member); zip.write(bytes); zip.closeEntry();
+diff --git a/insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilderTest.java b/insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilderTest.java
+index 103e5a40..3ff5a08b 100644
+--- a/insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilderTest.java
++++ b/insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrConsultSyntaxArtifactBuilderTest.java
+@@ -68,6 +68,22 @@ class MdcrConsultSyntaxArtifactBuilderTest {
+         assertThat(unknown).isEqualTo(before);
+     }
+ 
++    @Test void artifactsUseImmutableByteContentValueSemantics() {
++        byte[] bytes = {1, 2, 3};
++        var artifact = new MdcrConsultSyntaxArtifactBuilder.Artifact(bytes, "hash", "provenance");
++        var equivalent = new MdcrConsultSyntaxArtifactBuilder.Artifact(bytes.clone(), "hash", "provenance");
++        assertThat(artifact).isEqualTo(equivalent).hasSameHashCodeAs(equivalent);
++        assertThat(new java.util.HashSet<>(java.util.List.of(artifact, equivalent))).hasSize(1);
++        bytes[0] = 9;
++        byte[] view = artifact.archive();
++        view[1] = 9;
++        assertThat(artifact.archive()).containsExactly(1, 2, 3);
++        assertThat(artifact).isEqualTo(equivalent).isEqualTo(artifact).isNotEqualTo(null).isNotEqualTo("artifact");
++        assertThat(artifact).isNotEqualTo(new MdcrConsultSyntaxArtifactBuilder.Artifact(new byte[] {1, 2, 4}, "hash", "provenance"));
++        assertThat(artifact).isNotEqualTo(new MdcrConsultSyntaxArtifactBuilder.Artifact(new byte[] {1, 2, 3}, "other", "provenance"));
++        assertThat(artifact).isNotEqualTo(new MdcrConsultSyntaxArtifactBuilder.Artifact(new byte[] {1, 2, 3}, "hash", "other"));
++    }
++
+     @Test void archiveBytesDoNotDependOnHostTimeZone() throws Exception {
+         var previous = java.util.TimeZone.getDefault();
+         try {
