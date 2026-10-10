@@ -1,0 +1,44 @@
+{
+  "observedAt": "2026-10-10T20:11:29.884Z",
+  "item": "wi_4d620398-083e-457f-8ea2-25606d6a04c0",
+  "source": "4deb18a1d1cff67cae111fcaf2e57b329e1aac20",
+  "actualParent": "d9e1928f0e08bc7a0ed02c19b7a8ab55d30b3a2b",
+  "reviewBaseline": "172cfe1291d51d53d33981eaf0f72e01733eba81",
+  "scope": "Bounded independent captain repair review of three changed files after actual worker three-pass cap; not whole-product approval or a fourth worker pass.",
+  "lenses": [
+    {
+      "specialty": "correctness",
+      "findings": [
+        {
+          "path": "apps/pool/src/provision/locked-install.ts",
+          "line": 200,
+          "severity": "medium",
+          "summary": "Unrecognized conflicting installer forms bypass required audit"
+        }
+      ]
+    },
+    {
+      "specialty": "tests",
+      "findings": [],
+      "summary": "Test candidate deduped with correctness; missing prefixed/aliased/chained installer regressions."
+    }
+  ],
+  "internalRecords": [
+    "nt_1cdf99f4-322d-4f48-92ca-6bce8e7c80cc",
+    "nt_4c50593b-5c90-4be1-944d-c470f65d1a64"
+  ],
+  "rootProofs": [
+    "/tmp/workq-snapshot-repair-delta-proof-20261010.json",
+    "/tmp/workq-snapshot-repair-unknown-installer-proof-20261010.json"
+  ],
+  "localEvidenceRead": {
+    "focused": 23,
+    "unitPassed": 10171,
+    "unitSkipped": 1,
+    "integrationPassed": 15,
+    "e2e": "No mapped suites selected; no full E2E proof"
+  },
+  "publicationCleared": false,
+  "landAuthorized": false,
+  "direction": "/tmp/snapshot-dependencies-captain-repair-direction-20261010.md"
+}
