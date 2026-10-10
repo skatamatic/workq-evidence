@@ -1,0 +1,1583 @@
+Branch event
+Obtained Jenkinsfile from 59dfa5c075be58d988ebccbfc56f360161d7b995
+Loading library devops-jenkins-lib@master
+Attempting to resolve master from remote references...
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git ls-remote -h -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+Found match: refs/heads/master revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+The recommended git tool is: NONE
+using credential bitbucket-builder
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git init /var/jenkins_home/workspace/RDCA_insight-client_PR-56@libs/424505265d8fda4cdcfb4be805f1cbd894f70b00b7a9e466eda3768f9a2ae303 # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c # timeout=10
+Commit message: "PDO-222 Avoid error if env.BRANCH_NAME is not set."
+First time build. Skipping changelog.
+[Bitbucket] Notifying pull request build result
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+[Pipeline] Start of Pipeline
+[Pipeline] milestone
+Trying to pass milestone 1
+[Pipeline] readTrusted
+Obtained extra-containers.yaml from 59dfa5c075be58d988ebccbfc56f360161d7b995
+[Pipeline] podTemplate
+[Pipeline] {
+[Pipeline] node
+Created Pod: k8s jenkins/rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd
+[PodInfo] jenkins/rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd
+	Container [builder] waiting [ContainerCreating] No message
+	Container [dind] waiting [ContainerCreating] No message
+	Container [git] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [maven] waiting [ContainerCreating] No message
+	Container [node] waiting [ContainerCreating] No message
+	Container [scanner] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [builder scanner node git dind maven jnlp]
+Agent rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd is provisioned from template RDCA_insight-client_PR-56_1-jfhwh-bbl6s
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    kubernetes.jenkins.io/last-refresh: "1791612529728"
+    buildUrl: "http://jenkins:8080/job/RDCA/job/insight-client/job/PR-56/1/"
+    runUrl: "job/RDCA/job/insight-client/job/PR-56/1/"
+  labels:
+    jenkins: "slave"
+    jenkins/label-digest: "5018f20c34a81602dcf347b585892f244ecfc93b"
+    jenkins/label: "RDCA_insight-client_PR-56_1-jfhwh"
+    kubernetes.jenkins.io/controller: "http___jenkins_8080x"
+  name: "rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd"
+  namespace: "jenkins"
+spec:
+  containers:
+  - args:
+    - "dockerd-entrypoint.sh dockerd && cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/builder:no-cache-npm-jdk21-node18"
+    imagePullPolicy: "Always"
+    name: "builder"
+    resources:
+      requests:
+        cpu: "1000m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - args:
+    - "dockerd-entrypoint.sh dockerd && cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/builder:no-cache-temurin21"
+    imagePullPolicy: "Always"
+    name: "scanner"
+    resources:
+      requests:
+        cpu: "1000m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/node:10"
+    imagePullPolicy: "IfNotPresent"
+    name: "node"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/git-cache:latest"
+    imagePullPolicy: "Always"
+    name: "git"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "dockerd-entrypoint.sh"
+    - "dockerd"
+    - "&&"
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/dind-builder:latest"
+    imagePullPolicy: "Always"
+    name: "dind"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "200m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/maven:3-jdk-8"
+    imagePullPolicy: "Always"
+    name: "maven"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_TUNNEL"
+      value: "jenkins-agent:50000"
+    - name: "JENKINS_AGENT_NAME"
+      value: "rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd"
+    - name: "REMOTING_OPTS"
+      value: "-noReconnectAfter 1d"
+    - name: "JENKINS_NAME"
+      value: "rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://jenkins:8080/"
+    image: "hub.flatirons.cloud/docker/jenkins/inbound-agent:3355.v388858a_47b_33-3-jdk21"
+    name: "jnlp"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  nodeSelector:
+    builder: "true"
+  restartPolicy: "Never"
+  serviceAccountName: "jenkins"
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on rdca-insight-client-pr-56-1-jfhwh-bbl6s-xr5qd in /home/jenkins/agent/workspace/RDCA_insight-client_PR-56
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential bitbucket-api
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://bitbucket.org/flatironssolutions/insight-client.git
+ > git init /home/jenkins/agent/workspace/RDCA_insight-client_PR-56 # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/insight-client.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials User API token for bitbucket-api
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/insight-client.git +refs/heads/kwesley/task-form-summary-coverage:refs/remotes/origin/kwesley/task-form-summary-coverage # timeout=10
+Avoid second fetch
+Checking out Revision 59dfa5c075be58d988ebccbfc56f360161d7b995 (PR-56)
+Commit message: "Restore navigation test history after each case"
+First time build. Skipping changelog.
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+fatal: bad object a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Angular Slave)
+[Pipeline] node
+Running on EC2 (AWS EC2 Builders) - Angular-Linux (sir-wqwznshj) in /jenkins/workspace/RDCA_insight-client_PR-56
+[Pipeline] {
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential bitbucket-api
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/insight-client.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/kwesley/task-form-summary-coverage:refs/remotes/origin/kwesley/task-form-summary-coverage # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 59dfa5c075be58d988ebccbfc56f360161d7b995 # timeout=10
+Cloning repository https://bitbucket.org/flatironssolutions/insight-client.git
+ > git init /jenkins/workspace/RDCA_insight-client_PR-56 # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/insight-client.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.40.1'
+using GIT_ASKPASS to set credentials User API token for bitbucket-api
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/insight-client.git +refs/heads/kwesley/task-form-summary-coverage:refs/remotes/origin/kwesley/task-form-summary-coverage # timeout=10
+Avoid second fetch
+Checking out Revision 59dfa5c075be58d988ebccbfc56f360161d7b995 (PR-56)
+Commit message: "Restore navigation test history after each case"
+ > git --version # timeout=10
+ > git --version # 'git version 2.40.1'
+fatal: bad object a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare)
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $NPM_PASS
+[Pipeline] {
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/insight-client.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/kwesley/task-form-summary-coverage:refs/remotes/origin/kwesley/task-form-summary-coverage # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 59dfa5c075be58d988ebccbfc56f360161d7b995 # timeout=10
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [NPM_PASS]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ base64
++ echo -n ****
+Did you forget the `def` keyword? WorkflowScript seems to be setting a field named auth (to a value of type String) which could lead to memory leaks or other issues.
+[Pipeline] writeFile
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Apps)
+[Pipeline] withMaven
+$ /bin/sh -c "which mvn"
+$ /usr/local/bin/mvn --version
+[withMaven] WARNING: You are running an old version of Maven (3.6.3), you should update to at least 3.8.x
+[Pipeline] {
+[Pipeline] sh
++ mvn -B clean install
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/jenkins/workspace/RDCA_insight-client_PR-56@tmp/withMaven27e6a042/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/jenkins/workspace/RDCA_insight-client_PR-56@tmp/withMaven27e6a042" 
+[INFO] [jenkins-event-spy] Generate /jenkins/workspace/RDCA_insight-client_PR-56@tmp/withMaven27e6a042/maven-spy-20261010-060917-87415159761098534794171.log.tmp ...
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------- maven-git-versioning-extension:5.2.0 -----------------
+[INFO] Adjusting project models...
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-client @ branch kwesley/task-form-summary-coverage ---
+[INFO] project version: 999.999-kwesley-task-form-summary-coverage-SNAPSHOT
+[INFO] properties:
+[INFO] 
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-client >----------------
+[INFO] Building insight-client 999.999-kwesley-task-form-summary-coverage-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ insight-client ---
+[INFO] 
+[INFO] --- maven-git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-client ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.15.1:install-node-and-npm (install-node-and-npm) @ insight-client ---
+[INFO] Installing node version v22.9.0
+[INFO] Downloading https://nodejs.org/dist/v22.9.0/node-v22.9.0-linux-x64.tar.gz to /jenkins/workspace/RDCA_insight-client_PR-56/com/github/eirslett/node/22.9.0/node-22.9.0-linux-x64.tar.gz
+[INFO] No proxies configured
+[INFO] No proxy was configured, downloading directly
+[INFO] Unpacking /jenkins/workspace/RDCA_insight-client_PR-56/com/github/eirslett/node/22.9.0/node-22.9.0-linux-x64.tar.gz into /jenkins/workspace/RDCA_insight-client_PR-56/node/node/tmp
+[INFO] Copying node binary from /jenkins/workspace/RDCA_insight-client_PR-56/node/node/tmp/node-v22.9.0-linux-x64/bin/node to /jenkins/workspace/RDCA_insight-client_PR-56/node/node/node
+[INFO] Installed node locally.
+[INFO] Installing npm version 10.8.3
+[INFO] Downloading https://registry.npmjs.org/npm/-/npm-10.8.3.tgz to /jenkins/workspace/RDCA_insight-client_PR-56/com/github/eirslett/npm/10.8.3/npm-10.8.3.tar.gz
+[INFO] No proxies configured
+[INFO] No proxy was configured, downloading directly
+Oct 10, 2026 6:09:32 AM org.apache.http.client.protocol.ResponseProcessCookies processCookies
+WARNING: Invalid cookie header: "set-cookie: __cf_bm=FOduJivroQxFRQePS95znC3Vd04OX3ozZpkSGF_e2FA-1791612571.988619-1.0.1.1-NDxOkfnTWFBlp4HRIRoZ24EylrFMm934G4fydf7xznVj9S9CqErjOamzGpN3jba93nVSxIqt_8gYur50WFQ6AigsuQEvmz1KPXZHJsALUFQ0YIfGmxwo8KEhPw0LOWBN; HttpOnly; SameSite=None; Secure; Path=/; Domain=npmjs.org; Expires=Sat, 10 Oct 2026 06:39:32 GMT". Invalid 'expires' attribute: Sat, 10 Oct 2026 06:39:32 GMT
+[INFO] Unpacking /jenkins/workspace/RDCA_insight-client_PR-56/com/github/eirslett/npm/10.8.3/npm-10.8.3.tar.gz into /jenkins/workspace/RDCA_insight-client_PR-56/node/node/node_modules
+[INFO] Installed npm locally.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.15.1:npm (npm-install) @ insight-client ---
+[INFO] Running 'npm install --force --unsafe-perm=true' in /jenkins/workspace/RDCA_insight-client_PR-56
+[INFO] npm warn using --force Recommended protections disabled.
+[INFO] npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+[INFO] npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+[INFO] npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+[INFO] npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+[INFO] npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+[INFO] 
+[INFO] > insight-client@0.1.0 prepare
+[INFO] > husky
+[INFO] 
+[INFO] 
+[INFO] added 2909 packages, and audited 2910 packages in 3m
+[INFO] 
+[INFO] 385 packages are looking for funding
+[INFO]   run `npm fund` for details
+[INFO] 
+[INFO] 135 vulnerabilities (4 low, 36 moderate, 87 high, 8 critical)
+[INFO] 
+[INFO] To address issues that do not require attention, run:
+[INFO]   npm audit fix
+[INFO] 
+[INFO] To address all issues possible (including breaking changes), run:
+[INFO]   npm audit fix --force
+[INFO] 
+[INFO] Some issues need review, and may require choosing
+[INFO] a different dependency.
+[INFO] 
+[INFO] Run `npm audit` for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ insight-client ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ insight-client ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to /jenkins/workspace/RDCA_insight-client_PR-56/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ insight-client ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /jenkins/workspace/RDCA_insight-client_PR-56/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ insight-client ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ insight-client ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.15.1:npm (angular-test-with-coverage) @ insight-client ---
+[INFO] Running 'npm run test -- --code-coverage' in /jenkins/workspace/RDCA_insight-client_PR-56
+[INFO] 
+[INFO] > insight-client@0.1.0 test
+[INFO] > nx test --watch=false --code-coverage
+[INFO] 
+[INFO] 
+[INFO] > nx run insight-client:test --watch=false --code-coverage
+[INFO] 
+[INFO] ❯ Building...
+[INFO] ✔ Building...
+[INFO] Initial chunk files                                                                                             | Names                                                                                                        |  Raw size
+[INFO] chunk-FKQFOJAA.js                                                                                               | -                                                                                                            |   3.85 MB | 
+[INFO] chunk-HA5I5KM3.js                                                                                               | -                                                                                                            |   3.17 MB | 
+[INFO] chunk-IIKII7HE.js                                                                                               | -                                                                                                            |   1.36 MB | 
+[INFO] chunk-AH3Y2LZG.js                                                                                               | -                                                                                                            |   1.18 MB | 
+[INFO] spec-app-main-components-workflow-modeler-workflow.component.spec.js                                            | spec-app-main-components-workflow-modeler-workflow.component.spec                                            |   1.14 MB | 
+[INFO] chunk-3LWLUQAI.js                                                                                               | -                                                                                                           
+[INFO]  |   1.13 MB | 
+[INFO] polyfills.js                                                                                                    | polyfills                                                                                                    |   1.04 MB | 
+[INFO] chunk-YMCPWFNQ.js                                                                                               | -                                                                                                            | 594.42 kB | 
+[INFO] spec-app-main-components-applications-task-task-summary-task-summary.component.spec.js                          | spec-app-main-components-applications-task-task-summary-task-summary.component.spec                          | 277.42 kB | 
+[INFO] chunk-DXRHM2CR.js                                                                                               | -                                                                                                            | 252.62 kB | 
+[INFO] spec-app-main-components-applications-process-process-summary-process-summary.component.spec.js                 | spec-app-main-components-applications-process-process-summary-process-summary.component.spec                 | 245.70 kB | 
+[INFO] chunk-NHUX5MKJ.js                                                                                               | -                                                                                                            | 232.15 kB | 
+[INFO] spec-app-main-components-dashboard-dashboard.component.spec.js                                                  | spec-app-main-components-dashboard-dashboard.component.spec                                                  | 231.64 kB | 
+[INFO] spec-app-main-components-admin-reference-data-reference-data.component.spec.js                                  | spec-app-main-components-admin-reference-data-reference-data.component.spec                                  | 220.06 kB | 
+[INFO] spec-app-main-components-idm-groups-groups.component.spec.js                                                    | spec-app-main-components-idm-groups-groups.component.spec                                                    | 209.67 kB | 
+[INFO] spec-app-main-components-idm-privilege-privilege.component.spec.js                                              | spec-app-main-components-idm-privilege-privilege.component.spec                                              | 206.61 kB | 
+[INFO] chunk-XFXXAILF.js                                                                                               | -                                                                                                            | 197.85 kB | 
+[INFO] test_main.js                                                                                                    | test_main                                                                                                    | 183.71 kB | 
+[INFO] chunk-F7K7LE43.js                                                                                               | -                                                                                                            | 179.98 kB | 
+[INFO] styles.css                                                                                                      | [39m[2mstyles                                                                                                       | 150.54 kB | 
+[INFO] spec-app-main-components-applications-task-applications-task.component.spec.js                                  | spec-app-main-components-applications-task-applications-task.component.spec                                  | 120.85 kB | 
+[INFO] chunk-EST7NQKR.js                                                                                               | -                                                                                                            | 120.85 kB | 
+[INFO] spec-app-main-components-applications-processes-applications-processes.component.spec.js                        | spec-app-main-components-applications-processes-applications-processes.component.spec                        | 108.85 kB | 
+[INFO] chunk-2PJKWQA6.js                                                                                               | -                                                                                                            | 107.67 kB | 
+[INFO] spec-app-main-components-idm-users-users.component.spec.js                                                      | spec-app-main-components-idm-users-users.component.spec                                                      | 101.56 kB | 
+[INFO] chunk-MWFIDLI2.js                                                                                               | -                                                                                                            | 100.87 kB | 
+[INFO] chunk-Q3ZTQDAV.js                                                                                               | -                                                                                                            |  96.34 kB | 
+[INFO] spec-app-main-components-applications-applications.component.spec.js                                            | spec-app-main-components-applications-applications.component.spec                                            |  85.13 kB | 
+[INFO] chunk-NSEYFGT7.js                                                                                               | -                                                                                                            |  83.72 kB | 
+[INFO] chunk-MLX3MW7H.js                                                                                               | -                                                                                                            |  81.49 kB | 
+[INFO] chunk-VU53S2D4.js                                                                                               | -                                                                                                            |  77.64 kB | 
+[INFO] chunk-RUNRMMKE.js                                                                                               | -                                                                                                            |  77.25 kB | 
+[INFO] chunk-R3YXVCCC.js                                                                                               | -                                                                                                            |  64.35 kB | 
+[INFO] chunk-22DSM7W3.js                                                                                               | -                                                                                                            |  62.21 kB | 
+[INFO] spec-app-main-components-print-task-print.component.spec.js                                                     | spec-app-main-components-print-task-print.component.spec                                                     |  60.45 kB | 
+[INFO] chunk-6CVXOVSC.js                                                                                               | -                                                                                                            |  60.26 kB | 
+[INFO] spec-app-main-components-idm-users-user-details-user-details.component.spec.js                                  | spec-app-main-components-idm-users-user-details-user-details.component.spec                                  |  55.27 kB | 
+[INFO] chunk-CU43Y4LN.js                                                                                               | -                                                                                                            |  50.82 kB | 
+[INFO] chunk-XDWCSSWC.js                                                                                               | -                                                                                                            |  48.76 kB | 
+[INFO] chunk-SGJOSB2P.js                                                                                               | -                                                                                                            |  43.45 kB | 
+[INFO] chunk-J7FC5EYM.js                                                                                               | -                                                                                                            |  42.56 kB | 
+[INFO] chunk-2T6RFNRH.js                                                                                               | -                                                                                                            |  41.02 kB | 
+[INFO] chunk-XL6HQ6BS.js                                                                                               | -                                                                                                            |  40.36 kB | 
+[INFO] chunk-O4TMZSJJ.js                                                                                               | -                                                                                                            |  40.12 kB | 
+[INFO] chunk-CYT4VG7L.js                                                                                               | -                                                                                                            |  38.70 kB | 
+[INFO] chunk-ZMG3BHR2.js                                                                                               | -                                                                                                            |  38.41 kB | 
+[INFO] chunk-VO34ZNRG.js                                                                                               | -                                                                                                            |  34.27 kB | 
+[INFO] chunk-ENNRPAPQ.js                                                                                               | -                                                                                                            |  33.50 kB | 
+[INFO] chunk-47TAGNRD.js                                                                                               | -                                                                                                            |  33.31 kB | 
+[INFO] spec-app-main-routeStrategy-custom-route-reuse.strategy.spec.js                                                 | spec-app-main-routeStrategy-custom-route-reuse.strategy.spec                                                 |  32.55 kB | 
+[INFO] chunk-JRC5HMTI.js                                                                                               | -                                                                                                            |  32.49 kB | 
+[INFO] chunk-V2PVAQT5.js                                                                                               | -                                                                                                            |  31.74 kB | 
+[INFO] spec-app-main-components-idm-users-edit-user-edit-user-modal.component.spec.js                                  | spec-app-main-components-idm-users-edit-user-edit-user-modal.component.spec                                  |  31.21 kB | 
+[INFO] spec-app-main-components-login-guard-auth.guard.spec.js                                                         | spec-app-main-components-login-guard-auth.guard.spec                                                         |  30.98 kB | 
+[INFO] chunk-3WPKCOJI.js                                                                                               | -                                                                                                            |  28.76 kB | 
+[INFO] chunk-RNYRUVAI.js                                                                                               | -                                                                                                            |  28.70 kB | 
+[INFO] chunk-E3TGUPAV.js                                                                                               | -                                                                                                            |  27.60 kB | 
+[INFO] chunk-6DAZGC7A.js                                                                                               | -                                                                                                            |  27.40 kB | 
+[INFO] chunk-NV6C7NBU.js                                                                                               | -                                                                                                            |  26.64 kB | 
+[INFO] chunk-YLJ5N3F2.js                                                                                               | -                                                                                                            |  25.79 kB | 
+[INFO] spec-app-shared-components-filter-filter.component.spec.js                                                      | spec-app-shared-components-filter-filter.component.spec                                                      |  25.57 kB | 
+[INFO] spec-app-main-components-applications-task-task-form-task-form.component.spec.js                                | spec-app-main-components-applications-task-task-form-task-form.component.spec                                |  25.29 kB | 
+[INFO] chunk-4TLJIG57.js                                                                                               | -                                                                                                            |  25.14 kB | 
+[INFO] spec-app-main-components-login-components-login.component.spec.js                                               | spec-app-main-components-login-components-login.component.spec                                               |  24.93 kB | 
+[INFO] chunk-RXDDDEDA.js                                                                                               | -                                                                                                            |  24.74 kB | 
+[INFO] chunk-OFE5V2QD.js                                                                                               | -                                                                                                            |  24.14 kB | 
+[INFO] chunk-TEH4HTKM.js                                                                                               | -                                                                                                            |  24.08 kB | 
+[INFO] chunk-BAF4OMLP.js                                                                                               | -                                                                                                            |  23.87 kB | 
+[INFO] chunk-HFT4365G.js                                                                                               | -                                                                                                            |  23.78 kB | 
+[INFO] chunk-3GB6E5WG.js                                                                                               | -                                                                                                            |  22.37 kB | 
+[INFO] chunk-6ZPBMFYR.js                                                                                               | -                                                                                                            |  20.86 kB | 
+[INFO] chunk-3FB3XM7K.js                                                                                               | -                                                                                                            |  20.50 kB | 
+[INFO] spec-app-main-components-idm-users-add-user-add-user-modal.component.spec.js                                    | spec-app-main-components-idm-users-add-user-add-user-modal.component.spec                                    |  20.22 kB | 
+[INFO] spec-app-main-components-dashboard-components-add-or-edit-card-dialog-add-or-edit-card-dialog.component.spec.js | spec-app-main-components-dashboard-components-add-or-edit-card-dialog-add-or-edit-card-dialog.component.spec | [39m[22m 20.08 kB | 
+[INFO] chunk-UHPXFM7F.js                                                                                               | -                                                                                                            |  20.02 kB | 
+[INFO] spec-app-shared-components-add-or-edit-saved-searches-modal-add-or-edit-saved-search-modal.component.spec.js    | spec-app-shared-components-add-or-edit-saved-searches-modal-add-or-edit-saved-search-modal.component.spec    |  19.97 kB | 
+[INFO] chunk-DZRIGIWO.js                                                                                               | -                                                                                                            |  19.79 kB | 
+[INFO] spec-app-main-components-idm-common-group-members-group-members.component.spec.js                               | spec-app-main-components-idm-common-group-members-group-members.component.spec                               |  18.88 kB | 
+[INFO] spec-app-shared-components-chart-components-fs-echart-fs-echart.component.spec.js                               | spec-app-shared-components-chart-components-fs-echart-fs-echart.component.spec                               |  18.05 kB | 
+[INFO] chunk-LE2CI46N.js                                                                                               | -                                                                                                            |  17.17 kB | 
+[INFO] chunk-GFCCTM4B.js                                                                                               | -                                                                                                            |  16.84 kB | 
+[INFO] spec-app-main-components-idm-privilege-create-role-create-role.component.spec.js                                | spec-app-main-components-idm-privilege-create-role-create-role.component.spec                                |  16.16 kB | 
+[INFO] spec-app-main-layout-app-shell.component.spec.js                                                                | spec-app-main-layout-app-shell.component.spec                                                                |  15.88 kB | 
+[INFO] spec-app-main-components-workflow-modeler-services-workflow-xml.service.spec.js                                 | spec-app-main-components-workflow-modeler-services-workflow-xml.service.spec                                 |  14.78 kB | 
+[INFO] chunk-COAVYXOI.js                                                                                               | -                                                                                                            |  14.10 kB | 
+[INFO] spec-app-main-components-idm-privilege-select-privilege-select-privilege.component.spec.js                      | spec-app-main-components-idm-privilege-select-privilege-select-privilege.component.spec                      |  13.94 kB | 
+[INFO] chunk-SVU27QEO.js                                                                                               | -                                                                                                            |  13.77 kB | 
+[INFO] chunk-XSOU5M7T.js                                                                                               | -[22[39mm                                                                                                            |  13.63 kB | 
+[INFO] chunk-HXGYUI5N.js                                                                                               | -                                                                                                            |  13.50 kB | 
+[INFO] chunk-NRLMT6HV.js                                                                                               | -                                                                                                            |  13.43 kB | 
+[INFO] chunk-372LKMH6.js                                                                                               | -                                                                                                            |  12.99 kB | 
+[INFO] chunk-XXK2CJCY.js                                                                                               | -                                                                                                            |  12.65 kB | 
+[INFO] spec-app-main-components-my-apps-my-apps.component.spec.js                                                      | spec-app-main-components-my-apps-my-apps.component.spec                                                      |  12.57 kB | 
+[INFO] chunk-LRFIEBZF.js                                                                                               | -                                                                                                            |  12.34 kB | 
+[INFO] chunk-WUZAQ6FF.js                                                                                               | -                                                                                                            |  12.24 kB | 
+[INFO] chunk-T7HCNS73.js                                                                                               | -                                                                                                            |  12.09 kB | 
+[INFO] chunk-APMKH62N.js                                                                                               | -                                                                                                            |  11.86 kB | 
+[INFO] chunk-LXTTSOX3.js                                                                                               | -                                                                                                            |  11.73 kB | 
+[INFO] chunk-JA7WDRWX.js                                                                                               | -                                                                                                            |  11.38 kB | 
+[INFO] spec-app-main-components-applications-task-task-form-task-form-control.component.spec.js                        | spec-app-main-components-applications-task-task-form-task-form-control.component.spec                        |  11.05 kB | 
+[INFO] spec-app-main-components-applications-task-task-form-task-form-session.service.spec.js                          | spec-app-main-components-applications-task-task-form-task-form-session.service.spec                          |  11.04 kB | 
+[INFO] spec-app-main-components-applications-task-task-form-task-form-values.spec.js                                   | spec-app-main-components-applications-task-task-form-task-form-values.spec                                   |  10.82 kB | 
+[INFO] chunk-JOGSJUUP.js                                                                                               | -                                                                                                            |  10.31 kB | 
+[INFO] spec-app-backend-api-privilege.service.spec.js                                                                  | spec-app-backend-api-privilege.service.spec                                                                  |  10.06 kB | 
+[INFO] spec-app-shared-components-chart-components-fs-chart-widget-fs-chart-widget.component.spec.js                   | spec-app-shared-components-chart-components-fs-chart-widget-fs-chart-widget.component.spec                   |   9.74 kB | 
+[INFO] chunk-3MP4FYIK.js                                                                                               | -                                                                                                            |   9.71 kB | 
+[INFO] spec-app-shared-components-fs-card-components-fs-card-fs-card.component.spec.js                                 | spec-app-shared-components-fs-card-components-fs-card-fs-card.component.spec                                 |   9.34 kB | 
+[INFO] spec-app-backend-api-dashboard.service.spec.js                                                                  | spec-app-backend-api-dashboard.service.spec                                                                  | 
+[INFO]   9.15 kB | 
+[INFO] spec-app-backend-api-group.service.spec.js                                                                      | spec-app-backend-api-group.service.spec                                                                      |   9.14 kB | 
+[INFO] chunk-SRUYGVAG.js                                                                                               | -                                                                                                            |   9.07 kB | 
+[INFO] spec-app-main-layout-primary-nav-bar-primary-nav-bar.component.spec.js                                          | spec-app-main-layout-primary-nav-bar-primary-nav-bar.component.spec                                          |   9.05 kB | 
+[INFO] chunk-66ELQB6S.js                                                                                               | -                                                                                                            |   8.91 kB | 
+[INFO] spec-app-main-components-applications-task-comment-model-comment-model.component.spec.js                        | spec-app-main-components-applications-task-comment-model-comment-model.component.spec                        |   8.30 kB | 
+[INFO] spec-app-main-components-applications-task-task-summary-task-summary-display.spec.js                            | spec-app-main-components-applications-task-task-summary-task-summary-display.spec                            |   6.85 kB | 
+[INFO] chunk-HPTAK2OY.js                                                                                               | -                                                                                                            |   6.80 kB | 
+[INFO] chunk-QKA4X3MK.js                                                                                               | -                                                                                                            |   6.63 kB | 
+[INFO] spec-app-main-interceptors-no-cache-interceptors.service.spec.js                                                | spec-app-main-interceptors-no-cache-interceptors.service.spec                                                |   6.56 kB | 
+[INFO] chunk-QSRBDJMX.js                                                                                               | -                                                                                                            |   6.43 kB | 
+[INFO] chunk-X753QD4F.js                                                                                               | -                                                                                                            |   6.40 kB | 
+[INFO] chunk-SMY4OWUV.js                                                                                               | -                                                                                                            |   5.95 kB | 
+[INFO] spec-app-main-components-idm-groups-create-group-modal-create-group-modal.component.spec.js                     | spec-app-main-components-idm-groups-create-group-modal-create-group-modal.component.spec                     |   5.82 kB | 
+[INFO] spec-app-main-components-workflow-modeler-models-workflow-modeler-literals.spec.js                              | spec-app-
+[INFO] main-components-workflow-modeler-models-workflow-modeler-literals.spec                              |   5.79 kB | 
+[INFO] spec-app-shared-utils-column-definition.util.spec.js                                                            | spec-app-shared-utils-column-definition.util.spec                                                            |   5.47 kB | 
+[INFO] spec-app-main-components-applications-process-process-diagram-process-diagram.component.spec.js                 | spec-app-main-components-applications-process-process-diagram-process-diagram.component.spec                 |   5.44 kB | 
+[INFO] spec-app-main-components-applications-process-process-audit-process-audit.component.spec.js                     | spec-app-main-components-applications-process-process-audit-process-audit.component.spec                     |   5.33 kB | 
+[INFO] spec-app-main-components-applications-task-task-summary-task-summary-chrome.spec.js                             | spec-app-main-components-applications-task-task-summary-task-summary-chrome.spec                             |   5.32 kB | 
+[INFO] spec-app-main-components-workflow-modeler-moddle-workflow-modeler-moddle.spec.js                                | spec-app-main-components-workflow-modeler-moddle-workflow-modeler-moddle.spec                                |   5.25 kB | 
+[INFO] spec-app-app.component.spec.js                                                                                  | spec-app-app.component.spec                                                                                  |   5.17 kB | 
+[INFO] spec-app-shared-components-select-people-select-people.component.spec.js      
+[INFO]                                   | spec-app-shared-components-select-people-select-people.component.spec                                        |   5.17 kB | 
+[INFO] spec-app-backend-api-reference-data.service.spec.js                                                             | spec-app-backend-api-reference-data.service.spec                                                             |   5.02 kB | 
+[INFO] chunk-HDFLFTKG.js                                                                                               | -                                                                                                            |   4.99 kB | 
+[INFO] spec-app-backend-api-saved-searches.service.spec.js                                                             | spec-app-backend-api-saved-searches.service.spec                                                             |   4.54 kB | 
+[INFO] spec-app-main-layout-footer-footer.component.spec.js                                                            | spec-app-main-layout-footer-footer.component.spec                                                            |   4.25 kB | 
+[INFO] chunk-ADQAIIL6.js                                                                                               | -                                                                                                            |   4.06 kB | 
+[INFO] chunk-7TZ2JX6C.js                                                                                               | -                                                                                                            |   3.83 kB | 
+[INFO] chunk-J3WMAWI6.js                                                                                               | -                                                                                                            |   3.82 kB | 
+[INFO] spec-app-shared-components-logout-modal-logout-modal.component.spec.js                                          | spec-app-shared-components-logout-modal-logout-modal.component.spec                                          |   3.60 kB | 
+[INFO] spec-app-shared-services-notification.service.spec.js                                                           | spec-app-shared-services-notification.service.spec                                                           |   3.31 kB | 
+[INFO] spec-app-backend-api-task-form.service.spec.js                                                                  | spec-app-backend-api-task-form.service.spec                                                                  |   3.13 kB | 
+[INFO] spec-app-main-components-login-service-auth.service.spec.js                                                     | spec-app-main-components-login-service-auth.service.spec                                                     |   3.10 kB | 
+[INFO] spec-app-main-layout-footer-components-user-details.component.spec.js                                           | spec-app-main-layout-footer-components-user-details.component.spec                                           |   2.97 kB | 
+[INFO] spec-app-shared-components-comment-model-comment-model.component.spec.js                                        | spec-app-shared-components-comment-model-comment-model.component.spec                                        |   [[39m36m2.81 kB | 
+[INFO] spec-app-main-layout-header-header.component.spec.js                                                            | spec-app-main-layout-header-header.component.spec                                                            |   2.73 kB | 
+[INFO] spec-app-shared-components-content-model-content-model.component.spec.js                                        | spec-app-shared-components-content-model-content-model.component.spec                                        |   2.72 kB | 
+[INFO] spec-app-main-components-my-apps-components-app-card-app-card.component.spec.js                                 | spec-app-main-components-my-apps-components-app-card-app-card.component.spec                                 |   2.65 kB | 
+[INFO] spec-app-app-store-user-store-user-selector.spec.js                                                             | spec-app-app-store-user-store-user-selector.spec                                                             |   2.53 kB | 
+[INFO] spec-app-shared-components-select-group-select-group.component.spec.js                                          | spec-app-shared-components-select-group-select-group.component.spec                                          |   2.16 kB | 
+[INFO] spec-app-shared-utils-object.util.spec.js                                                                       | spec-app-shared-utils-object.util.spec                                                                       |   2.09 kB | 
+[INFO] spec-app-main-services-applications-identity.service.spec.js                                                    | spec-app-main-services-applications-identity.service.spec                                                    |   1.96 kB | 
+[INFO] spec-app-main-components-print-task-print-preload.spec.js                                                       | spec-app-main-components-print-task-print-preload.spec                                                       |   1.84 kB | 
+[INFO] spec-app-app-store-config-store-config-selector.spec.js                                                         | spec-app-app-store-config-store-config-selector.spec                                                         |   1.84 kB | 
+[INFO] spec-app-main-initializer-app-initializer.service.spec.js                                                       | spec-app-main-initializer-app-initializer.service.spec                                                       |   1.46 kB | 
+[INFO] spec-app-app-store-privilege-store-privilege-selector.spec.js                                                   | spec-app-app-store-privilege-store-privilege-selector.spec                                                   |   1.44 kB | 
+[INFO] spec-app-app-store-config-store-config-reducer.spec.js                                                          | spec-app-app-store-config-store-config-reducer.spec                                                          | 964 bytes | 
+[INFO] spec-app-app-store-privilege-store-privilege-reducer.spec.js                                                    | spec-app-app-store-privilege-store-privilege-reducer.spec                                                    | 950 bytes | 
+[INFO] chunk-AK34W2DI.js                                                                                               | -                                                                                                            | 936 bytes | 
+[INFO] spec-app-app-store-user-store-user-reducer.spec.js                                                              | spec-app-app-store-user-store-user-reducer.spec                                                              | 896 bytes | 
+[INFO] jasmine-cleanup-0.js                                                                                            | jasmine-cleanup-0                                                                                            | 519 bytes | 
+[INFO] spec-app-main-components-applications-process-applications-process.component.spec.js                            | spec-app-main-components-applications-process-applications-process.component.spec                            | 110 bytes | 
+[INFO] spec-app-main-components-applications-start-process-start-process.component.spec.js                             | spec-app-main-components-applications-start-process-start-process.component.spec                             | 109 bytes | 
+[INFO] spec-app-main-services-login.service.spec.js                                                                    | spec-app-main-services-login.service.spec                                                                    |  70 bytes | 
+[INFO] 
+[INFO]                                                                                                                 | Initial total                                                                                                |  19.33 MB
+[INFO] 
+[INFO] Application bundle generation complete. [85.317 seconds] - 2026-10-10T06:14:16.708Z
+[INFO] 
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: '┌─────────────────────────────────────────────────────────────────┐'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: '│  TEST OUTPUT                                                    │'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: '│  console.warn and console.error are filtered to keep test       │'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: '│  logging clean. If your test intentionally triggers an error,   │'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: '│  add a pattern to suppressPatterns in src/test.ts.              │'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: '└─────────────────────────────────────────────────────────────────┘'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) INFO: ''
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 0 of 997 SUCCESS (0 secs / 0 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 1 of 997 SUCCESS (0 secs / 0.579 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 2 of 997 SUCCESS (0 secs / 0.708 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 3 of 997 SUCCESS (0 secs / 0.818 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 4 of 997 SUCCESS (0 secs / 0.916 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 5 of 997 SUCCESS (0 secs / 1.006 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 6 of 997 SUCCESS (0 secs / 1.028 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 7 of 997 SUCCESS (0 secs / 1.112 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 8 of 997 SUCCESS (0 secs / 1.311 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 9 of 997 SUCCESS (0 secs / 1.36 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 10 of 997 SUCCESS (0 secs / 1.427 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 11 of 997 SUCCESS (0 secs / 1.532 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 12 of 997 SUCCESS (0 secs / 1.561 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 13 of 997 SUCCESS (0 secs / 1.57 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 14 of 997 SUCCESS (0 secs / 1.58 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 15 of 997 SUCCESS (0 secs / 1.667 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 16 of 997 SUCCESS (0 secs / 1.683 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 17 of 997 SUCCESS (0 secs / 1.694 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 18 of 997 SUCCESS (0 secs / 1.714 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 19 of 997 SUCCESS (0 secs / 2.231 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 20 of 997 SUCCESS (0 secs / 2.24 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 21 of 997 SUCCESS (0 secs / 2.253 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 22 of 997 SUCCESS (0 secs / 2.265 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 23 of 997 SUCCESS (0 secs / 2.267 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 24 of 997 SUCCESS (0 secs / 2.268 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 25 of 997 SUCCESS (0 secs / 2.269 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 26 of 997 SUCCESS (0 secs / 2.269 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 27 of 997 SUCCESS (0 secs / 2.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 28 of 997 SUCCESS (0 secs / 2.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 29 of 997 SUCCESS (0 secs / 2.27 secs)
+[INFO] WARN: '[GroupsComponent onNodeSelected should render "(deactivated)" with an empty name when the group name is null]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 29 of 997 SUCCESS (0 secs / 2.27 secs)
+[INFO] WARN: '[GroupsComponent onNodeSelected should render "(deactivated)" with an empty name when the group name is null]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 29 of 997 SUCCESS (0 secs / 2.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 30 of 997 SUCCESS (0 secs / 2.548 secs)
+[INFO] WARN: '[GroupsComponent onNodeSelected should set selectedGroupId and selectedGroupInfo on success]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 30 of 997 SUCCESS (0 secs / 2.548 secs)
+[INFO] WARN: '[GroupsComponent onNodeSelected should set selectedGroupId and selectedGroupInfo on success]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 30 of 997 SUCCESS (0 secs / 2.548 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 31 of 997 SUCCESS (0 secs / 2.687 secs)
+[INFO] WARN: '[GroupsComponent onNodeSelected should notify error when getGroup fails]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 31 of 997 SUCCESS (0 secs / 2.687 secs)
+[INFO] WARN: '[GroupsComponent onNodeSelected should notify error when getGroup fails]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 31 of 997 SUCCESS (0 secs / 2.687 secs)
+[INFO] LOG: 'Couldn't fetch the group details'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 31 of 997 SUCCESS (0 secs / 2.687 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should update the group and reload when a different valid group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should update the group and reload when a different valid group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] LOG: 'output', Object{id: 'group-1', name: 'Root Group', type: 'GROUP', externalId: null, parentGroupId: null, status: 'ACTIVE', subgroupCount: 1, memberCount: 0, managerName: null, createdDate: '2026-01-01', nestedGroups: []}
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should update the group and reload when a different valid group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should update the group and reload when a different valid group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should update the group and reload when a different valid group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 32 of 997 SUCCESS (0 secs / 2.935 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 33 of 997 SUCCESS (0 secs / 3.308 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should notify error when no group is currently selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 33 of 997 SUCCESS (0 secs / 3.308 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should default the request name to an empty string when the selected group has no name]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should default the request name to an empty string when the selected group has no name]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] LOG: 'output', Object{id: 'group-1', name: 'Root Group', type: 'GROUP', externalId: null, parentGroupId: null, status: 'ACTIVE', subgroupCount: 1, memberCount: 0, managerName: null, createdDate: '2026-01-01', nestedGroups: []}
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should default the request name to an empty string when the selected group has no name]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should default the request name to an empty string when the selected group has no name]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] WARN: '[GroupsComponent groupSelected should default the request name to an empty string when the selected group has no name]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 34 of 997 SUCCESS (0 secs / 3.409 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 35 of 997 SUCCESS (0 secs / 3.536 secs)
+[INFO] WARN: '[GroupsComponent removeSubgroup should notify error on failure]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 35 of 997 SUCCESS (0 secs / 3.536 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 36 of 997 SUCCESS (0 secs / 3.607 secs)
+[INFO] WARN: '[GroupsComponent removeSubgroup should notify success and reload groups on success]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 36 of 997 SUCCESS (0 secs / 3.607 secs)
+[INFO] WARN: '[GroupsComponent removeSubgroup should notify success and reload groups on success]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 36 of 997 SUCCESS (0 secs / 3.607 secs)
+[INFO] WARN: '[GroupsComponent removeSubgroup should notify success and reload groups on success]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 36 of 997 SUCCESS (0 secs / 3.607 secs)
+[INFO] WARN: '[GroupsComponent removeSubgroup should notify success and reload groups on success]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 36 of 997 SUCCESS (0 secs / 3.607 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 37 of 997 SUCCESS (0 secs / 3.7 secs)
+[INFO] WARN: '[GroupsComponent ngOnInit / loadGroups should build button configs and load groups on init]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 37 of 997 SUCCESS (0 secs / 3.7 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 38 of 997 SUCCESS (0 secs / 3.748 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 39 of 997 SUCCESS (0 secs / 3.783 secs)
+[INFO] WARN: '[GroupsComponent tree building should nest a subgroup under its matching parent]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 39 of 997 SUCCESS (0 secs / 3.783 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 40 of 997 SUCCESS (0 secs / 3.869 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 41 of 997 SUCCESS (0 secs / 3.935 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should set currentSort and reload groups when a sort option is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 41 of 997 SUCCESS (0 secs / 3.935 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should set currentSort and reload groups when a sort option is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 41 of 997 SUCCESS (0 secs / 3.935 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should set currentSort and reload groups when a sort option is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 41 of 997 SUCCESS (0 secs / 3.935 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should set currentSort and reload groups when a sort option is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 41 of 997 SUCCESS (0 secs / 3.935 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 42 of 997 SUCCESS (0 secs / 4.055 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should toggle allExpanded and reinitialize the tree, updating label/icon accessors both ways]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 42 of 997 SUCCESS (0 secs / 4.055 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should toggle allExpanded and reinitialize the tree, updating label/icon accessors both ways]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 42 of 997 SUCCESS (0 secs / 4.055 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should toggle allExpanded and reinitialize the tree, updating label/icon accessors both ways]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 42 of 997 SUCCESS (0 secs / 4.055 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should toggle allExpanded and reinitialize the tree, updating label/icon accessors both ways]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 42 of 997 SUCCESS (0 secs / 4.055 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should toggle allExpanded and reinitialize the tree, updating label/icon accessors both ways]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 42 of 997 SUCCESS (0 secs / 4.055 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 43 of 997 SUCCESS (0 secs / 4.231 secs)
+[INFO] WARN: '[GroupsComponent sorting and expand/collapse should invoke the action onClick when a sort action is triggered]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 43 of 997 SUCCESS (0 secs / 4.231 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 44 of 997 SUCCESS (0 secs / 4.317 secs)
+[INFO] WARN: '[GroupsComponent createGroup should not reload groups when the modal closes unconfirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 44 of 997 SUCCESS (0 secs / 4.317 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 45 of 997 SUCCESS (0 secs / 4.375 secs)
+[INFO] WARN: '[GroupsComponent createGroup should open the create modal with no parentGroupId and reload on confirm, for a brand new group]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 45 of 997 SUCCESS (0 secs / 4.375 secs)
+[INFO] WARN: '[GroupsComponent createGroup should open the create modal with no parentGroupId and reload on confirm, for a brand new group]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 45 of 997 SUCCESS (0 secs / 4.375 secs)
+[INFO] WARN: '[GroupsComponent createGroup should open the create modal with no parentGroupId and reload on confirm, for a brand new group]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 45 of 997 SUCCESS (0 secs / 4.375 secs)
+[INFO] WARN: '[GroupsComponent createGroup should open the create modal with no parentGroupId and reload on confirm, for a brand new group]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 45 of 997 SUCCESS (0 secs / 4.375 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 46 of 997 SUCCESS (0 secs / 4.497 secs)
+[INFO] WARN: '[GroupsComponent createGroup should fall back to selectedGroupInfo id when no groupId is passed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 46 of 997 SUCCESS (0 secs / 4.497 secs)
+[INFO] WARN: '[GroupsComponent createGroup should fall back to selectedGroupInfo id when no groupId is passed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 46 of 997 SUCCESS (0 secs / 4.497 secs)
+[INFO] WARN: '[GroupsComponent createGroup should fall back to selectedGroupInfo id when no groupId is passed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 46 of 997 SUCCESS (0 secs / 4.497 secs)
+[INFO] WARN: '[GroupsComponent createGroup should fall back to selectedGroupInfo id when no groupId is passed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 46 of 997 SUCCESS (0 secs / 4.497 secs)
+[INFO] WARN: '[GroupsComponent createGroup should fall back to selectedGroupInfo id when no groupId is passed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 46 of 997 SUCCESS (0 secs / 4.497 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 47 of 997 SUCCESS (0 secs / 4.634 secs)
+[INFO] WARN: '[GroupsComponent createGroup should use the passed groupId as parentGroupId for a subgroup]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 47 of 997 SUCCESS (0 secs / 4.634 secs)
+[INFO] WARN: '[GroupsComponent createGroup should use the passed groupId as parentGroupId for a subgroup]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 47 of 997 SUCCESS (0 secs / 4.634 secs)
+[INFO] WARN: '[GroupsComponent createGroup should use the passed groupId as parentGroupId for a subgroup]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 47 of 997 SUCCESS (0 secs / 4.634 secs)
+[INFO] WARN: '[GroupsComponent createGroup should use the passed groupId as parentGroupId for a subgroup]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 47 of 997 SUCCESS (0 secs / 4.634 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 48 of 997 SUCCESS (0 secs / 4.812 secs)
+[INFO] WARN: '[GroupsComponent onSearchChange / applySearchFilter should hide non-matching nodes and keep matching + ancestor nodes visible]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 48 of 997 SUCCESS (0 secs / 4.812 secs)
+[INFO] WARN: '[GroupsComponent onSearchChange / applySearchFilter should hide non-matching nodes and keep matching + ancestor nodes visible]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 48 of 997 SUCCESS (0 secs / 4.812 secs)
+[INFO] WARN: '[GroupsComponent onSearchChange / applySearchFilter should hide non-matching nodes and keep matching + ancestor nodes visible]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 48 of 997 SUCCESS (0 secs / 4.812 secs)
+[INFO] WARN: '[GroupsComponent onSearchChange / applySearchFilter should hide non-matching nodes and keep matching + ancestor nodes visible]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 48 of 997 SUCCESS (0 secs / 4.812 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 49 of 997 SUCCESS (0 secs / 4.962 secs)
+[INFO] WARN: '[GroupsComponent onSearchChange / applySearchFilter should unhide all nodes when search term is empty]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 49 of 997 SUCCESS (0 secs / 4.962 secs)
+[INFO] WARN: '[GroupsComponent onSearchChange / applySearchFilter should unhide all nodes when search term is empty]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 49 of 997 SUCCESS (0 secs / 4.962 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 50 of 997 SUCCESS (0 secs / 5.054 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show permanent-delete copy and clear selection when status is not ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 50 of 997 SUCCESS (0 secs / 5.054 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show permanent-delete copy and clear selection when status is not ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 50 of 997 SUCCESS (0 secs / 5.054 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show permanent-delete copy and clear selection when status is not ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 50 of 997 SUCCESS (0 secs / 5.054 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show permanent-delete copy and clear selection when status is not ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 50 of 997 SUCCESS (0 secs / 5.054 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show permanent-delete copy and clear selection when status is not ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 50 of 997 SUCCESS (0 secs / 5.054 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 51 of 997 SUCCESS (0 secs / 5.159 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should not delete when the confirmation modal is dismissed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 51 of 997 SUCCESS (0 secs / 5.159 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should not delete when the confirmation modal is dismissed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 51 of 997 SUCCESS (0 secs / 5.159 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 52 of 997 SUCCESS (0 secs / 5.242 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show deactivate copy and refresh selected info when status is ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 52 of 997 SUCCESS (0 secs / 5.242 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show deactivate copy and refresh selected info when status is ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 52 of 997 SUCCESS (0 secs / 5.242 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show deactivate copy and refresh selected info when status is ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 52 of 997 SUCCESS (0 secs / 5.242 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show deactivate copy and refresh selected info when status is ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 52 of 997 SUCCESS (0 secs / 5.242 secs)
+[INFO] WARN: '[GroupsComponent deleteGroup (via menu config) should show deactivate copy and refresh selected info when status is ACTIVE and confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 52 of 997 SUCCESS (0 secs / 5.242 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 53 of 997 SUCCESS (0 secs / 5.368 secs)
+[INFO] WARN: '[GroupsComponent button and menu config wiring should wire per-node menu actions to createGroup/removeSubgroup]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 53 of 997 SUCCESS (0 secs / 5.368 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 54 of 997 SUCCESS (0 secs / 5.437 secs)
+[INFO] WARN: '[GroupsComponent button and menu config wiring should wire top-level buttons and sort menu actions to their handlers]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 54 of 997 SUCCESS (0 secs / 5.437 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 55 of 997 SUCCESS (0 secs / 5.498 secs)
+[INFO] WARN: '[GroupsComponent openGroupNameEditModel (via menu config) should open the edit modal with group id/name and reload + refresh on confirm]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 55 of 997 SUCCESS (0 secs / 5.498 secs)
+[INFO] WARN: '[GroupsComponent openGroupNameEditModel (via menu config) should open the edit modal with group id/name and reload + refresh on confirm]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 55 of 997 SUCCESS (0 secs / 5.498 secs)
+[INFO] WARN: '[GroupsComponent openGroupNameEditModel (via menu config) should open the edit modal with group id/name and reload + refresh on confirm]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 55 of 997 SUCCESS (0 secs / 5.498 secs)
+[INFO] WARN: '[GroupsComponent openGroupNameEditModel (via menu config) should open the edit modal with group id/name and reload + refresh on confirm]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 55 of 997 SUCCESS (0 secs / 5.498 secs)
+[INFO] WARN: '[GroupsComponent openGroupNameEditModel (via menu config) should open the edit modal with group id/name and reload + refresh on confirm]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 55 of 997 SUCCESS (0 secs / 5.498 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 56 of 997 SUCCESS (0 secs / 5.621 secs)
+[INFO] WARN: '[GroupsComponent openGroupPopover should open the popover using the trigger native element once a group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 56 of 997 SUCCESS (0 secs / 5.621 secs)
+[INFO] WARN: '[GroupsComponent openGroupPopover should open the popover using the trigger native element once a group is selected]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 56 of 997 SUCCESS (0 secs / 5.621 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 57 of 997 SUCCESS (0 secs / 6.001 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should notify error on activation failure]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 57 of 997 SUCCESS (0 secs / 6.001 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should notify error on activation failure]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 57 of 997 SUCCESS (0 secs / 6.001 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 58 of 997 SUCCESS (0 secs / 6.145 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should be hidden when group status is ACTIVE]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 58 of 997 SUCCESS (0 secs / 6.145 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should be hidden when group status is ACTIVE]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 58 of 997 SUCCESS (0 secs / 6.145 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 59 of 997 SUCCESS (0 secs / 6.223 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should refresh selected group info after successful activation]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 59 of 997 SUCCESS (0 secs / 6.223 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should refresh selected group info after successful activation]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 59 of 997 SUCCESS (0 secs / 6.223 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should refresh selected group info after successful activation]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 59 of 997 SUCCESS (0 secs / 6.223 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should refresh selected group info after successful activation]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 59 of 997 SUCCESS (0 secs / 6.223 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should refresh selected group info after successful activation]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 59 of 997 SUCCESS (0 secs / 6.223 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 60 of 997 SUCCESS (0 secs / 6.333 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should be visible when group status is INACTIVE]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 60 of 997 SUCCESS (0 secs / 6.333 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should be visible when group status is INACTIVE]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 60 of 997 SUCCESS (0 secs / 6.333 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 61 of 997 SUCCESS (0 secs / 6.419 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should activate group and notify success when confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 61 of 997 SUCCESS (0 secs / 6.419 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should activate group and notify success when confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 61 of 997 SUCCESS (0 secs / 6.419 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should activate group and notify success when confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 61 of 997 SUCCESS (0 secs / 6.419 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should activate group and notify success when confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 61 of 997 SUCCESS (0 secs / 6.419 secs)
+[INFO] WARN: '[GroupsComponent activateGroup (via menu config) should activate group and notify success when confirmed]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 61 of 997 SUCCESS (0 secs / 6.419 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] WARN: '[GroupsComponent refreshSelectedGroupInfo error path (via deleteGroup) should notify error when refreshing selected group info fails after an ACTIVE-status delete]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] WARN: '[GroupsComponent refreshSelectedGroupInfo error path (via deleteGroup) should notify error when refreshing selected group info fails after an ACTIVE-status delete]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] WARN: '[GroupsComponent refreshSelectedGroupInfo error path (via deleteGroup) should notify error when refreshing selected group info fails after an ACTIVE-status delete]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] WARN: '[GroupsComponent refreshSelectedGroupInfo error path (via deleteGroup) should notify error when refreshing selected group info fails after an ACTIVE-status delete]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] WARN: '[GroupsComponent refreshSelectedGroupInfo error path (via deleteGroup) should notify error when refreshing selected group info fails after an ACTIVE-status delete]', 'Tree is using conflicting node types which can cause unexpected behavior. Please use tree nodes of the same type (e.g. only flat or only nested). Current node type: "nested", new node type "flat".'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] LOG: 'Couldn't fetch the group details'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 62 of 997 SUCCESS (0 secs / 6.591 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 63 of 997 SUCCESS (0 secs / 6.729 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 64 of 997 SUCCESS (0 secs / 6.748 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 65 of 997 SUCCESS (0 secs / 6.774 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 66 of 997 SUCCESS (0 secs / 6.809 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 67 of 997 SUCCESS (0 secs / 6.825 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 68 of 997 SUCCESS (0 secs / 6.837 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 69 of 997 SUCCESS (0 secs / 6.855 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 70 of 997 SUCCESS (0 secs / 6.869 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 71 of 997 SUCCESS (0 secs / 6.882 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 72 of 997 SUCCESS (0 secs / 7.008 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 73 of 997 SUCCESS (0 secs / 7.029 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 74 of 997 SUCCESS (0 secs / 7.054 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 75 of 997 SUCCESS (0 secs / 7.067 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 76 of 997 SUCCESS (0 secs / 7.093 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 77 of 997 SUCCESS (0 secs / 7.407 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 78 of 997 SUCCESS (0 secs / 7.654 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 79 of 997 SUCCESS (0 secs / 7.716 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 80 of 997 SUCCESS (0 secs / 7.756 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 81 of 997 SUCCESS (0 secs / 7.776 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 82 of 997 SUCCESS (0 secs / 7.788 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 83 of 997 SUCCESS (0 secs / 7.796 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 84 of 997 SUCCESS (0 secs / 7.808 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 85 of 997 SUCCESS (0 secs / 7.858 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 86 of 997 SUCCESS (0 secs / 7.92 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 87 of 997 SUCCESS (0 secs / 8.013 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 88 of 997 SUCCESS (0 secs / 8.04 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 89 of 997 SUCCESS (0 secs / 8.048 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 90 of 997 SUCCESS (0 secs / 8.062 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 91 of 997 SUCCESS (0 secs / 8.087 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 92 of 997 SUCCESS (0 secs / 8.095 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 93 of 997 SUCCESS (0 secs / 8.117 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 94 of 997 SUCCESS (0 secs / 8.138 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 95 of 997 SUCCESS (0 secs / 8.15 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 96 of 997 SUCCESS (0 secs / 8.162 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 97 of 997 SUCCESS (0 secs / 8.193 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 98 of 997 SUCCESS (0 secs / 8.222 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 99 of 997 SUCCESS (0 secs / 8.232 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 100 of 997 SUCCESS (0 secs / 8.255 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 101 of 997 SUCCESS (0 secs / 8.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 102 of 997 SUCCESS (0 secs / 8.285 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 103 of 997 SUCCESS (0 secs / 8.296 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 104 of 997 SUCCESS (0 secs / 8.308 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 105 of 997 SUCCESS (0 secs / 8.325 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 106 of 997 SUCCESS (0 secs / 8.333 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 107 of 997 SUCCESS (0 secs / 8.342 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 108 of 997 SUCCESS (0 secs / 8.358 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 109 of 997 SUCCESS (0 secs / 8.412 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 110 of 997 SUCCESS (0 secs / 8.42 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 111 of 997 SUCCESS (0 secs / 8.427 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 112 of 997 SUCCESS (0 secs / 8.435 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 113 of 997 SUCCESS (0 secs / 8.497 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 114 of 997 SUCCESS (0 secs / 8.511 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 115 of 997 SUCCESS (0 secs / 8.521 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 116 of 997 SUCCESS (0 secs / 8.529 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 117 of 997 SUCCESS (0 secs / 8.545 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 118 of 997 SUCCESS (0 secs / 8.554 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 119 of 997 SUCCESS (0 secs / 8.56 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 120 of 997 SUCCESS (0 secs / 8.567 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 121 of 997 SUCCESS (0 secs / 8.575 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 122 of 997 SUCCESS (0 secs / 8.583 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 123 of 997 SUCCESS (0 secs / 8.59 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 124 of 997 SUCCESS (0 secs / 8.603 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 125 of 997 SUCCESS (0 secs / 8.61 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 126 of 997 SUCCESS (0 secs / 8.627 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 127 of 997 SUCCESS (0 secs / 8.649 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 128 of 997 SUCCESS (0 secs / 8.663 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 129 of 997 SUCCESS (0 secs / 8.67 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 130 of 997 SUCCESS (0 secs / 8.687 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 131 of 997 SUCCESS (0 secs / 8.696 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 132 of 997 SUCCESS (0 secs / 8.711 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 133 of 997 SUCCESS (0 secs / 8.728 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 134 of 997 SUCCESS (0 secs / 8.748 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 135 of 997 SUCCESS (0 secs / 8.767 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 136 of 997 SUCCESS (0 secs / 8.782 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 137 of 997 SUCCESS (0 secs / 8.807 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 138 of 997 SUCCESS (0 secs / 8.837 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 139 of 997 SUCCESS (0 secs / 8.845 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 140 of 997 SUCCESS (0 secs / 8.849 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 141 of 997 SUCCESS (0 secs / 8.851 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 142 of 997 SUCCESS (0 secs / 8.852 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 143 of 997 SUCCESS (0 secs / 8.853 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 144 of 997 SUCCESS (0 secs / 8.865 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 145 of 997 SUCCESS (0 secs / 8.868 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 146 of 997 SUCCESS (0 secs / 8.869 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 147 of 997 SUCCESS (0 secs / 8.872 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 148 of 997 SUCCESS (0 secs / 8.874 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 149 of 997 SUCCESS (0 secs / 8.874 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 150 of 997 SUCCESS (0 secs / 8.875 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 151 of 997 SUCCESS (0 secs / 8.876 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 152 of 997 SUCCESS (0 secs / 8.878 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 153 of 997 SUCCESS (0 secs / 8.879 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 154 of 997 SUCCESS (0 secs / 8.883 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 155 of 997 SUCCESS (0 secs / 8.884 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 156 of 997 SUCCESS (0 secs / 8.887 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 157 of 997 SUCCESS (0 secs / 8.888 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 158 of 997 SUCCESS (0 secs / 9.191 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 159 of 997 SUCCESS (0 secs / 9.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 160 of 997 SUCCESS (0 secs / 9.295 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 161 of 997 SUCCESS (0 secs / 9.568 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 162 of 997 SUCCESS (0 secs / 9.639 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 163 of 997 SUCCESS (0 secs / 9.748 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 164 of 997 SUCCESS (0 secs / 9.856 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 165 of 997 SUCCESS (0 secs / 10.074 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 166 of 997 SUCCESS (0 secs / 10.156 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 167 of 997 SUCCESS (0 secs / 10.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 168 of 997 SUCCESS (0 secs / 10.366 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 169 of 997 SUCCESS (0 secs / 10.467 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 170 of 997 SUCCESS (0 secs / 10.689 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 171 of 997 SUCCESS (0 secs / 10.752 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 172 of 997 SUCCESS (0 secs / 10.875 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 173 of 997 SUCCESS (0 secs / 10.984 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 174 of 997 SUCCESS (0 secs / 11.118 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 175 of 997 SUCCESS (0 secs / 11.396 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 176 of 997 SUCCESS (0 secs / 11.604 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 177 of 997 SUCCESS (0 secs / 11.771 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 178 of 997 SUCCESS (0 secs / 11.888 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 179 of 997 SUCCESS (0 secs / 11.957 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 180 of 997 SUCCESS (0 secs / 12.042 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 181 of 997 SUCCESS (0 secs / 12.219 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 182 of 997 SUCCESS (0 secs / 12.309 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 183 of 997 SUCCESS (0 secs / 12.421 secs)
+[INFO] WARN: '[ApplicationsProcessesComponent getMenuItemsConfig should call deleteProcess when cancelProcess/deleteProcess action onClick fires]', 'Process deleted successfully'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 183 of 997 SUCCESS (0 secs / 12.421 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 184 of 997 SUCCESS (0 secs / 12.518 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 185 of 997 SUCCESS (0 secs / 12.6 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 186 of 997 SUCCESS (0 secs / 12.737 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 187 of 997 SUCCESS (0 secs / 12.918 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 188 of 997 SUCCESS (0 secs / 13.103 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 189 of 997 SUCCESS (0 secs / 13.211 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 190 of 997 SUCCESS (0 secs / 13.284 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 191 of 997 SUCCESS (0 secs / 13.378 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 192 of 997 SUCCESS (0 secs / 13.522 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 193 of 997 SUCCESS (0 secs / 13.668 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 194 of 997 SUCCESS (0 secs / 13.738 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 195 of 997 SUCCESS (0 secs / 13.81 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 196 of 997 SUCCESS (0 secs / 13.848 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 197 of 997 SUCCESS (0 secs / 13.861 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 198 of 997 SUCCESS (0 secs / 13.876 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 199 of 997 SUCCESS (0 secs / 13.931 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 200 of 997 SUCCESS (0 secs / 14.028 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 201 of 997 SUCCESS (0 secs / 14.098 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 202 of 997 SUCCESS (0 secs / 14.188 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 203 of 997 SUCCESS (0 secs / 14.218 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 204 of 997 SUCCESS (0 secs / 14.275 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 205 of 997 SUCCESS (0 secs / 14.338 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 206 of 997 SUCCESS (0 secs / 14.402 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 207 of 997 SUCCESS (0 secs / 14.481 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 208 of 997 SUCCESS (0 secs / 14.559 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 209 of 997 SUCCESS (0 secs / 14.62 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 210 of 997 SUCCESS (0 secs / 14.653 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 211 of 997 SUCCESS (0 secs / 14.683 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 212 of 997 SUCCESS (0 secs / 14.696 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 213 of 997 SUCCESS (0 secs / 14.731 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 214 of 997 SUCCESS (0 secs / 14.767 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 215 of 997 SUCCESS (0 secs / 14.792 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 216 of 997 SUCCESS (0 secs / 14.829 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 217 of 997 SUCCESS (0 secs / 14.921 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 218 of 997 SUCCESS (0 secs / 14.983 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 219 of 997 SUCCESS (0 secs / 15.054 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 220 of 997 SUCCESS (0 secs / 15.163 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 221 of 997 SUCCESS (0 secs / 15.225 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 222 of 997 SUCCESS (0 secs / 15.265 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 223 of 997 SUCCESS (0 secs / 15.315 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 224 of 997 SUCCESS (0 secs / 15.328 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 225 of 997 SUCCESS (0 secs / 15.352 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 226 of 997 SUCCESS (0 secs / 15.421 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 227 of 997 SUCCESS (0 secs / 15.554 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 228 of 997 SUCCESS (0 secs / 15.673 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 229 of 997 SUCCESS (0 secs / 15.78 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 230 of 997 SUCCESS (0 secs / 15.836 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 231 of 997 SUCCESS (0 secs / 15.891 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 232 of 997 SUCCESS (0 secs / 15.941 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 233 of 997 SUCCESS (0 secs / 16 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 234 of 997 SUCCESS (0 secs / 16.017 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 235 of 997 SUCCESS (0 secs / 16.098 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 236 of 997 SUCCESS (0 secs / 16.105 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 237 of 997 SUCCESS (0 secs / 16.112 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 238 of 997 SUCCESS (0 secs / 16.118 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 239 of 997 SUCCESS (0 secs / 16.12 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 240 of 997 SUCCESS (0 secs / 16.387 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 241 of 997 SUCCESS (0 secs / 16.51 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 242 of 997 SUCCESS (0 secs / 16.705 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 243 of 997 SUCCESS (0 secs / 16.822 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 244 of 997 SUCCESS (0 secs / 16.944 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 245 of 997 SUCCESS (0 secs / 17.052 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 246 of 997 SUCCESS (0 secs / 17.137 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 247 of 997 SUCCESS (0 secs / 17.258 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 248 of 997 SUCCESS (0 secs / 17.418 secs)
+[INFO] WARN: '[TaskSummaryComponent shared task completion state runs summary actions through the live page before completion and refuses them after]', 'Person added successfully:', Object{id: 'person-1', firstName: 'Ada', lastName: 'Lovelace', email: 'ada@example.com', fullName: 'Ada Lovelace'}
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 248 of 997 SUCCESS (0 secs / 17.418 secs)
+[INFO] WARN: '[TaskSummaryComponent shared task completion state runs summary actions through the live page before completion and refuses them after]', 'Group added successfully:', Object{id: 'group-1', name: 'Line Maintenance', type: 'candidate', externalId: null, groups: null, parentGroupId: null, status: null}
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 248 of 997 SUCCESS (0 secs / 17.418 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 249 of 997 SUCCESS (0 secs / 17.606 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 250 of 997 SUCCESS (0 secs / 17.773 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 251 of 997 SUCCESS (0 secs / 17.865 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 252 of 997 SUCCESS (0 secs / 17.866 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 253 of 997 SUCCESS (0 secs / 17.914 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 254 of 997 SUCCESS (0 secs / 17.933 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 255 of 997 SUCCESS (0 secs / 17.936 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 256 of 997 SUCCESS (0 secs / 17.939 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 257 of 997 SUCCESS (0 secs / 17.941 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 258 of 997 SUCCESS (0 secs / 17.943 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 259 of 997 SUCCESS (0 secs / 17.946 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 260 of 997 SUCCESS (0 secs / 17.951 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 261 of 997 SUCCESS (0 secs / 17.954 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 262 of 997 SUCCESS (0 secs / 17.957 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 263 of 997 SUCCESS (0 secs / 17.961 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 264 of 997 SUCCESS (0 secs / 17.988 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 265 of 997 SUCCESS (0 secs / 17.99 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 266 of 997 SUCCESS (0 secs / 17.996 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 267 of 997 SUCCESS (0 secs / 18.003 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 268 of 997 SUCCESS (0 secs / 18.019 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 269 of 997 SUCCESS (0 secs / 18.049 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 270 of 997 SUCCESS (0 secs / 18.053 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 271 of 997 SUCCESS (0 secs / 18.063 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 272 of 997 SUCCESS (0 secs / 18.121 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 273 of 997 SUCCESS (0 secs / 18.15 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 274 of 997 SUCCESS (0 secs / 18.17 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 275 of 997 SUCCESS (0 secs / 18.192 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 276 of 997 SUCCESS (0 secs / 18.208 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 277 of 997 SUCCESS (0 secs / 18.224 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 278 of 997 SUCCESS (0 secs / 18.239 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 279 of 997 SUCCESS (0 secs / 18.259 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 280 of 997 SUCCESS (0 secs / 18.278 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 281 of 997 SUCCESS (0 secs / 18.308 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 282 of 997 SUCCESS (0 secs / 18.316 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 283 of 997 SUCCESS (0 secs / 18.33 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 284 of 997 SUCCESS (0 secs / 18.35 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 285 of 997 SUCCESS (0 secs / 18.38 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 286 of 997 SUCCESS (0 secs / 18.404 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 287 of 997 SUCCESS (0 secs / 18.425 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 288 of 997 SUCCESS (0 secs / 18.446 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 289 of 997 SUCCESS (0 secs / 18.505 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 290 of 997 SUCCESS (0 secs / 18.539 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 291 of 997 SUCCESS (0 secs / 18.562 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 292 of 997 SUCCESS (0 secs / 18.571 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 293 of 997 SUCCESS (0 secs / 18.581 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 294 of 997 SUCCESS (0 secs / 18.598 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 295 of 997 SUCCESS (0 secs / 18.608 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 296 of 997 SUCCESS (0 secs / 18.627 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 297 of 997 SUCCESS (0 secs / 18.634 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 298 of 997 SUCCESS (0 secs / 18.645 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 299 of 997 SUCCESS (0 secs / 18.653 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 300 of 997 SUCCESS (0 secs / 18.661 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 301 of 997 SUCCESS (0 secs / 18.668 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 302 of 997 SUCCESS (0 secs / 18.76 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 303 of 997 SUCCESS (0 secs / 18.78 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 304 of 997 SUCCESS (0 secs / 18.792 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 305 of 997 SUCCESS (0 secs / 18.804 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 306 of 997 SUCCESS (0 secs / 18.818 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 307 of 997 SUCCESS (0 secs / 18.824 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 308 of 997 SUCCESS (0 secs / 18.831 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 309 of 997 SUCCESS (0 secs / 18.839 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 310 of 997 SUCCESS (0 secs / 18.848 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 311 of 997 SUCCESS (0 secs / 18.9 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 312 of 997 SUCCESS (0 secs / 18.985 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 313 of 997 SUCCESS (0 secs / 18.999 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 314 of 997 SUCCESS (0 secs / 19.047 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 315 of 997 SUCCESS (0 secs / 19.094 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 316 of 997 SUCCESS (0 secs / 19.122 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 317 of 997 SUCCESS (0 secs / 19.146 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 318 of 997 SUCCESS (0 secs / 19.166 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 319 of 997 SUCCESS (0 secs / 19.178 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 320 of 997 SUCCESS (0 secs / 19.188 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 321 of 997 SUCCESS (0 secs / 19.27 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 322 of 997 SUCCESS (0 secs / 19.297 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 323 of 997 SUCCESS (0 secs / 19.324 secs)
+[INFO] ERROR: '[UserDetailsComponent user detail loading should set loading to false on error]', 'Error loading user details', Error: Load failed
+[INFO] Error: Load failed
+[INFO]     at http://127.0.0.1:9878/base/src/app/main/components/idm/users/user-details/user-details.component.spec.ts:177:74
+[INFO]     at _Observable.init [as _subscribe] (http://127.0.0.1:9878/base/node_modules/rxjs/src/internal/observable/throwError.ts:123:68)
+[INFO]     at _Observable._trySubscribe (http://127.0.0.1:9878/base/node_modules/rxjs/src/internal/Observable.ts:244:19)
+[INFO]     at http://127.0.0.1:9878/base/node_modules/rxjs/src/internal/Observable.ts:234:18
+[INFO]     at errorContext (http://127.0.0.1:9878/base/node_modules/rxjs/src/internal/util/errorContext.ts:29:5)
+[INFO]     at _Observable.subscribe (http://127.0.0.1:9878/base/node_modules/rxjs/src/internal/Observable.ts:220:5)
+[INFO]     at UserDetailsComponent2.loadUserDetail (http://127.0.0.1:9878/base/src/app/main/components/idm/users/user-details/user-details.component.ts:68:44)
+[INFO]     at UserDetailsComponent2.ngOnInit (http://127.0.0.1:9878/base/src/app/main/components/idm/users/user-details/user-details.component.ts:35:10)
+[INFO]     at callHookInternal (http://127.0.0.1:9878/darwin_arm64-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+[INFO]     at callHook (http://127.0.0.1:9878/darwin_arm64-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:319:7)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 323 of 997 SUCCESS (0 secs / 19.324 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 324 of 997 SUCCESS (0 secs / 19.359 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 325 of 997 SUCCESS (0 secs / 19.385 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 326 of 997 SUCCESS (0 secs / 19.405 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 327 of 997 SUCCESS (0 secs / 19.423 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 328 of 997 SUCCESS (0 secs / 19.447 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 329 of 997 SUCCESS (0 secs / 19.493 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 330 of 997 SUCCESS (0 secs / 19.542 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 331 of 997 SUCCESS (0 secs / 19.594 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 332 of 997 SUCCESS (0 secs / 19.628 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 333 of 997 SUCCESS (0 secs / 19.658 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 334 of 997 SUCCESS (0 secs / 19.683 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 335 of 997 SUCCESS (0 secs / 19.705 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 336 of 997 SUCCESS (0 secs / 19.729 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 337 of 997 SUCCESS (0 secs / 19.747 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 338 of 997 SUCCESS (0 secs / 19.767 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 339 of 997 SUCCESS (0 secs / 19.777 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 340 of 997 SUCCESS (0 secs / 19.799 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 341 of 997 SUCCESS (0 secs / 19.816 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 342 of 997 SUCCESS (0 secs / 19.87 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 343 of 997 SUCCESS (0 secs / 19.919 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 344 of 997 SUCCESS (0 secs / 19.937 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 345 of 997 SUCCESS (0 secs / 19.988 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 346 of 997 SUCCESS (0 secs / 20.017 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 347 of 997 SUCCESS (0 secs / 20.023 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 348 of 997 SUCCESS (0 secs / 20.032 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 349 of 997 SUCCESS (0 secs / 20.465 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 350 of 997 SUCCESS (0 secs / 23.06 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 351 of 997 SUCCESS (0 secs / 23.131 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 352 of 997 SUCCESS (0 secs / 23.141 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 353 of 997 SUCCESS (0 secs / 23.458 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 354 of 997 SUCCESS (0 secs / 23.517 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 355 of 997 SUCCESS (0 secs / 23.571 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 356 of 997 SUCCESS (0 secs / 23.608 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 357 of 997 SUCCESS (0 secs / 23.781 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 358 of 997 SUCCESS (0 secs / 23.936 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 359 of 997 SUCCESS (0 secs / 23.995 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 360 of 997 SUCCESS (0 secs / 24.183 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 361 of 997 SUCCESS (0 secs / 24.202 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 362 of 997 SUCCESS (0 secs / 24.218 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 363 of 997 SUCCESS (0 secs / 24.237 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 364 of 997 SUCCESS (0 secs / 24.321 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 365 of 997 SUCCESS (0 secs / 24.419 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 366 of 997 SUCCESS (0 secs / 24.445 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 367 of 997 SUCCESS (0 secs / 24.455 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 368 of 997 SUCCESS (0 secs / 24.472 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 369 of 997 SUCCESS (0 secs / 24.491 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 370 of 997 SUCCESS (0 secs / 24.571 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 371 of 997 SUCCESS (0 secs / 24.758 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 372 of 997 SUCCESS (0 secs / 24.901 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 373 of 997 SUCCESS (0 secs / 25.018 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 374 of 997 SUCCESS (0 secs / 25.13 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 375 of 997 SUCCESS (0 secs / 25.156 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 376 of 997 SUCCESS (0 secs / 25.183 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 377 of 997 SUCCESS (0 secs / 25.19 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 378 of 997 SUCCESS (0 secs / 25.192 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 379 of 997 SUCCESS (0 secs / 25.206 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 380 of 997 SUCCESS (0 secs / 25.207 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 381 of 997 SUCCESS (0 secs / 25.21 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 382 of 997 SUCCESS (0 secs / 25.215 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 383 of 997 SUCCESS (0 secs / 25.219 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 384 of 997 SUCCESS (0 secs / 25.231 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 385 of 997 SUCCESS (0 secs / 25.234 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 386 of 997 SUCCESS (0 secs / 25.236 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 387 of 997 SUCCESS (0 secs / 25.24 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 388 of 997 SUCCESS (0 secs / 25.242 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 389 of 997 SUCCESS (0 secs / 25.242 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 390 of 997 SUCCESS (0 secs / 25.242 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 391 of 997 SUCCESS (0 secs / 25.244 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 392 of 997 SUCCESS (0 secs / 25.247 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 393 of 997 SUCCESS (0 secs / 25.247 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 394 of 997 SUCCESS (0 secs / 25.251 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 395 of 997 SUCCESS (0 secs / 25.252 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 396 of 997 SUCCESS (0 secs / 25.252 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 397 of 997 SUCCESS (0 secs / 25.256 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 398 of 997 SUCCESS (0 secs / 25.258 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 399 of 997 SUCCESS (0 secs / 25.26 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 400 of 997 SUCCESS (0 secs / 25.269 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 401 of 997 SUCCESS (0 secs / 25.272 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 402 of 997 SUCCESS (0 secs / 25.278 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 403 of 997 SUCCESS (0 secs / 25.28 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 404 of 997 SUCCESS (0 secs / 25.282 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 405 of 997 SUCCESS (0 secs / 25.291 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 406 of 997 SUCCESS (0 secs / 25.293 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 407 of 997 SUCCESS (0 secs / 25.3 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 408 of 997 SUCCESS (0 secs / 25.302 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 409 of 997 SUCCESS (0 secs / 25.307 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 410 of 997 SUCCESS (0 secs / 25.31 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 411 of 997 SUCCESS (0 secs / 25.381 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 412 of 997 SUCCESS (0 secs / 25.438 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 413 of 997 SUCCESS (0 secs / 25.468 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 414 of 997 SUCCESS (0 secs / 25.482 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 415 of 997 SUCCESS (0 secs / 25.5 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 416 of 997 SUCCESS (0 secs / 25.566 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 417 of 997 SUCCESS (0 secs / 25.625 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 418 of 997 SUCCESS (0 secs / 25.636 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 419 of 997 SUCCESS (0 secs / 25.664 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 420 of 997 SUCCESS (0 secs / 25.682 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 421 of 997 SUCCESS (0 secs / 25.723 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 422 of 997 SUCCESS (0 secs / 25.748 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 423 of 997 SUCCESS (0 secs / 25.778 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 424 of 997 SUCCESS (0 secs / 25.814 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 425 of 997 SUCCESS (0 secs / 25.837 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 426 of 997 SUCCESS (0 secs / 25.841 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 427 of 997 SUCCESS (0 secs / 25.844 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 428 of 997 SUCCESS (0 secs / 25.855 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 429 of 997 SUCCESS (0 secs / 25.877 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 430 of 997 SUCCESS (0 secs / 25.891 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 431 of 997 SUCCESS (0 secs / 25.901 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 432 of 997 SUCCESS (0 secs / 25.922 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 433 of 997 SUCCESS (0 secs / 25.93 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 434 of 997 SUCCESS (0 secs / 25.949 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 435 of 997 SUCCESS (0 secs / 25.968 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 436 of 997 SUCCESS (0 secs / 25.976 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 437 of 997 SUCCESS (0 secs / 26.003 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 438 of 997 SUCCESS (0 secs / 26.038 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 439 of 997 SUCCESS (0 secs / 26.071 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 440 of 997 SUCCESS (0 secs / 26.1 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 441 of 997 SUCCESS (0 secs / 26.127 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 442 of 997 SUCCESS (0 secs / 26.173 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 443 of 997 SUCCESS (0 secs / 26.192 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 444 of 997 SUCCESS (0 secs / 26.218 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 445 of 997 SUCCESS (0 secs / 26.255 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 446 of 997 SUCCESS (0 secs / 26.282 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 447 of 997 SUCCESS (0 secs / 26.289 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 448 of 997 SUCCESS (0 secs / 26.327 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 449 of 997 SUCCESS (0 secs / 26.364 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 450 of 997 SUCCESS (0 secs / 26.425 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 451 of 997 SUCCESS (0 secs / 26.44 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 452 of 997 SUCCESS (0 secs / 26.488 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 453 of 997 SUCCESS (0 secs / 26.535 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 454 of 997 SUCCESS (0 secs / 26.574 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 455 of 997 SUCCESS (0 secs / 26.617 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 456 of 997 SUCCESS (0 secs / 26.625 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 457 of 997 SUCCESS (0 secs / 26.632 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 458 of 997 SUCCESS (0 secs / 26.73 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 459 of 997 SUCCESS (0 secs / 26.741 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 460 of 997 SUCCESS (0 secs / 26.748 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 461 of 997 SUCCESS (0 secs / 26.803 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 462 of 997 SUCCESS (0 secs / 26.835 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 463 of 997 SUCCESS (0 secs / 26.85 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 464 of 997 SUCCESS (0 secs / 26.861 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 465 of 997 SUCCESS (0 secs / 26.874 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 466 of 997 SUCCESS (0 secs / 26.879 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 467 of 997 SUCCESS (0 secs / 26.898 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 468 of 997 SUCCESS (0 secs / 26.903 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 469 of 997 SUCCESS (0 secs / 26.912 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 470 of 997 SUCCESS (0 secs / 26.937 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 471 of 997 SUCCESS (0 secs / 26.942 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 472 of 997 SUCCESS (0 secs / 26.947 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 473 of 997 SUCCESS (0 secs / 26.951 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 474 of 997 SUCCESS (0 secs / 26.976 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 475 of 997 SUCCESS (0 secs / 26.98 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 476 of 997 SUCCESS (0 secs / 26.985 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 477 of 997 SUCCESS (0 secs / 26.989 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 478 of 997 SUCCESS (0 secs / 27.004 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 479 of 997 SUCCESS (0 secs / 27.009 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 480 of 997 SUCCESS (0 secs / 27.024 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 481 of 997 SUCCESS (0 secs / 27.028 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 482 of 997 SUCCESS (0 secs / 27.033 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 483 of 997 SUCCESS (0 secs / 27.046 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 484 of 997 SUCCESS (0 secs / 27.061 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 485 of 997 SUCCESS (0 secs / 27.068 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 486 of 997 SUCCESS (0 secs / 27.073 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 487 of 997 SUCCESS (0 secs / 27.078 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 488 of 997 SUCCESS (0 secs / 27.092 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 489 of 997 SUCCESS (0 secs / 27.103 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 490 of 997 SUCCESS (0 secs / 27.107 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 491 of 997 SUCCESS (0 secs / 27.112 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 492 of 997 SUCCESS (0 secs / 27.182 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 493 of 997 SUCCESS (0 secs / 27.45 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 494 of 997 SUCCESS (0 secs / 27.458 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 495 of 997 SUCCESS (0 secs / 27.461 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 496 of 997 SUCCESS (0 secs / 27.464 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 497 of 997 SUCCESS (0 secs / 27.467 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 498 of 997 SUCCESS (0 secs / 27.47 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 499 of 997 SUCCESS (0 secs / 27.533 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 500 of 997 SUCCESS (0 secs / 27.56 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 501 of 997 SUCCESS (0 secs / 27.562 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 502 of 997 SUCCESS (0 secs / 27.564 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 503 of 997 SUCCESS (0 secs / 27.573 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 504 of 997 SUCCESS (0 secs / 27.576 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 505 of 997 SUCCESS (0 secs / 27.579 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 506 of 997 SUCCESS (0 secs / 27.613 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 507 of 997 SUCCESS (0 secs / 27.663 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 508 of 997 SUCCESS (0 secs / 27.697 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 509 of 997 SUCCESS (0 secs / 27.724 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 510 of 997 SUCCESS (0 secs / 27.73 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 511 of 997 SUCCESS (0 secs / 27.747 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 512 of 997 SUCCESS (0 secs / 27.762 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 513 of 997 SUCCESS (0 secs / 28.019 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 514 of 997 SUCCESS (0 secs / 28.055 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 515 of 997 SUCCESS (0 secs / 28.073 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 516 of 997 SUCCESS (0 secs / 28.091 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 517 of 997 SUCCESS (0 secs / 28.139 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 518 of 997 SUCCESS (0 secs / 28.244 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 519 of 997 SUCCESS (0 secs / 28.294 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 520 of 997 SUCCESS (0 secs / 28.32 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 521 of 997 SUCCESS (0 secs / 28.343 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 522 of 997 SUCCESS (0 secs / 28.423 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 523 of 997 SUCCESS (0 secs / 28.449 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 524 of 997 SUCCESS (0 secs / 28.468 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 525 of 997 SUCCESS (0 secs / 28.498 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 526 of 997 SUCCESS (0 secs / 28.557 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 527 of 997 SUCCESS (0 secs / 28.575 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 528 of 997 SUCCESS (0 secs / 28.641 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 529 of 997 SUCCESS (0 secs / 28.659 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 530 of 997 SUCCESS (0 secs / 28.778 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 531 of 997 SUCCESS (0 secs / 28.862 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 532 of 997 SUCCESS (0 secs / 28.949 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 533 of 997 SUCCESS (0 secs / 29.096 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 534 of 997 SUCCESS (0 secs / 29.137 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 535 of 997 SUCCESS (0 secs / 29.221 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 536 of 997 SUCCESS (0 secs / 29.466 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 537 of 997 SUCCESS (0 secs / 29.651 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 538 of 997 SUCCESS (0 secs / 29.838 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 539 of 997 SUCCESS (0 secs / 29.946 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 540 of 997 SUCCESS (0 secs / 30.072 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 541 of 997 SUCCESS (0 secs / 30.119 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 542 of 997 SUCCESS (0 secs / 30.22 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 543 of 997 SUCCESS (0 secs / 30.311 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 544 of 997 SUCCESS (0 secs / 30.353 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 545 of 997 SUCCESS (0 secs / 30.434 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 546 of 997 SUCCESS (0 secs / 30.513 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 547 of 997 SUCCESS (0 secs / 30.616 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 548 of 997 SUCCESS (0 secs / 30.735 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 549 of 997 SUCCESS (0 secs / 30.817 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 550 of 997 SUCCESS (0 secs / 30.91 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 551 of 997 SUCCESS (0 secs / 30.956 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 552 of 997 SUCCESS (0 secs / 31.115 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 553 of 997 SUCCESS (0 secs / 31.333 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 554 of 997 SUCCESS (0 secs / 31.528 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 555 of 997 SUCCESS (0 secs / 31.693 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 556 of 997 SUCCESS (0 secs / 31.867 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 557 of 997 SUCCESS (0 secs / 32.064 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 558 of 997 SUCCESS (0 secs / 32.164 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 559 of 997 SUCCESS (0 secs / 32.292 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 560 of 997 SUCCESS (0 secs / 32.37 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 561 of 997 SUCCESS (0 secs / 32.437 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 562 of 997 SUCCESS (0 secs / 32.461 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 563 of 997 SUCCESS (0 secs / 32.479 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 564 of 997 SUCCESS (0 secs / 32.486 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 565 of 997 SUCCESS (0 secs / 32.492 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 566 of 997 SUCCESS (0 secs / 32.497 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 567 of 997 SUCCESS (0 secs / 32.532 secs)
+[INFO] WARN: '[FsCardComponent onResizeStart should respect minWidth constraint during resize]', 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 567 of 997 SUCCESS (0 secs / 32.532 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 568 of 997 SUCCESS (0 secs / 32.567 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 569 of 997 SUCCESS (0 secs / 32.588 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 570 of 997 SUCCESS (0 secs / 32.601 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 571 of 997 SUCCESS (0 secs / 32.639 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 572 of 997 SUCCESS (0 secs / 32.644 secs)
+[INFO] WARN: '[EditUserModalComponent PIN match validator should be invalid when PINs don't match]', '
+[INFO]   It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
+[INFO]   when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
+[INFO]   you. We recommend using this approach to avoid 'changed after checked' errors.
+[INFO]   Example:
+[INFO]   // Specify the `disabled` property at control creation time:
+[INFO]   form = new FormGroup({
+[INFO]     first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+[INFO]     last: new FormControl('Drew', Validators.required)
+[INFO]   });
+[INFO]   // Controls can also be enabled/disabled after creation:
+[INFO]   form.get('first')?.enable();
+[INFO]   form.get('last')?.disable();
+[INFO] '
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 572 of 997 SUCCESS (0 secs / 32.644 secs)
+[INFO] WARN: '[EditUserModalComponent PIN match validator should be invalid when PINs don't match]', '
+[INFO]   It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
+[INFO]   when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
+[INFO]   you. We recommend using this approach to avoid 'changed after checked' errors.
+[INFO]   Example:
+[INFO]   // Specify the `disabled` property at control creation time:
+[INFO]   form = new FormGroup({
+[INFO]     first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+[INFO]     last: new FormControl('Drew', Validators.required)
+[INFO]   });
+[INFO]   // Controls can also be enabled/disabled after creation:
+[INFO]   form.get('first')?.enable();
+[INFO]   form.get('last')?.disable();
+[INFO] '
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 572 of 997 SUCCESS (0 secs / 32.644 secs)
+[INFO] WARN: '[EditUserModalComponent PIN match validator should be invalid when PINs don't match]', '
+[INFO]   It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
+[INFO]   when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
+[INFO]   you. We recommend using this approach to avoid 'changed after checked' errors.
+[INFO]   Example:
+[INFO]   // Specify the `disabled` property at control creation time:
+[INFO]   form = new FormGroup({
+[INFO]     first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+[INFO]     last: new FormControl('Drew', Validators.required)
+[INFO]   });
+[INFO]   // Controls can also be enabled/disabled after creation:
+[INFO]   form.get('first')?.enable();
+[INFO]   form.get('last')?.disable();
+[INFO] '
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 572 of 997 SUCCESS (0 secs / 32.644 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 573 of 997 SUCCESS (0 secs / 33.561 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0) ERROR
+[INFO]   Disconnected reconnect failed before timeout of 2000ms (ping timeout)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 573 of 997 DISCONNECTED (1 min 24.257 secs / 33.561 secs)
+[INFO] Chrome Headless 131.0.0.0 (Linux 0.0.0): Executed 573 of 997 DISCONNECTED (1 min 24.257 secs / 33.561 secs)
+[INFO] =============================== Coverage summary ===============================
+[INFO] Statements   : Unknown% ( 0/0 )
+[INFO] Branches     : Unknown% ( 0/0 )
+[INFO] Functions    : Unknown% ( 0/0 )
+[INFO] Lines        : Unknown% ( 0/0 )
+[INFO] ================================================================================
+[INFO] 
+[INFO] 
+[INFO] 
+[INFO]  NX   Running target test for project insight-client failed
+[INFO] 
+[INFO] Failed tasks:
+[INFO] 
+[INFO] - insight-client:test
+[INFO] 
+[INFO] Hint: run the command with --verbose for more details.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  06:47 min
+[INFO] Finished at: 2026-10-10T06:16:06Z
+[INFO] ------------------------------------------------------------------------
+[INFO] [jenkins-event-spy] Generated /jenkins/workspace/RDCA_insight-client_PR-56@tmp/withMaven27e6a042/maven-spy-20261010-060917-87415159761098534794171.log
+[ERROR] Failed to execute goal com.github.eirslett:frontend-maven-plugin:1.15.1:npm (angular-test-with-coverage) on project insight-client: Failed to run task: 'npm run test -- --code-coverage' failed. org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[Pipeline] }
+[withMaven] JacocoPublisher is no longer implicitly used with `withMaven` step.
+[withMaven] Jacoco plugin has been deprecated and should not be used anymore.
+[withMaven] CoveragePublisher will be used instead.
+
+[withMaven] junitPublisher - Archive test results for Maven artifact com.flatirons.insight:insight-client:war:999.999-kwesley-task-form-summary-coverage-SNAPSHOT generated by maven-surefire-plugin:test (default-test): target/surefire-reports/*.xml
+[withMaven] junitPublisher - Jenkins JUnit Attachments Plugin not found, can't publish test attachments.
+[withMaven] junitPublisher - Jenkins JUnit Flaky Test Handler Plugin not found, can't publish JUnit flaky tests reports.
+Recording test results
+None of the test reports contained any result
+[Checks API] No suitable checks publisher found.
+[withMaven] Publishers: Junit Publisher: 12 ms
+[Pipeline] // withMaven
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Static Analysis)
+Stage "Static Analysis" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] parallel
+[Pipeline] { (Branch: Mainline)
+[Pipeline] { (Branch: Master)
+[Pipeline] { (Branch: Branches)
+[Pipeline] { (Branch: Pull Requests)
+[Pipeline] stage
+[Pipeline] { (Mainline)
+[Pipeline] stage
+[Pipeline] { (Master)
+[Pipeline] stage
+[Pipeline] { (Branches)
+[Pipeline] stage
+[Pipeline] { (Pull Requests)
+Stage "Mainline" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Master" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Branches" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Pull Requests" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch Mainline
+[Pipeline] }
+Failed in branch Master
+[Pipeline] }
+Failed in branch Branches
+[Pipeline] }
+Failed in branch Pull Requests
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Client)
+Stage "Deploy Client" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] stage
+[Pipeline] { (Deploy Client war)
+Stage "Deploy Client" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+No test report files were found. Configuration error?
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Container)
+Stage "Deploy Container" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ git log -1 --format=%aE
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] emailext
+Sending email to: kyle.wesley@scopeapp.com
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // podTemplate
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+[Bitbucket] Notifying pull request build result
+[Bitbucket] Build result notified
+Finished: FAILURE
+
