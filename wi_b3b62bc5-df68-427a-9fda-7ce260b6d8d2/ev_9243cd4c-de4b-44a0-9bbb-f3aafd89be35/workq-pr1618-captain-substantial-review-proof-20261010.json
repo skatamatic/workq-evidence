@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-10T21:14:28.344Z",
+  "pr": "https://github.com/scopear/workq/pull/1618",
+  "head": "a5b46b37551afd212905eb5f49c3e2bff222530a",
+  "base": "c78a277d306a4a5dac8e575e3a817ea3068803d7",
+  "independentLens": "/root/lens_pr1618_correctness",
+  "finding": {
+    "specialty": "correctness",
+    "path": "apps/pool/src/memory/librarian/lifecycle.ts",
+    "line": 655,
+    "severity": "medium",
+    "confidence": "high",
+    "kind": "inline",
+    "summary": "Preserve an unambiguous repository identity in generated lifecycle lines.",
+    "rationale": "Independent lens confirmed exact-source identity loss at a5b4: acme-client GitHub acme/client and beta-client Bitbucket beta/client render as client PR55; later exact unknown-state receipt cannot replace the generated verified-merge line. Host independently reproduced the same minimal inputs without live memory writes.",
+    "dedupeKey": "librarian-rendered-pr-identity-loss"
+  },
+  "triage": "Confirmed substantial PR-purpose correctness defect, sole captain code blocker",
+  "rootProof": {
+    "at": "2026-10-10T21:14:28.344Z",
+    "head": "a5b46b37551afd212905eb5f49c3e2bff222530a",
+    "sourceHashes": {
+      "apps/pool/src/memory/librarian/lifecycle.ts": "a5e673a14f5b8e406158a7940beed2464875425b58d94afbad4152931fdf3efd",
+      "apps/pool/src/memory/repo-identity.ts": "ed9c154a6bf98e686959b67d08203dc2c57bea007ee89254e398ca61bc79f404",
+      "packages/domain/src/repo-identity.ts": "6ca5790ee5f06eb1323add9ab770916560edacc8e8e973dc336e251a710b053b"
+    },
+    "repoCatalog": [
+      {
+        "key": "acme-client",
+        "url": "https://github.com/acme/client"
+      },
+      {
+        "key": "beta-client",
+        "url": "https://bitbucket.org/beta/client"
+      }
+    ],
+    "exactPr": "https://github.com/acme/client/pull/55",
+    "inputMerged": {
+      "itemId": "m",
+      "updatedAt": 1,
+      "status": "done",
+      "contradictions": [],
+      "verdict": "verified_merged",
+      "pr": "https://github.com/acme/client/pull/55",
+      "sha": "162e0371841cb3d01f419949aac4cb17894eb41e"
+    },
+    "inputLaterUnknown": {
+      "itemId": "u",
+      "updatedAt": 2,
+      "status": "done",
+      "contradictions": [
+        "forge receipt state unknown"
+      ],
+      "verdict": "uncertain",
+      "pr": "https://github.com/acme/client/pull/55"
+    },
+    "first": {
+      "lines": [
+        "client PR55 merged at 162e0371841c (verified receipt)"
+      ],
+      "notes": [
+        "lifecycle kept verified_merged for client PR55"
+      ]
+    },
+    "second": {
+      "lines": [
+        "client PR55 merged at 162e0371841c (verified receipt)"
+      ],
+      "notes": []
+    },
+    "confirmedSubstantialDefect": "Host-generated correction drops full repository identity; later exact uncertain fact cannot remove generated verified-merge certainty",
+    "realCaller": "finishCliNativePass -> applyLifecycleCorrections -> reconcileDocSections -> reconcileLines -> authorityLine -> displayPr",
+    "path": "apps/pool/src/memory/librarian/lifecycle.ts",
+    "line": 655,
+    "scope": "Single same-name catalog round-trip; no live memory writes/transports; previously repaired counterexamples remain passing"
+  },
+  "acceptedPriorRepairs": "/tmp/workq-pr1618-a5b4-repair-proof-20261010.json",
+  "exactCiRun": "38086349694",
+  "ci": "8 successful checks, Integration failed solely tracked workq-librarian skill mirror; exact log verified and worker already resumed for CI repair. No all-green claim.",
+  "postingMode": "Autonomous fleet mode \u2014 authorized posting without preview",
+  "scope": "Same PR/item; bounded generated-identity fix; no live memory writes, cap waiver, new tickets or landing authority"
+}
