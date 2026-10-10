@@ -1,0 +1,926 @@
+Branch event
+Obtained Jenkinsfile from d5a88b7198a5c7182ab52e78adfb68699b9cc9db
+Loading library devops-jenkins-lib@master
+Attempting to resolve master from remote references...
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git ls-remote -h -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+Found match: refs/heads/master revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c
+The recommended git tool is: NONE
+using credential bitbucket-builder
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/wesley_mdcr-integration-contract@libs/424505265d8fda4cdcfb4be805f1cbd894f70b00b7a9e466eda3768f9a2ae303/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git # timeout=10
+Fetching without tags
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials Bitbucket-Cloud-SA-Api-Token
+ > git fetch --no-tags --force --progress -- https://bitbucket.org/flatironssolutions/devops-jenkins-lib.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c (master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c # timeout=10
+Commit message: "PDO-222 Avoid error if env.BRANCH_NAME is not set."
+ > git rev-list --no-walk a013579fa560c9a8bd3b4e5fbf5705fe4f69a26c # timeout=10
+[Bitbucket] Notifying commit build result
+[Pipeline] Start of Pipeline
+[Pipeline] milestone
+Trying to pass milestone 2
+[Pipeline] milestone
+Trying to pass milestone 3
+[Pipeline] readTrusted
+Obtained jenkins-containers.yaml from d5a88b7198a5c7182ab52e78adfb68699b9cc9db
+[Pipeline] podTemplate
+[Pipeline] {
+[Pipeline] node
+Created Pod: k8s jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Container [builder] waiting [ContainerCreating] No message
+	Container [dind] waiting [ContainerCreating] No message
+	Container [git] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [maven] waiting [ContainerCreating] No message
+	Container [node] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [builder node git dind maven jnlp]
+Agent rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c is provisioned from template rd_insight-server_kwesley_2Fmdcr-integration-contract_3-7dmd4-mq345
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    kubernetes.jenkins.io/last-refresh: "1791665367302"
+    buildUrl: "http://jenkins:8080/job/rd/job/insight-server/job/kwesley%252Fmdcr-integration-contract/3/"
+    runUrl: "job/rd/job/insight-server/job/kwesley%252Fmdcr-integration-contract/3/"
+  labels:
+    jenkins: "slave"
+    jenkins/label-digest: "7cf3eeb9e2c75aa753d540140178b0241140c1f3"
+    jenkins/label: "nsight-server_kwesley_2Fmdcr-integration-contract_3-7dmd4"
+    kubernetes.jenkins.io/controller: "http___jenkins_8080x"
+  name: "rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c"
+  namespace: "jenkins"
+spec:
+  containers:
+  - args:
+    - "dockerd-entrypoint.sh dockerd && cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/builder:no-cache-temurin21-m399"
+    imagePullPolicy: "Always"
+    name: "builder"
+    resources:
+      limits:
+        cpu: "2000m"
+      requests:
+        cpu: "1000m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/node:10"
+    imagePullPolicy: "IfNotPresent"
+    name: "node"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/git-cache:latest"
+    imagePullPolicy: "Always"
+    name: "git"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "dockerd-entrypoint.sh"
+    - "dockerd"
+    - "&&"
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/dind-builder:latest"
+    imagePullPolicy: "Always"
+    name: "dind"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "200m"
+    securityContext:
+      privileged: true
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - args:
+    - "cat"
+    command:
+    - "/bin/sh"
+    - "-c"
+    image: "hub.flatirons.cloud/docker/maven:3-jdk-8"
+    imagePullPolicy: "Always"
+    name: "maven"
+    resources:
+      limits:
+        cpu: "1000m"
+      requests:
+        cpu: "0"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  - env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_TUNNEL"
+      value: "jenkins-agent:50000"
+    - name: "JENKINS_AGENT_NAME"
+      value: "rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c"
+    - name: "REMOTING_OPTS"
+      value: "-noReconnectAfter 1d"
+    - name: "JENKINS_NAME"
+      value: "rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://jenkins:8080/"
+    image: "hub.flatirons.cloud/docker/jenkins/inbound-agent:3355.v388858a_47b_33-3-jdk21"
+    name: "jnlp"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  nodeSelector:
+    builder: "true"
+  restartPolicy: "Never"
+  serviceAccountName: "jenkins"
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c in /home/jenkins/agent/workspace/wesley_mdcr-integration-contract
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential bitbucket-api
+Cloning the remote Git repository
+Cloning repository https://bitbucket.org/flatironssolutions/insight-server.git
+ > git init /home/jenkins/agent/workspace/wesley_mdcr-integration-contract # timeout=10
+Fetching upstream changes from https://bitbucket.org/flatironssolutions/insight-server.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+using GIT_ASKPASS to set credentials User API token for bitbucket-api
+ > git fetch --tags --force --progress -- https://bitbucket.org/flatironssolutions/insight-server.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision d5a88b7198a5c7182ab52e78adfb68699b9cc9db (kwesley/mdcr-integration-contract)
+Commit message: "Integrate landed PR107 authorization target into MDCR contract"
+ > git config remote.origin.url https://bitbucket.org/flatironssolutions/insight-server.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d5a88b7198a5c7182ab52e78adfb68699b9cc9db # timeout=10
+ > git rev-list --no-walk 587b02df3cf4b2a8338c22a9e063fc6bb1e977f2 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Compile)
+[Pipeline] container
+[Pipeline] {
+[Pipeline] withMaven
+Executing sh script inside container builder of pod rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+Executing command: "/bin/sh" "-c" "which mvn" 
+exit
+/usr/local/bin/mvn
+Executing sh script inside container builder of pod rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+Executing command: "/usr/local/bin/mvn" "--version" 
+exit
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /usr/local/apache-maven-3.9.9
+Java version: 21.0.9, vendor: Eclipse Adoptium, runtime: /usr/lib/jvm/temurin-21-jdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.12.79-101.147.amzn2023.x86_64", arch: "amd64", family: "unix"
+[Pipeline] {
+[Pipeline] sh
++ pwd
+/home/jenkins/agent/workspace/wesley_mdcr-integration-contract
++ mvn clean install -fae
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+[INFO] [jenkins-event-spy] Generate /home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/maven-spy-20261010-204940-923816042723038229229.log.tmp ...
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------- maven-git-versioning-extension:5.2.0 -----------------
+[INFO] Adjusting project models...
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-root @ branch kwesley/mdcr-integration-contract ---
+[INFO] project version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] properties:
+[INFO]   flatirons.versionRange: [0-${flatirons.parentBranch}-SNAPSHOT, 0-${flatirons.parentBranch}-Z-SNAPSHOT),[999.999-kwesley-mdcr-integration-contract-SNAPSHOT,999.999-kwesley-mdcr-integration-contract-Z-SNAPSHOT)
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-config @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-model @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-dao @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-rest @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-service @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] properties:
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-api @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] 
+[INFO] --- com.flatirons.insight:insight-package @ branch kwesley/mdcr-integration-contract ---
+[INFO] parent version: 999.999-kwesley-mdcr-integration-contract-SNAPSHOT
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Insight Server                                                     [pom]
+[INFO] Insight - API                                                      [jar]
+[INFO] Insight - Spring Configuration                                     [jar]
+[INFO] Insight - Model                                                    [jar]
+[INFO] Insight - Entity and Repository                                    [jar]
+[INFO] Insight - Service                                                  [jar]
+[INFO] Insight - REST                                                     [jar]
+[INFO] Insight - Spring Application                                       [war]
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-root >-----------------
+[INFO] Building Insight Server 999.999-kwesley-mdcr-integration-contract-SNAPSHOT [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-root ---
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-root ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-root ---
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-root ---
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-root/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-root-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.pom
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-api >------------------
+[INFO] Building Insight - API 999.999-kwesley-mdcr-integration-contract-SNAPSHOT [2/8]
+[INFO]   from insight-api/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-api ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-api ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-api ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-api ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-api ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 205 source files with javac [debug optimize deprecation release 21] to target/classes
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/src/main/java/com/flatirons/insight/model/enums/ProcessState.java:[31,25] isEmpty(java.lang.Object) in org.springframework.util.StringUtils has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/src/main/java/com/flatirons/insight/model/enums/ProcessSort.java:[32,25] isEmpty(java.lang.Object) in org.springframework.util.StringUtils has been deprecated
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-api ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-api ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 5 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+[INFO] Running com.flatirons.insight.model.response.IFormFieldResponseTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.443 s -- in com.flatirons.insight.model.response.IFormFieldResponseTest
+[INFO] Running com.flatirons.insight.util.AcmUtilsTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.574 s -- in com.flatirons.insight.util.AcmUtilsTest
+[INFO] Running com.flatirons.insight.util.ServerTalkTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.780 s -- in com.flatirons.insight.util.ServerTalkTest
+[INFO] Running com.flatirons.insight.util.ThreadLocalContextTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.flatirons.insight.util.ThreadLocalContextTest
+[INFO] Running com.flatirons.insight.util.UtilsTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.175 s -- in com.flatirons.insight.util.UtilsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 49, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-api ---
+[INFO] Building jar: /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/insight-api-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-api ---
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/jacoco.exec
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-api ---
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-api/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-api-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/insight-api-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-api/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-api-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-config >----------------
+[INFO] Building Insight - Spring Configuration 999.999-kwesley-mdcr-integration-contract-SNAPSHOT [3/8]
+[INFO]   from insight-config/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-config ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-config ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-config ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-config ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-config ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 26 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-config ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-config ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 15 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/src/test/java/com/flatirons/insight/conf/security/IdentityMutationHttpSecurityTest.java:[62,43] request(java.lang.String,java.net.URI) in org.springframework.test.web.servlet.request.MockMvcRequestBuilders has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/src/test/java/com/flatirons/insight/conf/security/IdentityMutationHttpSecurityTest.java:[71,43] request(java.lang.String,java.net.URI) in org.springframework.test.web.servlet.request.MockMvcRequestBuilders has been deprecated
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-config ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+[INFO] Running com.flatirons.insight.conf.DatabaseConfigurationTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.288 s -- in com.flatirons.insight.conf.DatabaseConfigurationTest
+[INFO] Running com.flatirons.insight.conf.DynamicRmqConfigListenerMockTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.034 s -- in com.flatirons.insight.conf.DynamicRmqConfigListenerMockTest
+[INFO] Running com.flatirons.insight.conf.DynamicRmqConfigMockTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.639 s -- in com.flatirons.insight.conf.DynamicRmqConfigMockTest
+[INFO] Running com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandlerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.523 s -- in com.flatirons.insight.conf.LegacyInitiatorAssignmentParseHandlerTest
+[INFO] Running com.flatirons.insight.conf.security.IdentityMutationHttpSecurityTest
+[INFO] Tests run: 35, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.477 s -- in com.flatirons.insight.conf.security.IdentityMutationHttpSecurityTest
+[INFO] Running com.flatirons.insight.conf.security.JwtAuthenticationFilterTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.492 s -- in com.flatirons.insight.conf.security.JwtAuthenticationFilterTest
+[INFO] Running com.flatirons.insight.conf.security.SecurityConfigTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.215 s -- in com.flatirons.insight.conf.security.SecurityConfigTest
+[INFO] Running com.flatirons.insight.conf.security.WorkflowUserIdentityTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in com.flatirons.insight.conf.security.WorkflowUserIdentityTest
+[INFO] Running com.flatirons.insight.properties.AcmPropertiesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.072 s -- in com.flatirons.insight.properties.AcmPropertiesTest
+[INFO] Running com.flatirons.insight.properties.ColumnConfigTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in com.flatirons.insight.properties.ColumnConfigTest
+[INFO] Running com.flatirons.insight.properties.CookiePropertiesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.properties.CookiePropertiesTest
+[INFO] Running com.flatirons.insight.properties.ExportConfigTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.flatirons.insight.properties.ExportConfigTest
+[INFO] Running com.flatirons.insight.properties.RmqPropertiesMockTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in com.flatirons.insight.properties.RmqPropertiesMockTest
+[INFO] Running com.flatirons.insight.properties.SecurityPropertiesMockTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.properties.SecurityPropertiesMockTest
+[INFO] Running com.flatirons.insight.properties.TableConfigTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.flatirons.insight.properties.TableConfigTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 90, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-config ---
+[INFO] Building jar: /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/target/insight-config-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-config ---
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/target/jacoco.exec
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-config ---
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-config/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-config-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-config/target/insight-config-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-config/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-config-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------< com.flatirons.insight:insight-model >-----------------
+[INFO] Building Insight - Model 999.999-kwesley-mdcr-integration-contract-SNAPSHOT [4/8]
+[INFO]   from insight-model/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-model ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-model ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-model ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-model ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-model ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 101 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-model ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-model ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-model ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+[INFO] Running com.flatirons.insight.model.GroupPrivilegeDtoTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.111 s -- in com.flatirons.insight.model.GroupPrivilegeDtoTest
+[INFO] Running com.flatirons.insight.model.component.SimpleContentTypeMapperTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.674 s -- in com.flatirons.insight.model.component.SimpleContentTypeMapperTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-model ---
+[INFO] Building jar: /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/target/insight-model-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-model ---
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/target/jacoco.exec
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-model ---
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-model/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-model-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/target/insight-model-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-model/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-model-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------< com.flatirons.insight:insight-dao >------------------
+[INFO] Building Insight - Entity and Repository 999.999-kwesley-mdcr-integration-contract-SNAPSHOT [5/8]
+[INFO]   from insight-dao/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-dao ---
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-dao ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-dao ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-dao ---
+[INFO] Copying 33 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-dao ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 97 source files with javac [debug optimize deprecation release 21] to target/classes
+[INFO] Hibernate compile-time tooling 6.6.40.Final
+[INFO] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/src/main/java/com/flatirons/insight/TaskInfoQueryWrapper.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/src/main/java/com/flatirons/insight/TaskInfoQueryWrapper.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-dao ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-dao ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 2 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[INFO] Hibernate compile-time tooling 6.6.40.Final
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-dao ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+[INFO] Running com.flatirons.insight.TaskInfoQueryWrapperTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.553 s -- in com.flatirons.insight.TaskInfoQueryWrapperTest
+[INFO] Running com.flatirons.insight.repository.ProcessSearchRepositoryTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.319 s -- in com.flatirons.insight.repository.ProcessSearchRepositoryTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ insight-dao ---
+[INFO] Building jar: /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/target/insight-dao-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] --- jacoco:0.8.12:report-aggregate (report-aggregate) @ insight-dao ---
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/target/jacoco.exec
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-api/target/jacoco.exec
+[INFO] Loading execution data file /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-model/target/jacoco.exec
+[INFO] Analyzed bundle 'insight-api' with 60 classes
+[INFO] Analyzed bundle 'insight-model' with 101 classes
+[INFO] 
+[INFO] --- install:3.1.2:install (default-install) @ insight-dao ---
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/target/.git-versioned-pom.xml to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-dao/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-dao-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.pom
+[INFO] Installing /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-dao/target/insight-dao-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar to /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/com/flatirons/insight/insight-dao/999.999-kwesley-mdcr-integration-contract-SNAPSHOT/insight-dao-999.999-kwesley-mdcr-integration-contract-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------< com.flatirons.insight:insight-service >----------------
+[INFO] Building Insight - Service 999.999-kwesley-mdcr-integration-contract-SNAPSHOT [6/8]
+[INFO]   from insight-service/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ insight-service ---
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clear-customer-parity-results) @ insight-service ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ insight-service ---
+[INFO] argLine set to -javaagent:/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/target/jacoco.exec
+[INFO] 
+[INFO] --- git-versioning-extension:5.2.0:git-versioning (git-versioning) @ insight-service ---
+[INFO] Generating git versioned POM
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-generated) @ insight-service ---
+[INFO] Source directory: /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/target/generated-sources/annotations added.
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ insight-service ---
+[INFO] Copying 15 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ insight-service ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 174 source files with javac [debug optimize deprecation release 21] to target/classes
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/TaskMapper.java:[35,18] Unmapped target properties: "endDate, processInstanceName, processDefinitionName, processDefinitionDescription, processDefinitionKey, processDefinitionCategory, processDefinitionVersion, processDefinitionDeploymentId".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/GroupMapper.java:[19,17] Unmapped target properties: "parentGroupId, parent, children, relatedGroups, status, externalId, lastSyncDate, lastSyncTimeStampEpoch".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/ReferenceDataLookupDefinitionMapper.java:[29,54] Unmapped target properties: "createdBy, updatedBy".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/RelatedContentMapper.java:[32,10] Unmapped target properties: "storeId, updatedBy, status, createdDate, updatedDate".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/RelatedContentMapper.java:[41,10] Unmapped target properties: "createdDate, updatedDate, id, created, createdBy, taskId, processId, contentSource, storeId, mimeType, fieldId, updated, updatedBy, contentSize, status".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserPreferencesMapper.java:[25,27] Unmapped target properties: "createdDate, updatedDate".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserPreferencesMapper.java:[29,17] Unmapped target property: "id".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserMapper.java:[22,16] Unmapped target property: "groups".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/UserMapper.java:[36,13] Unmapped target properties: "company, deactivationOrigin, externalOriginalSrc, lastSyncTimestamp, lastSyncTimestampEpoch".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/ProcessDefinitionModelMapper.java:[49,34] Unmapped target property: "tenantId".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/mapper/ProcessDefinitionModelMapper.java:[64,10] Unmapped target property: "tenantId".
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,15] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/variable/rest/DateRestVariableConverter.java:[17,52] com.fasterxml.jackson.databind.util.ISO8601DateFormat in com.fasterxml.jackson.databind.util has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrIntegrationValidator.java:[75,30] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/editor/KickstartArchive.java:[224,37] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/editor/KickstartArchive.java:[266,40] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[216,41] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[216,103] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[218,28] fields() in com.fasterxml.jackson.databind.node.ObjectNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[233,48] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/main/java/com/flatirons/insight/service/runtime/WorkflowAnalysisOperations.java:[240,23] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[INFO] 
+[INFO] --- resources:3.3.0:copy-resources (copy-test-resources) @ insight-service ---
+[INFO] skip non existing resourceDirectory /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/../etc-package/src/test/resources
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ insight-service ---
+[INFO] Copying 48 resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ insight-service ---
+[WARNING]  Parameter 'optimize' (user property 'maven.compiler.optimize') is deprecated: This property is a no-op in javac.
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 124 source files with javac [debug optimize deprecation release 21] to target/test-classes
+[WARNING] The following options were not recognized by any processor: '[mapstruct.defaultComponentModel]'
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivePublicationScenarioTestBase.java:[123,36] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivePublicationScenarioTestBase.java:[134,31] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFullJourneyScenarioTest.java:[85,27] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[311,31] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[316,35] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/WorkflowAnalysisScenarioTest.java:[337,30] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/MdcrSyntheticArchiveBoundaryScenarioTest.java:[189,29] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/MdcrSyntheticArchiveBoundaryScenarioTest.java:[648,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/service/runtime/WorkflowDocumentScenarioSupport.java:[70,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/RelatedContentAuthorizationScenarioTest.java:[83,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/FormAppFormSubmissionScenarioTest.java:[176,20] fields() in com.fasterxml.jackson.databind.JsonNode has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrIntegrationProvisionerTest.java:[69,29] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrIntegrationProvisionerTest.java:[137,22] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/SafranFeedbackJourneyScenarioTest.java:[131,22] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedTaskFormScenarioTest.java:[131,29] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/ArchivedTaskFormScenarioTest.java:[148,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[WARNING] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/scenario/CustomerAnalysisJourneyFixture.java:[110,25] TransactionInterceptor(org.springframework.transaction.PlatformTransactionManager,org.springframework.transaction.interceptor.TransactionAttributeSource) in org.springframework.transaction.interceptor.TransactionInterceptor has been deprecated
+[INFO] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/security/WorkflowLegacyAliasTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/src/test/java/com/flatirons/insight/security/WorkflowLegacyAliasTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- jar:3.3.0:test-jar (shared-scenario-test-support) @ insight-service ---
+[INFO] Building jar: /home/jenkins/agent/workspace/wesley_mdcr-integration-contract/insight-service/target/insight-service-999.999-kwesley-mdcr-integration-contract-SNAPSHOT-tests.jar
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ insight-service ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Dmaven.ext.class.path="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480/pipeline-maven-spy.jar" -Dorg.jenkinsci.plugins.pipeline.maven.reportsFolder="/home/jenkins/agent/workspace/wesley_mdcr-integration-contract@tmp/withMaven8dd0b480" 
+[INFO] Running com.flatirons.insight.scenario.AnalysisJourneyScenarioTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 146.8 s -- in com.flatirons.insight.scenario.AnalysisJourneyScenarioTest
+[INFO] Running com.flatirons.insight.scenario.AnalystStartContentScenarioTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 125.8 s -- in com.flatirons.insight.scenario.AnalystStartContentScenarioTest
+[INFO] Running com.flatirons.insight.scenario.ArchivedStartFormScenarioTest
+[INFO] Tests run: 40, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.35 s -- in com.flatirons.insight.scenario.ArchivedStartFormScenarioTest
+[INFO] Running com.flatirons.insight.scenario.ArchivedTaskFormScenarioTest
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c seems to be removed or offline (hudson.remoting.ChannelClosedException: Channel "hudson.remoting.Channel@4594502b:JNLP4-connect connection from ip-10-133-35-0.us-east-2.compute.internal/10.133.35.0:57796": Remote call on JNLP4-connect connection from ip-10-133-35-0.us-east-2.compute.internal/10.133.35.0:57796 failed. The channel is closing down or has closed down); will wait for 5 min 0 sec for it to come back online
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Pod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Container [builder] terminated [Error] No message
+	Container [dind] terminated [Completed] No message
+	Container [git] terminated [Error] No message
+	Container [jnlp] terminated [Error] No message
+	Container [maven] terminated [Error] No message
+	Container [node] terminated [Error] No message
+	Pod [Failed][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+	Pod [Failed][PodFailed] No message
+[PodInfo] jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c
+	Container [builder] terminated [Error] No message
+	Container [dind] terminated [Completed] No message
+	Container [git] terminated [Error] No message
+	Container [jnlp] terminated [Error] No message
+	Container [maven] terminated [Error] No message
+	Container [node] terminated [Error] No message
+	Pod [Failed][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint
+	Pod [Failed][PodFailed] No message
+jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c Containers builder,dind,git,jnlp,maven,node were terminated.
+
+- builder -- terminated (137)
+
+- dind -- terminated (0)
+
+- git -- terminated (137)
+
+- jnlp -- terminated (143)
+
+- maven -- terminated (137)
+
+- node -- terminated (137)
+Agent rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c was deleted; cancelling node body
+jenkins/rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c Pod just failed.
+Could not connect to rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c to send interrupt signal to process
+[Pipeline] }
+[Pipeline] // withMaven
+[Pipeline] }
+[Pipeline] // container
+
+- builder -- terminated (137)
+
+- dind -- terminated (0)
+
+- git -- terminated (137)
+
+- jnlp -- terminated (143)
+
+- maven -- terminated (137)
+
+- node -- terminated (137)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify)
+Stage "Verify" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Static Analysis)
+Stage "Static Analysis" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] parallel
+[Pipeline] { (Branch: Mainline)
+[Pipeline] { (Branch: Branches)
+[Pipeline] { (Branch: Pull Requests)
+[Pipeline] stage
+[Pipeline] { (Mainline)
+[Pipeline] stage
+[Pipeline] { (Branches)
+[Pipeline] stage
+[Pipeline] { (Pull Requests)
+Stage "Mainline" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Branches" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+Stage "Pull Requests" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] // stage
+[Pipeline] }
+Failed in branch Mainline
+[Pipeline] }
+Failed in branch Branches
+[Pipeline] }
+Failed in branch Pull Requests
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+Stage "Deploy" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // podTemplate
+[Pipeline] End of Pipeline
+Agent was removed
+org.jenkinsci.plugins.workflow.actions.ErrorAction$ErrorId: 9a8e5350-7c06-49e0-8761-20244833550a
+Also:   hudson.model.Computer$TerminationRequest: Termination requested at Sat Oct 10 21:11:24 UTC 2026 by Thread[#773259,-1057627619-pool-61-thread-1918,5,main] [id=773259]
+		at hudson.model.Computer.recordTermination(Computer.java:243)
+		at hudson.slaves.AbstractCloudSlave.terminate(AbstractCloudSlave.java:85)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logLastLinesThenTerminateNode(Reaper.java:557)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logAndCleanUp(Reaper.java:539)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$TerminateAgentOnContainerTerminated.onEvent(Reaper.java:463)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.lambda$eventReceived$0(Reaper.java:328)
+		at jenkins.util.Listeners.lambda$notify$0(Listeners.java:59)
+		at jenkins.util.Listeners.notify(Listeners.java:67)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:324)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:283)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.WatcherToggle.eventReceived(WatcherToggle.java:48)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.dsl.internal.AbstractWatchManager$SerialWatcher.lambda$eventReceived$0(AbstractWatchManager.java:70)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.SerialExecutor.lambda$execute$0(SerialExecutor.java:67)
+Also:   hudson.model.Computer$TerminationRequest: Termination requested at Sat Oct 10 21:11:24 UTC 2026 by Thread[#773259,-1057627619-pool-61-thread-1918,5,main] [id=773259]
+		at hudson.model.Computer.recordTermination(Computer.java:243)
+		at jenkins.model.Nodes.lambda$removeNode$8(Nodes.java:318)
+		at hudson.model.Queue._runWithLock(Queue.java:1457)
+		at hudson.model.Queue.runWithLock(Queue.java:1284)
+		at jenkins.model.Nodes.removeNode(Nodes.java:315)
+		at jenkins.model.Jenkins.removeNode(Jenkins.java:2199)
+		at hudson.slaves.AbstractCloudSlave.terminate(AbstractCloudSlave.java:91)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logLastLinesThenTerminateNode(Reaper.java:557)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logAndCleanUp(Reaper.java:539)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$TerminateAgentOnContainerTerminated.onEvent(Reaper.java:463)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.lambda$eventReceived$0(Reaper.java:328)
+		at jenkins.util.Listeners.lambda$notify$0(Listeners.java:59)
+		at jenkins.util.Listeners.notify(Listeners.java:67)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:324)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:283)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.WatcherToggle.eventReceived(WatcherToggle.java:48)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.dsl.internal.AbstractWatchManager$SerialWatcher.lambda$eventReceived$0(AbstractWatchManager.java:70)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.SerialExecutor.lambda$execute$0(SerialExecutor.java:67)
+Also:   hudson.model.Computer$TerminationRequest: Termination requested at Sat Oct 10 21:11:24 UTC 2026 by Thread[#773259,-1057627619-pool-61-thread-1918,5,main] [id=773259]
+		at hudson.model.Computer.recordTermination(Computer.java:243)
+		at hudson.model.Computer.disconnect(Computer.java:503)
+		at hudson.slaves.SlaveComputer.disconnect(SlaveComputer.java:820)
+		at jenkins.model.Nodes.lambda$removeNode$8(Nodes.java:319)
+		at hudson.model.Queue._runWithLock(Queue.java:1457)
+		at hudson.model.Queue.runWithLock(Queue.java:1284)
+		at jenkins.model.Nodes.removeNode(Nodes.java:315)
+		at jenkins.model.Jenkins.removeNode(Jenkins.java:2199)
+		at hudson.slaves.AbstractCloudSlave.terminate(AbstractCloudSlave.java:91)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logLastLinesThenTerminateNode(Reaper.java:557)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logAndCleanUp(Reaper.java:539)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$TerminateAgentOnContainerTerminated.onEvent(Reaper.java:463)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.lambda$eventReceived$0(Reaper.java:328)
+		at jenkins.util.Listeners.lambda$notify$0(Listeners.java:59)
+		at jenkins.util.Listeners.notify(Listeners.java:67)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:324)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:283)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.WatcherToggle.eventReceived(WatcherToggle.java:48)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.dsl.internal.AbstractWatchManager$SerialWatcher.lambda$eventReceived$0(AbstractWatchManager.java:70)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.SerialExecutor.lambda$execute$0(SerialExecutor.java:67)
+Also:   hudson.model.Computer$TerminationRequest: Termination requested at Sat Oct 10 21:11:24 UTC 2026 by Thread[#773259,-1057627619-pool-61-thread-1918,5,main] [id=773259]
+		at hudson.model.Computer.recordTermination(Computer.java:243)
+		at hudson.model.Computer.disconnect(Computer.java:503)
+		at hudson.slaves.SlaveComputer.disconnect(SlaveComputer.java:820)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.disconnectComputer(Reaper.java:571)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper.logAndCleanUp(Reaper.java:541)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$TerminateAgentOnContainerTerminated.onEvent(Reaper.java:463)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.lambda$eventReceived$0(Reaper.java:328)
+		at jenkins.util.Listeners.lambda$notify$0(Listeners.java:59)
+		at jenkins.util.Listeners.notify(Listeners.java:67)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:324)
+		at PluginClassLoader for kubernetes//org.csanchez.jenkins.plugins.kubernetes.pod.retention.Reaper$CloudPodWatcher.eventReceived(Reaper.java:283)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.WatcherToggle.eventReceived(WatcherToggle.java:48)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.dsl.internal.AbstractWatchManager$SerialWatcher.lambda$eventReceived$0(AbstractWatchManager.java:70)
+		at PluginClassLoader for kubernetes-client-api//io.fabric8.kubernetes.client.utils.internal.SerialExecutor.lambda$execute$0(SerialExecutor.java:67)
+org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c; rd-insight-server-kwesley-2fmdcr-integration-contract-3-7-b0n4c was marked offline: Pod failed because container terminated (Reason: ContainerError, Container: [builder, dind, git, jnlp, maven, node])
+	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.support.steps.ExecutorStepDynamicContext$FilePathTranslator.get(ExecutorStepDynamicContext.java:188)
+	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.support.steps.ExecutorStepDynamicContext$FilePathTranslator.get(ExecutorStepDynamicContext.java:160)
+	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.support.steps.ExecutorStepDynamicContext$Translator.get(ExecutorStepDynamicContext.java:153)
+	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.support.steps.ExecutorStepDynamicContext$FilePathTranslator.get(ExecutorStepDynamicContext.java:170)
+	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.support.steps.ExecutorStepDynamicContext$FilePathTranslator.get(ExecutorStepDynamicContext.java:160)
+	at PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.DynamicContext$Typed.get(DynamicContext.java:95)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.ContextVariableSet.get(ContextVariableSet.java:168)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsThread.getContextVariable(CpsThread.java:141)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsStepContext.doGet(CpsStepContext.java:315)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsBodySubContext.doGet(CpsBodySubContext.java:90)
+	at PluginClassLoader for workflow-support//org.jenkinsci.plugins.workflow.support.DefaultStepContext.get(DefaultStepContext.java:97)
+	at PluginClassLoader for pipeline-maven//org.jenkinsci.plugins.pipeline.maven.WithMavenStepExecution2$WithMavenStepExecutionCallBack.finished(WithMavenStepExecution2.java:1359)
+	at PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution$TailCall.lambda$onFailure$1(GeneralNonBlockingStepExecution.java:157)
+	at PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[Bitbucket] Notifying commit build result
+[Bitbucket] Build result notified
+Finished: ABORTED
+
