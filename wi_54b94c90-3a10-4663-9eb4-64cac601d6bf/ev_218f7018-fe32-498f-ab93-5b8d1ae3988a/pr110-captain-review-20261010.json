@@ -1,0 +1,15 @@
+{
+  "reviewedAt": "2026-10-10T17:22:09.985819+00:00",
+  "repo": "insight-server",
+  "pr": 110,
+  "source": "587b02df3cf4b2a8338c22a9e063fc6bb1e977f2",
+  "mergeBase": "3f04cd4aa788691e6bbc8b10d88da9541f1925af",
+  "mode": "external-pr",
+  "lensesRan": [
+    "security",
+    "pattern-conformance"
+  ],
+  "findings": [],
+  "summary": "Both independent captain lenses returned no material findings. Missing PERSON ID propagates UsernameNotFoundException rather than documented BadRequestException at private Java seam; no HTTP consumer, refusal occurs before installation writes, unchecked rollback preserved. Recorded observation not promoted to material defect. Engineering contract only, new definitions suspended/customer certification pending.",
+  "limitations": "Static independent reviews; full current-target integration and remote gates separately required."
+}
