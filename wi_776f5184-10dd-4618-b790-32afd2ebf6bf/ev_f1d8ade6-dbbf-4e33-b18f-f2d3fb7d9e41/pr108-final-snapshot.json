@@ -1,0 +1,64 @@
+{
+  "capturedAt": "2026-10-10T11:15:27.320Z",
+  "pr": {
+    "id": 108,
+    "state": "OPEN",
+    "title": "Unify persisted Flowable user identity codec",
+    "sourceBranch": "kwesley/unify-flowable-user-identity",
+    "source": "83331c3656ef842de7030219bac92206dc464b4c",
+    "targetBranch": "kwesley/workflow-scenario-port",
+    "target": "e117e2f50bf7a48205d2c2678ec8e30e15dea6e0",
+    "participants": [
+      {
+        "type": "participant",
+        "user": {
+          "display_name": "Kyle Wesley",
+          "links": {
+            "self": {
+              "href": "https://api.bitbucket.org/2.0/users/%7B26f0a210-daae-4767-aa71-fff74bc16779%7D"
+            },
+            "avatar": {
+              "href": "https://secure.gravatar.com/avatar/1e2c221b45b4115f6dd764e6c8697d43?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FKW-2.png"
+            },
+            "html": {
+              "href": "https://bitbucket.org/%7B26f0a210-daae-4767-aa71-fff74bc16779%7D/"
+            }
+          },
+          "type": "user",
+          "uuid": "{26f0a210-daae-4767-aa71-fff74bc16779}",
+          "account_id": "712020:7975fddd-cdb4-4b70-b104-f4b1abb76a3a",
+          "nickname": "Kyle Wesley"
+        },
+        "role": "PARTICIPANT",
+        "approved": false,
+        "state": null,
+        "participated_on": "2026-10-10T09:55:10.672895+00:00"
+      }
+    ],
+    "queued": false
+  },
+  "statuses": {
+    "values": [],
+    "pagelen": 100,
+    "size": 0,
+    "page": 1
+  },
+  "rules": {
+    "ok": false,
+    "status": 403,
+    "body": {
+      "type": "error",
+      "error": {
+        "message": "Access denied. You must have write or admin access.",
+        "data": {
+          "key": "INSUFFICIENT_RIGHTS"
+        }
+      },
+      "data": {
+        "key": "INSUFFICIENT_RIGHTS"
+      }
+    },
+    "text": "{\"type\": \"error\", \"error\": {\"message\": \"Access denied. You must have write or admin access.\", \"data\": {\"key\": \"INSUFFICIENT_RIGHTS\"}}, \"data\": {\"key\": \"INSUFFICIENT_RIGHTS\"}}"
+  },
+  "localHead": "83331c3656ef842de7030219bac92206dc464b4c"
+}
