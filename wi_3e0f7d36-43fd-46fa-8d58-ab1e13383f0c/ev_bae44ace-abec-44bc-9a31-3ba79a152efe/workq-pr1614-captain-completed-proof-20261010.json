@@ -1,0 +1,103 @@
+{
+  "observedAt": "2026-10-10T20:05:39.057Z",
+  "pr": 1614,
+  "item": "wi_3e0f7d36-43fd-46fa-8d58-ab1e13383f0c",
+  "source": "2b6c025b8a117c7f3f143d75428be88c6bb506b5",
+  "target": "c78a277d306a4a5dac8e575e3a817ea3068803d7",
+  "review": "Independent pattern-conformance lens: no findings. Root traced effective shared server/local/repo/fleet precedence, per-seed error handling, disabled gates, all JAVA_HOME checks; two-file source inspected.",
+  "findings": [],
+  "exactRemoteChecks": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:02:21Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201841",
+      "name": "Lint & format",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:58:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201721",
+      "name": "Typecheck",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:02:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201858",
+      "name": "Unit 1/2",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:02:04Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201853",
+      "name": "Unit 2/2",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:01:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201880",
+      "name": "Integration",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:58:41Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201900",
+      "name": "Postgres",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:59:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201915",
+      "name": "Build",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:01:05Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114300201844",
+      "name": "E2E",
+      "startedAt": "2026-10-10T19:57:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T20:02:33Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/scopear/workq/actions/runs/38081843638/job/114301148118",
+      "name": "Unit tests",
+      "startedAt": "2026-10-10T20:02:30Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "executionProof": null,
+  "limitations": "Independent captain source review and exact-head CI verified. Required develop approval and human Workq landing authorization remain unsatisfied; no approval, merge, upgrade, or live fleet test performed."
+}
