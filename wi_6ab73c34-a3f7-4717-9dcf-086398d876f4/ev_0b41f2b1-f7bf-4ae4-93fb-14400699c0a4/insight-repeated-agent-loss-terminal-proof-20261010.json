@@ -1,0 +1,132 @@
+{
+  "recordedAt": "2026-10-10T22:12:34.704599+00:00",
+  "inputs": [
+    {
+      "path": "/tmp/insight-active-ci-2210-progress-proof-20261010.json",
+      "sha256": "bba8a380a2994a1c1da920a1bfe9eae7cb2f6217a13417a15215c25867ed6958"
+    },
+    {
+      "path": "/tmp/insight-repeat-abort-current-job-state-2211-20261010.json",
+      "sha256": "a1662f5889a4ca90ac053e28dc13be97d211e296c143f41f9361a40d6fff8c28"
+    },
+    {
+      "path": "/tmp/jenkins-computers-readonly-2211-20261010.json",
+      "sha256": "ec88524a605d8c9352cba49482b5f83156a8873971908926d44a47e92ce226b7"
+    },
+    {
+      "path": "/tmp/pr111-new-escalation-2210-20261010.json",
+      "sha256": "d6c280c06d445da3f9c46e3520e2378c5aee6427f94767ced683f7aa7847e2fe"
+    },
+    {
+      "path": "/tmp/heartbeat-full-git-heads-2210-20261010.json",
+      "sha256": "0e2b324cb25a684fa3016f83e71295cf745cfa5590d2a67356dad0622e253de4"
+    }
+  ],
+  "jobs": [
+    {
+      "name": "PR110",
+      "number": 4,
+      "building": true,
+      "result": null,
+      "applicationSource": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+      "consolePath": "/tmp/PR110-exact4-2210-console-20261010.txt",
+      "consoleSha256": "34f355056073f5696ad011cb153025344db9c9d8d15dde8f4d23baa5c83c945d",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": false
+    },
+    {
+      "name": "source110",
+      "number": 4,
+      "building": false,
+      "result": "ABORTED",
+      "applicationSource": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+      "consolePath": "/tmp/source110-exact4-2210-console-20261010.txt",
+      "consoleSha256": "69f4ca5acb2720aa6e42a67985df799f0846e1cc9365c979af12bfff63671e3f",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": true
+    },
+    {
+      "name": "PR111",
+      "number": 5,
+      "building": false,
+      "result": "ABORTED",
+      "applicationSource": "d6a06aa1134c43c677874b63f3c16666626540f3",
+      "consolePath": "/tmp/PR111-exact5-2210-console-20261010.txt",
+      "consoleSha256": "b3ff6a76a586527d0547254ea1159c87f45e9ddc3fca89700b752524bc1ef6d5",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": true
+    },
+    {
+      "name": "source111",
+      "number": 5,
+      "building": false,
+      "result": "ABORTED",
+      "applicationSource": "d6a06aa1134c43c677874b63f3c16666626540f3",
+      "consolePath": "/tmp/source111-exact5-2210-console-20261010.txt",
+      "consoleSha256": "b69ea73f1f69dbc0367af1d2012b4d07f1f68b2bde30b0a8641834d17f1af155",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": true
+    },
+    {
+      "name": "PR112",
+      "number": 3,
+      "building": false,
+      "result": "ABORTED",
+      "applicationSource": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+      "consolePath": "/tmp/PR112-exact3-2210-console-20261010.txt",
+      "consoleSha256": "601f289d780e203888f2a69036d6c28e3e2fce5806c438f7deaa132b3fc55ab7",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": true
+    },
+    {
+      "name": "source112",
+      "number": 3,
+      "building": true,
+      "result": null,
+      "applicationSource": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+      "consolePath": "/tmp/source112-exact3-2210-console-20261010.txt",
+      "consoleSha256": "9d376cee8c015467e47f78e5e1155dd0e23dfd3d93a45a73ffe1f789e7ea49c2",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": false
+    },
+    {
+      "name": "PR113",
+      "number": 2,
+      "building": true,
+      "result": null,
+      "applicationSource": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+      "consolePath": "/tmp/PR113-exact2-2210-console-20261010.txt",
+      "consoleSha256": "c7ee38962fe37e13657fbaf779cc710f8f87ed879feb316fd51dcf9230df33c9",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": false
+    },
+    {
+      "name": "source113",
+      "number": 2,
+      "building": true,
+      "result": null,
+      "applicationSource": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+      "consolePath": "/tmp/source113-exact2-2210-console-20261010.txt",
+      "consoleSha256": "423cee1de1ce6c569f2e1e69113f83bd15ff860c6f2a5086c5ff65331c9e52fc",
+      "fullBuildSuccessCount": 0,
+      "sonarTaskIds": [],
+      "agentLossTimeout": false
+    }
+  ],
+  "previousRetry": "ONE ordinary retry already requested after first NoExecute agent-loss aborts, unchanged application sources. These replacements repeat the same infrastructure failure.",
+  "captainStatus": "PR110/111 unchanged local/captain reviews COMPLETE/CLEAR. No new application defect confirmed. Secondary112/113 infrastructure-only monitoring, no product or landing clearance.",
+  "decision": "Hold another automatic retry pending evidence of infrastructure recovery. PR111 needs_human is a genuine current CI operator wait after repeated agent loss, not a request for a fourth product review. Preserve current other active builds and all full CI/Sonar/provenance/rules/head/tree gates. No source edit, re-review, republish, cap waiver, fleet/cluster change or merge.",
+  "subsequentResultSnapshot": {
+    "path": "/tmp/insight-active-ci-2214-progress-proof-20261010.json",
+    "sha256": "25ab4947f4b0d1a3e7c2f466d802065d2f0bc4d07ee7096d30e7475b1e44f9a4",
+    "actualCapture": "2026-10-10T22:12:34Z",
+    "sameFourTerminalAborts": true
+  }
+}
