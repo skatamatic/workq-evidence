@@ -1,0 +1,25 @@
+Date contract discovery — source-only, certification PENDING
+Target freshly fetched: origin/kwesley/insight-next d5eb6aa. PR49 specified head dc1e0d6e86997686b41706047ae18ffb1f641872 is not an ancestor. No new controlled-timezone runs, fixtures, product changes, or screenshots were produced.
+
+Decision comparison (observed source behavior is not approved product semantics):
+1. Persistence: date-only currently permits ISO with hidden time; an approved calendar-date contract would need a timezone-independent date encoding or explicit interpretation rule. Instant contract would preserve the instant and localize display. Completed FB-010 only specifies ISO emission.
+2. Defaults/current: authoring default is renderer.config.defaultValue; valid current value wins in builder/runtime. Canonicalization preserves time. Calendar-date defaults would need approved day interpretation; instant defaults would retain instant semantics. No historical rewrite authorized.
+3. Optional time: format/timer configure separate date/time inputs. Library calendar edits merge prior selectedTime even without timer. Calendar-date mode must decide hidden-time handling; time-enabled mode must decide browser-local versus named-zone wall time versus instant.
+4. Bounds: current date-only validation compares UTC days; timer compares instants; reversed config bounds compare raw instants. Calendar-date contract must choose the comparison timezone/day. Instant contract must decide whether disabling time intentionally changes comparison granularity.
+5. Existing values: current source accepts noon ISO values with timer absent. Rules use strict scalar equality. Calendar-date reinterpretation can alter displayed day and rule matches; instant preservation retains these bytes but allows timezone-dependent visible dates. Historical interpretation needs explicit approval.
+
+Citations:
+docs/design/form-builder/completed/fb-010-standardize-date-field-configuration.md:26
+src/app/main/components/forms/utils/date-field-config.util.ts:159,177,190,251,269
+src/app/main/components/forms/modals/editors/date-config-editor.component.ts:244
+src/app/main/components/forms/utils/builder-default-value.util.ts:91
+src/app/main/components/forms/utils/builder-default-value.util.spec.ts:178
+src/app/shared/components/dynamic-field/dynamic-field.component.ts:853
+src/app/shared/components/form-renderer/form-rule-engine.ts:309
+Pinned/installed library 20.3.16-feature-etc-insight.1791070420, node_modules/@flatirons/component-library/fesm2022/flatirons-component-library.mjs:2287,2305,2360,2394: moment hydration, prior time merge, ISO emission. No cross-repo edits.
+
+Resume characterization plan after prerequisite lands:
+UTC and America/Edmonton, date-only YYYY-MM-DD and time-enabled YYYY-MM-DD HH:mm; seed ISO midnight and non-midnight historical/default values. Capture authoring default -> hydration -> calendar edit -> typed edit -> immediate save -> reload, recording input, emitted value, serialized ISO and visible date/time separately. Include Edmonton spring transition 2026-03-08 (nonexistent 02:30) and fall transition 2026-11-01 (ambiguous 01:30). Inspect desktop/narrow/calendar/error screenshots and record visual findings. These are planned cases, not measured results.
+Installed forms docs support --component date and --check-receipt <path>. Run specified focused forms verification after landing, retain full artifact directory and exact receipt validation. Confirm/add controlled timezone project configuration only then; UTC fixture proof must not certify non-UTC or timer.
+
+Implementation ownership after approval: ETC owns default/current resolution, serialization, validation and rule compatibility. Library owns picker hydration, date/time merge and input behavior; validate the pinned consumed artifact after a separately bounded library change. Prepare implementation brief only after semantic approval; historical migration requires its own approved scope.
