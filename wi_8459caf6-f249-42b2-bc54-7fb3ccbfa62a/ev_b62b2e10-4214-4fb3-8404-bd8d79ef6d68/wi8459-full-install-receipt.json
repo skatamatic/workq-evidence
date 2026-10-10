@@ -1,0 +1,57 @@
+{
+  "head": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+  "base": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "environment": "Java 21; JAVA_TOOL_OPTIONS=-Djava.awt.headless=true; isolated .workq/m2 cache; full unfiltered install -fae",
+  "modules": {
+    "insight-dao": {
+      "xml_files": 2,
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insight-package": {
+      "xml_files": 1,
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insight-service": {
+      "xml_files": 101,
+      "tests": 2063,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insight-config": {
+      "xml_files": 15,
+      "tests": 111,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insight-api": {
+      "xml_files": 5,
+      "tests": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insight-model": {
+      "xml_files": 2,
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "insight-rest": {
+      "xml_files": 32,
+      "tests": 325,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "log_sha256": "85ba9f738f240b184e911e448b91abc28261f802caae48447df95b803c50a756"
+}
