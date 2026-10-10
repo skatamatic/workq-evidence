@@ -1,0 +1,130 @@
+{
+  "capturedAt": "2026-10-10T21:28:58.254314+00:00",
+  "fullPublishedHeads": {
+    "kwesley/authorize-content-variable-routes": "b46761d7bcf42d54c393ddf3045bf1077ea4df45",
+    "kwesley/remediate-quarantined-workflow-identities": "63c9761d759b1c560a4d7d7ff84b3d30bdea0065",
+    "kwesley/workflow-scenario-port": "e12fb0a9f83bb942d39e87158007ade16db22e6a"
+  },
+  "jobs": [
+    {
+      "job": "https://build.flatirons.cloud/job/RD/job/insight-server/job/PR-112/",
+      "before": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "lastBuild": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+          "building": true,
+          "number": 3,
+          "result": null,
+          "url": "https://build.flatirons.cloud/job/RD/job/insight-server/job/PR-112/3/"
+        },
+        "inQueue": false,
+        "queueItem": null
+      },
+      "action": "Existing replacement already queued/running; no duplicate request",
+      "priorConsolePath": "/tmp/PR-112-2-infra-aborted-console-20261010.txt",
+      "rootConfirmedAgentLoss": true,
+      "rootConfirmedNoExecute": true,
+      "priorDecisive": [
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Failed][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "Agent rd-insight-server-pr-112-2-vjdks-rh85n-npnt9 was deleted; cancelling node body",
+        "Agent was removed",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-112-2-vjdks-rh85n-npnt9; rd-insight-server-pr-112-2-vjdks-rh85n-npnt9 was marked offline: Pod failed because container terminated (Reason: ContainerError, Container: [builder, dind, git, jnlp, maven, node])",
+        "Finished: ABORTED"
+      ]
+    },
+    {
+      "job": "https://build.flatirons.cloud/job/RD/job/insight-server/job/kwesley%252Fremediate-quarantined-workflow-identities/",
+      "before": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "lastBuild": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+          "building": false,
+          "number": 2,
+          "result": "ABORTED",
+          "url": "https://build.flatirons.cloud/job/RD/job/insight-server/job/kwesley%252Fremediate-quarantined-workflow-identities/2/"
+        },
+        "inQueue": false,
+        "queueItem": null
+      },
+      "consolePath": "/tmp/kwesley-remediate-quarantined-workflow-identities-2-infra-aborted-console-20261010.txt",
+      "decisive": [
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for ver-kwesley-2fremediate-quarantined-workflow-identities-2-3kkdm; ver-kwesley-2fremediate-quarantined-workflow-identities-2-3kkdm was marked offline: Connection was broken",
+        "Finished: ABORTED"
+      ],
+      "rootConfirmedAgentLoss": true,
+      "rootConfirmedNoExecute": true,
+      "action": "One ordinary same-head CI retry requested",
+      "httpStatus": 201,
+      "queueLocation": "https://build.flatirons.cloud/queue/item/52928/"
+    },
+    {
+      "job": "https://build.flatirons.cloud/job/RD/job/insight-server/job/PR-113/",
+      "before": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "lastBuild": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+          "building": false,
+          "number": 1,
+          "result": "ABORTED",
+          "url": "https://build.flatirons.cloud/job/RD/job/insight-server/job/PR-113/1/"
+        },
+        "inQueue": false,
+        "queueItem": null
+      },
+      "consolePath": "/tmp/PR-113-1-infra-aborted-console-20261010.txt",
+      "decisive": [
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Failed][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "Agent rd-insight-server-pr-113-1-27j92-73l5v-3bc8s was deleted; cancelling node body",
+        "Agent was removed",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for rd-insight-server-pr-113-1-27j92-73l5v-3bc8s; rd-insight-server-pr-113-1-27j92-73l5v-3bc8s was marked offline: Pod failed because container terminated (Reason: ContainerError, Container: [builder, dind, git, jnlp, maven, node])",
+        "Finished: ABORTED"
+      ],
+      "rootConfirmedAgentLoss": true,
+      "rootConfirmedNoExecute": true,
+      "action": "One ordinary same-head CI retry requested",
+      "httpStatus": 201,
+      "queueLocation": "https://build.flatirons.cloud/queue/item/52929/"
+    },
+    {
+      "job": "https://build.flatirons.cloud/job/RD/job/insight-server/job/kwesley%252Fauthorize-content-variable-routes/",
+      "before": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "lastBuild": {
+          "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+          "building": false,
+          "number": 1,
+          "result": "ABORTED",
+          "url": "https://build.flatirons.cloud/job/RD/job/insight-server/job/kwesley%252Fauthorize-content-variable-routes/1/"
+        },
+        "inQueue": false,
+        "queueItem": null
+      },
+      "consolePath": "/tmp/kwesley-authorize-content-variable-routes-1-infra-aborted-console-20261010.txt",
+      "decisive": [
+        "\tPod [Running][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Failed][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "\tPod [Failed][DeletionByTaintManager] Taint manager: deleting due to NoExecute taint",
+        "Agent ight-server-kwesley-2fauthorize-content-variable-routes-1-54z30 was deleted; cancelling node body",
+        "Agent was removed",
+        "org.jenkinsci.plugins.workflow.support.steps.AgentOfflineException: Unable to create live FilePath for ight-server-kwesley-2fauthorize-content-variable-routes-1-54z30; ight-server-kwesley-2fauthorize-content-variable-routes-1-54z30 was marked offline: Pod failed because container terminated (Reason: ContainerError, Container: [builder, dind, git, jnlp, maven, node])",
+        "Finished: ABORTED"
+      ],
+      "rootConfirmedAgentLoss": true,
+      "rootConfirmedNoExecute": true,
+      "action": "One ordinary same-head CI retry requested",
+      "httpStatus": 201,
+      "queueLocation": "https://build.flatirons.cloud/queue/item/52930/"
+    }
+  ],
+  "scope": "Infrastructure CI retry only; no product review/approval or new landing authority",
+  "recoveredPartialPriorAttempt": "Prior script stopped on a strict log marker check. Re-read all job states before any further request; do not repeat active replacements."
+}
