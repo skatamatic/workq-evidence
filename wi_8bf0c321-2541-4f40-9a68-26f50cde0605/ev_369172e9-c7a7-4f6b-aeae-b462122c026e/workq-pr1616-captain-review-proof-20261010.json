@@ -1,0 +1,29 @@
+{
+  "observedAt": "2026-10-10T20:17:03.841Z",
+  "source": "4f3e91e003a3b2067593571218c0460eea969f1c",
+  "target": "c78a277d306a4a5dac8e575e3a817ea3068803d7",
+  "ciRun": "38082516764",
+  "ciRows": 9,
+  "ciResult": "SUCCESS",
+  "lenses": [
+    {
+      "specialty": "correctness",
+      "findings": [
+        {
+          "path": "apps/pool/src/provision/playwright-browser-readiness.ts",
+          "line": 273,
+          "severity": "medium",
+          "summary": "Hoisted unrelated core metadata outranks selected nested core and misses invalidation"
+        }
+      ]
+    },
+    {
+      "specialty": "security",
+      "findings": []
+    }
+  ],
+  "internalRecord": "nt_f1e1a38d-97c3-481f-a905-7e1ec85d5f12",
+  "rootProof": "/tmp/workq-pr1616-core-selection-proof-20261010.json",
+  "direction": "/tmp/workq-pr1616-captain-direction-20261010.md",
+  "landAuthorized": false
+}
