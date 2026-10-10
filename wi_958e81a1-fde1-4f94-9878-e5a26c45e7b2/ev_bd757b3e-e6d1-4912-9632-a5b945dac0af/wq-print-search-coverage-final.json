@@ -1,0 +1,351 @@
+{
+  "feature": "931c660a49e511ac4c56728679870d5de8138323",
+  "source": "15b8ed84ebb1df318bb3ac070a530d7447976b96",
+  "lcov": "coverage/etc-client/run-83113/lcov.info",
+  "method": "LCOV executable lines and Istanbul branch arms intersected with added lines from git diff -U0; estimate only, not Sonar conditions",
+  "files": [
+    {
+      "path": "src/app/main/components/forms/components/embedded-rich-text-field-host.component.ts",
+      "lines": 2,
+      "coveredLines": 2,
+      "branchArms": 2,
+      "coveredBranchArms": 2,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/components/form-container.component.ts",
+      "lines": 13,
+      "coveredLines": 9,
+      "branchArms": 2,
+      "coveredBranchArms": 2,
+      "uncoveredLines": [
+        1120,
+        1121,
+        1122,
+        1296
+      ],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/components/rich-text-bridge-field.component.ts",
+      "lines": 94,
+      "coveredLines": 89,
+      "branchArms": 40,
+      "coveredBranchArms": 35,
+      "uncoveredLines": [
+        311,
+        698,
+        706,
+        737,
+        742
+      ],
+      "uncoveredBranchLines": [
+        310,
+        697,
+        702,
+        736,
+        771
+      ]
+    },
+    {
+      "path": "src/app/main/components/forms/components/rich-text-runtime-field.component.ts",
+      "lines": 6,
+      "coveredLines": 6,
+      "branchArms": 1,
+      "coveredBranchArms": 1,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/modals/embedded-rich-text-placeholder-modal.component.ts",
+      "lines": 13,
+      "coveredLines": 13,
+      "branchArms": 21,
+      "coveredBranchArms": 19,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": [
+        420,
+        604
+      ]
+    },
+    {
+      "path": "src/app/main/components/forms/modals/rich-text-config.util.ts",
+      "lines": 2,
+      "coveredLines": 2,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/models/embedded-rich-text-field.model.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/service/form-builder-save.service.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/service/form-builder-session.service.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/service/form-print-render.service.ts",
+      "lines": 60,
+      "coveredLines": 60,
+      "branchArms": 49,
+      "coveredBranchArms": 49,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/service/rich-text-runtime.service.ts",
+      "lines": 18,
+      "coveredLines": 15,
+      "branchArms": 11,
+      "coveredBranchArms": 8,
+      "uncoveredLines": [
+        677,
+        722,
+        772
+      ],
+      "uncoveredBranchLines": [
+        676,
+        721,
+        771
+      ]
+    },
+    {
+      "path": "src/app/main/components/forms/utils/embedded-rich-text-field-width.util.ts",
+      "lines": 17,
+      "coveredLines": 16,
+      "branchArms": 13,
+      "coveredBranchArms": 13,
+      "uncoveredLines": [
+        31
+      ],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/forms/utils/embedded-rich-text-placeholder.util.ts",
+      "lines": 101,
+      "coveredLines": 94,
+      "branchArms": 59,
+      "coveredBranchArms": 50,
+      "uncoveredLines": [
+        630,
+        683,
+        684,
+        732,
+        739,
+        765,
+        824
+      ],
+      "uncoveredBranchLines": [
+        225,
+        235,
+        629,
+        731,
+        764,
+        765,
+        823
+      ]
+    },
+    {
+      "path": "src/app/main/components/forms/utils/form-definition-lineage.util.ts",
+      "lines": 6,
+      "coveredLines": 5,
+      "branchArms": 3,
+      "coveredBranchArms": 1,
+      "uncoveredLines": [
+        11
+      ],
+      "uncoveredBranchLines": [
+        8,
+        10
+      ]
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/work-card-route.util.ts",
+      "lines": 2,
+      "coveredLines": 2,
+      "branchArms": 3,
+      "coveredBranchArms": 3,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/work-card-tabs.component.ts",
+      "lines": 7,
+      "coveredLines": 7,
+      "branchArms": 5,
+      "coveredBranchArms": 5,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/related-work/related-work.component.ts",
+      "lines": 20,
+      "coveredLines": 20,
+      "branchArms": 10,
+      "coveredBranchArms": 9,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": [
+        239
+      ]
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/service/work-card-action.service.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/work-card-form/work-card-form.component.ts",
+      "lines": 21,
+      "coveredLines": 21,
+      "branchArms": 12,
+      "coveredBranchArms": 10,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": [
+        154,
+        156
+      ]
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/work-card-steps/work-card-steps.component.ts",
+      "lines": 3,
+      "coveredLines": 2,
+      "branchArms": 4,
+      "coveredBranchArms": 4,
+      "uncoveredLines": [
+        1018
+      ],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/work-order/work-card-tabs/work-card-steps/modals/add-nnc-modal/add-nnc-modal.component.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/work-order/work-package-tabs/work-package-tabs.component.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/main/components/work-order/work-package-tabs/work-package-search/work-package-search.component.ts",
+      "lines": 42,
+      "coveredLines": 42,
+      "branchArms": 20,
+      "coveredBranchArms": 20,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/shared/components/audit-events/audit-events-table/audit-events-table.component.ts",
+      "lines": 1,
+      "coveredLines": 1,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/shared/components/form-renderer/form-renderer.component.ts",
+      "lines": 6,
+      "coveredLines": 6,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/shared/components/form-renderer/form-runtime-state.store.ts",
+      "lines": 8,
+      "coveredLines": 8,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/shared/components/signatures-form/signature-modal/signature-modal.component.ts",
+      "lines": 7,
+      "coveredLines": 7,
+      "branchArms": 8,
+      "coveredBranchArms": 6,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": [
+        233,
+        241
+      ]
+    },
+    {
+      "path": "src/app/shared/components/signatures-form/signature-table/signature-table.component.ts",
+      "lines": 4,
+      "coveredLines": 4,
+      "branchArms": 5,
+      "coveredBranchArms": 5,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    },
+    {
+      "path": "src/app/shared/components/signatures-form/single-signature/single-signature.component.ts",
+      "lines": 4,
+      "coveredLines": 4,
+      "branchArms": 7,
+      "coveredBranchArms": 4,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": [
+        198,
+        200,
+        280
+      ]
+    },
+    {
+      "path": "src/app/shared/services/work-item-refresh-events.service.ts",
+      "lines": 2,
+      "coveredLines": 2,
+      "branchArms": 0,
+      "coveredBranchArms": 0,
+      "uncoveredLines": [],
+      "uncoveredBranchLines": []
+    }
+  ],
+  "totals": {
+    "lines": 465,
+    "coveredLines": 443,
+    "branchArms": 275,
+    "coveredBranchArms": 246,
+    "combinedEstimatePercent": 93.11,
+    "marginAbove90": 3.11
+  }
+}
