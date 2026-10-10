@@ -1,0 +1,155 @@
+diff --git a/Jenkinsfile b/Jenkinsfile
+index 96c142d5..424d3f32 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -38,7 +38,7 @@ pipeline {
+                 container("builder") {
+                     withCredentials([usernamePassword(credentialsId: "nexus-builder", usernameVariable: 'NPM_USER', passwordVariable: 'NPM_PASS')]) {
+                         script {
+-                            auth = sh script: "echo -n '$NPM_PASS' | base64", returnStdout: true
++                            def auth = sh(script: 'printf %s "$NPM_PASS" | base64', returnStdout: true).trim()
+ 
+                             writeFile file: ".npmrc", text: """
+ 
+@@ -51,7 +51,55 @@ pipeline {
+                         }
+                     }
+ 
+-                    sh 'npm install'
++                    script {
++                        if (env.CHANGE_ID) {
++                            // Analyze the source commit, not Jenkins' synthetic merge revision.
++                            sh '''
++                                git fetch origin "+refs/heads/$CHANGE_BRANCH:refs/remotes/origin/$CHANGE_BRANCH" "+refs/heads/$CHANGE_TARGET:refs/remotes/origin/$CHANGE_TARGET"
++                                git checkout --detach "refs/remotes/origin/$CHANGE_BRANCH"
++                            '''
++                        }
++                    }
++                    sh 'npm ci'
++                }
++            }
++        }
++        stage('Lint Component Library') {
++            steps {
++                container("builder") {
++                    sh 'npm run lint:lib'
++                }
++            }
++        }
++        stage('Test Component Library') {
++            steps {
++                container("browser") {
++                    sh '''
++                        export CI=true
++                        export CHROME_BIN="$(find /ms-playwright -type f -name chrome -perm -u+x -print -quit)"
++                        test -x "$CHROME_BIN"
++                        npm run test:lib:coverage -- --browsers=ChromeHeadlessNoSandbox
++                    '''
++                }
++            }
++        }
++        stage('Sonar Pull Request') {
++            when { changeRequest() }
++            steps {
++                container("builder") {
++                    withMaven(options: [artifactsPublisher(disabled: true)], globalMavenSettingsConfig: 'devops') {
++                        script {
++                            def revision = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
++                            if (!env.CHANGE_ID || !env.CHANGE_BRANCH || !env.CHANGE_TARGET) {
++                                error('PR analysis requires key, source and target branch')
++                            }
++                            sh 'test -s coverage/component-library/lcov.info'
++                            echo "PR ${env.CHANGE_ID}: ${revision} -> ${env.CHANGE_TARGET}"
++                            withEnv(["SONAR_REVISION=${revision}"]) {
++                                sq.sonar_scan 'mvn -Psonar sonar:sonar -Dsonar.pullrequest.branch="$CHANGE_BRANCH" -Dsonar.pullrequest.key="$CHANGE_ID" -Dsonar.pullrequest.base="$CHANGE_TARGET" -Dsonar.newCode.referenceBranch="$CHANGE_TARGET" -Dsonar.scm.revision="$SONAR_REVISION" -Dsonar.qualitygate.wait=true'
++                            }
++                        }
++                    }
+                 }
+             }
+         }
+@@ -83,6 +131,14 @@ pipeline {
+             }
+         }
+         stage('Deploy Component Library') {
++            when {
++                not {
++                    anyOf {
++                        changeRequest()
++                        expression { env.BRANCH_NAME?.startsWith('kwesley/') }
++                    }
++                }
++            }
+             steps {
+                 container("builder") {
+                     script {
+diff --git a/angular.json b/angular.json
+index 795ab988..fea321cd 100644
+--- a/angular.json
++++ b/angular.json
+@@ -36,7 +36,6 @@
+                         "tsConfig": "projects/component-library/tsconfig.spec.json",
+                         "karmaConfig": "projects/component-library/karma.conf.js",
+                         "watch": false,
+-                        "browsers": "ChromeHeadless",
+                         "stylePreprocessorOptions": {
+                             "includePaths": ["projects/component-library/assets/styles"]
+                         }
+diff --git a/extra-containers.yaml b/extra-containers.yaml
+index 5d5ea629..23939057 100644
+--- a/extra-containers.yaml
++++ b/extra-containers.yaml
+@@ -33,3 +33,13 @@ spec:
+                   cpu: 1000m
+               limits:
+                   cpu: 2000m
++        - name: browser
++          image: mcr.microsoft.com/playwright:v1.50.1-noble
++          tty: true
++          command:
++              - cat
++          resources:
++              requests:
++                  cpu: 1000m
++              limits:
++                  cpu: 2000m
+diff --git a/pom.xml b/pom.xml
+index aae6993c..05eaf04b 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -103,7 +103,7 @@
+       </activation>
+       <properties>
+         <sonar.host.url>https://sonar.flatirons.cloud</sonar.host.url>
+-        <sonar.typescript.lcov.reportPaths>coverage/component-library/lcov.info,coverage/component-library-docs/lcov.info</sonar.typescript.lcov.reportPaths>
++        <sonar.javascript.lcov.reportPaths>coverage/component-library/lcov.info</sonar.javascript.lcov.reportPaths>
+         <sonar.test.inclusions>**/*.spec.ts</sonar.test.inclusions>
+         <sonar.inclusions>**/*.ts</sonar.inclusions>
+         <sonar.exclusions>**/node_modules/**,**/*.spec.ts,**/dist/**,**/coverage/**</sonar.exclusions>
+diff --git a/projects/component-library/karma.conf.js b/projects/component-library/karma.conf.js
+index 12449035..ca9df170 100644
+--- a/projects/component-library/karma.conf.js
++++ b/projects/component-library/karma.conf.js
+@@ -27,14 +27,20 @@ module.exports = function (config) {
+         coverageReporter: {
+             dir: require('path').join(__dirname, '../../coverage/component-library'),
+             subdir: './',
+-            reporters: [{ type: 'html' }, { type: 'text-summary' }]
++            reporters: [{ type: 'html' }, { type: 'text-summary' }, { type: 'lcovonly' }]
+         },
+         reporters: ['progress', 'kjhtml'],
+         port: 9876,
+         colors: true,
+         logLevel: config.LOG_INFO,
+         autoWatch: false,
+-        browsers: ['ChromeHeadless'],
++        browsers: [process.env.CI ? 'ChromeHeadlessNoSandbox' : 'ChromeHeadless'],
++        customLaunchers: {
++            ChromeHeadlessNoSandbox: {
++                base: 'ChromeHeadless',
++                flags: ['--no-sandbox', '--disable-dev-shm-usage']
++            }
++        },
+         singleRun: true,
+         restartOnFileChange: true
+     });
