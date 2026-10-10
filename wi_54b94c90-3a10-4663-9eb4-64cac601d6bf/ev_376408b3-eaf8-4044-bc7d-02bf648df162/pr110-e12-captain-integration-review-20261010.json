@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-10-10T20:56:24.843049+00:00",
+  "source": "d5a88b7198a5c7182ab52e78adfb68699b9cc9db",
+  "target": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "comparisonBase": "587b02df3cf4b2a8338c22a9e063fc6bb1e977f2",
+  "parents": "15951e7285c97f2aa46ac1a68abf325930debde6 e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "mergeBase": "e12fb0a9f83bb942d39e87158007ade16db22e6a",
+  "changedPaths": 93,
+  "landedTargetExactPaths": 91,
+  "boundedPaths": [
+    "insight-service/src/main/java/com/flatirons/insight/service/runtime/MdcrIntegrationValidator.java",
+    "insight-service/src/test/java/com/flatirons/insight/service/runtime/MdcrIntegrationProvisionerTest.java"
+  ],
+  "findings": [],
+  "independentLens": {
+    "specialty": "correctness",
+    "summary": "Typed person bindings use canonical persisted-ID resolution; numeric username separation and canonical collision refusal are preserved before installation. Current parent-assignee child creation and landed ownership guards remain unchanged. No substantial finding."
+  },
+  "priorCaptainReviewsRetained": "587 security and pattern-conformance reviews; no redundant whole-product review",
+  "rootFullLocalProof": "/tmp/pr110-e12-full-local-proof-20261010.json",
+  "rootTree": "63326e63a6280ae41e7533e87256999eb36e1b36",
+  "cleanMergeTree": "63326e63a6280ae41e7533e87256999eb36e1b36",
+  "clearance": "Current-source captain integration review and local proof COMPLETE. Fresh exact current-source/current-target Jenkins, genuine Sonar, app/scanner provenance, actual rules and immediate heads/tree still required before authorized ordinary merge and postmerge gates."
+}
